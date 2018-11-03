@@ -1,4 +1,4 @@
-package com.songoda.epictimber;
+package com.songoda.ultimatetimber;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -10,7 +10,7 @@ in the documentation, config files and variable names.
 PS: MagmaGuy was here
  */
 
-public class EpicTimber extends JavaPlugin {
+public class UltimateTimber extends JavaPlugin {
 
     public static Plugin plugin;
 

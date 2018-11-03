@@ -1,4 +1,4 @@
-package com.songoda.epictimber;
+package com.songoda.ultimatetimber;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -189,7 +189,7 @@ public class TreeFallHandler implements Listener {
                 public void run() {
                     fallingBlock.setGravity(true);
                 }
-            }.runTaskLater(EpicTimber.plugin, 5);
+            }.runTaskLater(UltimateTimber.plugin, 5);
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -201,7 +201,7 @@ public class TreeFallHandler implements Listener {
                         fallingBlock.getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE, fallingBlock.getLocation(), 3, 0.2, 0.2, 0.2, 0.05);
                     }
                 }
-            }.runTaskTimer(EpicTimber.plugin, 0, 1);
+            }.runTaskTimer(UltimateTimber.plugin, 0, 1);
 
         }
 

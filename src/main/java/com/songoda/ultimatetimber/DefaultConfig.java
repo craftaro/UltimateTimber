@@ -1,4 +1,4 @@
-package com.songoda.epictimber;
+package com.songoda.ultimatetimber;
 
 import org.bukkit.configuration.Configuration;
 
@@ -22,7 +22,7 @@ public class DefaultConfig {
 
     public static void initialize() {
 
-        Configuration newConfiguration = EpicTimber.plugin.getConfig();
+        Configuration newConfiguration = UltimateTimber.plugin.getConfig();
 
         newConfiguration.addDefault(AXES_ONLY, true);
         newConfiguration.addDefault(ACCURATE_AXE_DURABILITY, true);
@@ -31,7 +31,7 @@ public class DefaultConfig {
 
         newConfiguration.options().copyDefaults(true);
 
-        EpicTimber.plugin.saveDefaultConfig();
+        UltimateTimber.plugin.saveDefaultConfig();
 
         configuration = newConfiguration;
 

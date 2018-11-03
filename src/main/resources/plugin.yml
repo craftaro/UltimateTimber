@@ -1,10 +1,10 @@
-name: EpicTimber
+name: UltimateTimber
 version: 0.0.1
 author: Songoda
-main: com.songoda.epictimber.EpicTimber
+main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
 commands:
   epictimber:
     description: Does something, probably
-    usage: /epictimber
+    usage: /ultimatetimber
     aliases: [ep]
