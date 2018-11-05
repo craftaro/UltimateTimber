@@ -10,11 +10,9 @@ public class TreeEntityDamage {
 
         for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
 
-            if (entity instanceof LivingEntity) {
+            if (!(entity instanceof LivingEntity)) continue;
 
-                ((LivingEntity) entity).damage(1);
-
-            }
+            ((LivingEntity) entity).damage(1);
 
         }
 

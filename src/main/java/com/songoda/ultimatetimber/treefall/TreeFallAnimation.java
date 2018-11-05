@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -46,7 +47,6 @@ public class TreeFallAnimation {
 
             startPhaseOneAnimation(fallingBlock, velocityVector, multiplier, player);
 
-
         }
 
     }
@@ -69,7 +69,7 @@ public class TreeFallAnimation {
 
         fallingBlock.setVelocity(fallingBlock.getVelocity().multiply(0.2));
 
-        new BukkitRunnable() {
+         new BukkitRunnable() {
             @Override
             public void run() {
 
@@ -81,7 +81,7 @@ public class TreeFallAnimation {
                 runPhaseTwoAnimation(fallingBlock, player);
 
             }
-        }.runTaskLater(UltimateTimber.plugin, 20);
+        }.runTaskLater(UltimateTimber.getInstance(), 20);
 
     }
 
@@ -90,7 +90,7 @@ public class TreeFallAnimation {
     For safety's sake, it disintegrates after a 4 seconds
      */
     private static void runPhaseTwoAnimation(FallingBlock fallingBlock, Player player) {
-
+        UltimateTimber plugin = UltimateTimber.getInstance();
         new BukkitRunnable() {
             int counter = 0;
 
@@ -103,16 +103,19 @@ public class TreeFallAnimation {
                     TreeLoot.convertFallingBlock(fallingBlock, player);
                     fallingBlock.remove();
                     fallingBlock.getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE, fallingBlock.getLocation(), 3, 0.2, 0.2, 0.2, 0.05);
-                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.REPLANT_FROM_LEAVES))
+
+                    FileConfiguration fileConfiguration = plugin.getConfig();
+
+                    if (UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_FROM_LEAVES))
                         TreeReplant.leafFallReplant(fallingBlock);
-                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.DAMAGE_PLAYERS))
+                    if (fileConfiguration.getBoolean(DefaultConfig.DAMAGE_PLAYERS))
                         TreeEntityDamage.runDamage(fallingBlock);
-                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.CUSTOM_AUDIO))
+                    if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
                         TreeSounds.fallNoise(fallingBlock, counter);
                 }
                 counter++;
             }
-        }.runTaskTimer(UltimateTimber.plugin, 0, 1);
+        }.runTaskTimer(plugin, 0, 1);
 
     }
 

@@ -28,8 +28,9 @@ public class DefaultConfig {
     public static final String CUSTOM_AUDIO = "Use custom sounds for trees falling";
 
     public static void initialize() {
+        UltimateTimber plugin = UltimateTimber.getInstance();
 
-        Configuration configuration = UltimateTimber.plugin.getConfig();
+        Configuration configuration = plugin.getConfig();
 
         configuration.addDefault(AXES_ONLY, true);
         configuration.addDefault(ACCURATE_AXE_DURABILITY, true);
@@ -48,8 +49,8 @@ public class DefaultConfig {
 
         configuration.options().copyDefaults(true);
 
-        UltimateTimber.plugin.saveConfig();
-        UltimateTimber.plugin.saveDefaultConfig();
+        plugin.saveConfig();
+        plugin.saveDefaultConfig();
 
     }
 

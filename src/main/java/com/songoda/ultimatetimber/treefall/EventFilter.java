@@ -4,6 +4,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class EventFilter {
@@ -13,22 +14,27 @@ public class EventFilter {
     Mostly config settings, also permissions
      */
     public static boolean eventIsValid(BlockBreakEvent event) {
+        UltimateTimber plugin = UltimateTimber.getInstance();
+        
         /*
         General catchers
          */
         if (event.isCancelled()) return false;
 
-        if (!UltimateTimber.validWorlds.contains(event.getPlayer().getWorld())) return false;
+        if (!plugin.getValidWorlds().contains(event.getPlayer().getWorld())) return false;
 
         if (!TreeChecker.validMaterials.contains(event.getBlock().getType())) return false;
+
+        FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
+        
         /*
         Config-based catchers
          */
-        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.CREATIVE_DISALLOWED) &&
+        if (fileConfiguration.getBoolean(DefaultConfig.CREATIVE_DISALLOWED) &&
                 event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
             return false;
 
-        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.AXES_ONLY) &&
+        if (fileConfiguration.getBoolean(DefaultConfig.AXES_ONLY) &&
                 !(event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_AXE) ||
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_AXE) ||
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.IRON_AXE) ||
@@ -36,11 +42,8 @@ public class EventFilter {
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE)))
             return false;
 
-        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.PERMISSIONS_ONLY) &&
-                !event.getPlayer().hasPermission("ultimatetimber.chop"))
-            return false;
-
-        return true;
+        return !fileConfiguration.getBoolean(DefaultConfig.PERMISSIONS_ONLY) ||
+                event.getPlayer().hasPermission("ultimatetimber.chop");
 
     }
 

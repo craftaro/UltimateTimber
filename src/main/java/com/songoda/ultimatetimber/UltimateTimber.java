@@ -3,12 +3,14 @@ package com.songoda.ultimatetimber;
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.treefall.TreeFallEvent;
+import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -18,14 +20,19 @@ PS: MagmaGuy was here
  */
 
 public class UltimateTimber extends JavaPlugin {
+    private static CommandSender console = Bukkit.getConsoleSender();
 
-    public static Plugin plugin;
-    public static List<World> validWorlds = new ArrayList<>();
+    private final String prefix = "&8[&6UltimateTimber&8]";
+
+    private static UltimateTimber INSTANCE;
+    private List<World> validWorlds = new ArrayList<>();
 
     @Override
     public void onEnable() {
-
-        plugin = this;
+        INSTANCE = this;
+        console.sendMessage(Methods.formatText("&a============================="));
+        console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Brianna <3&7!"));
+        console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
         /*
         Register the main event that handles toppling down trees
          */
@@ -40,18 +47,27 @@ public class UltimateTimber extends JavaPlugin {
         Cache valid worlds for later use
          */
         for (World world : Bukkit.getWorlds())
-            if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.VALID_WORLDS + world.getName()))
+            if (getConfig().getBoolean(DefaultConfig.VALID_WORLDS + world.getName()))
                 validWorlds.add(world);
 
-        this.getCommand("ultimatetimber").setExecutor(new CommandHandler());
-
+        this.getCommand("ultimatetimber").setExecutor(new CommandHandler(this));
+        console.sendMessage(Methods.formatText("&a============================="));
     }
 
     @Override
     public void onDisable() {
-
         validWorlds.clear();
-
     }
 
+    public static UltimateTimber getInstance() {
+        return INSTANCE;
+    }
+
+    public List<World> getValidWorlds() {
+        return Collections.unmodifiableList(validWorlds);
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
 }
