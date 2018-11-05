@@ -24,11 +24,11 @@ public class EventFilter {
         /*
         Config-based catchers
          */
-        if (DefaultConfig.configuration.getBoolean(DefaultConfig.CREATIVE_DISALLOWED) &&
+        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.CREATIVE_DISALLOWED) &&
                 event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
             return false;
 
-        if (DefaultConfig.configuration.getBoolean(DefaultConfig.AXES_ONLY) &&
+        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.AXES_ONLY) &&
                 !(event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_AXE) ||
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_AXE) ||
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.IRON_AXE) ||
@@ -36,7 +36,7 @@ public class EventFilter {
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE)))
             return false;
 
-        if (DefaultConfig.configuration.getBoolean(DefaultConfig.PERMISSIONS_ONLY) &&
+        if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.PERMISSIONS_ONLY) &&
                 !event.getPlayer().hasPermission("ultimatetimber.chop"))
             return false;
 

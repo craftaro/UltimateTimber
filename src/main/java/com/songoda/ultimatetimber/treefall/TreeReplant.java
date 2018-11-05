@@ -14,7 +14,7 @@ public class TreeReplant {
 
     public static void replaceOriginalBlock(Block block) {
 
-        if (!DefaultConfig.configuration.getBoolean(DefaultConfig.REPLANT_SAPLING)) {
+        if (!UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
             block.setType(Material.AIR);
             return;
         }

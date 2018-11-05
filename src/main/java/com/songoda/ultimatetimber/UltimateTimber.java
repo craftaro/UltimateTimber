@@ -40,7 +40,7 @@ public class UltimateTimber extends JavaPlugin {
         Cache valid worlds for later use
          */
         for (World world : Bukkit.getWorlds())
-            if (DefaultConfig.configuration.getBoolean(DefaultConfig.VALID_WORLDS + world.getName()))
+            if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.VALID_WORLDS + world.getName()))
                 validWorlds.add(world);
 
         this.getCommand("ultimatetimber").setExecutor(new CommandHandler());

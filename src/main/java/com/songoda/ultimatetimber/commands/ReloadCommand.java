@@ -1,13 +1,13 @@
 package com.songoda.ultimatetimber.commands;
 
-import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.command.CommandSender;
 
 public class ReloadCommand {
 
     public static void reloadConfig(CommandSender commandSender) {
 
-        DefaultConfig.initialize();
+        UltimateTimber.plugin.reloadConfig();
         commandSender.sendMessage("[UltimateTimber] - Configuration reloaded");
 
 

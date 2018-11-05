@@ -1,36 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b5e32c07-ebf4-41aa-9c50-de0c623af54f" name="Default Changelist" comment="Version 0.0.1&#10;&#10;- Initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/CommandHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/AxeDurability.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeChecker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeEntityDamage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeSounds.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b5e32c07-ebf4-41aa-9c50-de0c623af54f" name="Default Changelist" comment="Version 0.0.3&#10;&#10;- Fully implemented reload command">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/DefaultConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/TreeFallHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/EpicTimber.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/songoda/epictimber/DefaultConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/songoda/epictimber/EpicTimber.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/songoda/epictimber/TreeFallHandler$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/songoda/epictimber/TreeFallHandler$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/songoda/epictimber/TreeFallHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-EpicTimber.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,40 +25,44 @@
     <session id="-76130593">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="1" />
-          <entry key="java" value="23" />
-          <entry key="xml" value="1" />
-          <entry key="yml" value="1" />
+          <entry key="java" value="27" />
+          <entry key="xml" value="2" />
+          <entry key="yml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="23" />
-          <entry key="XML" value="1" />
-          <entry key="YAML" value="1" />
+          <entry key="JAVA" value="27" />
+          <entry key="XML" value="2" />
+          <entry key="YAML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="7922" />
-          <entry key="txt" value="51" />
-          <entry key="yml" value="618" />
+          <entry key="java" value="7957" />
+          <entry key="txt" value="1147" />
+          <entry key="xml" value="6" />
+          <entry key="yml" value="619" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="7922" />
-          <entry key="PLAIN_TEXT" value="51" />
-          <entry key="YAML" value="618" />
+          <entry key="JAVA" value="7957" />
+          <entry key="PLAIN_TEXT" value="1147" />
+          <entry key="XML" value="6" />
+          <entry key="YAML" value="619" />
         </counts>
       </usages-collector>
     </session>
@@ -88,8 +74,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-7">
-                  <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+                <state relative-caret-position="528">
+                  <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -100,8 +86,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/CommandHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="144">
-                  <caret line="9" column="101" lean-forward="true" selection-start-line="9" selection-start-column="101" selection-end-line="9" selection-end-column="101" />
+                <state relative-caret-position="112">
+                  <caret line="9" column="101" selection-start-line="9" selection-start-column="101" selection-end-line="9" selection-end-column="101" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -109,11 +95,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="144">
-                  <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+                <state relative-caret-position="128">
+                  <caret line="9" column="45" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -125,7 +111,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state>
-                  <caret column="44" lean-forward="true" selection-start-column="44" selection-end-column="44" />
+                  <caret column="44" selection-start-column="44" selection-end-column="44" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -133,11 +119,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1040">
-                  <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+                <state relative-caret-position="144">
+                  <caret line="35" column="63" lean-forward="true" selection-start-line="35" selection-start-column="63" selection-end-line="35" selection-end-column="63" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -148,12 +134,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+                <state relative-caret-position="448">
+                  <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -161,25 +147,27 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeSounds.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="18" column="103" selection-start-line="18" selection-start-column="103" selection-end-line="18" selection-end-column="103" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="368">
-                  <caret line="23" column="47" lean-forward="true" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+                <state relative-caret-position="96">
+                  <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
                 </state>
               </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/pom.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="192">
+                  <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
+              <provider selected="true" editor-type-id="text-editor" />
             </entry>
           </file>
         </leaf>
@@ -218,16 +206,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/AxeDurability.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/CommandHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeImpactSound.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeSounds.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -236,6 +225,13 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
@@ -248,9 +244,9 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="720" />
-    <option name="y" value="74" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="516" />
+    <option name="y" value="93" />
     <option name="width" value="2576" />
     <option name="height" value="1288" />
   </component>
@@ -260,9 +256,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -317,6 +310,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ultimatetimber" type="462c0819:PsiDirectoryNode" />
+              <item name="configurations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="UltimateTimber" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UltimateTimber" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ultimatetimber" type="462c0819:PsiDirectoryNode" />
               <item name="treefall" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -330,13 +332,16 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="replan&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java&#10;loot&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java&#10;treean&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java&#10;treech&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeChecker.java&#10;hasnear&#9;PSI&#9;JAVA://com.songoda.ultimatetimber.treefall.TreeFallAnimation#hasNearbySolidBlock&#10;hasnea&#9;PSI&#9;JAVA://com.songoda.ultimatetimber.treefall.TreeFallAnimation#hasNearbySolidBlock" />
+    <property name="SearchEverywhereHistoryKey" value="pom.xml&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/pom.xml&#10;replan&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java&#10;loot&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java&#10;treean&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java&#10;treech&#9;FILE&#9;file://C:/Users/Tiago/Desktop/MineCraftProjects/UltimateTimber/src/main/java/com/songoda/ultimatetimber/treefall/TreeChecker.java&#10;hasnear&#9;PSI&#9;JAVA://com.songoda.ultimatetimber.treefall.TreeFallAnimation#hasNearbySolidBlock&#10;hasnea&#9;PSI&#9;JAVA://com.songoda.ultimatetimber.treefall.TreeFallAnimation#hasNearbySolidBlock" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541390827852" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541391329355" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -364,7 +369,9 @@
       <option name="presentableId" value="Default" />
       <updated>1541287795357</updated>
       <workItem from="1541287799885" duration="1592000" />
-      <workItem from="1541371591623" duration="19412000" />
+      <workItem from="1541371591623" duration="19803000" />
+      <workItem from="1541449315641" duration="1228000" />
+      <workItem from="1541451864953" duration="569000" />
     </task>
     <task id="LOCAL-00001" summary="Version 0.0.1&#10;&#10;- Initial commit">
       <created>1541288017614</created>
@@ -380,16 +387,24 @@
       <option name="project" value="LOCAL" />
       <updated>1541288193654</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Version 0.0.2&#10;&#10;- Added smoke particles to fallen trees&#10;- Integrated all the config checks&#10;- Added more classes to give the codebase more structure&#10;- Added a number of config options&#10;- Added some safeguards for the falling blocks&#10;- Added all the necessary loot&#10;- Added permission nodes&#10;- Added custom tree falling sounds&#10;- Converted the animation from single-phase to 2-phase, trees now slowly tip over and then pick up speed&#10;- Added various sapling spreading mechanics&#10;- Added damage to entities caught in the tree falling&#10;- Added silk touch compatibility&#10;- Added creative mode filter, doesn't affect players in creative mode&#10;- Added per-world filter&#10;- Started adding reload command, not currently functional due to bad configuration file reloading&#10;- Added axe filter, only applies effect to players wielding axes&#10;- Tweaked the search pyramid to better fit various trees generated by minecraft">
+      <created>1541391319179</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1541391319179</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21004000" />
+    <option name="totallyTimeSpent" value="23192000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="720" y="74" width="2576" height="1288" extended-state="0" />
+    <frame x="-8" y="-8" width="3456" height="1426" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25198728" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09452297" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -398,7 +413,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30069324" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3003096" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -416,7 +431,7 @@
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Database" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" visible="true" weight="0.09499205" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="8" visible="true" weight="0.07037692" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -437,16 +452,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Version 0.0.1&#10;&#10;- Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 0.0.1&#10;&#10;- Initial commit" />
+    <MESSAGE value="Version 0.0.2&#10;&#10;- Added smoke particles to fallen trees&#10;- Integrated all the config checks&#10;- Added more classes to give the codebase more structure&#10;- Added a number of config options&#10;- Added some safeguards for the falling blocks&#10;- Added all the necessary loot&#10;- Added permission nodes&#10;- Added custom tree falling sounds&#10;- Converted the animation from single-phase to 2-phase, trees now slowly tip over and then pick up speed&#10;- Added various sapling spreading mechanics&#10;- Added damage to entities caught in the tree falling&#10;- Added silk touch compatibility&#10;- Added creative mode filter, doesn't affect players in creative mode&#10;- Added per-world filter&#10;- Started adding reload command, not currently functional due to bad configuration file reloading&#10;- Added axe filter, only applies effect to players wielding axes&#10;- Tweaked the search pyramid to better fit various trees generated by minecraft" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 0.0.2&#10;&#10;- Added smoke particles to fallen trees&#10;- Integrated all the config checks&#10;- Added more classes to give the codebase more structure&#10;- Added a number of config options&#10;- Added some safeguards for the falling blocks&#10;- Added all the necessary loot&#10;- Added permission nodes&#10;- Added custom tree falling sounds&#10;- Converted the animation from single-phase to 2-phase, trees now slowly tip over and then pick up speed&#10;- Added various sapling spreading mechanics&#10;- Added damage to entities caught in the tree falling&#10;- Added silk touch compatibility&#10;- Added creative mode filter, doesn't affect players in creative mode&#10;- Added per-world filter&#10;- Started adding reload command, not currently functional due to bad configuration file reloading&#10;- Added axe filter, only applies effect to players wielding axes&#10;- Tweaked the search pyramid to better fit various trees generated by minecraft" />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="33" column="75" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/spigotmc/spigot-api/1.13-R0.1-SNAPSHOT/spigot-api-1.13-R0.1-20180826.040111-146.jar!/org/bukkit/block/Block.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -464,40 +477,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="23" column="47" lean-forward="true" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/AxeDurability.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="25" column="57" lean-forward="true" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="20" column="93" lean-forward="true" selection-start-line="20" selection-start-column="93" selection-end-line="20" selection-end-column="93" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeEntityDamage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -508,20 +487,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeSounds.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="103" selection-start-line="18" selection-start-column="103" selection-end-line="18" selection-end-column="103" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="110" column="66" selection-start-line="110" selection-start-column="66" selection-end-line="110" selection-end-column="66" />
+        <state relative-caret-position="528">
+          <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -530,18 +499,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/CommandHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="101" lean-forward="true" selection-start-line="9" selection-start-column="101" selection-end-line="9" selection-end-column="101" />
+        <state relative-caret-position="112">
+          <caret line="9" column="101" selection-start-line="9" selection-start-column="101" selection-end-line="9" selection-end-column="101" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/UltimateTimber.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="128">
+          <caret line="9" column="45" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -551,27 +520,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeLoot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="44" lean-forward="true" selection-start-column="44" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/commands/ReloadCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <caret column="44" selection-start-column="44" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -580,11 +529,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/configurations/DefaultConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+        <state relative-caret-position="448">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/AxeDurability.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeSounds.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallAnimation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1568">
+          <caret line="109" column="57" selection-start-line="109" selection-start-column="57" selection-end-line="109" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/EventFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="38" column="45" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeFallEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/songoda/ultimatetimber/treefall/TreeReplant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="35" column="63" lean-forward="true" selection-start-line="35" selection-start-column="63" selection-end-line="35" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/config.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
         </state>
       </provider>
     </entry>

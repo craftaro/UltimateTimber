@@ -10,7 +10,7 @@ public class DefaultConfig {
     /*
     This value is just cached so it can easily and safely be accessed during runtime
      */
-    public static Configuration configuration;
+//    public static Configuration configuration;
 
     /*
     Storing these values in final strings makes it so you can change the keys or refactor their names later on without
@@ -29,7 +29,7 @@ public class DefaultConfig {
 
     public static void initialize() {
 
-        configuration = UltimateTimber.plugin.getConfig();
+        Configuration configuration = UltimateTimber.plugin.getConfig();
 
         configuration.addDefault(AXES_ONLY, true);
         configuration.addDefault(ACCURATE_AXE_DURABILITY, true);

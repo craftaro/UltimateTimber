@@ -103,11 +103,11 @@ public class TreeFallAnimation {
                     TreeLoot.convertFallingBlock(fallingBlock, player);
                     fallingBlock.remove();
                     fallingBlock.getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE, fallingBlock.getLocation(), 3, 0.2, 0.2, 0.2, 0.05);
-                    if (DefaultConfig.configuration.getBoolean(DefaultConfig.REPLANT_FROM_LEAVES))
+                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.REPLANT_FROM_LEAVES))
                         TreeReplant.leafFallReplant(fallingBlock);
-                    if (DefaultConfig.configuration.getBoolean(DefaultConfig.DAMAGE_PLAYERS))
+                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.DAMAGE_PLAYERS))
                         TreeEntityDamage.runDamage(fallingBlock);
-                    if (DefaultConfig.configuration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
+                    if (UltimateTimber.plugin.getConfig().getBoolean(DefaultConfig.CUSTOM_AUDIO))
                         TreeSounds.fallNoise(fallingBlock, counter);
                 }
                 counter++;
