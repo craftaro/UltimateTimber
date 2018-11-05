@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="epictimber" />
+        <module name="UltimateTimber" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="UltimateTimber" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

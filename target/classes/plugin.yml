@@ -1,10 +1,25 @@
-name: EpicTimber
-version: 0.0.1
+name: UltimateTimber
+version: 0.0.2
 author: Songoda
-main: com.songoda.epictimber.EpicTimber
+main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
 commands:
-  epictimber:
-    description: Does something, probably
-    usage: /epictimber
-    aliases: [ep]
+  ultimatetimber:
+    description: Reloads the configuration file
+    usage: /ultimatetimber reload
+    aliases: [ut]
+permissions:
+  ultimatetimber.*:
+    description: Inherits all plugin permissions
+    children:
+      ultimatetimber.chop: true
+      ultimatetimber.bonusloot: true
+  ultimatetimber.chop:
+    description: Allows players to trigger the trees toppling down effect
+    default: op
+  ultimatetimber.bonusloot:
+    description: Doubles the loot obtained from trees
+    default: op
+  ultimatetimber.reload:
+    description: Reloads the configuration file
+    default: op
