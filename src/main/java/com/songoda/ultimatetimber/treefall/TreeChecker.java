@@ -25,7 +25,8 @@ public class TreeChecker {
             Material.OAK_LOG,
             Material.STRIPPED_OAK_LOG,
             Material.SPRUCE_LOG,
-            Material.STRIPPED_SPRUCE_LOG
+            Material.STRIPPED_SPRUCE_LOG,
+            Material.MUSHROOM_STEM
     ));
 
     /*
@@ -38,7 +39,9 @@ public class TreeChecker {
             Material.JUNGLE_LEAVES,
             Material.OAK_LEAVES,
             Material.SPRUCE_LEAVES,
-            Material.COCOA_BEANS
+            Material.COCOA_BEANS,
+            Material.BROWN_MUSHROOM_BLOCK,
+            Material.RED_MUSHROOM_BLOCK
     ));
 
     public static ArrayList<Block> parseTree(Block block) {
@@ -90,6 +93,14 @@ public class TreeChecker {
                             !thisBlock.getType().equals(Material.RED_TULIP) &&
                             !thisBlock.getType().equals(Material.POPPY) &&
                             !thisBlock.getType().equals(Material.WHITE_TULIP) &&
+                            !thisBlock.getType().equals(Material.OXEYE_DAISY) &&
+                            !thisBlock.getType().equals(Material.AZURE_BLUET) &&
+                            !thisBlock.getType().equals(Material.BLUE_ORCHID) &&
+                            !thisBlock.getType().equals(Material.ALLIUM) &&
+                            !thisBlock.getType().equals(Material.DANDELION) &&
+                            !thisBlock.getType().equals(Material.DANDELION_YELLOW) &&
+                            !thisBlock.getType().equals(Material.LILAC) &&
+                            !thisBlock.getType().equals(Material.PEONY) &&
                             !thisBlock.getType().equals(Material.TALL_GRASS) &&
                             !thisBlock.getType().equals(Material.FERN) &&
                             !thisBlock.getType().equals(Material.LARGE_FERN) &&
@@ -104,13 +115,20 @@ public class TreeChecker {
                             !thisBlock.getType().equals(Material.BIRCH_SAPLING) &&
                             !thisBlock.getType().equals(Material.DARK_OAK_SAPLING) &&
                             !thisBlock.getType().equals(Material.VOID_AIR) &&
-                            !thisBlock.getType().equals(Material.CAVE_AIR))
+                            !thisBlock.getType().equals(Material.CAVE_AIR) &&
+                            (!thisBlock.getType().equals(Material.DIRT) &&
+                                    !thisBlock.getType().equals(Material.COARSE_DIRT) &&
+                                    !thisBlock.getType().equals(Material.GRASS_BLOCK) &&
+                                    (i == 0 || i == 1)))
                         return null;
 
                     if (validSurroundingMaterials.contains(thisBlock.getType()))
                         containsSecondaryBlock = true;
 
-                    if (!thisBlock.getType().equals(Material.AIR))
+                    if (!thisBlock.getType().equals(Material.AIR) &&
+                            !thisBlock.getType().equals(Material.DIRT) &&
+                            !thisBlock.getType().equals(Material.COARSE_DIRT) &&
+                            !thisBlock.getType().equals(Material.GRASS_BLOCK))
                         blocks.add(thisBlock);
 
                     zOffset++;

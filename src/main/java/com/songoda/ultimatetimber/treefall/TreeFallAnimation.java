@@ -2,7 +2,6 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -119,10 +118,7 @@ public class TreeFallAnimation implements Listener {
                 player.getInventory().getItemInMainHand().getType().equals(Material.STONE_AXE) ||
                 player.getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE))
             if (player.getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH))
-            {
                 setHasSilkTouch(true);
-                Bukkit.getLogger().warning("test");
-            }
             else
                 setHasSilkTouch(false);
         else
@@ -198,10 +194,11 @@ public class TreeFallAnimation implements Listener {
         UltimateTimber plugin = UltimateTimber.getInstance();
         new BukkitRunnable() {
             int counter = 0;
+
             @Override
             public void run() {
 
-                if (!fallingBlock.isValid()){
+                if (!fallingBlock.isValid()) {
                     cancel();
                     return;
                 }
@@ -209,7 +206,7 @@ public class TreeFallAnimation implements Listener {
                 /*
                 Safeguard to prevent errors that come from glitchy Minecraft behavior
                  */
-                if (counter > 20 * 3 ) {
+                if (counter > 20 * 3) {
                     runFallingBlockImpact(fallingBlock);
                     cancel();
                 }
@@ -240,7 +237,7 @@ public class TreeFallAnimation implements Listener {
 
     }
 
-    private void runFallingBlockImpact(FallingBlock fallingBlock){
+    private void runFallingBlockImpact(FallingBlock fallingBlock) {
 
         TreeFallAnimation treeFallAnimation = getTreeFallAnimation(fallingBlock);
         treeFallAnimation.unregisterFallingBlock(fallingBlock);
