@@ -1,0 +1,12 @@
+stages:
+- build
+
+build:
+  stage: build
+  image: maven:3.3.9-jdk-8
+  script: "mvn clean package"
+  artifacts:
+    name: "UltimateTimber"
+    paths:
+    - "/builds/Songoda/UltimateTimber/target/*.jar"
+    - "/builds/Songoda/UltimateTimber/Read_this_before_your_first_use.txt"
