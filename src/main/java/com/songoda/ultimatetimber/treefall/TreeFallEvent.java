@@ -30,7 +30,8 @@ public class TreeFallEvent implements Listener {
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());
         if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
             TreeSounds.tipOverNoise(event.getBlock().getLocation());
-        TreeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
+        TreeFallAnimation treeFallAnimation = new TreeFallAnimation();
+        treeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
 
     }
 

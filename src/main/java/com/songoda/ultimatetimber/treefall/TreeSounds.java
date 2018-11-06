@@ -12,8 +12,8 @@ public class TreeSounds {
 
     }
 
-    public static void fallNoise(FallingBlock fallingBlock, int counter) {
-        if (counter < 20)
+    public static void fallNoise(FallingBlock fallingBlock) {
+        if (fallingBlock.getTicksLived() < 20)
             fallingBlock.getWorld().playSound(fallingBlock.getLocation(), Sound.BLOCK_ANVIL_FALL, 3F, 0.1F);
         else
             fallingBlock.getWorld().playSound(fallingBlock.getLocation(), Sound.BLOCK_WOOD_FALL, 3F, 0.1F);

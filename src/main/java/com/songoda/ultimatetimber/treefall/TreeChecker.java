@@ -88,6 +88,7 @@ public class TreeChecker {
                             !thisBlock.getType().equals(Material.ORANGE_TULIP) &&
                             !thisBlock.getType().equals(Material.PINK_TULIP) &&
                             !thisBlock.getType().equals(Material.RED_TULIP) &&
+                            !thisBlock.getType().equals(Material.POPPY) &&
                             !thisBlock.getType().equals(Material.WHITE_TULIP) &&
                             !thisBlock.getType().equals(Material.TALL_GRASS) &&
                             !thisBlock.getType().equals(Material.FERN) &&
@@ -101,7 +102,9 @@ public class TreeChecker {
                             !thisBlock.getType().equals(Material.JUNGLE_SAPLING) &&
                             !thisBlock.getType().equals(Material.ACACIA_SAPLING) &&
                             !thisBlock.getType().equals(Material.BIRCH_SAPLING) &&
-                            !thisBlock.getType().equals(Material.DARK_OAK_SAPLING))
+                            !thisBlock.getType().equals(Material.DARK_OAK_SAPLING) &&
+                            !thisBlock.getType().equals(Material.VOID_AIR) &&
+                            !thisBlock.getType().equals(Material.CAVE_AIR))
                         return null;
 
                     if (validSurroundingMaterials.contains(thisBlock.getType()))

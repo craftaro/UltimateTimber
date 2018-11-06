@@ -1,5 +1,5 @@
 name: UltimateTimber
-version: 0.0.3
+version: 0.0.4
 author: Songoda
 main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
@@ -14,6 +14,7 @@ permissions:
     children:
       ultimatetimber.chop: true
       ultimatetimber.bonusloot: true
+      ultimatetimber.reload: true
   ultimatetimber.chop:
     description: Allows players to trigger the trees toppling down effect
     default: op

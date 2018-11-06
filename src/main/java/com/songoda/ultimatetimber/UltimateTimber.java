@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber;
 
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallEvent;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Bukkit;
@@ -37,6 +38,11 @@ public class UltimateTimber extends JavaPlugin {
         Register the main event that handles toppling down trees
          */
         Bukkit.getServer().getPluginManager().registerEvents(new TreeFallEvent(), this);
+
+        /*
+        Prevent falling blocks from forming new blocks on the floor
+         */
+        Bukkit.getServer().getPluginManager().registerEvents(new TreeFallAnimation(), this);
 
         /*
         Initialize and cache config
