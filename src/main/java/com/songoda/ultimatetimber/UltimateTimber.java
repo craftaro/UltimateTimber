@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber;
 
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.treefall.CustomLoot;
 import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallEvent;
 import com.songoda.ultimatetimber.utils.Methods;
@@ -45,9 +46,14 @@ public class UltimateTimber extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new TreeFallAnimation(), this);
 
         /*
-        Initialize and cache config
+        Initialize config
          */
         DefaultConfig.initialize();
+
+        /*
+        Initialize custom loot
+         */
+        CustomLoot.initializeCustomItems();
 
         /*
         Cache valid worlds for later use

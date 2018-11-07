@@ -94,7 +94,7 @@ public class TreeReplant {
 
         if (material == null) return;
 
-        if (ThreadLocalRandom.current().nextDouble() > 0.05) return;
+        if (ThreadLocalRandom.current().nextDouble() > 0.01) return;
 
         Block block = fallingBlock.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock();
 

@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class TreeFallAnimation implements Listener {
 
@@ -100,7 +101,7 @@ public class TreeFallAnimation implements Listener {
     Initially, the tree will start slowly toppling over.
     After a short while, it goes over the tipping point and the fall accelerates.
      */
-    public void startAnimation(Block originalBlock, ArrayList<Block> blocks, Player player) {
+    public void startAnimation(Block originalBlock, LinkedHashSet<Block> blocks, Player player) {
         /*
         This vector makes sure that the entire tree falls in the same direction from the same reference point
          */
