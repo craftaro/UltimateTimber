@@ -1,5 +1,6 @@
 package com.songoda.ultimatetimber.treefall;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -46,142 +47,165 @@ public class TreeChecker {
             Material.RED_MUSHROOM_BLOCK
     ));
 
-    public static LinkedHashSet<Block> parseTree(Block block, boolean isSourceBlock) {
+    /*
+    A list of materials found in a forest, allows the plugin to work in dense woods
+     */
+    private static List<Material> forestMaterials = new ArrayList<>(Arrays.asList(
+            Material.AIR,
+            Material.CAVE_AIR,
+            Material.VOID_AIR,
+            Material.VINE,
+            Material.ROSE_BUSH,
+            Material.ORANGE_TULIP,
+            Material.PINK_TULIP,
+            Material.RED_TULIP,
+            Material.POPPY,
+            Material.WHITE_TULIP,
+            Material.OXEYE_DAISY,
+            Material.AZURE_BLUET,
+            Material.BLUE_ORCHID,
+            Material.ALLIUM,
+            Material.DANDELION,
+            Material.DANDELION_YELLOW,
+            Material.LILAC,
+            Material.PEONY,
+            Material.TALL_GRASS,
+            Material.FERN,
+            Material.LARGE_FERN,
+            Material.DEAD_BUSH,
+            Material.BROWN_MUSHROOM,
+            Material.RED_MUSHROOM,
+            Material.GRASS,
+            Material.SPRUCE_SAPLING,
+            Material.OAK_SAPLING,
+            Material.JUNGLE_SAPLING,
+            Material.ACACIA_SAPLING,
+            Material.BIRCH_SAPLING,
+            Material.DARK_OAK_SAPLING,
+            Material.DIRT,
+            Material.COARSE_DIRT,
+            Material.GRASS_BLOCK
+    ));
+
+    public LinkedHashSet<Block> validTreeHandler(Block block, boolean isSourceBlock) {
+
+        LinkedHashSet<Block> blocks = parseTree(block, isSourceBlock);
+
+        if (blocks == null)
+            return null;
+
+        boolean containsLeaves = false;
+
+        for (Block localBlock : blocks)
+            if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
+                containsLeaves = true;
+                break;
+            }
+
+        if (!containsLeaves)
+            return null;
+
+        return blocks;
+
+    }
+
+    public LinkedHashSet<Block> parseTree(Block block, boolean isSourceBlock) {
 
         /*
-        Check if material is valid
+        Check if material is parsed by this plugin
          */
         if (!validMaterials.contains(block.getType())) return null;
 
         /*
-        Check if block is surrounded by air (bottom blocks are)
-        Every third block expand one block laterally until the main block line reaches air or the max height is reached
+        offset determines the search radius aroudn the main trunk
+        maxheight sets the maximum height the plugin will crawl through to find a tree
          */
-        int offset = 1;
+        int offset = 0;
         int maxHeight = 31;
 
         /*
-        This is used to crawl the location up the tree
+        centralBlockLocation is used to keep track of the main trunk
+        originalMaterial keeps track of what log type the plugin is looking for
          */
-        Location blockLocation = block.getLocation().clone();
+        Location centralBlockLocation = block.getLocation().clone();
         Material originalMaterial = block.getType();
 
         for (int i = 0; i < maxHeight; i++) {
 
-            if ((i + 1) % 2 == 0 && offset < 6)
+            /*
+            Offset increases as it goes up the tree in order to cover the area a tree would take
+             */
+            if (offset < 6)
                 offset++;
 
             /*
-            This expands the inverted search pyramid vertically
+            The search works in a reverse conical shape
              */
-            int xOffset = -offset;
-            for (int j = xOffset; j < offset + 1; j++) {
+            for (int x = -offset; x < offset + 1; x++) {
 
-                int zOffset = -offset;
+                for (int z = -offset; z < offset + 1; z++) {
 
-                for (int k = zOffset; k < offset + 1; k++) {
+                    Block thisBlock = centralBlockLocation.clone().add(new Vector(x, 0, z)).getBlock();
 
-                    Block thisBlock = blockLocation.clone().add(new Vector(xOffset, 0, zOffset)).getBlock();
-
-                    if (allBlocks.contains(thisBlock)) continue;
+                    if (allBlocks.contains(thisBlock))
+                        continue;
 
                     /*
-                    This exclusion list should include everything you may find near trees as to not invalidate trees
-                    in natural forests and such
-                    Construction blocks aren't included because that would bust buildings.
+                    This adds a bit of tolerance for trees that exist on dirt ledges
                      */
-
                     if ((thisBlock.getType().equals(Material.DIRT) ||
                             thisBlock.getType().equals(Material.COARSE_DIRT) ||
                             thisBlock.getType().equals(Material.GRASS_BLOCK)) &&
                             (i > 1) && isSourceBlock) {
                         return null;
                     }
-
+                    /*
+                    Exclude anything that isn't a part of a tree or a forest to avoid destroying houses
+                     */
                     if (!thisBlock.getType().equals(originalMaterial) &&
                             !validTreeMaterials.contains(thisBlock.getType()) &&
-                            !thisBlock.getType().equals(Material.AIR) &&
-                            !thisBlock.getType().equals(Material.VINE) &&
-                            !thisBlock.getType().equals(Material.ROSE_BUSH) &&
-                            !thisBlock.getType().equals(Material.ORANGE_TULIP) &&
-                            !thisBlock.getType().equals(Material.PINK_TULIP) &&
-                            !thisBlock.getType().equals(Material.RED_TULIP) &&
-                            !thisBlock.getType().equals(Material.POPPY) &&
-                            !thisBlock.getType().equals(Material.WHITE_TULIP) &&
-                            !thisBlock.getType().equals(Material.OXEYE_DAISY) &&
-                            !thisBlock.getType().equals(Material.AZURE_BLUET) &&
-                            !thisBlock.getType().equals(Material.BLUE_ORCHID) &&
-                            !thisBlock.getType().equals(Material.ALLIUM) &&
-                            !thisBlock.getType().equals(Material.DANDELION) &&
-                            !thisBlock.getType().equals(Material.DANDELION_YELLOW) &&
-                            !thisBlock.getType().equals(Material.LILAC) &&
-                            !thisBlock.getType().equals(Material.PEONY) &&
-                            !thisBlock.getType().equals(Material.TALL_GRASS) &&
-                            !thisBlock.getType().equals(Material.FERN) &&
-                            !thisBlock.getType().equals(Material.LARGE_FERN) &&
-                            !thisBlock.getType().equals(Material.DEAD_BUSH) &&
-                            !thisBlock.getType().equals(Material.BROWN_MUSHROOM) &&
-                            !thisBlock.getType().equals(Material.RED_MUSHROOM) &&
-                            !thisBlock.getType().equals(Material.GRASS) &&
-                            !thisBlock.getType().equals(Material.SPRUCE_SAPLING) &&
-                            !thisBlock.getType().equals(Material.OAK_SAPLING) &&
-                            !thisBlock.getType().equals(Material.JUNGLE_SAPLING) &&
-                            !thisBlock.getType().equals(Material.ACACIA_SAPLING) &&
-                            !thisBlock.getType().equals(Material.BIRCH_SAPLING) &&
-                            !thisBlock.getType().equals(Material.DARK_OAK_SAPLING) &&
-                            !thisBlock.getType().equals(Material.VOID_AIR) &&
-                            !thisBlock.getType().equals(Material.CAVE_AIR) &&
-                            !thisBlock.getType().equals(Material.DIRT) &&
-                            !thisBlock.getType().equals(Material.COARSE_DIRT) &&
-                            !thisBlock.getType().equals(Material.GRASS_BLOCK)) {
-
+                            !forestMaterials.contains(thisBlock.getType()))
                         return null;
-                    }
 
-                    if (!thisBlock.getType().equals(Material.AIR) &&
-                            !thisBlock.getType().equals(Material.CAVE_AIR) &&
-                            !thisBlock.getType().equals(Material.VOID_AIR) &&
-                            !thisBlock.getType().equals(Material.DIRT) &&
-                            !thisBlock.getType().equals(Material.COARSE_DIRT) &&
-                            !thisBlock.getType().equals(Material.GRASS_BLOCK)) {
+
+                    /*
+                    This adds blocks to later be felled
+                     */
+                    if (validMaterials.contains(thisBlock.getType()) || validTreeMaterials.contains(thisBlock.getType())) {
                         allBlocks.add(thisBlock);
                     }
 
-                    zOffset++;
-
                 }
-
-                xOffset++;
 
             }
 
             /*
-            Increment the height of the block location
+            Continue crawling up the main trunk
              */
-            blockLocation.add(new Vector(0, 1, 0));
+            centralBlockLocation.add(new Vector(0, 1, 0));
 
             /*
             Detect if it's the end of the tree
             If a block above it continues the same material type as the original block, continue with that block as the
             new source block
-            If it doesn't break the loop and return the blocks list
+            If it doesn't and it's air or a leaf, scan for adjacent blocks to see if the tree continues in another
+            direction. This is necessary for acacias and some of the wider tree variants.
              */
-            if (blockLocation.getBlock().getType().equals(Material.AIR) || validTreeMaterials.contains(blockLocation.getBlock().getType())) {
+            if (centralBlockLocation.getBlock().getType().equals(Material.AIR) || validTreeMaterials.contains(centralBlockLocation.getBlock().getType())) {
 
-                if (isSourceBlock && blockLocation.clone().subtract(block.getLocation().clone()).getY() < 2)
+                if (isSourceBlock && centralBlockLocation.clone().subtract(block.getLocation().clone()).getY() < 2)
                     return null;
 
-                ArrayList<Block> newBlocks = scanNearbyBranching(originalMaterial, blockLocation);
+                ArrayList<Block> newBlocks = scanNearbyBranching(originalMaterial, centralBlockLocation);
                 if (newBlocks != null)
                     for (Block newBlock : newBlocks) {
                         LinkedHashSet<Block> newBlockList = parseTree(newBlock, false);
-                        if (newBlockList == null) {
+                        if (newBlockList == null)
                             return null;
-                        } else {
+                        else
                             allBlocks.addAll(newBlocks);
-                        }
                     }
-                else if (blockLocation.getBlock().getType().equals(Material.AIR))
+                else if (centralBlockLocation.getBlock().getType().equals(Material.AIR))
                     break;
 
             }
@@ -192,12 +216,15 @@ public class TreeChecker {
 
     }
 
-    private static LinkedHashSet<Block> allBlocks = new LinkedHashSet<>();
+    /*
+    This stores all the blocks returned later on
+     */
+    private LinkedHashSet<Block> allBlocks = new LinkedHashSet<>();
 
     /*
-    Some trees veer to a side as they reach the top, this scans for blocks adjacent to the air block above the trunk
+    This method scans for branching atop the tree when the crawled upon block of the tree trunk is either air or a leaf block
      */
-    private static ArrayList<Block> scanNearbyBranching(Material originalMaterial, Location location) {
+    private ArrayList<Block> scanNearbyBranching(Material originalMaterial, Location location) {
 
         ArrayList<Block> newBlocks = new ArrayList<>();
 

@@ -7,7 +7,7 @@ public class LeafToSaplingConverter {
     /*
     Defaults to returning the same material type that is fed into it
      */
-    public static Material convertLeaves(Material material){
+    public static Material convertLeaves(Material material) {
 
         switch (material) {
 

@@ -1,6 +1,5 @@
 package com.songoda.ultimatetimber.treefall;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -8,11 +7,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 public class AxeDurability {
 
+    /*
+    This class handles all durability damage dealt to the axe used to chop down the tree, only takes into account
+    wood blocks chopped down
+     */
     public static void adjustAxeDamage(LinkedHashSet<Block> blocks, Player player) {
 
         if (!(player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_AXE) ||

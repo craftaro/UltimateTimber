@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +16,7 @@ public class EventFilter {
      */
     public static boolean eventIsValid(BlockBreakEvent event) {
         UltimateTimber plugin = UltimateTimber.getInstance();
-        
+
         /*
         General catchers
          */

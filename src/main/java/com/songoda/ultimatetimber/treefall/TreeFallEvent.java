@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -22,27 +23,19 @@ public class TreeFallEvent implements Listener {
     public void onTreeBreak(BlockBreakEvent event) {
 
         if (!EventFilter.eventIsValid(event)) return;
-        LinkedHashSet<Block> blocks = TreeChecker.parseTree(event.getBlock(), true);
+        TreeChecker treeChecker = new TreeChecker();
+        LinkedHashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock(), true);
 
         /*
-        Check if the list of blocks carried over from the tree parser contains everything you'd expect from a tree
+        Previous list will be null if no valid tree is found
          */
         if (blocks == null)
             return;
 
-        boolean containsLeaves = false;
-
-        for (Block block : blocks)
-            if (TreeChecker.validTreeMaterials.contains(block.getType())) {
-                containsLeaves = true;
-                break;
-            }
-
-        if (!containsLeaves)
-            return;
-
+        /*
+        Everything beyond this point assumes that the tree was valid
+         */
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
-
 
         if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());

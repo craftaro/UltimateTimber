@@ -14,6 +14,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomLoot {
 
+    /*
+    This is a very simple config parser for items
+    Each item is a new line in a list
+    Each line includes the keywords "Material:" and "Chance:" seperated by a ","
+    The chance is a percentage
+    It throws specific errors on startup when an invalid configuration is detected
+     */
     private static HashMap<ItemStack, Double> itemMap = new HashMap<>();
 
     public static void doCustomItemDrop(Location location) {
