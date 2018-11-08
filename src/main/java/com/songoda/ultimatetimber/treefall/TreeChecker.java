@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.treefall;
 
-import org.bukkit.Bukkit;
+import com.songoda.ultimatetimber.utils.LogToLeafConverter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -162,7 +162,7 @@ public class TreeChecker {
                     /*
                     Exclude anything that isn't a part of a tree or a forest to avoid destroying houses
                      */
-                    if (!thisBlock.getType().equals(originalMaterial) &&
+                    if (!validMaterials.contains(thisBlock.getType()) &&
                             !validTreeMaterials.contains(thisBlock.getType()) &&
                             !forestMaterials.contains(thisBlock.getType()))
                         return null;
@@ -170,8 +170,14 @@ public class TreeChecker {
 
                     /*
                     This adds blocks to later be felled
+                    Only take blocks of the same tree type
                      */
-                    if (validMaterials.contains(thisBlock.getType()) || validTreeMaterials.contains(thisBlock.getType())) {
+                    if (originalMaterial.equals(thisBlock.getType()) ||
+                            (LogToLeafConverter.convert(originalMaterial) != null &&
+                                    LogToLeafConverter.convert(originalMaterial).equals(thisBlock.getType())) ||
+                            (originalMaterial.equals(Material.MUSHROOM_STEM) &&
+                                    (thisBlock.getType().equals(Material.RED_MUSHROOM_BLOCK) ||
+                                            thisBlock.getType().equals(Material.BROWN_MUSHROOM_BLOCK)))) {
                         allBlocks.add(thisBlock);
                     }
 

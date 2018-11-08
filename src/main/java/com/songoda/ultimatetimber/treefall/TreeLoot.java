@@ -24,6 +24,20 @@ public class TreeLoot {
             return;
         }
 
+        if (material.equals(Material.BROWN_MUSHROOM_BLOCK)) {
+            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(Material.BROWN_MUSHROOM, 1));
+            return;
+        }
+
+        if (material.equals(Material.RED_MUSHROOM_BLOCK)) {
+            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(Material.RED_MUSHROOM, 1));
+            return;
+        }
+
+        if (material.equals(Material.MUSHROOM_STEM)) {
+            return;
+        }
+
         if (material.equals(Material.ACACIA_SAPLING) ||
                 material.equals(Material.BIRCH_SAPLING) ||
                 material.equals(Material.DARK_OAK_SAPLING) ||
@@ -50,7 +64,6 @@ public class TreeLoot {
         fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(material, 1));
 
     }
-
 
 
 }

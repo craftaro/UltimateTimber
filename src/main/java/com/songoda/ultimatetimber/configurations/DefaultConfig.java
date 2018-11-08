@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class DefaultConfig {
