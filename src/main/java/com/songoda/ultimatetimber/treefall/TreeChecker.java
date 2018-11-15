@@ -271,7 +271,9 @@ public class TreeChecker {
             Material.DARK_OAK_SAPLING,
             Material.DIRT,
             Material.COARSE_DIRT,
-            Material.GRASS_BLOCK
+            Material.GRASS_BLOCK,
+            Material.SNOW,
+            Material.SNOW_BLOCK
     ));
 
 }
