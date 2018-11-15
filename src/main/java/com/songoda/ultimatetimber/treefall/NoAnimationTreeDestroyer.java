@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NoAnimationTreeDestroyer {
@@ -13,7 +13,7 @@ public class NoAnimationTreeDestroyer {
     /*
     Only ever triggers when people have tree falling animations off in the config
      */
-    public static void destroyTree(LinkedHashSet<Block> blocks, boolean hasBonusLoot, boolean hasSilkTouch) {
+    public static void destroyTree(HashSet<Block> blocks, boolean hasBonusLoot, boolean hasSilkTouch) {
 
         for (Block block : blocks) {
 

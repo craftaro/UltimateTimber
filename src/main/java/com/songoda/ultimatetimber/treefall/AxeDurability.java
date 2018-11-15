@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class AxeDurability {
@@ -15,7 +16,7 @@ public class AxeDurability {
     This class handles all durability damage dealt to the axe used to chop down the tree, only takes into account
     wood blocks chopped down
      */
-    public static void adjustAxeDamage(LinkedHashSet<Block> blocks, Player player) {
+    public static void adjustAxeDamage(HashSet<Block> blocks, Player player) {
 
         if (!(player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_AXE) ||
                 player.getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_AXE) ||

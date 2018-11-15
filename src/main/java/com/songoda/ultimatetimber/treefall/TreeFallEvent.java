@@ -10,7 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 
 public class TreeFallEvent implements Listener {
 
@@ -23,7 +23,7 @@ public class TreeFallEvent implements Listener {
 
         if (!EventFilter.eventIsValid(event)) return;
         TreeChecker treeChecker = new TreeChecker();
-        LinkedHashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock(), true);
+        HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());
 
         /*
         Previous list will be null if no valid tree is found

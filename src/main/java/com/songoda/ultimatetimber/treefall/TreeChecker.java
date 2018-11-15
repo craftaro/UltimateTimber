@@ -6,12 +6,199 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class TreeChecker {
+
+    /*
+    This stores all the blocks returned later on
+     */
+    private HashSet<Block> allBlocks = new HashSet<>();
+
+    public HashSet<Block> validTreeHandler(Block block) {
+
+        HashSet<Block> blocks = parseTree(block);
+
+        if (blocks == null)
+            return null;
+
+        boolean containsLeaves = false;
+
+        for (Block localBlock : blocks)
+            if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
+                containsLeaves = true;
+                break;
+            }
+
+        if (!containsLeaves)
+            return null;
+
+        return blocks;
+
+    }
+
+    /**
+     * This parses a tree; returns a hashset if it is a valid tree, or returns null if it isn't
+     *
+     * @param block block the player originally destroys
+     * @return returns null if the tree isn't valid or all blocks in the tree if it isn't
+     */
+    public HashSet<Block> parseTree(Block block) {
+
+        /*
+        Check if material is parsed by this plugin
+         */
+        if (!validMaterials.contains(block.getType())) return null;
+
+        /*
+        offset determines the search radius around the main trunk
+        maxheight sets the maximum height the plugin will crawl through to find a tree
+         */
+        int offset = 5;
+        int maxHeight = 31;
+
+        /*
+        Keep track of the location of the original block to see how much we've deviated from it
+         */
+        Location centralBlockLocation = block.getLocation().clone();
+        /*
+        Keep a list of all location that are considered to be a part of the trunk. This is necessary as scans are made
+        around each one as the search crawls up to detect leaves or building blocks.
+         */
+        HashSet<Location> trunkList = new HashSet<>();
+        trunkList.add(centralBlockLocation);
+        Material originalMaterial = block.getType();
+
+        for (int i = 0; i < maxHeight; i++) {
+
+            /*
+            For some reason, using the iterator to gradually clear hashset elements isn't working as the hashset
+            claims not to contain said elements. This is a bit of a dirty workarounf dor that issue.
+             */
+            HashSet<Location> cleanLogSet = new HashSet<>();
+            for (Location location : trunkList)
+                if (location.getBlock().getType().equals(originalMaterial) ||
+                        location.getBlock().getType().equals(LogToLeafConverter.convert(originalMaterial)) ||
+                        location.clone().add(new Vector(0, -1, 0)).getBlock().getType().equals(originalMaterial))
+                    cleanLogSet.add(location);
+
+            if (cleanLogSet.isEmpty()) {
+                if (i > 2)
+                    return allBlocks;
+                else
+                    return null;
+            }
+
+
+            trunkList = cleanLogSet;
+
+            /*
+            Search for adjacent trunks
+             */
+            Iterator<Location> iterator = trunkList.iterator();
+            HashSet<Location> expandedTrunkSet = new HashSet<>();
+            while (iterator.hasNext()) {
+
+                Location trunkLocation = iterator.next();
+                allBlocks.add(trunkLocation.getBlock());
+
+                int radMin, radMax;
+
+                if (i > 5) {
+                    radMin = -2;
+                    radMax = 3;
+                } else {
+                    radMin = -1;
+                    radMax = 2;
+                }
+
+                for (int x = radMin; x < radMax; x++)
+                    for (int z = radMin; z < radMax; z++) {
+
+                        Location currentLocation = trunkLocation.clone().add(new Vector(x, 0, z));
+                        if (Math.abs(currentLocation.getX() - trunkLocation.getX()) > offset ||
+                                Math.abs(currentLocation.getZ() - trunkLocation.getZ()) > offset)
+                            continue;
+                        if (currentLocation.getBlock().getType().equals(originalMaterial)) {
+                            expandedTrunkSet.add(currentLocation);
+                            allBlocks.add(currentLocation.getBlock());
+                        }
+
+                    }
+
+            }
+
+            trunkList.addAll(expandedTrunkSet);
+
+            /*
+             Check if the tree is valid and add leaves
+             */
+            for (Location location : trunkList) {
+
+                int radMin, radMax;
+
+                if (i > 5) {
+                    radMin = -3;
+                    radMax = 4;
+                } else {
+                    radMin = -2;
+                    radMax = 3;
+                }
+
+
+                for (int x = radMin; x < radMax; x++)
+                    for (int z = radMin; z < radMax; z++) {
+
+                        Block currentBlock = location.clone().add(x, 0, z).getBlock();
+
+                        /*
+                        Check if this block is already in the block list
+                         */
+                        if (allBlocks.contains(currentBlock))
+                            continue;
+
+                        /*
+                        Add a bit of tolerance for trees that exist on dirt ledges
+                         */
+                        if ((currentBlock.getType().equals(Material.DIRT) ||
+                                currentBlock.getType().equals(Material.COARSE_DIRT) ||
+                                currentBlock.getType().equals(Material.GRASS_BLOCK)) &&
+                                i > 1) {
+                            return null;
+                        }
+
+                        /*
+                        Exclude anything that isn't a part of a tree or a forest to avoid destroying houses
+                        */
+                        if (!validMaterials.contains(currentBlock.getType()) &&
+                                !validTreeMaterials.contains(currentBlock.getType()) &&
+                                !forestMaterials.contains(currentBlock.getType()))
+                            return null;
+
+                        /*
+                        This adds blocks to later be felled
+                        Only take blocks of the same tree type
+                        */
+                        if ((LogToLeafConverter.convert(originalMaterial) != null &&
+                                LogToLeafConverter.convert(originalMaterial).equals(currentBlock.getType())) ||
+                                (originalMaterial.equals(Material.MUSHROOM_STEM) &&
+                                        (currentBlock.getType().equals(Material.RED_MUSHROOM_BLOCK) ||
+                                                currentBlock.getType().equals(Material.BROWN_MUSHROOM_BLOCK)))) {
+                            allBlocks.add(currentBlock);
+
+                        }
+
+                    }
+
+                location.add(new Vector(0, 1, 0));
+
+            }
+
+        }
+
+        return allBlocks;
+
+    }
 
     /*
     Used to check if a tree is a tree
@@ -86,166 +273,5 @@ public class TreeChecker {
             Material.COARSE_DIRT,
             Material.GRASS_BLOCK
     ));
-
-    public LinkedHashSet<Block> validTreeHandler(Block block, boolean isSourceBlock) {
-
-        LinkedHashSet<Block> blocks = parseTree(block, isSourceBlock);
-
-        if (blocks == null)
-            return null;
-
-        boolean containsLeaves = false;
-
-        for (Block localBlock : blocks)
-            if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
-                containsLeaves = true;
-                break;
-            }
-
-        if (!containsLeaves)
-            return null;
-
-        return blocks;
-
-    }
-
-    public LinkedHashSet<Block> parseTree(Block block, boolean isSourceBlock) {
-
-        /*
-        Check if material is parsed by this plugin
-         */
-        if (!validMaterials.contains(block.getType())) return null;
-
-        /*
-        offset determines the search radius aroudn the main trunk
-        maxheight sets the maximum height the plugin will crawl through to find a tree
-         */
-        int offset = 0;
-        int maxHeight = 31;
-
-        /*
-        centralBlockLocation is used to keep track of the main trunk
-        originalMaterial keeps track of what log type the plugin is looking for
-         */
-        Location centralBlockLocation = block.getLocation().clone();
-        Material originalMaterial = block.getType();
-
-        for (int i = 0; i < maxHeight; i++) {
-
-            /*
-            Offset increases as it goes up the tree in order to cover the area a tree would take
-             */
-            if (offset < 6)
-                offset++;
-
-            /*
-            The search works in a reverse conical shape
-             */
-            for (int x = -offset; x < offset + 1; x++) {
-
-                for (int z = -offset; z < offset + 1; z++) {
-
-                    Block thisBlock = centralBlockLocation.clone().add(new Vector(x, 0, z)).getBlock();
-
-                    if (allBlocks.contains(thisBlock))
-                        continue;
-
-                    /*
-                    This adds a bit of tolerance for trees that exist on dirt ledges
-                     */
-                    if ((thisBlock.getType().equals(Material.DIRT) ||
-                            thisBlock.getType().equals(Material.COARSE_DIRT) ||
-                            thisBlock.getType().equals(Material.GRASS_BLOCK)) &&
-                            (i > 1) && isSourceBlock) {
-                        return null;
-                    }
-                    /*
-                    Exclude anything that isn't a part of a tree or a forest to avoid destroying houses
-                     */
-                    if (!validMaterials.contains(thisBlock.getType()) &&
-                            !validTreeMaterials.contains(thisBlock.getType()) &&
-                            !forestMaterials.contains(thisBlock.getType()))
-                        return null;
-
-
-                    /*
-                    This adds blocks to later be felled
-                    Only take blocks of the same tree type
-                     */
-                    if (originalMaterial.equals(thisBlock.getType()) ||
-                            (LogToLeafConverter.convert(originalMaterial) != null &&
-                                    LogToLeafConverter.convert(originalMaterial).equals(thisBlock.getType())) ||
-                            (originalMaterial.equals(Material.MUSHROOM_STEM) &&
-                                    (thisBlock.getType().equals(Material.RED_MUSHROOM_BLOCK) ||
-                                            thisBlock.getType().equals(Material.BROWN_MUSHROOM_BLOCK)))) {
-                        allBlocks.add(thisBlock);
-                    }
-
-                }
-
-            }
-
-            /*
-            Continue crawling up the main trunk
-             */
-            centralBlockLocation.add(new Vector(0, 1, 0));
-
-            /*
-            Detect if it's the end of the tree
-            If a block above it continues the same material type as the original block, continue with that block as the
-            new source block
-            If it doesn't and it's air or a leaf, scan for adjacent blocks to see if the tree continues in another
-            direction. This is necessary for acacias and some of the wider tree variants.
-             */
-            if (centralBlockLocation.getBlock().getType().equals(Material.AIR) || validTreeMaterials.contains(centralBlockLocation.getBlock().getType())) {
-
-                if (isSourceBlock && centralBlockLocation.clone().subtract(block.getLocation().clone()).getY() < 2)
-                    return null;
-
-                ArrayList<Block> newBlocks = scanNearbyBranching(originalMaterial, centralBlockLocation);
-                if (newBlocks != null)
-                    for (Block newBlock : newBlocks) {
-                        LinkedHashSet<Block> newBlockList = parseTree(newBlock, false);
-                        if (newBlockList == null)
-                            return null;
-                        else
-                            allBlocks.addAll(newBlocks);
-                    }
-                else if (centralBlockLocation.getBlock().getType().equals(Material.AIR))
-                    break;
-
-            }
-
-        }
-
-        return allBlocks;
-
-    }
-
-    /*
-    This stores all the blocks returned later on
-     */
-    private LinkedHashSet<Block> allBlocks = new LinkedHashSet<>();
-
-    /*
-    This method scans for branching atop the tree when the crawled upon block of the tree trunk is either air or a leaf block
-     */
-    private ArrayList<Block> scanNearbyBranching(Material originalMaterial, Location location) {
-
-        ArrayList<Block> newBlocks = new ArrayList<>();
-
-        for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++) {
-                Block nearbyBlock = location.clone().add(new Vector(i, 0, j)).getBlock();
-                if (!nearbyBlock.getType().equals(originalMaterial)) continue;
-                if (allBlocks.contains(nearbyBlock)) continue;
-                if (nearbyBlock.getLocation().equals(location)) continue;
-                newBlocks.add(nearbyBlock);
-            }
-
-        if (newBlocks.isEmpty()) return null;
-        return newBlocks;
-
-    }
 
 }
