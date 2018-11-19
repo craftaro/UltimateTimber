@@ -42,6 +42,10 @@ public class EventFilter {
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE)))
             return false;
 
+        if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && 
+                !event.getPlayer().isSneaking())
+            return false;
+        
         return !fileConfiguration.getBoolean(DefaultConfig.PERMISSIONS_ONLY) ||
                 event.getPlayer().hasPermission("ultimatetimber.chop");
 
