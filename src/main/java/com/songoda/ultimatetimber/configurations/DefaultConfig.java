@@ -39,7 +39,7 @@ public class DefaultConfig {
         Configuration configuration = plugin.getConfig();
 
         configuration.addDefault(AXES_ONLY, true);
-        configuration.addDefault(SNEAK_ONLY, true);
+        configuration.addDefault(SNEAK_ONLY, false);
         configuration.addDefault(ACCURATE_AXE_DURABILITY, true);
         configuration.addDefault(CREATIVE_DISALLOWED, true);
         configuration.addDefault(PERMISSIONS_ONLY, true);
