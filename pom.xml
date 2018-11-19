@@ -6,7 +6,7 @@
 
     <groupId>ultimatetimber</groupId>
     <artifactId>UltimateTimber</artifactId>
-    <version>0.0.10</version>
+    <version>maven-version-number</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

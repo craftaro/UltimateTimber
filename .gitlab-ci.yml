@@ -1,12 +1,21 @@
 stages:
 - build
 
+variables:
+    name: "UltimateTimber"
+    path: "/builds/Songoda/$name"
+    version: "1"
+
 build:
   stage: build
-  image: maven:3.3.9-jdk-8
-  script: "mvn clean package"
+  image: maven:3.5.3-jdk-8
+  script:
+    - find $path/ -type f -name "*.xml" -print0 | xargs -0 sed -i -e s/maven-version-number/$version/g
+    - mvn clean package
+    - find $path/ -depth -path '*original*' -delete
+    - mv -v $path/target/*.jar $path
   artifacts:
-    name: "UltimateTimber"
+    name: $name-$version
     paths:
-    - "/builds/Songoda/ultimatetimber/target/*.jar"
-    - "/builds/Songoda/ultimatetimber/Read_this_before_your_first_use.txt"
+    - "$path/*.jar"
+    - "$path/Read_this_before_your_first_use.txt"
