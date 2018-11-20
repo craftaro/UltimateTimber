@@ -19,4 +19,3 @@ build:
     name: $name-$version
     paths:
     - "$path/*.jar"
-    - "$path/Read_this_before_your_first_use.txt"
