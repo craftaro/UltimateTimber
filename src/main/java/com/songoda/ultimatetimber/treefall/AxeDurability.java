@@ -17,15 +17,15 @@ public class AxeDurability {
     wood blocks chopped down
      */
     public static void adjustAxeDamage(HashSet<Block> blocks, Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (!(player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_AXE) ||
-                player.getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_AXE) ||
-                player.getInventory().getItemInMainHand().getType().equals(Material.IRON_AXE) ||
-                player.getInventory().getItemInMainHand().getType().equals(Material.STONE_AXE) ||
-                player.getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE))) return;
+        if (!(item.getType().equals(Material.DIAMOND_AXE) ||
+                item.getType().equals(Material.GOLDEN_AXE) ||
+                item.getType().equals(Material.IRON_AXE) ||
+                item.getType().equals(Material.STONE_AXE) ||
+                item.getType().equals(Material.WOODEN_AXE))) return;
 
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemMeta itemMeta = item.getItemMeta();
         Damageable damageableMeta = (Damageable) itemMeta;
         for (Block block : blocks)
             if (block.getType().equals(Material.ACACIA_LOG) ||
@@ -42,8 +42,9 @@ public class AxeDurability {
                     block.getType().equals(Material.STRIPPED_SPRUCE_LOG))
                 damageableMeta.setDamage(damageableMeta.getDamage() + 1);
 
-        itemStack.setItemMeta((ItemMeta) damageableMeta);
+        item.setItemMeta((ItemMeta) damageableMeta);
 
+        if (item.getDurability() >= item.getType().getMaxDurability()) player.setItemInHand(new ItemStack(Material.AIR));
     }
 
 }
