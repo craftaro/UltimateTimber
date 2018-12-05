@@ -94,3 +94,13 @@ target/classes/com/songoda/ultimatetimber/utils/LogToLeafConverter\$1\.class
 target/classes/com/songoda/ultimatetimber/utils/Methods\.class
 
 target/classes/config\.yml
+
+\.idea/libraries/Maven__net_md_5_bungeecord_chat_1_12_SNAPSHOT\.xml
+
+\.idea/libraries/Maven__org_bukkit_bukkit_1_12_R0_1_SNAPSHOT\.xml
+
+\.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_R0_1_SNAPSHOT\.xml
+
+\.idea/libraries/Maven__org_yaml_snakeyaml_1_18\.xml
+
+target/classes/com/songoda/ultimatetimber/utils/VersionChecker\.class
