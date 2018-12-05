@@ -20,6 +20,7 @@ public class DefaultConfig {
     Also they are easier to refer to using an IDE.
      */
     public static final String AXES_ONLY = "Only topple down trees cut down using axes";
+    public static final String TIMEOUT_BREAK = "Five second time out before you can break saplings";
     public static final String SNEAK_ONLY = "Only topple down trees cut down while sneaking";
     public static final String ACCURATE_AXE_DURABILITY = "Lower durability proportionately to the amount of blocks toppled down";
     public static final String CREATIVE_DISALLOWED = "Players in creative mode can't topple down trees";
@@ -39,6 +40,7 @@ public class DefaultConfig {
         Configuration configuration = plugin.getConfig();
 
         configuration.addDefault(AXES_ONLY, true);
+        configuration.addDefault(TIMEOUT_BREAK, true);
         configuration.addDefault(SNEAK_ONLY, false);
         configuration.addDefault(ACCURATE_AXE_DURABILITY, true);
         configuration.addDefault(CREATIVE_DISALLOWED, true);

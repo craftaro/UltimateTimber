@@ -2,17 +2,25 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TreeReplant {
 
+    private static List<Location> timeout = new ArrayList<>();
+
     public static void replaceOriginalBlock(Block block) {
+
+        boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
 
         if (!UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
             block.setType(Material.AIR);
@@ -26,6 +34,11 @@ public class TreeReplant {
         }
 
         Material material = block.getType();
+
+        if (isTimeout) {
+            timeout.add(block.getLocation());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> timeout.remove(block.getLocation()), 20 * 5);
+        }
 
         new BukkitRunnable() {
             @Override
@@ -105,6 +118,10 @@ public class TreeReplant {
 
         }
 
+    }
+
+    public static boolean isTimeout(Block block) {
+        return timeout.contains(block.getLocation());
     }
 
 }

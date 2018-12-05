@@ -72,3 +72,25 @@ target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles\.ls
 target/UltimateTimber\.jar
 
 UltimateTimber\.iml
+
+\.idea/compiler\.xml
+
+\.idea/encodings\.xml
+
+\.idea/vcs\.xml
+
+target/classes/com/songoda/ultimatetimber/treefall/CustomLoot\.class
+
+target/classes/com/songoda/ultimatetimber/treefall/NoAnimationTreeDestroyer\.class
+
+target/classes/com/songoda/ultimatetimber/utils/LeafToSaplingConverter\.class
+
+target/classes/com/songoda/ultimatetimber/utils/LeafToSaplingConverter\$1\.class
+
+target/classes/com/songoda/ultimatetimber/utils/LogToLeafConverter\.class
+
+target/classes/com/songoda/ultimatetimber/utils/LogToLeafConverter\$1\.class
+
+target/classes/com/songoda/ultimatetimber/utils/Methods\.class
+
+target/classes/config\.yml

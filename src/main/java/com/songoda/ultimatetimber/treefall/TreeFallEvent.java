@@ -21,9 +21,16 @@ public class TreeFallEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTreeBreak(BlockBreakEvent event) {
 
+        FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
+
+        if (event.getBlock() != null && event.getBlock().getType().name().contains("SAPLING") &&
+                fileConfiguration.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(event.getBlock()))
+                event.setCancelled(true);
+
         if (!EventFilter.eventIsValid(event)) return;
         TreeChecker treeChecker = new TreeChecker();
         HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());
+
 
         /*
         Previous list will be null if no valid tree is found
@@ -34,7 +41,6 @@ public class TreeFallEvent implements Listener {
         /*
         Everything beyond this point assumes that the tree was valid
          */
-        FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
 
         if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());
@@ -48,7 +54,6 @@ public class TreeFallEvent implements Listener {
             NoAnimationTreeDestroyer.destroyTree(blocks, event.getPlayer().hasPermission("ultimatetimber.bonusloot"),
                     event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH));
         }
-
 
     }
 
