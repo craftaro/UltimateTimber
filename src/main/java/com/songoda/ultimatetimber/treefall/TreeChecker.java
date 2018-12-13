@@ -24,12 +24,15 @@ public class TreeChecker {
 
         boolean containsLeaves = false;
 
-        for (Block localBlock : blocks)
+        for (Block localBlock : blocks) {
             if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
                 containsLeaves = true;
                 break;
+            } else if(TreeChecker.validMaterials.contains(localBlock.getType())){
+                containsLeaves = true;
+                break;
             }
-
+        }
         if (!containsLeaves)
             return null;
 

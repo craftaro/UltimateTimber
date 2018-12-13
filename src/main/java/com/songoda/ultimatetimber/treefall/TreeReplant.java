@@ -68,6 +68,12 @@ public class TreeReplant {
                     case STRIPPED_SPRUCE_LOG:
                         block.setType(Material.SPRUCE_SAPLING);
                         return;
+                    case BROWN_MUSHROOM_BLOCK:
+                        block.setType(Material.BROWN_MUSHROOM);
+                        return;
+                    case RED_MUSHROOM_BLOCK:
+                        block.setType(Material.RED_MUSHROOM);
+                        return;
                     default:
                         block.setType(Material.AIR);
                 }
