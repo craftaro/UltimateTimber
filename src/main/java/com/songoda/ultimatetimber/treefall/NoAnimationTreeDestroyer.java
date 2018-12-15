@@ -19,11 +19,11 @@ public class NoAnimationTreeDestroyer {
 
         Block mainLog = getMainLog(minedLog.getLocation());
 
-        Material oldMaterial = mainLog.getType();
-        Byte oldData = mainLog.getData();
         Location mainLogLocation = mainLog.getLocation().clone();
 
         for (Block block : blocks) {
+
+            TreeReplant.replaceOriginalBlock(block);
 
             Material material = LeafToSaplingConverter.convertLeaves(block.getType());
 
@@ -74,9 +74,6 @@ public class NoAnimationTreeDestroyer {
 
         }
 
-        if(mainLogLocation.getBlock().getType() == Material.AIR) {
-            TreeReplant.replaceOriginalBlock(mainLogLocation.getBlock());
-        }
 
     }
 
