@@ -57,7 +57,7 @@ public class TreeChecker {
         offset determines the search radius around the main trunk
         maxheight sets the maximum height the plugin will crawl through to find a tree
          */
-        int offset = 5;
+        int offset = 8;
         int maxHeight = 31;
 
         /*
@@ -108,11 +108,11 @@ public class TreeChecker {
                 int radMin, radMax;
 
                 if (i > 5) {
-                    radMin = -2;
-                    radMax = 3;
+                    radMin = -3; //-2
+                    radMax = 4; //3
                 } else {
-                    radMin = -1;
-                    radMax = 2;
+                    radMin = -2; //-1
+                    radMax = 3; //2
                 }
 
                 for (int x = radMin; x < radMax; x++)

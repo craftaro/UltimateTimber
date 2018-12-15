@@ -104,3 +104,4 @@ target/classes/config\.yml
 \.idea/libraries/Maven__org_yaml_snakeyaml_1_18\.xml
 
 target/classes/com/songoda/ultimatetimber/utils/VersionChecker\.class
+target/UltimateTimber-maven-version-number.jar
