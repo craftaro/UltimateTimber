@@ -6,9 +6,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class NoAnimationTreeDestroyer {
 
@@ -17,13 +19,23 @@ public class NoAnimationTreeDestroyer {
      */
     public static void destroyTree(HashSet<Block> blocks, boolean hasBonusLoot, boolean hasSilkTouch, Block minedLog) {
 
-        Block mainLog = getMainLog(minedLog.getLocation());
+        Material leavesType = null;
 
-        Location mainLogLocation = mainLog.getLocation().clone();
+        if(!blocks.stream().filter(b -> b.getType() == Material.BROWN_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()){
+
+            leavesType = Material.BROWN_MUSHROOM_BLOCK;
+
+            leavesType = Material.RED_MUSHROOM_BLOCK;
+        } else {
+        }
 
         for (Block block : blocks) {
 
-            TreeReplant.replaceOriginalBlock(block);
+            if(leavesType != null){
+                TreeReplant.replaceOriginalBlock(block, leavesType);
+            } else{
+                TreeReplant.replaceOriginalBlock(block);
+            }
 
             Material material = LeafToSaplingConverter.convertLeaves(block.getType());
 
