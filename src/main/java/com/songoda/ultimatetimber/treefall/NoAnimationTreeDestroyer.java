@@ -25,6 +25,7 @@ public class NoAnimationTreeDestroyer {
 
             leavesType = Material.BROWN_MUSHROOM_BLOCK;
 
+        } else if(!blocks.stream().filter(b -> b.getType() == Material.RED_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()){
             leavesType = Material.RED_MUSHROOM_BLOCK;
         } else {
         }
