@@ -32,6 +32,7 @@ public class TreeFallEvent implements Listener {
         TreeChecker treeChecker = new TreeChecker();
         HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());
 
+        Bukkit.broadcastMessage(blocks.toString());
 
         /*
         Previous list will be null if no valid tree is found
