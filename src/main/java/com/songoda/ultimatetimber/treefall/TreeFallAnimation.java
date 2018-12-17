@@ -128,8 +128,9 @@ public class TreeFallAnimation implements Listener {
 
         for (Block block : blocks) {
 
-            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation(), block.getBlockData());
+            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0.5,0,0.5), block.getBlockData());
             fallingBlock.setDropItem(false);
+
 
             registerFallingBlock(fallingBlock);
 
@@ -138,7 +139,7 @@ public class TreeFallAnimation implements Listener {
              */
             if (block.getType().equals(Material.AIR)) continue;
 
-            /*
+                        /*
             Remove original block
              */
             TreeReplant.replaceOriginalBlock(block);

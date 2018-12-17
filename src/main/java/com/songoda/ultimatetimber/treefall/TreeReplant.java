@@ -20,6 +20,7 @@ public class TreeReplant {
 
     public static void replaceOriginalBlock(Block block) {
 
+
         boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
 
         if (!UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
@@ -28,7 +29,71 @@ public class TreeReplant {
         }
 
         if (!block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.DIRT) &&
-                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT)) {
+                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0,1,0)).getBlock().getType().equals(Material.PODZOL)) {
+            block.setType(Material.AIR);
+            return;
+        }
+
+        Material material = block.getType();
+
+        if (isTimeout) {
+            timeout.add(block.getLocation());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> timeout.remove(block.getLocation()), 20 * 5);
+        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                switch (material) {
+                    case ACACIA_LOG:
+                    case STRIPPED_ACACIA_LOG:
+                        block.setType(Material.ACACIA_SAPLING);
+                        return;
+                    case BIRCH_LOG:
+                    case STRIPPED_BIRCH_LOG:
+                        block.setType(Material.BIRCH_SAPLING);
+                        return;
+                    case DARK_OAK_LOG:
+                    case STRIPPED_DARK_OAK_LOG:
+                        block.setType(Material.DARK_OAK_SAPLING);
+                        return;
+                    case JUNGLE_LOG:
+                    case STRIPPED_JUNGLE_LOG:
+                        block.setType(Material.JUNGLE_SAPLING);
+                        return;
+                    case OAK_LOG:
+                    case STRIPPED_OAK_LOG:
+                        block.setType(Material.OAK_SAPLING);
+                        return;
+                    case SPRUCE_LOG:
+                    case STRIPPED_SPRUCE_LOG:
+                        block.setType(Material.SPRUCE_SAPLING);
+                        return;
+                    case BROWN_MUSHROOM_BLOCK:
+                        block.setType(Material.BROWN_MUSHROOM);
+                        return;
+                    case RED_MUSHROOM_BLOCK:
+                        block.setType(Material.RED_MUSHROOM);
+                        return;
+                    default:
+                        block.setType(Material.AIR);
+                }
+            }
+        }.runTaskLater(UltimateTimber.getInstance(), 1);
+
+    }
+
+    public static void replaceOriginalBlock(Block block, Material leavesType) {
+
+        boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
+
+        if (!UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
+            block.setType(Material.AIR);
+            return;
+        }
+
+        if (!block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.DIRT) &&
+                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0,1,0)).getBlock().getType().equals(Material.PODZOL)) {
             block.setType(Material.AIR);
             return;
         }
@@ -69,7 +134,13 @@ public class TreeReplant {
                         block.setType(Material.SPRUCE_SAPLING);
                         return;
                     default:
-                        block.setType(Material.AIR);
+                        if(leavesType == Material.BROWN_MUSHROOM_BLOCK){
+                            block.setType(Material.BROWN_MUSHROOM);
+                        } else if(leavesType == Material.RED_MUSHROOM_BLOCK){
+                            block.setType(Material.RED_MUSHROOM);
+                        } else{
+                            block.setType(Material.AIR);
+                        }
                 }
             }
         }.runTaskLater(UltimateTimber.getInstance(), 1);

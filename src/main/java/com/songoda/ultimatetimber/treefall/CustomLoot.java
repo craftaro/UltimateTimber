@@ -31,6 +31,8 @@ public class CustomLoot {
 
     public static void initializeCustomItems() {
 
+        itemMap.clear();
+
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
 
         List<String> arrayList = (List<String>) fileConfiguration.getList(DefaultConfig.CUSTOM_LOOT_LIST);

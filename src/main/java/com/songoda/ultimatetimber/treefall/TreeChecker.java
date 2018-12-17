@@ -24,12 +24,15 @@ public class TreeChecker {
 
         boolean containsLeaves = false;
 
-        for (Block localBlock : blocks)
+        for (Block localBlock : blocks) {
             if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
                 containsLeaves = true;
                 break;
+            } else if(TreeChecker.validMaterials.contains(localBlock.getType())){
+                containsLeaves = true;
+                break;
             }
-
+        }
         if (!containsLeaves)
             return null;
 
@@ -54,7 +57,7 @@ public class TreeChecker {
         offset determines the search radius around the main trunk
         maxheight sets the maximum height the plugin will crawl through to find a tree
          */
-        int offset = 5;
+        int offset = 7;
         int maxHeight = 31;
 
         /*
@@ -138,11 +141,11 @@ public class TreeChecker {
                 int radMin, radMax;
 
                 if (i > 5) {
-                    radMin = -3;
-                    radMax = 4;
+                    radMin = -4;
+                    radMax = 6;
                 } else {
-                    radMin = -2;
-                    radMax = 3;
+                    radMin = -3;
+                    radMax = 5;
                 }
 
 
