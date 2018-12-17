@@ -4,6 +4,7 @@ import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
 import org.bukkit.Material;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.util.concurrent.ThreadLocalRandom;
 

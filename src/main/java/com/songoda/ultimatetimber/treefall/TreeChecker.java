@@ -108,11 +108,11 @@ public class TreeChecker {
                 int radMin, radMax;
 
                 if (i > 5) {
-                    radMin = -3; //-2
-                    radMax = 4; //3
+                    radMin = -2;
+                    radMax = 3;
                 } else {
-                    radMin = -2; //-1
-                    radMax = 3; //2
+                    radMin = -1;
+                    radMax = 2;
                 }
 
                 for (int x = radMin; x < radMax; x++)
@@ -141,11 +141,11 @@ public class TreeChecker {
                 int radMin, radMax;
 
                 if (i > 5) {
-                    radMin = -4;
-                    radMax = 5;
+                    radMin = -5;
+                    radMax = 7;
                 } else {
-                    radMin = -3;
-                    radMax = 4;
+                    radMin = -4;
+                    radMax = 6;
                 }
 
 

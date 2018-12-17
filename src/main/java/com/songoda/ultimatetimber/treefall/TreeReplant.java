@@ -20,6 +20,7 @@ public class TreeReplant {
 
     public static void replaceOriginalBlock(Block block) {
 
+
         boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
 
         if (!UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
