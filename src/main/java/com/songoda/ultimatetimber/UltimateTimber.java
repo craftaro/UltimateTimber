@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallEvent;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,7 +32,11 @@ public class UltimateTimber extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        if (!checkVersion()) return;
+
         INSTANCE = this;
+
         console.sendMessage(Methods.formatText("&a============================="));
         console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Brianna <3&7!"));
         console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
@@ -82,4 +87,20 @@ public class UltimateTimber extends JavaPlugin {
     public String getPrefix() {
         return prefix;
     }
+    private boolean checkVersion() {
+        int workingVersion = 13;
+        int currentVersion = Integer.parseInt(Bukkit.getServer().getClass()
+                .getPackage().getName().split("\\.")[3].split("_")[1]);
+
+        if (currentVersion < workingVersion) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+                Bukkit.getConsoleSender().sendMessage("");
+                Bukkit.getConsoleSender().sendMessage(String.format("%sYou installed the 1.%s only version of %s on a 1.%s server. Since you are on the wrong version we disabled the plugin for you. Please install correct version to continue using %s.", ChatColor.RED, workingVersion, this.getDescription().getName(), currentVersion, this.getDescription().getName()));
+                Bukkit.getConsoleSender().sendMessage("");
+            }, 20L);
+            return false;
+        }
+        return true;
+    }
+
 }

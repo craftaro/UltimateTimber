@@ -53,7 +53,7 @@ public class TreeFallEvent implements Listener {
             treeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
         } else {
             NoAnimationTreeDestroyer.destroyTree(blocks, event.getPlayer().hasPermission("ultimatetimber.bonusloot"),
-                    event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH), event.getBlock());
+                    event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH));
         }
 
     }
