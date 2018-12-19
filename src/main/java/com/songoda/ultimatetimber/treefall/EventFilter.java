@@ -7,23 +7,21 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class EventFilter {
+class EventFilter {
 
     /*
     Incorporate all checks that would disqualify this event from happening
     Mostly config settings, also permissions
      */
-    public static boolean eventIsValid(BlockBreakEvent event) {
+    static boolean eventIsValid(BlockBreakEvent event) {
         UltimateTimber plugin = UltimateTimber.getInstance();
 
         /*
         General catchers
          */
-        if (event.isCancelled()) return false;
-
-        if (!plugin.getValidWorlds().contains(event.getPlayer().getWorld())) return false;
-
-        if (!TreeChecker.validMaterials.contains(event.getBlock().getType())) return false;
+        if (event.isCancelled()
+            || !plugin.getValidWorlds().contains(event.getPlayer().getWorld())
+            || !TreeChecker.validMaterials.contains(event.getBlock().getType())) return false;
 
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
         
@@ -42,10 +40,10 @@ public class EventFilter {
                         event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE)))
             return false;
 
-        if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && 
+        if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) &&
                 !event.getPlayer().isSneaking())
             return false;
-        
+
         return !fileConfiguration.getBoolean(DefaultConfig.PERMISSIONS_ONLY) ||
                 event.getPlayer().hasPermission("ultimatetimber.chop");
 

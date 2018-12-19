@@ -10,7 +10,7 @@ public class Methods {
         return formatText(text, false);
     }
 
-    public static String formatText(String text, boolean cap) {
+    private static String formatText(String text, boolean cap) {
         if (text == null || text.equals(""))
             return "";
         if (cap)

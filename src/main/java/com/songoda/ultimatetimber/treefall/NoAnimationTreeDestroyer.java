@@ -1,31 +1,28 @@
 package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-public class NoAnimationTreeDestroyer {
+class NoAnimationTreeDestroyer {
 
     /*
     Only ever triggers when people have tree falling animations off in the config
      */
-    public static void destroyTree(HashSet<Block> blocks, boolean hasBonusLoot, boolean hasSilkTouch) {
+    static void destroyTree(HashSet<Block> blocks, boolean hasBonusLoot, boolean hasSilkTouch) {
 
         Material leavesType = null;
 
-        if(!blocks.stream().filter(b -> b.getType() == Material.BROWN_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()){
+        if (!blocks.stream().filter(b -> b.getType() == Material.BROWN_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()) {
 
             leavesType = Material.BROWN_MUSHROOM_BLOCK;
 
-        } else if(!blocks.stream().filter(b -> b.getType() == Material.RED_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()){
+        } else if (!blocks.stream().filter(b -> b.getType() == Material.RED_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()) {
             leavesType = Material.RED_MUSHROOM_BLOCK;
         }
 
@@ -33,8 +30,7 @@ public class NoAnimationTreeDestroyer {
 
             Material material = LeafToSaplingConverter.convertLeaves(block.getType());
 
-            if (material.equals(Material.AIR)) continue;
-            if (material.equals(Material.VINE)) continue;
+            if (material.equals(Material.AIR) || material.equals(Material.VINE)) continue;
 
             ItemStack toDrop = getItem(material);
 
@@ -78,9 +74,9 @@ public class NoAnimationTreeDestroyer {
             block.setType(Material.AIR);
             CustomLoot.doCustomItemDrop(block.getLocation());
 
-            if(leavesType != null){
+            if (leavesType != null) {
                 TreeReplant.replaceOriginalBlock(block, leavesType);
-            } else{
+            } else {
                 TreeReplant.replaceOriginalBlock(block);
             }
 
@@ -89,11 +85,11 @@ public class NoAnimationTreeDestroyer {
 
     }
 
-    static ItemStack getItem(Material material){
+    static ItemStack getItem(Material material) {
 
-        if(material == Material.BROWN_MUSHROOM_BLOCK){
+        if (material == Material.BROWN_MUSHROOM_BLOCK) {
             return new ItemStack(Material.BROWN_MUSHROOM, 1);
-        } else if(material == Material.RED_MUSHROOM_BLOCK){
+        } else if (material == Material.RED_MUSHROOM_BLOCK) {
             return new ItemStack(Material.RED_MUSHROOM, 1);
         }
         return new ItemStack(material, 1);

@@ -5,12 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.FallingBlock;
 
-public class TreeSounds {
+class TreeSounds {
 
-    public static void tipOverNoise(Location location) {
+    static void tipOverNoise(Location location) {
 
-        if(Bukkit.getServer().getClass().getPackage().toString().contains("8")){
-            location.getWorld().playSound(location, Sound.valueOf("CHEST_OPEN"), 3f,0.1f);
+        if (Bukkit.getServer().getClass().getPackage().toString().contains("8")) {
+            location.getWorld().playSound(location, Sound.valueOf("CHEST_OPEN"), 3f, 0.1f);
         } else {
 
             location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 3F, 0.1F);
@@ -18,10 +18,10 @@ public class TreeSounds {
 
     }
 
-    public static void fallNoise(FallingBlock fallingBlock) {
+    static void fallNoise(FallingBlock fallingBlock) {
 
-        if(Bukkit.getServer().getClass().getPackage().toString().contains("8")){
-                fallingBlock.getWorld().playSound(fallingBlock.getLocation(), Sound.valueOf("ANVIL_LAND"), 3F, 0.1F);
+        if (Bukkit.getServer().getClass().getPackage().toString().contains("8")) {
+            fallingBlock.getWorld().playSound(fallingBlock.getLocation(), Sound.valueOf("ANVIL_LAND"), 3F, 0.1F);
             return;
         }
 

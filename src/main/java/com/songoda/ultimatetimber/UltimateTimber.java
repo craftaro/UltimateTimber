@@ -24,11 +24,13 @@ PS: MagmaGuy was here
 
 public class UltimateTimber extends JavaPlugin {
     private static CommandSender console = Bukkit.getConsoleSender();
-
-    private final String prefix = "&8[&6UltimateTimber&8]";
-
     private static UltimateTimber INSTANCE;
+    private final String prefix = "&8[&6UltimateTimber&8]";
     private List<World> validWorlds = new ArrayList<>();
+
+    public static UltimateTimber getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void onEnable() {
@@ -76,10 +78,6 @@ public class UltimateTimber extends JavaPlugin {
         validWorlds.clear();
     }
 
-    public static UltimateTimber getInstance() {
-        return INSTANCE;
-    }
-
     public List<World> getValidWorlds() {
         return Collections.unmodifiableList(validWorlds);
     }
@@ -87,6 +85,7 @@ public class UltimateTimber extends JavaPlugin {
     public String getPrefix() {
         return prefix;
     }
+
     private boolean checkVersion() {
         int workingVersion = 13;
         int currentVersion = Integer.parseInt(Bukkit.getServer().getClass()

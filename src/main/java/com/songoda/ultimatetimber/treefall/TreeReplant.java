@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TreeReplant {
+class TreeReplant {
 
     private static List<Location> timeout = new ArrayList<>();
 
-    public static void replaceOriginalBlock(Block block) {
+    static void replaceOriginalBlock(Block block) {
 
 
         boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
@@ -29,7 +29,7 @@ public class TreeReplant {
         }
 
         if (!block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.DIRT) &&
-                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0,1,0)).getBlock().getType().equals(Material.PODZOL)) {
+                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.PODZOL)) {
             block.setType(Material.AIR);
             return;
         }
@@ -83,7 +83,7 @@ public class TreeReplant {
 
     }
 
-    public static void replaceOriginalBlock(Block block, Material leavesType) {
+    static void replaceOriginalBlock(Block block, Material leavesType) {
 
         boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
 
@@ -93,7 +93,7 @@ public class TreeReplant {
         }
 
         if (!block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.DIRT) &&
-                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0,1,0)).getBlock().getType().equals(Material.PODZOL)) {
+                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.PODZOL)) {
             block.setType(Material.AIR);
             return;
         }
@@ -134,11 +134,11 @@ public class TreeReplant {
                         block.setType(Material.SPRUCE_SAPLING);
                         return;
                     default:
-                        if(leavesType == Material.BROWN_MUSHROOM_BLOCK){
+                        if (leavesType == Material.BROWN_MUSHROOM_BLOCK) {
                             block.setType(Material.BROWN_MUSHROOM);
-                        } else if(leavesType == Material.RED_MUSHROOM_BLOCK){
+                        } else if (leavesType == Material.RED_MUSHROOM_BLOCK) {
                             block.setType(Material.RED_MUSHROOM);
-                        } else{
+                        } else {
                             block.setType(Material.AIR);
                         }
                 }
@@ -147,7 +147,7 @@ public class TreeReplant {
 
     }
 
-    public static void leafFallReplant(FallingBlock fallingBlock) {
+    static void leafFallReplant(FallingBlock fallingBlock) {
 
         Material material;
 
@@ -191,7 +191,7 @@ public class TreeReplant {
 
     }
 
-    public static boolean isTimeout(Block block) {
+    static boolean isTimeout(Block block) {
         return timeout.contains(block.getLocation());
     }
 

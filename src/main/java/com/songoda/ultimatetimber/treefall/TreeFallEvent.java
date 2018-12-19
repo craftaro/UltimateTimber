@@ -2,7 +2,6 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -26,9 +25,9 @@ public class TreeFallEvent implements Listener {
 
         if (event.getBlock() != null && event.getBlock().getType().name().contains("SAPLING") &&
                 fileConfiguration.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(event.getBlock()))
-                event.setCancelled(true);
+            event.setCancelled(true);
         if (!EventFilter.eventIsValid(event)) return;
-        if(fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
+        if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
 
         TreeChecker treeChecker = new TreeChecker();
         HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());

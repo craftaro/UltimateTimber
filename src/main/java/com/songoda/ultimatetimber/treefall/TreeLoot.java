@@ -4,13 +4,12 @@ import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
 import org.bukkit.Material;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TreeLoot {
+class TreeLoot {
 
-    public static void convertFallingBlock(FallingBlock fallingBlock, boolean hasBonusLoot, boolean hasSilkTouch) {
+    static void convertFallingBlock(FallingBlock fallingBlock, boolean hasBonusLoot, boolean hasSilkTouch) {
 
         Material material = LeafToSaplingConverter.convertLeaves(fallingBlock.getBlockData().getMaterial());
 

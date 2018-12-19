@@ -17,16 +17,28 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 
 public class TreeFallAnimation implements Listener {
 
     /*
+    Register all instances of falling trees.
+     */
+    private static ArrayList<TreeFallAnimation> treeFallAnimationInstances = new ArrayList<>();
+    /*
     This field gets updated based on player permissions, doubles loot from trees
      */
     private boolean hasBonusLoot;
+    /*
+    If a player's tool has the silk touch enchantment, it changes the loot table
+     */
+    private boolean hasSilkTouch;
+    /*
+    This field stores every falling block in this instance of the animation
+    This list is also used to identify if a falling block is a part of an animation
+     */
+    private ArrayList<FallingBlock> fallingBlocks = new ArrayList<>();
 
-    public boolean hasBonusLoot() {
+    private boolean hasBonusLoot() {
         return this.hasBonusLoot;
     }
 
@@ -34,12 +46,7 @@ public class TreeFallAnimation implements Listener {
         this.hasBonusLoot = bool;
     }
 
-    /*
-    If a player's tool has the silk touch enchantment, it changes the loot table
-     */
-    private boolean hasSilkTouch;
-
-    public boolean hasSilkTouch() {
+    private boolean hasSilkTouch() {
         return this.hasSilkTouch;
     }
 
@@ -47,13 +54,7 @@ public class TreeFallAnimation implements Listener {
         this.hasSilkTouch = bool;
     }
 
-    /*
-    This field stores every falling block in this instance of the animation
-    This list is also used to identify if a falling block is a part of an animation
-     */
-    private ArrayList<FallingBlock> fallingBlocks = new ArrayList<>();
-
-    public boolean isFallingTreeBlock(FallingBlock fallingBlock) {
+    private boolean isFallingTreeBlock(FallingBlock fallingBlock) {
         return this.fallingBlocks.contains(fallingBlock);
     }
 
@@ -69,19 +70,14 @@ public class TreeFallAnimation implements Listener {
         return this.fallingBlocks;
     }
 
-    /*
-    Register all instances of falling trees.
-     */
-    public static ArrayList<TreeFallAnimation> treeFallAnimationInstances = new ArrayList<>();
-
-    public boolean isInTreeFallInstance(FallingBlock fallingBlock) {
+    private boolean isInTreeFallInstance(FallingBlock fallingBlock) {
         for (TreeFallAnimation treeFallAnimation : treeFallAnimationInstances)
             if (treeFallAnimation.isFallingTreeBlock(fallingBlock))
                 return true;
         return false;
     }
 
-    public TreeFallAnimation getTreeFallAnimation(FallingBlock fallingBlock) {
+    private TreeFallAnimation getTreeFallAnimation(FallingBlock fallingBlock) {
         for (TreeFallAnimation treeFallAnimation : treeFallAnimationInstances)
             if (treeFallAnimation.isFallingTreeBlock(fallingBlock))
                 return treeFallAnimation;
@@ -102,7 +98,7 @@ public class TreeFallAnimation implements Listener {
     Initially, the tree will start slowly toppling over.
     After a short while, it goes over the tipping point and the fall accelerates.
      */
-    public void startAnimation(Block originalBlock, HashSet<Block> blocks, Player player) {
+    void startAnimation(Block originalBlock, HashSet<Block> blocks, Player player) {
         /*
         This vector makes sure that the entire tree falls in the same direction from the same reference point
          */
@@ -128,7 +124,7 @@ public class TreeFallAnimation implements Listener {
 
         for (Block block : blocks) {
 
-            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0.5,0,0.5), block.getBlockData());
+            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0.5, 0, 0.5), block.getBlockData());
             fallingBlock.setDropItem(false);
 
 

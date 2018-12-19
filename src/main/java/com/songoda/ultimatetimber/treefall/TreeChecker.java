@@ -8,14 +8,87 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class TreeChecker {
+class TreeChecker {
 
+    /*
+    Used to check if a tree is a tree
+     */
+    static List<Material> validMaterials = new ArrayList<>(Arrays.asList(
+            Material.ACACIA_LOG,
+            Material.STRIPPED_ACACIA_LOG,
+            Material.BIRCH_LOG,
+            Material.STRIPPED_BIRCH_LOG,
+            Material.DARK_OAK_LOG,
+            Material.STRIPPED_DARK_OAK_LOG,
+            Material.JUNGLE_LOG,
+            Material.STRIPPED_JUNGLE_LOG,
+            Material.OAK_LOG,
+            Material.STRIPPED_OAK_LOG,
+            Material.SPRUCE_LOG,
+            Material.STRIPPED_SPRUCE_LOG,
+            Material.MUSHROOM_STEM
+    ));
+    /*
+    Used to limit the blocks that constitute a tree
+     */
+    private static List<Material> validTreeMaterials = new ArrayList<>(Arrays.asList(
+            Material.ACACIA_LEAVES,
+            Material.BIRCH_LEAVES,
+            Material.DARK_OAK_LEAVES,
+            Material.JUNGLE_LEAVES,
+            Material.OAK_LEAVES,
+            Material.SPRUCE_LEAVES,
+            Material.COCOA_BEANS,
+            Material.BROWN_MUSHROOM_BLOCK,
+            Material.RED_MUSHROOM_BLOCK
+    ));
+    /*
+    A list of materials found in a forest, allows the plugin to work in dense woods
+     */
+    private static List<Material> forestMaterials = new ArrayList<>(Arrays.asList(
+            Material.AIR,
+            Material.CAVE_AIR,
+            Material.VOID_AIR,
+            Material.VINE,
+            Material.ROSE_BUSH,
+            Material.ORANGE_TULIP,
+            Material.PINK_TULIP,
+            Material.RED_TULIP,
+            Material.POPPY,
+            Material.WHITE_TULIP,
+            Material.OXEYE_DAISY,
+            Material.AZURE_BLUET,
+            Material.BLUE_ORCHID,
+            Material.ALLIUM,
+            Material.DANDELION,
+            Material.DANDELION_YELLOW,
+            Material.LILAC,
+            Material.PEONY,
+            Material.TALL_GRASS,
+            Material.FERN,
+            Material.LARGE_FERN,
+            Material.DEAD_BUSH,
+            Material.BROWN_MUSHROOM,
+            Material.RED_MUSHROOM,
+            Material.GRASS,
+            Material.SPRUCE_SAPLING,
+            Material.OAK_SAPLING,
+            Material.JUNGLE_SAPLING,
+            Material.ACACIA_SAPLING,
+            Material.BIRCH_SAPLING,
+            Material.DARK_OAK_SAPLING,
+            Material.DIRT,
+            Material.COARSE_DIRT,
+            Material.GRASS_BLOCK,
+            Material.SNOW,
+            Material.SNOW_BLOCK
+    ));
     /*
     This stores all the blocks returned later on
      */
     private HashSet<Block> allBlocks = new HashSet<>();
 
-    public HashSet<Block> validTreeHandler(Block block) {
+    HashSet<Block> validTreeHandler(Block block) {
 
         HashSet<Block> blocks = parseTree(block);
 
@@ -28,7 +101,7 @@ public class TreeChecker {
             if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
                 containsLeaves = true;
                 break;
-            } else if(TreeChecker.validMaterials.contains(localBlock.getType())){
+            } else if (TreeChecker.validMaterials.contains(localBlock.getType())) {
                 containsLeaves = true;
                 break;
             }
@@ -46,7 +119,7 @@ public class TreeChecker {
      * @param block block the player originally destroys
      * @return returns null if the tree isn't valid or all blocks in the tree if it isn't
      */
-    public HashSet<Block> parseTree(Block block) {
+    private HashSet<Block> parseTree(Block block) {
 
         /*
         Check if material is parsed by this plugin
@@ -202,81 +275,5 @@ public class TreeChecker {
         return allBlocks;
 
     }
-
-    /*
-    Used to check if a tree is a tree
-     */
-    public static List<Material> validMaterials = new ArrayList<>(Arrays.asList(
-            Material.ACACIA_LOG,
-            Material.STRIPPED_ACACIA_LOG,
-            Material.BIRCH_LOG,
-            Material.STRIPPED_BIRCH_LOG,
-            Material.DARK_OAK_LOG,
-            Material.STRIPPED_DARK_OAK_LOG,
-            Material.JUNGLE_LOG,
-            Material.STRIPPED_JUNGLE_LOG,
-            Material.OAK_LOG,
-            Material.STRIPPED_OAK_LOG,
-            Material.SPRUCE_LOG,
-            Material.STRIPPED_SPRUCE_LOG,
-            Material.MUSHROOM_STEM
-    ));
-
-    /*
-    Used to limit the blocks that constitute a tree
-     */
-    public static List<Material> validTreeMaterials = new ArrayList<>(Arrays.asList(
-            Material.ACACIA_LEAVES,
-            Material.BIRCH_LEAVES,
-            Material.DARK_OAK_LEAVES,
-            Material.JUNGLE_LEAVES,
-            Material.OAK_LEAVES,
-            Material.SPRUCE_LEAVES,
-            Material.COCOA_BEANS,
-            Material.BROWN_MUSHROOM_BLOCK,
-            Material.RED_MUSHROOM_BLOCK
-    ));
-
-    /*
-    A list of materials found in a forest, allows the plugin to work in dense woods
-     */
-    private static List<Material> forestMaterials = new ArrayList<>(Arrays.asList(
-            Material.AIR,
-            Material.CAVE_AIR,
-            Material.VOID_AIR,
-            Material.VINE,
-            Material.ROSE_BUSH,
-            Material.ORANGE_TULIP,
-            Material.PINK_TULIP,
-            Material.RED_TULIP,
-            Material.POPPY,
-            Material.WHITE_TULIP,
-            Material.OXEYE_DAISY,
-            Material.AZURE_BLUET,
-            Material.BLUE_ORCHID,
-            Material.ALLIUM,
-            Material.DANDELION,
-            Material.DANDELION_YELLOW,
-            Material.LILAC,
-            Material.PEONY,
-            Material.TALL_GRASS,
-            Material.FERN,
-            Material.LARGE_FERN,
-            Material.DEAD_BUSH,
-            Material.BROWN_MUSHROOM,
-            Material.RED_MUSHROOM,
-            Material.GRASS,
-            Material.SPRUCE_SAPLING,
-            Material.OAK_SAPLING,
-            Material.JUNGLE_SAPLING,
-            Material.ACACIA_SAPLING,
-            Material.BIRCH_SAPLING,
-            Material.DARK_OAK_SAPLING,
-            Material.DIRT,
-            Material.COARSE_DIRT,
-            Material.GRASS_BLOCK,
-            Material.SNOW,
-            Material.SNOW_BLOCK
-    ));
 
 }

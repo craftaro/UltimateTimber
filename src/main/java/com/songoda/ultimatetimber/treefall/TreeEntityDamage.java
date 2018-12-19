@@ -4,9 +4,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 
-public class TreeEntityDamage {
+class TreeEntityDamage {
 
-    public static void runDamage(FallingBlock fallingBlock) {
+    static void runDamage(FallingBlock fallingBlock) {
 
         for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
 

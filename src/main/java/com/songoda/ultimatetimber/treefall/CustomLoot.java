@@ -23,7 +23,7 @@ public class CustomLoot {
      */
     private static HashMap<ItemStack, Double> itemMap = new HashMap<>();
 
-    public static void doCustomItemDrop(Location location) {
+    static void doCustomItemDrop(Location location) {
         for (ItemStack itemStack : itemMap.keySet())
             if ((ThreadLocalRandom.current().nextDouble()) < itemMap.get(itemStack) / 100)
                 location.getWorld().dropItem(location, itemStack);

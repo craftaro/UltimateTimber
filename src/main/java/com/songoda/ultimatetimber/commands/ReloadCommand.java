@@ -7,13 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReloadCommand {
+class ReloadCommand {
 
-    public static void reloadConfig(CommandSender commandSender) {
+    static void reloadConfig(CommandSender commandSender) {
 
-        if(commandSender instanceof Player){
+        if (commandSender instanceof Player) {
 
-            if(!commandSender.hasPermission("ut.reload")){
+            if (!commandSender.hasPermission("ut.reload")) {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou don't have permission!"));
                 return;
             }
