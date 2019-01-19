@@ -4,7 +4,7 @@ import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.treefall.CustomLoot;
 import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
-import com.songoda.ultimatetimber.treefall.TreeFallEvent;
+import com.songoda.ultimatetimber.treefall.TreeFallListener;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,7 +48,7 @@ public class UltimateTimber extends JavaPlugin {
         /*
         Register the main event that handles toppling down trees
          */
-        Bukkit.getServer().getPluginManager().registerEvents(new TreeFallEvent(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new TreeFallListener(), this);
 
         /*
         Prevent falling blocks from forming new blocks on the floor

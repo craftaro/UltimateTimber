@@ -81,8 +81,7 @@ class NoAnimationTreeDestroyer {
             }
 
         }
-
-
+        
     }
 
     static ItemStack getItem(Material material) {

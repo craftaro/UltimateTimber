@@ -1,7 +1,10 @@
 package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.api.events.TreeFallEvent;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -12,7 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.HashSet;
 
-public class TreeFallEvent implements Listener {
+public class TreeFallListener implements Listener {
 
     /*
     This is the starting point for the whole effect
@@ -49,6 +52,10 @@ public class TreeFallEvent implements Listener {
         if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
             TreeSounds.tipOverNoise(event.getBlock().getLocation());
 
+        //Call event that tree will fall
+        TreeFallEvent tfe = new TreeFallEvent(event.getPlayer(), treeChecker, event.getBlock());
+        Bukkit.getPluginManager().callEvent(tfe);
+        
         if (fileConfiguration.getBoolean(DefaultConfig.SHOW_ANIMATION)) {
             TreeFallAnimation treeFallAnimation = new TreeFallAnimation();
             treeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
@@ -56,7 +63,7 @@ public class TreeFallEvent implements Listener {
             NoAnimationTreeDestroyer.destroyTree(blocks, event.getPlayer().hasPermission("ultimatetimber.bonusloot"),
                     event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH));
         }
-
+        
     }
 
 }

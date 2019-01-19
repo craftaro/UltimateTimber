@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-class TreeChecker {
+public class TreeChecker {
 
     /*
     Used to check if a tree is a tree
@@ -112,12 +112,19 @@ class TreeChecker {
         return blocks;
 
     }
+    
+    /*
+    Returns all of the blocks in this tree
+     */
+    public HashSet<Block> getAllBlocks(){
+    	return allBlocks;
+    }
 
     /**
      * This parses a tree; returns a hashset if it is a valid tree, or returns null if it isn't
      *
      * @param block block the player originally destroys
-     * @return returns null if the tree isn't valid or all blocks in the tree if it isn't
+     * @return returns all blocks in the tree if it is valid or null if the tree isn't
      */
     private HashSet<Block> parseTree(Block block) {
 
