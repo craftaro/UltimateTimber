@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.api.events.TreeFallEvent;
+import com.songoda.ultimatetimber.api.events.TreeFellEvent;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 
 import org.bukkit.Bukkit;
@@ -42,7 +43,12 @@ public class TreeFallListener implements Listener {
          */
         if (blocks == null)
             return;
-
+        
+   	  	//Call event that tree will fall
+        TreeFallEvent treeFallEvent = new TreeFallEvent(event.getPlayer(), treeChecker, event.getBlock());
+        Bukkit.getPluginManager().callEvent(treeFallEvent);
+        if(treeFallEvent.isCancelled()) return;
+        
         /*
         Everything beyond this point assumes that the tree was valid
          */
@@ -52,10 +58,6 @@ public class TreeFallListener implements Listener {
         if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
             TreeSounds.tipOverNoise(event.getBlock().getLocation());
 
-        //Call event that tree will fall
-        TreeFallEvent tfe = new TreeFallEvent(event.getPlayer(), treeChecker, event.getBlock());
-        Bukkit.getPluginManager().callEvent(tfe);
-        
         if (fileConfiguration.getBoolean(DefaultConfig.SHOW_ANIMATION)) {
             TreeFallAnimation treeFallAnimation = new TreeFallAnimation();
             treeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
@@ -63,6 +65,10 @@ public class TreeFallListener implements Listener {
             NoAnimationTreeDestroyer.destroyTree(blocks, event.getPlayer().hasPermission("ultimatetimber.bonusloot"),
                     event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH));
         }
+        
+        //Call event that a tree has fell
+        TreeFellEvent treeFellEvent = new TreeFellEvent(event.getPlayer(), treeChecker, event.getBlock());
+        Bukkit.getPluginManager().callEvent(treeFellEvent);
         
     }
 
