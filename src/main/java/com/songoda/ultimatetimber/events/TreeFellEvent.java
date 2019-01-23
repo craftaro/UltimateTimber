@@ -1,20 +1,17 @@
-package com.songoda.ultimatetimber.api.events;
+package com.songoda.ultimatetimber.events;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import com.songoda.ultimatetimber.treefall.TreeChecker;
 
 /**
- * Called when a tree will fall
+ * Called when a tree fell
  */
-public class TreeFallEvent extends TreeEvent implements Cancellable {
-	
-	boolean cancelled = false;
-	
-    public TreeFallEvent(Player player, TreeChecker treeChecker, Block broke) {
+public class TreeFellEvent extends TreeEvent {
+
+    public TreeFellEvent(Player player, TreeChecker treeChecker, Block broke) {
         super(player, treeChecker, broke);
     }
 
@@ -29,14 +26,5 @@ public class TreeFallEvent extends TreeEvent implements Cancellable {
         return handlers;
     }
 
-    @Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
 	
 }

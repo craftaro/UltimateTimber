@@ -1,9 +1,9 @@
 package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.api.events.TreeFallEvent;
-import com.songoda.ultimatetimber.api.events.TreeFellEvent;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.events.TreeFallEvent;
+import com.songoda.ultimatetimber.events.TreeFellEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;

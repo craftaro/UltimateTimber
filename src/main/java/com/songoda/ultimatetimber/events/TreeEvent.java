@@ -1,4 +1,4 @@
-package com.songoda.ultimatetimber.api.events;
+package com.songoda.ultimatetimber.events;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
