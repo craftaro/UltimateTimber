@@ -10,11 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /*
 Note: In this plugin, I have called the act of a tree falling over with pseudo-physics "toppling over". This is reflected
@@ -27,6 +29,7 @@ public class UltimateTimber extends JavaPlugin {
     private static UltimateTimber INSTANCE;
     private final String prefix = "&8[&6UltimateTimber&8]";
     private List<World> validWorlds = new ArrayList<>();
+    private List<UUID> isNotChopping = new ArrayList<>();
 
     public static UltimateTimber getInstance() {
         return INSTANCE;
@@ -40,7 +43,7 @@ public class UltimateTimber extends JavaPlugin {
         INSTANCE = this;
 
         console.sendMessage(Methods.formatText("&a============================="));
-        console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Brianna <3&7!"));
+        console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
         console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
         /*
         Register the main event that handles toppling down trees
@@ -101,5 +104,19 @@ public class UltimateTimber extends JavaPlugin {
         }
         return true;
     }
+
+    public boolean toggleChopping(Player player) {
+        if (!isNotChopping.contains(player.getUniqueId())) {
+            isNotChopping.add(player.getUniqueId());
+            return false;
+        }
+        isNotChopping.remove(player.getUniqueId());
+        return true;
+    }
+
+    public boolean isChopping(Player player) {
+        return !isNotChopping.contains(player.getUniqueId());
+    }
+
 
 }

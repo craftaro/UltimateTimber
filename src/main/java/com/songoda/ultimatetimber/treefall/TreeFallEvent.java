@@ -29,6 +29,8 @@ public class TreeFallEvent implements Listener {
         if (!EventFilter.eventIsValid(event)) return;
         if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
 
+        if (!UltimateTimber.getInstance().isChopping(event.getPlayer())) return;
+
         TreeChecker treeChecker = new TreeChecker();
         HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());
 

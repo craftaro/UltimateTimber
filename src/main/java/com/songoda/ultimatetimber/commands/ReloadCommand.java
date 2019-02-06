@@ -10,22 +10,10 @@ import org.bukkit.entity.Player;
 class ReloadCommand {
 
     static void reloadConfig(CommandSender commandSender) {
-
-        if (commandSender instanceof Player) {
-
-            if (!commandSender.hasPermission("ut.reload")) {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou don't have permission!"));
-                return;
-            }
-
-        }
-
         UltimateTimber plugin = UltimateTimber.getInstance();
         plugin.reloadConfig();
         CustomLoot.initializeCustomItems();
         commandSender.sendMessage(Methods.formatText(plugin.getPrefix() + " &7Configuration reloaded"));
-
-
     }
 
 }
