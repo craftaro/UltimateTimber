@@ -9,9 +9,9 @@ public class ToggleCommand {
 
     public static void toggleChopping(Player player) {
         if (UltimateTimber.getInstance().toggleChopping(player)) {
-            player.sendMessage(Methods.formatText("UT Chopping Mode: &aEnabled"));
+            player.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &aEnabled"));
         } else {
-            player.sendMessage(Methods.formatText("UT Chopping Mode: &cDisabled"));
+            player.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &cDisabled"));
         }
     }
 
