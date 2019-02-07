@@ -97,9 +97,10 @@ public class TreeFallAnimation implements Listener, Runnable {
     }
 
     private void unregisterTreeFallAnimation() {
-        if (this.fallingBlocks.isEmpty())
+        if (this.fallingBlocks.isEmpty()) {
             treeFallAnimationInstances.remove(this);
-        Bukkit.getScheduler().cancelTask(this.fallingBlockTaskId);
+            Bukkit.getScheduler().cancelTask(this.fallingBlockTaskId);
+        }
     }
     
     /*

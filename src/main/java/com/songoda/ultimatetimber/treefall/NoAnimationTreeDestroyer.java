@@ -1,10 +1,8 @@
 package com.songoda.ultimatetimber.treefall;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -22,15 +20,9 @@ class NoAnimationTreeDestroyer {
         } else if (!blocks.stream().filter(b -> b.getType() == Material.RED_MUSHROOM_BLOCK).collect(Collectors.toList()).isEmpty()) {
             leavesType = Material.RED_MUSHROOM_BLOCK;
         }
-        
-        // DEBUG ---- REMOVE
-        Set<Block> uniqueBlocks = new HashSet<>();
 
         // Drop loot and plant a new sapling
         for (Block block : blocks) {
-            if (!uniqueBlocks.contains(block) && block.getType().name().contains("LOG"))
-                uniqueBlocks.add(block);
-            
             TreeLoot.dropTreeLoot(block.getBlockData(), block.getLocation().clone().add(0.5, 0.5, 0.5), hasBonusLoot, hasSilkTouch);
 
             if (leavesType != null) {
@@ -39,9 +31,6 @@ class NoAnimationTreeDestroyer {
                 TreeReplant.replaceOriginalBlock(block);
             }
         }
-        
-        // DEBUG ---- REMOVE
-        Bukkit.broadcastMessage(uniqueBlocks.size() + "");
     }
 
     static ItemStack getItem(Material material) {
