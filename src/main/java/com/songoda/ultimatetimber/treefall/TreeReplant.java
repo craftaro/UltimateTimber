@@ -28,8 +28,8 @@ class TreeReplant {
             return;
         }
 
-        if (!block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.DIRT) &&
-                !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.COARSE_DIRT) && !block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType().equals(Material.PODZOL)) {
+        Material belowBlockType = block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType();
+        if (!belowBlockType.equals(Material.DIRT) && !belowBlockType.equals(Material.COARSE_DIRT) && !belowBlockType.equals(Material.PODZOL)) {
             block.setType(Material.AIR);
             return;
         }
