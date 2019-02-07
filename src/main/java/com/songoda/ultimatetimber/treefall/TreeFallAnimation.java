@@ -2,6 +2,8 @@ package com.songoda.ultimatetimber.treefall;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -123,17 +125,15 @@ public class TreeFallAnimation implements Listener {
             setHasSilkTouch(false);
 
         for (Block block : blocks) {
-
-            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0.5, 0, 0.5), block.getBlockData());
-            fallingBlock.setDropItem(false);
-
-
-            registerFallingBlock(fallingBlock);
-
+            
             /*
             Dropping air causes some issues
              */
             if (block.getType().equals(Material.AIR)) continue;
+
+            FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().clone().add(0.5, 0, 0.5), block.getBlockData());
+            fallingBlock.setDropItem(false);
+            registerFallingBlock(fallingBlock);
 
                         /*
             Remove original block
@@ -233,7 +233,7 @@ public class TreeFallAnimation implements Listener {
         FallingBlock fallingBlock = (FallingBlock) event.getEntity();
 
         runFallingBlockImpact(fallingBlock);
-
+        
     }
 
     private void runFallingBlockImpact(FallingBlock fallingBlock) {
@@ -243,13 +243,12 @@ public class TreeFallAnimation implements Listener {
         if (treeFallAnimation.getAllFallingBlocks().isEmpty())
             unregisterTreeFallAnimation();
 
-        UltimateTimber plugin = UltimateTimber.getInstance();
-        FileConfiguration fileConfiguration = plugin.getConfig();
+        FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
 
         /*
         Run block fall aftermath
          */
-        TreeLoot.convertFallingBlock(fallingBlock, treeFallAnimation.hasBonusLoot(), treeFallAnimation.hasSilkTouch());
+        TreeLoot.dropTreeLoot(fallingBlock.getBlockData(), fallingBlock.getLocation(), treeFallAnimation.hasBonusLoot(), treeFallAnimation.hasSilkTouch());
         if (UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_FROM_LEAVES))
             TreeReplant.leafFallReplant(fallingBlock);
         if (fileConfiguration.getBoolean(DefaultConfig.DAMAGE_PLAYERS))

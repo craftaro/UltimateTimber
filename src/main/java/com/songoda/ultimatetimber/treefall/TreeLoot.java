@@ -1,68 +1,80 @@
 package com.songoda.ultimatetimber.treefall;
 
-import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
+import java.util.Random;
+
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.FallingBlock;
+import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.concurrent.ThreadLocalRandom;
+import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
 
 class TreeLoot {
-
-    static void convertFallingBlock(FallingBlock fallingBlock, boolean hasBonusLoot, boolean hasSilkTouch) {
-
-        Material material = LeafToSaplingConverter.convertLeaves(fallingBlock.getBlockData().getMaterial());
-
-        if (material.equals(Material.VINE))
+    
+    static Random random = new Random();
+    
+    static void dropTreeLoot(BlockData blockData, Location location, boolean hasBonusLoot, boolean hasSilkTouch) {
+        World world = location.getWorld();
+        Material originalMaterial = blockData.getMaterial();
+        Material material = LeafToSaplingConverter.convertLeaves(originalMaterial);
+        
+        if (hasSilkTouch) { // No bonus loot for silk touch
+            world.dropItem(location, new ItemStack(originalMaterial, 1));
             return;
-
-        if (hasSilkTouch) {
+        }
+        
+        switch (material) {
+        case VINE:
+        case MUSHROOM_STEM:
+            break;
+            
+        case BROWN_MUSHROOM_BLOCK:
+        case RED_MUSHROOM_BLOCK:
+            boolean isRed = material.equals(Material.RED_MUSHROOM_BLOCK);
+            int numToDrop = Math.max(0, random.nextInt(10) - 7); // 80% chance to drop nothing, 10% chance for 1, 10% chance for 2
+            if (numToDrop != 0)
+                world.dropItem(location, new ItemStack(isRed ? Material.RED_MUSHROOM : Material.BROWN_MUSHROOM, numToDrop));
+            break;
+            
+        case ACACIA_SAPLING:
+        case BIRCH_SAPLING:
+        case SPRUCE_SAPLING:
+            boolean dropChance = random.nextInt(20) == 0; // 1/20 chance to drop sapling
+            if (dropChance)
+                world.dropItem(location, new ItemStack(material, 1));
+            
             if (hasBonusLoot)
-                fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(fallingBlock.getBlockData().getMaterial(), 1));
-            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(fallingBlock.getBlockData().getMaterial(), 1));
-            CustomLoot.doCustomItemDrop(fallingBlock.getLocation());
-            return;
+                CustomLoot.doCustomItemDrop(location);
+            break;
+            
+        case JUNGLE_SAPLING:
+            boolean jungleDropChance = random.nextInt(40) == 0; // 1/40 chance to drop sapling
+            if (jungleDropChance)
+                world.dropItem(location, new ItemStack(material, 1));
+            
+            if (hasBonusLoot)
+                CustomLoot.doCustomItemDrop(location);
+            break;
+            
+        case DARK_OAK_SAPLING:
+        case OAK_SAPLING:
+            boolean oakDropChance = random.nextInt(20) == 0; // 1/20 chance to drop sapling
+            if (oakDropChance)
+                world.dropItem(location, new ItemStack(material, 1));
+            
+            boolean appleDropChance = random.nextInt(200) == 0; // 1/200 chance to drop apple
+            if (appleDropChance)
+                world.dropItem(location, new ItemStack(Material.APPLE, 1));
+            
+            if (hasBonusLoot)
+                CustomLoot.doCustomItemDrop(location);
+            break;
+            
+        default:
+            world.dropItem(location, new ItemStack(material, 1));
+            break;
         }
-
-        if (material.equals(Material.BROWN_MUSHROOM_BLOCK)) {
-            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(Material.BROWN_MUSHROOM, 1));
-            return;
-        }
-
-        if (material.equals(Material.RED_MUSHROOM_BLOCK)) {
-            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(Material.RED_MUSHROOM, 1));
-            return;
-        }
-
-        if (material.equals(Material.MUSHROOM_STEM)) {
-            return;
-        }
-
-        if (material.equals(Material.ACACIA_SAPLING) ||
-                material.equals(Material.BIRCH_SAPLING) ||
-                material.equals(Material.DARK_OAK_SAPLING) ||
-                material.equals(Material.JUNGLE_SAPLING) ||
-                material.equals(Material.OAK_SAPLING) ||
-                material.equals(Material.SPRUCE_SAPLING)) {
-
-            if (ThreadLocalRandom.current().nextDouble() < 0.05) {
-                if (hasBonusLoot) {
-                    fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(material, 1));
-                }
-                fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(material, 1));
-                CustomLoot.doCustomItemDrop(fallingBlock.getLocation());
-                return;
-            } else {
-                CustomLoot.doCustomItemDrop(fallingBlock.getLocation());
-                return;
-            }
-
-        }
-
-        if (hasBonusLoot)
-            fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(material, 1));
-        fallingBlock.getWorld().dropItem(fallingBlock.getLocation(), new ItemStack(material, 1));
-
     }
 
 

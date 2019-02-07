@@ -47,11 +47,14 @@ public class TreeFallListener implements Listener {
    	  	//Call event that tree will fall
         TreeFallEvent treeFallEvent = new TreeFallEvent(event.getPlayer(), treeChecker, event.getBlock());
         Bukkit.getPluginManager().callEvent(treeFallEvent);
-        if(treeFallEvent.isCancelled()) return;
+        if (treeFallEvent.isCancelled()) return;
         
         /*
         Everything beyond this point assumes that the tree was valid
          */
+        
+        // Do not let any items drop, it will be handled later
+        event.setDropItems(false);
 
         if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());
