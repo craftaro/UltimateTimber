@@ -30,7 +30,7 @@ public class LeafToSaplingConverter {
                 material = org.bukkit.Material.SPRUCE_SAPLING;
                 break;
             default:
-                material = material;
+                break;
 
         }
 

@@ -20,7 +20,7 @@ class EventFilter {
         General catchers
          */
         if (event.isCancelled()
-            || !plugin.getValidWorlds().contains(event.getPlayer().getWorld())
+            || !plugin.isWorldValid(event.getPlayer().getWorld())
             || !TreeChecker.validMaterials.contains(event.getBlock().getType())) return false;
 
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
