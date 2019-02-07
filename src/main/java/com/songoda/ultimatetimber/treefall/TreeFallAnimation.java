@@ -1,7 +1,8 @@
 package com.songoda.ultimatetimber.treefall;
 
-import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,10 +18,10 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.configurations.DefaultConfig;
 
-public class TreeFallAnimation implements Listener {
+public class TreeFallAnimation implements Listener, Runnable {
 
     /*
     Register all instances of falling trees.
@@ -39,6 +40,11 @@ public class TreeFallAnimation implements Listener {
     This list is also used to identify if a falling block is a part of an animation
      */
     private ArrayList<FallingBlock> fallingBlocks = new ArrayList<>();
+    
+    /*
+    The ID of the task that manages the falling block detection
+     */
+    private int fallingBlockTaskId;
 
     private boolean hasBonusLoot() {
         return this.hasBonusLoot;
@@ -93,6 +99,21 @@ public class TreeFallAnimation implements Listener {
     private void unregisterTreeFallAnimation() {
         if (this.fallingBlocks.isEmpty())
             treeFallAnimationInstances.remove(this);
+        Bukkit.getScheduler().cancelTask(this.fallingBlockTaskId);
+    }
+    
+    /*
+    This is used to detect after the falling tree blocks have hit the ground
+    Using the event was too unreliable since multiple entities could hit the ground at the same time
+     */
+    @Override
+    public void run() {
+        Set<FallingBlock> groundedBlocks = new HashSet<>();
+        for (FallingBlock fallingBlock : this.fallingBlocks)
+            if (fallingBlock.isDead()) 
+                groundedBlocks.add(fallingBlock);
+        for (FallingBlock fallingBlock : groundedBlocks)
+            runFallingBlockImpact(fallingBlock);
     }
 
     /*
@@ -149,6 +170,11 @@ public class TreeFallAnimation implements Listener {
             startPhaseOneAnimation(fallingBlock, velocityVector, multiplier);
 
         }
+        
+        /*
+        Kick off a task for detecting when the falling blocks have hit the ground
+         */
+        this.fallingBlockTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(UltimateTimber.getInstance(), this, 0, 1);
 
     }
 
@@ -220,7 +246,7 @@ public class TreeFallAnimation implements Listener {
     }
 
     /*
-    Catch tree blocks falling down
+    Catch tree blocks falling down and prevent them from interacting with the ground
      */
     @EventHandler
     public void blockDrop(EntityChangeBlockEvent event) {
@@ -229,10 +255,6 @@ public class TreeFallAnimation implements Listener {
         if (!isInTreeFallInstance((FallingBlock) event.getEntity())) return;
 
         event.setCancelled(true);
-
-        FallingBlock fallingBlock = (FallingBlock) event.getEntity();
-
-        runFallingBlockImpact(fallingBlock);
         
     }
 
