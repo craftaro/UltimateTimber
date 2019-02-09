@@ -9,6 +9,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
+import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 
 class TreeLoot {
     
@@ -75,7 +76,8 @@ class TreeLoot {
             break;
             
         default:
-            world.dropItem(location, new ItemStack(material, 1));
+            Material dropMaterial = WoodToLogConverter.convert(material);
+            world.dropItem(location, new ItemStack(dropMaterial, 1));
             break;
         }
     }

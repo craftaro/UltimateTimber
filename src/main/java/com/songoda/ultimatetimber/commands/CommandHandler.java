@@ -59,15 +59,15 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
         List<String> completions = new ArrayList<>();
         
-        if (!(commandSender instanceof Player) || args.length == 0 || args.length > 1) 
+        if (args.length == 0 || args.length > 1) 
             return completions;
         
         Set<String> possibleCompletions = new HashSet<>();
         
-        if (permCheck((Player) commandSender, "ultimatetimber.reload")) 
+        if (commandSender.hasPermission("ultimatetimber.reload")) 
             possibleCompletions.add("reload");
         
-        if (permCheck((Player) commandSender, "ultimatetimber.toggle"))
+        if (commandSender.hasPermission("ultimatetimber.toggle") && commandSender instanceof Player)
             possibleCompletions.add("toggle");
         
         StringUtil.copyPartialMatches(args[0], possibleCompletions, completions);

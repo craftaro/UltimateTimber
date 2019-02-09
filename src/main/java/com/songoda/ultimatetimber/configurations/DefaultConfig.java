@@ -38,7 +38,7 @@ public class DefaultConfig {
 
         Configuration configuration = plugin.getConfig();
 
-        configuration.addDefault(MAX_BRANCH_BLOCKS, 75);
+        configuration.addDefault(MAX_BRANCH_BLOCKS, 100);
         configuration.addDefault(LEAVES_FOR_TREE, 5);
         configuration.addDefault(ONLY_BREAK_LOGS_UPWARDS, true);
         configuration.addDefault(ALLOW_MIXED_TREE_TYPES, false);

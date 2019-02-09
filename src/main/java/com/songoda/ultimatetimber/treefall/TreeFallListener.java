@@ -1,9 +1,6 @@
 package com.songoda.ultimatetimber.treefall;
 
-import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.configurations.DefaultConfig;
-import com.songoda.ultimatetimber.events.TreeFallEvent;
-import com.songoda.ultimatetimber.events.TreeFellEvent;
+import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -14,7 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.HashSet;
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.events.TreeFallEvent;
+import com.songoda.ultimatetimber.events.TreeFellEvent;
 
 public class TreeFallListener implements Listener {
 
@@ -26,9 +26,11 @@ public class TreeFallListener implements Listener {
     public void onTreeBreak(BlockBreakEvent event) {
 
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
+        
+        Block block = event.getBlock();
 
-        if (event.getBlock() != null && event.getBlock().getType().name().contains("SAPLING") &&
-                fileConfiguration.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(event.getBlock()))
+        if (block != null && block.getType().name().contains("SAPLING") &&
+                fileConfiguration.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(block))
             event.setCancelled(true);
         if (!EventFilter.eventIsValid(event)) return;
         if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
@@ -36,7 +38,7 @@ public class TreeFallListener implements Listener {
         if (!UltimateTimber.getInstance().isChopping(event.getPlayer())) return;
 
         TreeChecker treeChecker = new TreeChecker();
-        HashSet<Block> blocks = treeChecker.parseTree(event.getBlock());
+        HashSet<Block> blocks = treeChecker.parseTree(block);
 
         /*
         Previous list will be null if no valid tree is found
@@ -45,7 +47,7 @@ public class TreeFallListener implements Listener {
             return;
         
    	  	//Call event that tree will fall
-        TreeFallEvent treeFallEvent = new TreeFallEvent(event.getPlayer(), treeChecker, event.getBlock());
+        TreeFallEvent treeFallEvent = new TreeFallEvent(event.getPlayer(), treeChecker, block);
         Bukkit.getPluginManager().callEvent(treeFallEvent);
         if (treeFallEvent.isCancelled()) return;
         
@@ -59,18 +61,18 @@ public class TreeFallListener implements Listener {
         if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());
         if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
-            TreeSounds.tipOverNoise(event.getBlock().getLocation());
+            TreeSounds.tipOverNoise(block.getLocation());
 
         if (fileConfiguration.getBoolean(DefaultConfig.SHOW_ANIMATION)) {
             TreeFallAnimation treeFallAnimation = new TreeFallAnimation();
-            treeFallAnimation.startAnimation(event.getBlock(), blocks, event.getPlayer());
+            treeFallAnimation.startAnimation(block, blocks, event.getPlayer());
         } else {
             NoAnimationTreeDestroyer.destroyTree(blocks, event.getPlayer().hasPermission("ultimatetimber.bonusloot"),
                     event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH));
         }
         
         //Call event that a tree has fell
-        TreeFellEvent treeFellEvent = new TreeFellEvent(event.getPlayer(), treeChecker, event.getBlock());
+        TreeFellEvent treeFellEvent = new TreeFellEvent(event.getPlayer(), treeChecker, block);
         Bukkit.getPluginManager().callEvent(treeFellEvent);
         
     }
