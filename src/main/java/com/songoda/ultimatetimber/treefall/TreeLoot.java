@@ -19,6 +19,9 @@ class TreeLoot {
         Material originalMaterial = blockData.getMaterial();
         Material material = LeafToSaplingConverter.convertLeaves(originalMaterial);
         
+        if (originalMaterial.equals(Material.AIR) || originalMaterial.equals(Material.CAVE_AIR) || originalMaterial.equals(Material.VOID_AIR))
+            return;
+        
         if (hasSilkTouch) { // No bonus loot for silk touch
             world.dropItem(location, new ItemStack(originalMaterial, 1));
             return;
