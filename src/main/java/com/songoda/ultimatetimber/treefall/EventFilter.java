@@ -21,7 +21,7 @@ class EventFilter {
          */
         if (event.isCancelled()
             || !plugin.isWorldValid(event.getPlayer().getWorld())
-            || !TreeChecker.validMaterials.contains(event.getBlock().getType())) return false;
+            || !TreeChecker.getValidWoodMaterials().contains(event.getBlock().getType())) return false;
 
         FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
         

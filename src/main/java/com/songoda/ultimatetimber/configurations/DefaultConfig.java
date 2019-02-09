@@ -10,15 +10,14 @@ import java.util.Collections;
 public class DefaultConfig {
 
     /*
-    This value is just cached so it can easily and safely be accessed during runtime
-     */
-//    public static Configuration configuration;
-
-    /*
     Storing these values in final strings makes it so you can change the keys or refactor their names later on without
     ever having to alter any code directly.
     Also they are easier to refer to using an IDE.
      */
+    public static final String MAX_BRANCH_BLOCKS = "Max amount of logs that can be broken with one chop";
+    public static final String LEAVES_FOR_TREE = "The number of leaves required to detect a valid tree";
+    public static final String ONLY_BREAK_LOGS_UPWARDS = "Only break logs above the block broken";
+    public static final String ALLOW_MIXED_TREE_TYPES = "Allow mixed log/leaf to be considered as one tree";
     public static final String AXES_ONLY = "Only topple down trees cut down using axes";
     public static final String TIMEOUT_BREAK = "Five second time out before you can break saplings";
     public static final String SNEAK_ONLY = "Only topple down trees cut down while sneaking";
@@ -32,13 +31,17 @@ public class DefaultConfig {
     public static final String CUSTOM_AUDIO = "Use custom sounds for trees falling";
     public static final String SHOW_ANIMATION = "Show tree fall animation";
     public static final String CUSTOM_LOOT_LIST = "Custom loot";
-    private static final String CUSTOM_LOOT_ITEM = "Material:GOLDEN_APPLE,Chance:1";
+    public static final String CUSTOM_LOOT_ITEM = "Material:GOLDEN_APPLE,Chance:1";
 
     public static void initialize() {
         UltimateTimber plugin = UltimateTimber.getInstance();
 
         Configuration configuration = plugin.getConfig();
 
+        configuration.addDefault(MAX_BRANCH_BLOCKS, 75);
+        configuration.addDefault(LEAVES_FOR_TREE, 5);
+        configuration.addDefault(ONLY_BREAK_LOGS_UPWARDS, true);
+        configuration.addDefault(ALLOW_MIXED_TREE_TYPES, false);
         configuration.addDefault(AXES_ONLY, true);
         configuration.addDefault(TIMEOUT_BREAK, true);
         configuration.addDefault(SNEAK_ONLY, false);
@@ -63,7 +66,6 @@ public class DefaultConfig {
 
         plugin.saveConfig();
         plugin.saveDefaultConfig();
-
     }
 
 }

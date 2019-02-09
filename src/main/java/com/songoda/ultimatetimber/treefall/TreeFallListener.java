@@ -36,7 +36,7 @@ public class TreeFallListener implements Listener {
         if (!UltimateTimber.getInstance().isChopping(event.getPlayer())) return;
 
         TreeChecker treeChecker = new TreeChecker();
-        HashSet<Block> blocks = treeChecker.validTreeHandler(event.getBlock());
+        HashSet<Block> blocks = treeChecker.parseTree(event.getBlock());
 
         /*
         Previous list will be null if no valid tree is found

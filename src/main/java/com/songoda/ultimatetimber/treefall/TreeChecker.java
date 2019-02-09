@@ -1,286 +1,289 @@
 package com.songoda.ultimatetimber.treefall;
 
-import com.songoda.ultimatetimber.utils.LogToLeafConverter;
-import org.bukkit.Location;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.utils.LogToLeafConverter;
 
 public class TreeChecker {
 
     /*
-    Used to check if a tree is a tree
+    Used to check if a piece of wood is a part of the tree
      */
-    static List<Material> validMaterials = new ArrayList<>(Arrays.asList(
+    private final static Set<Material> VALID_LOG_MATERIALS = new HashSet<>(Arrays.asList(
             Material.ACACIA_LOG,
+            Material.ACACIA_WOOD,
             Material.STRIPPED_ACACIA_LOG,
+            Material.STRIPPED_ACACIA_WOOD,
             Material.BIRCH_LOG,
+            Material.BIRCH_WOOD,
             Material.STRIPPED_BIRCH_LOG,
+            Material.STRIPPED_BIRCH_WOOD,
             Material.DARK_OAK_LOG,
+            Material.DARK_OAK_WOOD,
             Material.STRIPPED_DARK_OAK_LOG,
+            Material.STRIPPED_DARK_OAK_WOOD,
             Material.JUNGLE_LOG,
+            Material.JUNGLE_WOOD,
             Material.STRIPPED_JUNGLE_LOG,
+            Material.STRIPPED_JUNGLE_WOOD,
             Material.OAK_LOG,
+            Material.OAK_WOOD,
             Material.STRIPPED_OAK_LOG,
+            Material.STRIPPED_OAK_WOOD,
             Material.SPRUCE_LOG,
+            Material.SPRUCE_WOOD,
             Material.STRIPPED_SPRUCE_LOG,
+            Material.STRIPPED_SPRUCE_WOOD,
             Material.MUSHROOM_STEM
     ));
+    
     /*
-    Used to limit the blocks that constitute a tree
+    Used to check if a leaf is a part of the tree
      */
-    private static List<Material> validTreeMaterials = new ArrayList<>(Arrays.asList(
+    private final static Set<Material> VALID_LEAF_MATERIALS = new HashSet<>(Arrays.asList(
             Material.ACACIA_LEAVES,
             Material.BIRCH_LEAVES,
             Material.DARK_OAK_LEAVES,
             Material.JUNGLE_LEAVES,
             Material.OAK_LEAVES,
             Material.SPRUCE_LEAVES,
-            Material.COCOA_BEANS,
             Material.BROWN_MUSHROOM_BLOCK,
             Material.RED_MUSHROOM_BLOCK
     ));
-    /*
-    A list of materials found in a forest, allows the plugin to work in dense woods
+    
+    /**
+     * Gets a Set of all valid wood materials
+     * 
+     * @return A Set of all valid wood materials
      */
-    private static List<Material> forestMaterials = new ArrayList<>(Arrays.asList(
-            Material.AIR,
-            Material.CAVE_AIR,
-            Material.VOID_AIR,
-            Material.VINE,
-            Material.ROSE_BUSH,
-            Material.ORANGE_TULIP,
-            Material.PINK_TULIP,
-            Material.RED_TULIP,
-            Material.POPPY,
-            Material.WHITE_TULIP,
-            Material.OXEYE_DAISY,
-            Material.AZURE_BLUET,
-            Material.BLUE_ORCHID,
-            Material.ALLIUM,
-            Material.DANDELION,
-            Material.DANDELION_YELLOW,
-            Material.LILAC,
-            Material.PEONY,
-            Material.TALL_GRASS,
-            Material.FERN,
-            Material.LARGE_FERN,
-            Material.DEAD_BUSH,
-            Material.BROWN_MUSHROOM,
-            Material.RED_MUSHROOM,
-            Material.GRASS,
-            Material.SPRUCE_SAPLING,
-            Material.OAK_SAPLING,
-            Material.JUNGLE_SAPLING,
-            Material.ACACIA_SAPLING,
-            Material.BIRCH_SAPLING,
-            Material.DARK_OAK_SAPLING,
-            Material.DIRT,
-            Material.COARSE_DIRT,
-            Material.GRASS_BLOCK,
-            Material.SNOW,
-            Material.SNOW_BLOCK
-    ));
-    /*
-    This stores all the blocks returned later on
-     */
-    private HashSet<Block> allBlocks = new HashSet<>();
-
-    HashSet<Block> validTreeHandler(Block block) {
-
-        HashSet<Block> blocks = parseTree(block);
-
-        if (blocks == null)
-            return null;
-
-        boolean containsLeaves = false;
-
-        for (Block localBlock : blocks) {
-            if (TreeChecker.validTreeMaterials.contains(localBlock.getType())) {
-                containsLeaves = true;
-                break;
-            } else if (TreeChecker.validMaterials.contains(localBlock.getType())) {
-                containsLeaves = true;
-                break;
-            }
-        }
-        if (!containsLeaves)
-            return null;
-
-        return blocks;
-
+    public static Set<Material> getValidWoodMaterials() {
+        return VALID_LOG_MATERIALS;
     }
     
-    /*
-    Returns all of the blocks in this tree
-     */
-    public HashSet<Block> getAllBlocks(){
-    	return allBlocks;
+    private static final Set<Vector> VALID_TRUNK_OFFSETS, VALID_BRANCH_OFFSETS, VALID_LEAF_OFFSETS;
+    
+    private HashSet<Block> treeBlocks;
+    private int maxDistanceFromLog;
+    private Material logType, leafType;
+    private int startingBlockY;
+    private int maxBranchBlocksAllowed;
+    private int numLeavesRequiredForTree;
+    private boolean allowMixedTreeTypes;
+    private boolean onlyBreakLogsUpwards;
+    private boolean isMushroom = false;
+    
+    static {
+        VALID_BRANCH_OFFSETS = new HashSet<>();
+        VALID_TRUNK_OFFSETS = new HashSet<>();
+        VALID_LEAF_OFFSETS = new HashSet<>();
+        
+        // 3x2x3 centered around log, excluding -y axis
+        for (int x = -1; x <= 1; x++)
+            for (int y = 0; y <= 1; y++)
+                for (int z = -1; z <= 1; z++)
+                    VALID_BRANCH_OFFSETS.add(new Vector(x, y, z));
+        
+        // 3x3x3 centered around log
+        for (int x = -1; x <= 1; x++)
+            for (int y = -1; y <= 1; y++)
+                for (int z = -1; z <= 1; z++)
+                    VALID_TRUNK_OFFSETS.add(new Vector(x, y, z));
+        
+        // Adjacent blocks to log
+        for (int i = -1; i <= 1; i += 2) {
+            VALID_LEAF_OFFSETS.add(new Vector(i, 0, 0));
+            VALID_LEAF_OFFSETS.add(new Vector(0, i, 0));
+            VALID_LEAF_OFFSETS.add(new Vector(0, 0, i));
+        }
     }
 
     /**
-     * This parses a tree; returns a hashset if it is a valid tree, or returns null if it isn't
-     *
-     * @param block block the player originally destroys
-     * @return returns all blocks in the tree if it is valid or null if the tree isn't
+     * Parses a block for a potential tree
+     * 
+     * @param block The based block of the potential tree
+     * @return A HashSet of all blocks in the tree, or null if no tree was found
      */
-    private HashSet<Block> parseTree(Block block) {
-
-        /*
-        Check if material is parsed by this plugin
-         */
-        if (!validMaterials.contains(block.getType())) return null;
-
-        /*
-        offset determines the search radius around the main trunk
-        maxheight sets the maximum height the plugin will crawl through to find a tree
-         */
-        int offset = 7;
-        int maxHeight = 31;
-
-        /*
-        Keep track of the location of the original block to see how much we've deviated from it
-         */
-        Location centralBlockLocation = block.getLocation().clone();
-        /*
-        Keep a list of all location that are considered to be a part of the trunk. This is necessary as scans are made
-        around each one as the search crawls up to detect leaves or building blocks.
-         */
-        HashSet<Location> trunkList = new HashSet<>();
-        trunkList.add(centralBlockLocation);
-        Material originalMaterial = block.getType();
-
-        for (int i = 0; i < maxHeight; i++) {
-
-            /*
-            For some reason, using the iterator to gradually clear hashset elements isn't working as the hashset
-            claims not to contain said elements. This is a bit of a dirty workarounf dor that issue.
-             */
-            HashSet<Location> cleanLogSet = new HashSet<>();
-            for (Location location : trunkList)
-                if (location.getBlock().getType().equals(originalMaterial) ||
-                        location.getBlock().getType().equals(LogToLeafConverter.convert(originalMaterial)) ||
-                        location.clone().add(new Vector(0, -1, 0)).getBlock().getType().equals(originalMaterial))
-                    cleanLogSet.add(location);
-
-            if (cleanLogSet.isEmpty()) {
-                if (i > 2)
-                    return allBlocks;
-                else
-                    return null;
-            }
-
-
-            trunkList = cleanLogSet;
-
-            /*
-            Search for adjacent trunks
-             */
-            Iterator<Location> iterator = trunkList.iterator();
-            HashSet<Location> expandedTrunkSet = new HashSet<>();
-            while (iterator.hasNext()) {
-
-                Location trunkLocation = iterator.next();
-                allBlocks.add(trunkLocation.getBlock());
-
-                int radMin, radMax;
-
-                if (i > 5) {
-                    radMin = -2;
-                    radMax = 3;
-                } else {
-                    radMin = -1;
-                    radMax = 2;
-                }
-
-                for (int x = radMin; x < radMax; x++)
-                    for (int z = radMin; z < radMax; z++) {
-
-                        Location currentLocation = trunkLocation.clone().add(new Vector(x, 0, z));
-                        if (Math.abs(currentLocation.getX() - trunkLocation.getX()) > offset ||
-                                Math.abs(currentLocation.getZ() - trunkLocation.getZ()) > offset)
-                            continue;
-                        if (currentLocation.getBlock().getType().equals(originalMaterial)) {
-                            expandedTrunkSet.add(currentLocation);
-                            allBlocks.add(currentLocation.getBlock());
-                        }
-
-                    }
-
-            }
-
-            trunkList.addAll(expandedTrunkSet);
-
-            /*
-             Check if the tree is valid and add leaves
-             */
-            for (Location location : trunkList) {
-
-                int radMin, radMax;
-
-                if (i > 5) {
-                    radMin = -4;
-                    radMax = 6;
-                } else {
-                    radMin = -3;
-                    radMax = 5;
-                }
-
-
-                for (int x = radMin; x < radMax; x++)
-                    for (int z = radMin; z < radMax; z++) {
-
-                        Block currentBlock = location.clone().add(x, 0, z).getBlock();
-
-                        /*
-                        Check if this block is already in the block list
-                         */
-                        if (allBlocks.contains(currentBlock))
-                            continue;
-
-                        /*
-                        Add a bit of tolerance for trees that exist on dirt ledges
-                         */
-                        if ((currentBlock.getType().equals(Material.DIRT) ||
-                                currentBlock.getType().equals(Material.COARSE_DIRT) ||
-                                currentBlock.getType().equals(Material.GRASS_BLOCK)) &&
-                                i > 1) {
-                            return null;
-                        }
-
-                        /*
-                        Exclude anything that isn't a part of a tree or a forest to avoid destroying houses
-                        */
-                        if (!validMaterials.contains(currentBlock.getType()) &&
-                                !validTreeMaterials.contains(currentBlock.getType()) &&
-                                !forestMaterials.contains(currentBlock.getType()))
-                            return null;
-
-                        /*
-                        This adds blocks to later be felled
-                        Only take blocks of the same tree type
-                        */
-                        if ((LogToLeafConverter.convert(originalMaterial) != null &&
-                                LogToLeafConverter.convert(originalMaterial).equals(currentBlock.getType())) ||
-                                (originalMaterial.equals(Material.MUSHROOM_STEM) &&
-                                        (currentBlock.getType().equals(Material.RED_MUSHROOM_BLOCK) ||
-                                                currentBlock.getType().equals(Material.BROWN_MUSHROOM_BLOCK)))) {
-                            allBlocks.add(currentBlock);
-
-                        }
-
-                    }
-
-                location.add(new Vector(0, 1, 0));
-
-            }
-
+    protected HashSet<Block> parseTree(Block block) {
+        this.treeBlocks = new HashSet<>();
+        this.treeBlocks.add(block);
+        
+        // Set tree information
+        this.logType = block.getType();
+        this.leafType = LogToLeafConverter.convert(this.logType);
+        this.startingBlockY = block.getLocation().getBlockY();
+        this.isMushroom = this.logType.equals(Material.MUSHROOM_STEM);
+        
+        // Load settings for algorithm
+        FileConfiguration config = UltimateTimber.getInstance().getConfig();
+        this.allowMixedTreeTypes = config.getBoolean(DefaultConfig.ALLOW_MIXED_TREE_TYPES);
+        this.maxBranchBlocksAllowed = config.getInt(DefaultConfig.MAX_BRANCH_BLOCKS);
+        this.numLeavesRequiredForTree = config.getInt(DefaultConfig.LEAVES_FOR_TREE);
+        this.onlyBreakLogsUpwards = config.getBoolean(DefaultConfig.ONLY_BREAK_LOGS_UPWARDS);
+        
+        // Detect tree trunk
+        Set<Block> trunkBlocks = new HashSet<>();
+        trunkBlocks.add(block);
+        Block targetBlock = block;
+        while (this.isValidLogType((targetBlock = targetBlock.getRelative(BlockFace.UP)).getType())) {
+            this.treeBlocks.add(targetBlock);
+            trunkBlocks.add(targetBlock);
         }
-
-        return allBlocks;
-
+        
+        // Tree must be at least 2 blocks tall
+        if (this.treeBlocks.size() < 2)
+            return null;
+        
+        // Detect branches off the main trunk
+        for (Block trunkBlock : trunkBlocks)
+            this.recursiveBranchSearch(trunkBlock);
+        
+        // Make it so trees only break as many leaves as they have to
+        this.maxDistanceFromLog = this.getMaxLeafDistanceFromLog();
+        
+        // Detect leaves off the trunk/branches
+        Set<Block> branchBlocks = new HashSet<Block>(this.treeBlocks);
+        for (Block branchBlock : branchBlocks)
+            this.recursiveLeafSearch(branchBlock, 1);
+        
+        // Trees need at least 5 leaves
+        if (!this.isMushroom && this.treeBlocks.stream().filter(x -> this.isValidLeafType(x.getType())).count() < this.numLeavesRequiredForTree)
+            return null;
+        
+        return this.treeBlocks;
+    }
+    
+    /**
+     * Recursively searches for branches off a given block
+     * 
+     * @param block The next block to check for a branch
+     */
+    private void recursiveBranchSearch(Block block) {
+        if (this.treeBlocks.size() > this.maxBranchBlocksAllowed)
+            return;
+        
+        for (Vector offset : this.onlyBreakLogsUpwards ? VALID_BRANCH_OFFSETS : VALID_TRUNK_OFFSETS) {
+            Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
+            if (this.isValidLogType(targetBlock.getType()) && !this.treeBlocks.contains(targetBlock)) {
+                this.treeBlocks.add(targetBlock);
+                if (!this.onlyBreakLogsUpwards || targetBlock.getLocation().getBlockY() > this.startingBlockY)
+                    this.recursiveBranchSearch(targetBlock);
+            }
+        }
+    }
+    
+    /**
+     * Recursively searches for leaves that are next to this tree
+     * 
+     * @param block The next block to check for a leaf
+     * @param distanceFromLog The distance this leaf is from a log
+     */
+    private void recursiveLeafSearch(Block block, int distanceFromLog) {
+        if (distanceFromLog > this.maxDistanceFromLog)
+            return;
+        
+        for (Vector offset : !this.isMushroom ? VALID_LEAF_OFFSETS : VALID_TRUNK_OFFSETS) {
+            Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
+            if (this.isValidLeafType(targetBlock.getType()) || (this.isMushroom && this.isMushroomBlock(targetBlock.getType()))) {
+                if (!this.treeBlocks.contains(targetBlock) && !doesLeafBorderInvalidLog(targetBlock))
+                    this.treeBlocks.add(targetBlock);
+                this.recursiveLeafSearch(targetBlock, distanceFromLog + 1);
+            }
+        }
+    }
+    
+    /**
+     * Checks if a leaf is bordering a log that isn't part of this tree
+     * 
+     * @param block The block to check
+     * @return If the leaf borders an invalid log
+     */
+    private boolean doesLeafBorderInvalidLog(Block block) {
+        for (Vector offset : VALID_TRUNK_OFFSETS) {
+            Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
+            if (this.isValidLogType(targetBlock.getType()) && !this.treeBlocks.contains(targetBlock))
+                return true;
+        }
+        return false;
+    }
+    
+    private boolean isValidLogType(Material material) {
+        if (this.allowMixedTreeTypes)
+            return VALID_LOG_MATERIALS.contains(material);
+        return material.equals(this.logType);
+    }
+    
+    private boolean isValidLeafType(Material material) {
+        if (this.allowMixedTreeTypes)
+            return VALID_LEAF_MATERIALS.contains(material);
+        return material.equals(this.leafType);
+    }
+    
+    /**
+     * Checks if a block is a mushroom head block
+     * 
+     * @param block The block to check
+     * @return If the given block is a mushroom
+     */
+    private boolean isMushroomBlock(Material material) {
+        return material.equals(Material.BROWN_MUSHROOM_BLOCK) || material.equals(Material.RED_MUSHROOM_BLOCK);
+    }
+    
+    /**
+     * Gets the max distance away from a log based on how many logs there are and the leaf type
+     * 
+     * @return The max distance away a leaf can be from a log
+     */
+    private int getMaxLeafDistanceFromLog() {
+        int numLogs = this.treeBlocks.size();
+        
+        switch (this.leafType) {
+        
+        case ACACIA_LEAVES:
+            return 5;
+            
+        case BIRCH_LEAVES: 
+            return 4;
+            
+        case DARK_OAK_LEAVES:
+            return 5;
+            
+        case JUNGLE_LEAVES:
+            if (numLogs > 15)
+                return 5;
+            return 4;
+            
+        case OAK_LEAVES:
+            if (numLogs > 15)
+                return 6;
+            if (numLogs > 6)
+                return 5;
+            return 4;
+            
+        case SPRUCE_LEAVES:
+            if (numLogs > 15)
+                return 6;
+            return 5;
+            
+        case MUSHROOM_STEM:
+            return 4;
+        
+        default:
+            return -1;
+        }
+    }
+    
+    public HashSet<Block> getTreeBlocks() {
+        return this.treeBlocks;
     }
 
 }
