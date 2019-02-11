@@ -24,7 +24,7 @@ class TreeLoot {
             return;
         
         if (hasSilkTouch) { // No bonus loot for silk touch
-            world.dropItem(location, new ItemStack(originalMaterial, 1));
+            world.dropItem(location, new ItemStack(WoodToLogConverter.convert(originalMaterial), 1));
             return;
         }
         

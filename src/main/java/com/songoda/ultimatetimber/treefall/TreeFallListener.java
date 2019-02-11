@@ -15,6 +15,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
+import com.songoda.ultimatetimber.hooks.McMMOHook;
 
 public class TreeFallListener implements Listener {
 
@@ -57,6 +58,9 @@ public class TreeFallListener implements Listener {
         
         // Do not let any items drop, it will be handled later
         event.setDropItems(false);
+        
+        // Add to mcMMO XP if installed
+        McMMOHook.updateWoodCuttingSkill(event.getPlayer(), blocks);
 
         if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());

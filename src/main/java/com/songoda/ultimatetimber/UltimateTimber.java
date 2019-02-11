@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.treefall.CustomLoot;
 import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallListener;
@@ -73,6 +74,12 @@ public class UltimateTimber extends JavaPlugin {
         Cache valid world names for later use
          */
         this.reloadValidWorlds();
+        
+        /*
+        Check for McMMO
+         */
+        if (Bukkit.getPluginManager().isPluginEnabled("mcMMO")) 
+            McMMOHook.setEnabled();
         
         /*
         Register command executor and tab completer
