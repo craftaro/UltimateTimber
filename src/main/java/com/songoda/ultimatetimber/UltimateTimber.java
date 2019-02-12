@@ -78,8 +78,13 @@ public class UltimateTimber extends JavaPlugin {
         /*
         Check for McMMO
          */
-        if (Bukkit.getPluginManager().isPluginEnabled("mcMMO")) 
-            McMMOHook.setEnabled();
+        if (Bukkit.getPluginManager().isPluginEnabled("mcMMO")) {
+            if (McMMOHook.setEnabled()) {
+                console.sendMessage("Hooks: Hooked into mcMMO");
+            } else {
+                console.sendMessage("Hooks: Unable to hook with mcMMO, the version installed is not supported!");
+            }
+        }
         
         /*
         Register command executor and tab completer

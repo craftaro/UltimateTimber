@@ -4,7 +4,7 @@ stages:
 variables:
     name: "UltimateTimber"
     path: "/builds/$CI_PROJECT_PATH"
-    version: "1.0.11"
+    version: "1.0.12"
 
 build:
   stage: build

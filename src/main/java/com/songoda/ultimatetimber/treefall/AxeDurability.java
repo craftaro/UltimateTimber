@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.songoda.ultimatetimber.utils.WoodToLogConverter;
+
 import java.util.HashSet;
 
 class AxeDurability {
@@ -26,20 +28,23 @@ class AxeDurability {
 
         ItemMeta itemMeta = item.getItemMeta();
         Damageable damageableMeta = (Damageable) itemMeta;
-        for (Block block : blocks)
-            if (block.getType().equals(Material.ACACIA_LOG) ||
-                    block.getType().equals(Material.BIRCH_LOG) ||
-                    block.getType().equals(Material.DARK_OAK_LOG) ||
-                    block.getType().equals(Material.JUNGLE_LOG) ||
-                    block.getType().equals(Material.OAK_LOG) ||
-                    block.getType().equals(Material.SPRUCE_LOG) ||
-                    block.getType().equals(Material.STRIPPED_ACACIA_LOG) ||
-                    block.getType().equals(Material.STRIPPED_BIRCH_LOG) ||
-                    block.getType().equals(Material.STRIPPED_DARK_OAK_LOG) ||
-                    block.getType().equals(Material.STRIPPED_JUNGLE_LOG) ||
-                    block.getType().equals(Material.STRIPPED_OAK_LOG) ||
-                    block.getType().equals(Material.STRIPPED_SPRUCE_LOG))
+        for (Block block : blocks) {
+            Material material = WoodToLogConverter.convert(block.getType());
+            if (material.equals(Material.ACACIA_LOG) ||
+                    material.equals(Material.BIRCH_LOG) ||
+                    material.equals(Material.DARK_OAK_LOG) ||
+                    material.equals(Material.JUNGLE_LOG) ||
+                    material.equals(Material.OAK_LOG) ||
+                    material.equals(Material.SPRUCE_LOG) ||
+                    material.equals(Material.STRIPPED_ACACIA_LOG) ||
+                    material.equals(Material.STRIPPED_BIRCH_LOG) ||
+                    material.equals(Material.STRIPPED_DARK_OAK_LOG) ||
+                    material.equals(Material.STRIPPED_JUNGLE_LOG) ||
+                    material.equals(Material.STRIPPED_OAK_LOG) ||
+                    material.equals(Material.STRIPPED_SPRUCE_LOG))
                 damageableMeta.setDamage(damageableMeta.getDamage() + 1);
+        }
+            
 
         item.setItemMeta((ItemMeta) damageableMeta);
 
