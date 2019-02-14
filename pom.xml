@@ -55,6 +55,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+        	<id>songoda-repo</id>
+        	<url>http://repo.songoda.com/artifactory/private</url>
+        </repository>
     </repositories>
     <dependencies>
         <!--Spigot API-->
@@ -70,6 +74,13 @@
             <artifactId>bukkit</artifactId>
             <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <!--mcMMO-->
+        <dependency>
+        	<groupId>com.gmail.nossr50</groupId>
+        	<artifactId>mcmmo</artifactId>
+        	<version>1.5.09</version>
+        	<scope>provided</scope>
         </dependency>
     </dependencies>
 
