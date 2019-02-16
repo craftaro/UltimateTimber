@@ -15,6 +15,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
+import com.songoda.ultimatetimber.hooks.HookManager;
 import com.songoda.ultimatetimber.hooks.JobsRebornHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 
@@ -64,9 +65,8 @@ public class TreeFallListener implements Listener {
         if (config.getBoolean(DefaultConfig.DELETE_BROKEN_LOG))
             TreeReplant.replaceOriginalBlock(block);
         
-        // Add to hooks
-        McMMOHook.updateWoodCuttingSkill(event.getPlayer(), blocks);
-        JobsRebornHook.updateWoodcutterJob(event.getPlayer(), blocks);
+        // Apply hooks
+        HookManager.getInstance().applyHooks(event.getPlayer(), blocks);
 
         if (config.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());

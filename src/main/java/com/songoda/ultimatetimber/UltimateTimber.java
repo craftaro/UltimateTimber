@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
+import com.songoda.ultimatetimber.hooks.HookManager;
 import com.songoda.ultimatetimber.hooks.JobsRebornHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.treefall.CustomLoot;
@@ -77,26 +78,9 @@ public class UltimateTimber extends JavaPlugin {
         this.reloadValidWorlds();
         
         /*
-        Check for McMMO
+        Hook into supported plugins
          */
-        if (Bukkit.getPluginManager().isPluginEnabled("mcMMO")) {
-            if (McMMOHook.setEnabled()) {
-                console.sendMessage("Hooks: Hooked into mcMMO");
-            } else {
-                console.sendMessage("Hooks: Unable to hook with mcMMO, the version installed is not supported!");
-            }
-        }
-        
-        /*
-        Check for Jobs Reborn
-         */
-        if (Bukkit.getPluginManager().isPluginEnabled("Jobs")) {
-            if (JobsRebornHook.setEnabled()) {
-                console.sendMessage("Hooks: Hooked into Jobs Reborn");
-            } else {
-                console.sendMessage("Hooks: Unable to hook with Jobs Reborn, the version installed is not supported!");
-            }
-        }
+        HookManager.getInstance().hook();
         
         /*
         Register command executor and tab completer
