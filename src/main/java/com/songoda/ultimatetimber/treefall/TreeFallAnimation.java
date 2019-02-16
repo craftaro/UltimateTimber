@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.treefall;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -27,6 +28,7 @@ public class TreeFallAnimation implements Listener, Runnable {
     Register all instances of falling trees.
      */
     private static ArrayList<TreeFallAnimation> treeFallAnimationInstances = new ArrayList<>();
+    private static Random random = new Random();
     /*
     This field gets updated based on player permissions, doubles loot from trees
      */
@@ -251,12 +253,19 @@ public class TreeFallAnimation implements Listener, Runnable {
      */
     @EventHandler
     public void blockDrop(EntityChangeBlockEvent event) {
-
         if (!(event.getEntity() instanceof FallingBlock)) return;
-        if (!isInTreeFallInstance((FallingBlock) event.getEntity())) return;
-
-        event.setCancelled(true);
+        FallingBlock fallingBlock = (FallingBlock) event.getEntity();
+        if (!isInTreeFallInstance(fallingBlock)) return;
         
+        if (UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.SCATTER_FALLEN_BLOCKS)) {
+            boolean isLeaf = fallingBlock.getBlockData().getMaterial().name().endsWith("LEAVES");
+            if (!isLeaf || (isLeaf && random.nextDouble() > 0.5)) { // Only let about half the leafs turn back into blocks
+                getTreeFallAnimation(fallingBlock).unregisterFallingBlock(fallingBlock);
+                return;
+            }
+        }
+        
+        event.setCancelled(true);
     }
 
     private void runFallingBlockImpact(FallingBlock fallingBlock) {

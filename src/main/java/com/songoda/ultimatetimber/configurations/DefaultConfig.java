@@ -31,6 +31,7 @@ public class DefaultConfig {
     public static final String REPLANT_FROM_LEAVES = "Fallen leaves have a chance to plant saplings";
     public static final String CUSTOM_AUDIO = "Use custom sounds for trees falling";
     public static final String SHOW_ANIMATION = "Show tree fall animation";
+    public static final String SCATTER_FALLEN_BLOCKS = "Scatter fallen tree blocks on the ground when animated";
     public static final String CUSTOM_LOOT_LIST = "Custom loot";
     public static final String CUSTOM_LOOT_ITEM = "Material:GOLDEN_APPLE,Chance:1";
 
@@ -55,6 +56,7 @@ public class DefaultConfig {
         configuration.addDefault(REPLANT_FROM_LEAVES, true);
         configuration.addDefault(CUSTOM_AUDIO, true);
         configuration.addDefault(SHOW_ANIMATION, true);
+        configuration.addDefault(SCATTER_FALLEN_BLOCKS, false);
 
         /*
         Add all worlds that exist in the world at startup

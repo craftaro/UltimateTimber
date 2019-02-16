@@ -16,8 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.hooks.HookManager;
-import com.songoda.ultimatetimber.hooks.JobsRebornHook;
-import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.treefall.CustomLoot;
 import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallListener;
