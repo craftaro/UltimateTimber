@@ -3,7 +3,7 @@ version: maven-version-number
 author: Songoda
 main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
-softdepend: [Multiverse-Core, mcMMO]
+softdepend: [Multiverse-Core, mcMMO, Jobs]
 commands:
   ultimatetimber:
     description: Reloads the configuration file

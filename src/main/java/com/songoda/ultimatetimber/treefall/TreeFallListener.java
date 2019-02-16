@@ -15,6 +15,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
+import com.songoda.ultimatetimber.hooks.JobsRebornHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 
 public class TreeFallListener implements Listener {
@@ -26,15 +27,15 @@ public class TreeFallListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTreeBreak(BlockBreakEvent event) {
 
-        FileConfiguration fileConfiguration = UltimateTimber.getInstance().getConfig();
+        FileConfiguration config = UltimateTimber.getInstance().getConfig();
         
         Block block = event.getBlock();
 
         if (block != null && block.getType().name().contains("SAPLING") &&
-                fileConfiguration.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(block))
+                config.getBoolean(DefaultConfig.TIMEOUT_BREAK) && TreeReplant.isTimeout(block))
             event.setCancelled(true);
         if (!EventFilter.eventIsValid(event)) return;
-        if (fileConfiguration.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
+        if (config.getBoolean(DefaultConfig.SNEAK_ONLY) && !event.getPlayer().isSneaking()) return;
 
         if (!UltimateTimber.getInstance().isChopping(event.getPlayer())) return;
 
@@ -59,15 +60,20 @@ public class TreeFallListener implements Listener {
         // Do not let any items drop, it will be handled later
         event.setDropItems(false);
         
-        // Add to mcMMO XP if installed
+        // Remove log if it's enabled
+        if (config.getBoolean(DefaultConfig.DELETE_BROKEN_LOG))
+            TreeReplant.replaceOriginalBlock(block);
+        
+        // Add to hooks
         McMMOHook.updateWoodCuttingSkill(event.getPlayer(), blocks);
+        JobsRebornHook.updateWoodcutterJob(event.getPlayer(), blocks);
 
-        if (fileConfiguration.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
+        if (config.getBoolean(DefaultConfig.ACCURATE_AXE_DURABILITY))
             AxeDurability.adjustAxeDamage(blocks, event.getPlayer());
-        if (fileConfiguration.getBoolean(DefaultConfig.CUSTOM_AUDIO))
+        if (config.getBoolean(DefaultConfig.CUSTOM_AUDIO))
             TreeSounds.tipOverNoise(block.getLocation());
 
-        if (fileConfiguration.getBoolean(DefaultConfig.SHOW_ANIMATION)) {
+        if (config.getBoolean(DefaultConfig.SHOW_ANIMATION)) {
             TreeFallAnimation treeFallAnimation = new TreeFallAnimation();
             treeFallAnimation.startAnimation(block, blocks, event.getPlayer());
         } else {

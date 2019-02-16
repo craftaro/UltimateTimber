@@ -157,7 +157,7 @@ public class TreeFallAnimation implements Listener, Runnable {
             fallingBlock.setDropItem(false);
             registerFallingBlock(fallingBlock);
 
-                        /*
+            /*
             Remove original block
              */
             TreeReplant.replaceOriginalBlock(block);

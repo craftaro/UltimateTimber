@@ -80,6 +80,7 @@ public class TreeChecker {
     private int numLeavesRequiredForTree;
     private boolean allowMixedTreeTypes;
     private boolean onlyBreakLogsUpwards;
+    private boolean destroyBaseLog;
     private boolean isMushroom = false;
     
     static {
@@ -129,6 +130,7 @@ public class TreeChecker {
         this.maxBranchBlocksAllowed = config.getInt(DefaultConfig.MAX_BRANCH_BLOCKS);
         this.numLeavesRequiredForTree = config.getInt(DefaultConfig.LEAVES_FOR_TREE);
         this.onlyBreakLogsUpwards = config.getBoolean(DefaultConfig.ONLY_BREAK_LOGS_UPWARDS);
+        this.destroyBaseLog = config.getBoolean(DefaultConfig.DELETE_BROKEN_LOG);
         
         // Detect tree trunk
         Set<Block> trunkBlocks = new HashSet<>();
@@ -158,6 +160,10 @@ public class TreeChecker {
         // Trees need at least 5 leaves
         if (!this.isMushroom && this.treeBlocks.stream().filter(x -> this.isValidLeafType(x.getType())).count() < this.numLeavesRequiredForTree)
             return null;
+        
+        // Delete the starting block if applicable
+        if (this.destroyBaseLog)
+            this.treeBlocks.remove(block);
         
         return this.treeBlocks;
     }

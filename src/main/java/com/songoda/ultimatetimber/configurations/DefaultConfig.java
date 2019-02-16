@@ -26,6 +26,7 @@ public class DefaultConfig {
     public static final String PERMISSIONS_ONLY = "Only allow players with the permission node to topple down trees";
     public static final String VALID_WORLDS = "Valid worlds.";
     public static final String DAMAGE_PLAYERS = "Damage players when trees fall on them";
+    public static final String DELETE_BROKEN_LOG = "Delete the log that initiated the tree fall";
     public static final String REPLANT_SAPLING = "Replant sapling when tree is cut down";
     public static final String REPLANT_FROM_LEAVES = "Fallen leaves have a chance to plant saplings";
     public static final String CUSTOM_AUDIO = "Use custom sounds for trees falling";
@@ -49,6 +50,7 @@ public class DefaultConfig {
         configuration.addDefault(CREATIVE_DISALLOWED, true);
         configuration.addDefault(PERMISSIONS_ONLY, true);
         configuration.addDefault(DAMAGE_PLAYERS, true);
+        configuration.addDefault(DELETE_BROKEN_LOG, false);
         configuration.addDefault(REPLANT_SAPLING, true);
         configuration.addDefault(REPLANT_FROM_LEAVES, true);
         configuration.addDefault(CUSTOM_AUDIO, true);
