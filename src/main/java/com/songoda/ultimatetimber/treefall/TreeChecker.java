@@ -1,6 +1,7 @@
 package com.songoda.ultimatetimber.treefall;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -163,14 +164,19 @@ public class TreeChecker {
         if (!this.isMushroom && this.treeBlocks.stream().filter(x -> this.isValidLeafType(x.getType())).count() < this.numLeavesRequiredForTree)
             return null;
         
-        // All logs must not have a plantable surface below them (if enabled)
-        if (this.entireTreeBase) {
-            boolean isTreeGrounded = this.treeBlocks.stream().anyMatch(x -> {
+        // The lowest logs of the tree must not have a plantable surface below them
+        if (this.entireTreeBase) { // TODO: Refactor this
+            int lowestY = this.treeBlocks.stream().min(new Comparator<Block>() {
+                                public int compare(Block b1, Block b2) {
+                                    return b1.getY() - b2.getY();
+                                }}).get().getY();
+            boolean isTreeGrounded = this.treeBlocks.stream().filter(x -> x.getY() == lowestY).anyMatch(x -> {
                 Material typeBelow = x.getRelative(BlockFace.DOWN).getType();
                 return (typeBelow.equals(Material.DIRT) || 
                         typeBelow.equals(Material.COARSE_DIRT) || 
                         typeBelow.equals(Material.PODZOL) || 
-                        typeBelow.equals(Material.GRASS_BLOCK)) &&
+                        typeBelow.equals(Material.GRASS_BLOCK) ||
+                        isValidLogType(typeBelow)) &&
                         !x.equals(block) &&
                         isValidLogType(x.getType());
             });
