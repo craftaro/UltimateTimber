@@ -81,6 +81,7 @@ public class TreeChecker {
     private boolean allowMixedTreeTypes;
     private boolean onlyBreakLogsUpwards;
     private boolean destroyBaseLog;
+    private boolean entireTreeBase;
     private boolean isMushroom = false;
     
     static {
@@ -131,6 +132,7 @@ public class TreeChecker {
         this.numLeavesRequiredForTree = config.getInt(DefaultConfig.LEAVES_FOR_TREE);
         this.onlyBreakLogsUpwards = config.getBoolean(DefaultConfig.ONLY_BREAK_LOGS_UPWARDS);
         this.destroyBaseLog = config.getBoolean(DefaultConfig.DELETE_BROKEN_LOG);
+        this.entireTreeBase = config.getBoolean(DefaultConfig.ENTIRE_TREE_BASE);
         
         // Detect tree trunk
         Set<Block> trunkBlocks = new HashSet<>();
@@ -160,6 +162,21 @@ public class TreeChecker {
         // Trees need at least 5 leaves
         if (!this.isMushroom && this.treeBlocks.stream().filter(x -> this.isValidLeafType(x.getType())).count() < this.numLeavesRequiredForTree)
             return null;
+        
+        // All logs must not have a plantable surface below them (if enabled)
+        if (this.entireTreeBase) {
+            boolean isTreeGrounded = this.treeBlocks.stream().anyMatch(x -> {
+                Material typeBelow = x.getRelative(BlockFace.DOWN).getType();
+                return (typeBelow.equals(Material.DIRT) || 
+                        typeBelow.equals(Material.COARSE_DIRT) || 
+                        typeBelow.equals(Material.PODZOL) || 
+                        typeBelow.equals(Material.GRASS_BLOCK)) &&
+                        !x.equals(block) &&
+                        isValidLogType(x.getType());
+            });
+            if (isTreeGrounded)
+                return null;
+        }
         
         // Delete the starting block if applicable
         if (this.destroyBaseLog)

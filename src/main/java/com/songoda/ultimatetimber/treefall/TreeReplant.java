@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.util.Vector;
 
@@ -21,14 +22,26 @@ class TreeReplant {
 
     static void replaceOriginalBlock(Block block) {
         boolean isTimeout = UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.TIMEOUT_BREAK);
+        Material material = WoodToLogConverter.convert(block.getType());
 
         if (!UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.REPLANT_SAPLING)) {
             block.setType(Material.AIR);
             return;
         }
 
-        Material belowBlockType = block.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock().getType();
-        if (!belowBlockType.equals(Material.DIRT) && !belowBlockType.equals(Material.COARSE_DIRT) && !belowBlockType.equals(Material.PODZOL) && !belowBlockType.equals(Material.GRASS_BLOCK)) {
+        Block below = block.getRelative(BlockFace.DOWN);
+        Material belowType = below.getType();
+        if (belowType.equals(Material.AIR) && UltimateTimber.getInstance().getConfig().getBoolean(DefaultConfig.ENTIRE_TREE_BASE)) {
+            if (isValidGround(below.getRelative(BlockFace.DOWN).getType())) {
+                if (isTimeout) {
+                    timeout.add(below.getLocation());
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> timeout.remove(below.getLocation()), 20 * 5);
+                }
+                Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> performReplacement(below, material), 1);
+            }
+        }
+        
+        if (!isValidGround(belowType)) {
             block.setType(Material.AIR);
             return;
         }
@@ -38,7 +51,6 @@ class TreeReplant {
             Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> timeout.remove(block.getLocation()), 20 * 5);
         }
         
-        Material material = WoodToLogConverter.convert(block.getType());
         Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () -> performReplacement(block, material), 1);
     }
     
@@ -112,17 +124,20 @@ class TreeReplant {
 
         Block block = fallingBlock.getLocation().clone().subtract(new Vector(0, 1, 0)).getBlock();
 
-        if (block.getType().equals(Material.DIRT) || block.getType().equals(Material.COARSE_DIRT) || block.getType().equals(Material.PODZOL) || block.getType().equals(Material.GRASS_BLOCK)) {
+        if (isValidGround(block.getType())) {
             Block blockAbove = block.getLocation().clone().add(new Vector(0, 1, 0)).getBlock();
             if (blockAbove.getType().equals(Material.AIR))
                 fallingBlock.getLocation().getBlock().setType(material);
-
         }
 
     }
 
     static boolean isTimeout(Block block) {
         return timeout.contains(block.getLocation());
+    }
+    
+    private static boolean isValidGround(Material material) {
+        return material.equals(Material.DIRT) || material.equals(Material.COARSE_DIRT) || material.equals(Material.PODZOL) || material.equals(Material.GRASS_BLOCK);
     }
 
 }

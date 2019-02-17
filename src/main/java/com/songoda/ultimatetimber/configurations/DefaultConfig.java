@@ -18,6 +18,7 @@ public class DefaultConfig {
     public static final String LEAVES_FOR_TREE = "The number of leaves required to detect a valid tree";
     public static final String ONLY_BREAK_LOGS_UPWARDS = "Only break logs above the block broken";
     public static final String ALLOW_MIXED_TREE_TYPES = "Allow mixed log/leaf to be considered as one tree";
+    public static final String ENTIRE_TREE_BASE = "Entire tree base must be broken for the tree to fall";
     public static final String AXES_ONLY = "Only topple down trees cut down using axes";
     public static final String TIMEOUT_BREAK = "Five second time out before you can break saplings";
     public static final String SNEAK_ONLY = "Only topple down trees cut down while sneaking";
@@ -44,6 +45,7 @@ public class DefaultConfig {
         configuration.addDefault(LEAVES_FOR_TREE, 5);
         configuration.addDefault(ONLY_BREAK_LOGS_UPWARDS, true);
         configuration.addDefault(ALLOW_MIXED_TREE_TYPES, false);
+        configuration.addDefault(ENTIRE_TREE_BASE,  false);
         configuration.addDefault(AXES_ONLY, true);
         configuration.addDefault(TIMEOUT_BREAK, true);
         configuration.addDefault(SNEAK_ONLY, false);

@@ -3,6 +3,7 @@ package com.songoda.ultimatetimber.treefall;
 import java.util.HashSet;
 import java.util.Random;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -24,6 +25,9 @@ public class AxeDurability {
      * @param player The player
      */
     public static void adjustAxeDamage(HashSet<Block> blocks, Player player) {
+        if (player.getGameMode().equals(GameMode.CREATIVE))
+            return;
+        
         ItemStack item = player.getInventory().getItemInMainHand();
 
         Material itemType = item.getType();
