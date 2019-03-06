@@ -1,9 +1,6 @@
 package com.songoda.ultimatetimber;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import com.songoda.ultimatetimber.utils.Metrics;
 import org.bukkit.Bukkit;
@@ -32,9 +29,9 @@ public class UltimateTimber extends JavaPlugin {
     
     private final static CommandSender console = Bukkit.getConsoleSender();
     private static UltimateTimber INSTANCE;
-    
+
     private final String prefix = "&8[&6UltimateTimber&8]";
-    private Set<String> validWorlds;
+    private Set<String> validWorlds = new HashSet<>();
     private List<UUID> isNotChopping = new ArrayList<>();
 
     public static UltimateTimber getInstance() {
