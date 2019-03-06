@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.songoda.ultimatetimber.utils.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -87,7 +88,9 @@ public class UltimateTimber extends JavaPlugin {
         CommandHandler commandHandler = new CommandHandler();
         ultimatetimber.setExecutor(commandHandler);
         ultimatetimber.setTabCompleter(commandHandler);
-
+        
+        new Metrics(this);
+        
         console.sendMessage(Methods.formatText("&a============================="));
     }
 

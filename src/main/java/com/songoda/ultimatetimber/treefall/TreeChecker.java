@@ -165,11 +165,8 @@ public class TreeChecker {
             return null;
         
         // The lowest logs of the tree must not have a plantable surface below them
-        if (this.entireTreeBase) { // TODO: Refactor this
-            int lowestY = this.treeBlocks.stream().min(new Comparator<Block>() {
-                                public int compare(Block b1, Block b2) {
-                                    return b1.getY() - b2.getY();
-                                }}).get().getY();
+        if (this.entireTreeBase) {
+            int lowestY = this.treeBlocks.stream().min(Comparator.comparingInt(Block::getY)).get().getY();
             boolean isTreeGrounded = this.treeBlocks.stream().filter(x -> x.getY() == lowestY).anyMatch(x -> {
                 Material typeBelow = x.getRelative(BlockFace.DOWN).getType();
                 return (typeBelow.equals(Material.DIRT) || 
@@ -183,11 +180,11 @@ public class TreeChecker {
             if (isTreeGrounded)
                 return null;
         }
-        
+
         // Delete the starting block if applicable
         if (this.destroyBaseLog)
             this.treeBlocks.remove(block);
-        
+
         return this.treeBlocks;
     }
     
