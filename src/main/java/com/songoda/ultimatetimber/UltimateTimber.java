@@ -2,7 +2,11 @@ package com.songoda.ultimatetimber;
 
 import java.util.*;
 
+import com.songoda.ultimatetimber.adapter.VersionAdapter;
+import com.songoda.ultimatetimber.adapter.current.CurrentAdapter;
+import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
 import com.songoda.ultimatetimber.utils.Metrics;
+import com.songoda.ultimatetimber.utils.NMSUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -19,18 +23,13 @@ import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallListener;
 import com.songoda.ultimatetimber.utils.Methods;
 
-/*
-Note: In this plugin, I have called the act of a tree falling over with pseudo-physics "toppling over". This is reflected
-in the documentation, config files and variable names.
-PS: MagmaGuy was here
- */
-
 public class UltimateTimber extends JavaPlugin {
-    
-    private final static CommandSender console = Bukkit.getConsoleSender();
+
+    private static final String prefix = "&8[&6UltimateTimber&8]";
+    private static final CommandSender console = Bukkit.getConsoleSender();
     private static UltimateTimber INSTANCE;
 
-    private final String prefix = "&8[&6UltimateTimber&8]";
+    private VersionAdapter adapter;
     private Set<String> validWorlds = new HashSet<>();
     private List<UUID> isNotChopping = new ArrayList<>();
 
@@ -40,14 +39,17 @@ public class UltimateTimber extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-        if (!checkVersion()) return;
-
         INSTANCE = this;
 
         console.sendMessage(Methods.formatText("&a============================="));
         console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
         console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
+
+        /*
+        Set up version adapter
+         */
+        this.setupAdapter();
+
         /*
         Register the main event that handles toppling down trees
          */
@@ -85,7 +87,10 @@ public class UltimateTimber extends JavaPlugin {
         CommandHandler commandHandler = new CommandHandler();
         ultimatetimber.setExecutor(commandHandler);
         ultimatetimber.setTabCompleter(commandHandler);
-        
+
+        /*
+        Set up metrics
+         */
         new Metrics(this);
         
         console.sendMessage(Methods.formatText("&a============================="));
@@ -115,20 +120,12 @@ public class UltimateTimber extends JavaPlugin {
         return prefix;
     }
 
-    private boolean checkVersion() {
-        int workingVersion = 13;
-        int currentVersion = Integer.parseInt(Bukkit.getServer().getClass()
-                .getPackage().getName().split("\\.")[3].split("_")[1]);
-
-        if (currentVersion < workingVersion) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
-                console.sendMessage("");
-                console.sendMessage(String.format("%sYou installed the 1.%s only version of %s on a 1.%s server. Since you are on the wrong version we disabled the plugin for you. Please install correct version to continue using %s.", ChatColor.RED, workingVersion, this.getDescription().getName(), currentVersion, this.getDescription().getName()));
-                console.sendMessage("");
-            }, 20L);
-            return false;
+    private void setupAdapter() {
+        if (NMSUtil.getVersionNumber() > 12) {
+            this.adapter = new CurrentAdapter();
+        } else {
+            this.adapter = new LegacyAdapter();
         }
-        return true;
     }
 
     public boolean toggleChopping(Player player) {
@@ -140,6 +137,10 @@ public class UltimateTimber extends JavaPlugin {
 
     public boolean isChopping(Player player) {
         return !this.isNotChopping.contains(player.getUniqueId());
+    }
+
+    public VersionAdapter getAdapter() {
+        return this.adapter;
     }
 
 }

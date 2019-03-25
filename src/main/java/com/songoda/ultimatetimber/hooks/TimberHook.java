@@ -10,6 +10,6 @@ public interface TimberHook {
     /**
      * Applies the hook
      */
-    public void apply(Player player, HashSet<Block> treeBlocks) throws Exception;
+    void apply(Player player, HashSet<Block> treeBlocks) throws Exception;
     
 }
