@@ -1,0 +1,321 @@
+#     ____ ___ __   __   __                __       ___________ __       ___
+#    |    |   \  |_/  |_|__| _____ _____ _/  |_  ___\__    ___/|__| _____\_ |__   ___________
+#    |    |   /  |\   __\  |/     \\__  \\   __\/ __ \|    |   |  |/     \| __ \_/ __ \_  __ \
+#    |    |  /|  |_|  | |  |  Y Y  \/ __ \|  | \  ___/|    |   |  |  Y Y  \ \_\ \  ___/|  | \/
+#    |______/ |____/__| |__|__|_|  (____  /__|  \___  |____|   |__|__|_|  /___  /\___  >__|
+
+# The type of server you are running in relation to this plugin
+# If you ever upgrade from a legacy version of Minecraft to a current version, you will need to reset this config
+# Do not change this value
+# Default: LEGACY
+server-type: LEGACY
+
+# A list of worlds that the plugin is disabled in
+# Default:
+# - 'disabled_world_name'
+disabled-worlds:
+  - disabled_world_name
+
+# The max number of logs that can be broken at one time
+# Default: 120
+max-logs-per-chop: 120
+
+# The minimum number of leaves required for something to be considered a tree
+# Default: 5
+leaves-required-for-tree: 5
+
+# Apply realistic damage to the tools based on the number of logs chopped
+# Default: true
+realistic-tool-damage: true
+
+# Require the entire base of the tree to be broken before it topples
+# Default: false
+break-entire-tree-base: false
+
+# Don't drop a block for the block that initiates the tree fall
+# Default: false
+destroy-initiated-block: false
+
+# Only detect logs above the initiated block
+# Default: true
+only-detect-logs-upwards: true
+
+# Only topple over trees while the player is sneaking
+# Default: false
+only-topple-while-sneaking: false
+
+# Allow toppling trees in creative mode
+# Default: true
+allow-creative-mode: true
+
+# Require the player to have the permission 'ultimatetimber.chop' to topple trees
+# Default: true
+require-chop-permission: true
+
+# Automatically replant saplings when a tree is toppled
+# Default: true
+replant-saplings: true
+
+# How many seconds to prevent players from breaking replanted saplings
+# Set to 0 to disable
+# Does nothing if replant-saplings is false
+# Default: 5
+replant-saplings-cooldown: 5
+
+# Give fallen leaf blocks a chance to replant saplings when they hit the ground
+# Default: true
+falling-blocks-replant-saplings: true
+
+# The percent chance that fallen leaves have of planting a sapling
+# Does nothing if falling-blocks-replant-saplings is false
+# Default: 1
+falling-blocks-replant-saplings-chance: 1
+
+# Make falling tree blocks deal damage to players if they get hit
+# Default: true
+falling-blocks-deal-damage: true
+
+# The amount of damage that falling tree blocks do
+# This does nothing if falling-blocks-deal-damage is false
+# Default: 1
+falling-block-damage: 1
+
+# Automatically add tree blocks to the player's inventory instead of dropping them
+# Default: false
+add-items-to-inventory: false
+
+# Use custom sounds when toppling trees
+# Default: true
+use-custom-sounds: true
+
+# The type of animation to use for tree toppling
+# Types: FANCY, DISINTEGRATE, CHAOS, NONE
+tree-animation-type: FANCY
+
+# If the tree-animation-type is FANCY, make the blocks stick to the ground
+# Does nothing if tree-animation-type is not FANCY
+# Default: false
+scatter-tree-blocks-on-ground: false
+
+# Mix all the tree types below and consider all of them as a single tree type
+# Useful for EpicWorldGenerator and similar plugins that make custom trees
+# Default: false
+mix-all-tree-types: false
+
+# Tree configuration
+# Allows for extreme fine-tuning of tree detection and what are considered trees
+# Multiple log and leaf types are allowed, only one sapling type is allowed
+# For custom-tool and required-tools use the same format as the global settings below the trees section
+# You can add your own custom tree types here, just add a new section
+trees:
+  oak:
+    logs:
+      - LOG:0
+      - LOG:4
+      - LOG:8
+      - LOG:12
+    leaves:
+      - LEAVES:0
+      - LEAVES:4
+      - LEAVES:8
+      - LEAVES:12
+    sapling: SAPLING:0
+    max-leaf-distance-from-log: 6
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:0
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    required-tools: []
+  spruce:
+    logs:
+      - LOG:1
+      - LOG:5
+      - LOG:9
+      - LOG:13
+    leaves:
+      - LEAVES:1
+      - LEAVES:5
+      - LEAVES:9
+      - LEAVES:13
+    sapling: SAPLING:1
+    max-leaf-distance-from-log: 6
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:1
+        chance: 5
+    required-tools: []
+  birch:
+    logs:
+      - LOG:2
+      - LOG:6
+      - LOG:10
+      - LOG:14
+    leaves:
+      - LEAVES:2
+      - LEAVES:6
+      - LEAVES:10
+      - LEAVES:14
+    sapling: SAPLING:2
+    max-leaf-distance-from-log: 4
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:2
+        chance: 5
+    required-tools: []
+  jungle:
+    logs:
+      - LOG:3
+      - LOG:7
+      - LOG:11
+      - LOG:15
+    leaves:
+      - LEAVES:3
+      - LEAVES:7
+      - LEAVES:11
+      - LEAVES:15
+    sapling: SAPLING:3
+    max-leaf-distance-from-log: 5
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:3
+        chance: 2.5
+    required-tools: []
+  acacia:
+    logs:
+      - LOG_2:0
+      - LOG_2:4
+      - LOG_2:8
+      - LOG_2:12
+    leaves:
+      - LEAVES_2:0
+      - LEAVES_2:4
+      - LEAVES_2:8
+      - LEAVES_2:12
+    sapling: SAPLING:4
+    max-leaf-distance-from-log: 5
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:4
+        chance: 5
+    required-tools: []
+  dark_oak:
+    logs:
+      - LOG:1
+      - LOG:5
+      - LOG:9
+      - LOG:13
+    leaves:
+      - LEAVES:1
+      - LEAVES:5
+      - LEAVES:9
+      - LEAVES:13
+    sapling: SAPLING:5
+    max-leaf-distance-from-log: 5
+    drop-original-log: true
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: SAPLING:5
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    required-tools: []
+  brown_mushroom:
+    logs:
+      - HUGE_MUSHROOM_1:10
+      - HUGE_MUSHROOM_1:15
+    leaves:
+      - HUGE_MUSHROOM_1:0
+      - HUGE_MUSHROOM_1:1
+      - HUGE_MUSHROOM_1:2
+      - HUGE_MUSHROOM_1:3
+      - HUGE_MUSHROOM_1:4
+      - HUGE_MUSHROOM_1:5
+      - HUGE_MUSHROOM_1:6
+      - HUGE_MUSHROOM_1:7
+      - HUGE_MUSHROOM_1:8
+      - HUGE_MUSHROOM_1:9
+      - HUGE_MUSHROOM_1:14
+    sapling: BROWN_MUSHROOM
+    max-leaf-distance-from-log: 4
+    drop-original-log: false
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: BROWN_MUSHROOM
+        chance: 25
+    required-tools: []
+  red_mushroom:
+    logs:
+      - HUGE_MUSHROOM_2:10
+      - HUGE_MUSHROOM_2:15
+    leaves:
+      - HUGE_MUSHROOM_2:0
+      - HUGE_MUSHROOM_2:1
+      - HUGE_MUSHROOM_2:2
+      - HUGE_MUSHROOM_2:3
+      - HUGE_MUSHROOM_2:4
+      - HUGE_MUSHROOM_2:5
+      - HUGE_MUSHROOM_2:6
+      - HUGE_MUSHROOM_2:7
+      - HUGE_MUSHROOM_2:8
+      - HUGE_MUSHROOM_2:9
+      - HUGE_MUSHROOM_2:14
+    sapling: RED_MUSHROOM
+    max-leaf-distance-from-log: 4
+    drop-original-log: false
+    drop-original-leaf: false
+    custom-log-loot: []
+    custom-leaf-loot:
+      0:
+        material: RED_MUSHROOM
+        chance: 25
+    required-tools: []
+
+# Custom loot that is available for all tree types
+# The loot applies to each log broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+global-custom-log-loot:
+  0:
+    material: DIAMOND
+    chance: 0
+
+# Custom loot that is available for all tree types
+# The loot applies to each leaf broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+global-custom-leaf-loot:
+  0:
+    material: GOLDEN_APPLE
+    chance: 0.5
+
+# Tools that must be used to topple over a tree
+# Applies to all tree types
+global-required-tools:
+  - WOOD_AXE
+  - STONE_AXE
+  - IRON_AXE
+  - GOLD_AXE
+  - DIAMOND_AXE
