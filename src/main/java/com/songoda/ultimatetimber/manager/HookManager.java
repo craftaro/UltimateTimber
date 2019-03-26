@@ -1,8 +1,11 @@
-package com.songoda.ultimatetimber.hooks;
+package com.songoda.ultimatetimber.manager;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import com.songoda.ultimatetimber.hooks.JobsRebornHook;
+import com.songoda.ultimatetimber.hooks.McMMOHook;
+import com.songoda.ultimatetimber.hooks.TimberHook;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

@@ -15,7 +15,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
-import com.songoda.ultimatetimber.hooks.HookManager;
+import com.songoda.ultimatetimber.manager.HookManager;
 
 public class TreeFallListener implements Listener {
 

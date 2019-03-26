@@ -8,7 +8,6 @@ import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
 import com.songoda.ultimatetimber.utils.Metrics;
 import com.songoda.ultimatetimber.utils.NMSUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -17,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.songoda.ultimatetimber.commands.CommandHandler;
 import com.songoda.ultimatetimber.configurations.DefaultConfig;
-import com.songoda.ultimatetimber.hooks.HookManager;
+import com.songoda.ultimatetimber.manager.HookManager;
 import com.songoda.ultimatetimber.treefall.CustomLoot;
 import com.songoda.ultimatetimber.treefall.TreeFallAnimation;
 import com.songoda.ultimatetimber.treefall.TreeFallListener;
