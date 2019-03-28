@@ -128,6 +128,7 @@ trees:
       - LEAVES:12
     sapling: SAPLING:0
     max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -152,6 +153,7 @@ trees:
       - LEAVES:13
     sapling: SAPLING:1
     max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -173,6 +175,7 @@ trees:
       - LEAVES:14
     sapling: SAPLING:2
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -194,6 +197,7 @@ trees:
       - LEAVES:15
     sapling: SAPLING:3
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -215,6 +219,7 @@ trees:
       - LEAVES_2:12
     sapling: SAPLING:4
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -236,6 +241,7 @@ trees:
       - LEAVES:13
     sapling: SAPLING:5
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -265,6 +271,7 @@ trees:
       - HUGE_MUSHROOM_1:14
     sapling: BROWN_MUSHROOM
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
     drop-original-log: false
     drop-original-leaf: false
     log-loot: []
@@ -291,6 +298,7 @@ trees:
       - HUGE_MUSHROOM_2:14
     sapling: RED_MUSHROOM
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
     drop-original-log: false
     drop-original-leaf: false
     log-loot: []

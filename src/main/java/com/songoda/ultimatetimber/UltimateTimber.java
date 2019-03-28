@@ -29,7 +29,6 @@ public class UltimateTimber extends JavaPlugin {
     private CommandManager commandManager;
     private ConfigurationManager configurationManager;
     private HookManager hookManager;
-    private MessageManager messageManager;
     private TreeAnimationManager treeAnimationManager;
     private TreeDefinitionManager treeDefinitionManager;
     private TreeDetectionManager treeDetectionManager;
@@ -50,15 +49,15 @@ public class UltimateTimber extends JavaPlugin {
         this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
         this.commandManager = this.registerManager(CommandManager.class);
-        this.configurationManager = this.registerManager(ConfigurationManager.class);
+        this.configurationManager = new ConfigurationManager(this);
         this.hookManager = this.registerManager(HookManager.class);
-        this.messageManager = this.registerManager(MessageManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
         this.treeDefinitionManager = this.registerManager(TreeDefinitionManager.class);
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
         this.setupVersionAdapter();
+        this.reload();
 
         new Metrics(this);
         
@@ -80,6 +79,7 @@ public class UltimateTimber extends JavaPlugin {
      * Reloads the plugin's settings
      */
     public void reload() {
+        this.configurationManager.reload();
         this.managers.forEach(Manager::reload);
     }
 
@@ -87,6 +87,7 @@ public class UltimateTimber extends JavaPlugin {
      * Disables most of the plugin
      */
     public void disable() {
+        this.configurationManager.disable();
         this.managers.forEach(Manager::disable);
     }
 
@@ -112,9 +113,9 @@ public class UltimateTimber extends JavaPlugin {
         try {
             T newManager = managerClass.getConstructor(UltimateTimber.class).newInstance(this);
             this.managers.add(newManager);
-            newManager.reload();
             return newManager;
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -162,15 +163,6 @@ public class UltimateTimber extends JavaPlugin {
      */
     public HookManager getHookManager() {
         return hookManager;
-    }
-
-    /**
-     * Gets the configuration manager
-     *
-     * @return The ConfigurationManager instance
-     */
-    public MessageManager getMessageManager() {
-        return messageManager;
     }
 
     /**

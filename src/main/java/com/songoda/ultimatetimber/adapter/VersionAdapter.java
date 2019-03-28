@@ -9,10 +9,16 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.Set;
 
 public interface VersionAdapter {
 
+    /**
+     * Gets the version adapter type
+     *
+     * @return The VersionAdapterType
+     */
     VersionAdapterType getVersionAdapterType();
 
     /**
@@ -34,11 +40,19 @@ public interface VersionAdapter {
     /**
      * Get the items that a tree block should drop when it breaks
      *
-     * @param treeBlock The tree block broken
-     * @param treeDefinition The tree definition to get the drops for
+     * @param treeBlock The tree block
      * @return A Set of ItemStacks that should be dropped
      */
-    Set<ItemStack> getTreeBlockDrops(TreeBlock treeBlock, TreeDefinition treeDefinition);
+    Collection<ItemStack> getBlockDrops(TreeBlock treeBlock);
+
+    /**
+     * Checks if two block states are similar
+     *
+     * @param blockState1 The first BlockState
+     * @param blockState2 The second BlockState
+     * @return True if the BlockStates are similar, otherwise false
+     */
+    boolean areBlockStatesSimilar(BlockState blockState1, BlockState blockState2);
 
     /**
      * Applies damage to a tool

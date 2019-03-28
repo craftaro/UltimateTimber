@@ -8,7 +8,6 @@ import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.tree.TreeLoot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -56,6 +55,7 @@ public class TreeDefinitionManager extends Manager {
             Set<BlockState> leafBlockStates = new HashSet<>();
             BlockState saplingBlockState;
             int maxLeafDistanceFromLog;
+            boolean detectLeavesDiagonally;
             boolean dropOriginalLog;
             boolean dropOriginalLeaf;
             Set<TreeLoot> logLoot = new HashSet<>();
@@ -70,6 +70,7 @@ public class TreeDefinitionManager extends Manager {
 
             saplingBlockState = versionAdapter.parseBlockStateFromString(tree.getString("sapling"));
             maxLeafDistanceFromLog = tree.getInt("max-leaf-distance-from-log");
+            detectLeavesDiagonally = tree.getBoolean("search-for-leaves-diagonally");
             dropOriginalLog = tree.getBoolean("drop-original-log");
             dropOriginalLeaf = tree.getBoolean("drop-original-leaf");
 
@@ -84,7 +85,7 @@ public class TreeDefinitionManager extends Manager {
             for (String itemStackString : tree.getStringList("required-tools"))
                 requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
 
-            this.treeDefinitions.add(new TreeDefinition(key, logBlockStates, leafBlockStates, saplingBlockState, maxLeafDistanceFromLog, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
+            this.treeDefinitions.add(new TreeDefinition(key, logBlockStates, leafBlockStates, saplingBlockState, maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
         }
 
         // Load global log drops
@@ -105,6 +106,54 @@ public class TreeDefinitionManager extends Manager {
     @Override
     public void disable() {
         this.treeDefinitions.clear();
+    }
+
+    /**
+     * Gets a Set of possible TreeDefinitions that match the given BlockState
+     *
+     * @param blockState The BlockState to check
+     * @return A Set of TreeDefinitions for the given BlockState
+     */
+    public Set<TreeDefinition> getTreeDefinitionsForLog(BlockState blockState) {
+        return this.narrowTreeDefinition(this.treeDefinitions, blockState, TreeBlockType.LOG);
+    }
+
+    /**
+     * Narrows a Set of TreeDefinitions down to ones matching the given BlockState and TreeBlockType
+     *
+     * @param possibleTreeDefinitions The possible TreeDefinitions
+     * @param blockState The BlockState to narrow to
+     * @param treeBlockType The TreeBlockType of the given BlockState
+     * @return A Set of TreeDefinitions narrowed down
+     */
+    public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, BlockState blockState, TreeBlockType treeBlockType) {
+        VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
+
+        Set<TreeDefinition> matchingTreeDefinitions = new HashSet<>();
+        switch (treeBlockType) {
+            case LOG:
+                for (TreeDefinition treeDefinition : this.treeDefinitions) {
+                    for (BlockState logBlockState : treeDefinition.getLogBlockStates()) {
+                        if (versionAdapter.areBlockStatesSimilar(logBlockState, blockState)) {
+                            matchingTreeDefinitions.add(treeDefinition);
+                            break;
+                        }
+                    }
+                }
+                break;
+            case LEAF:
+                for (TreeDefinition treeDefinition : this.treeDefinitions) {
+                    for (BlockState leafBlockState : treeDefinition.getLeafBlockStates()) {
+                        if (versionAdapter.areBlockStatesSimilar(leafBlockState, blockState)) {
+                            matchingTreeDefinitions.add(treeDefinition);
+                            break;
+                        }
+                    }
+                }
+                break;
+        }
+
+        return matchingTreeDefinitions;
     }
 
     /**

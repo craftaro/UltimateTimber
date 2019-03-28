@@ -6,6 +6,7 @@ import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.hooks.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -56,7 +57,7 @@ public class HookManager extends Manager {
      * @param player The player to apply the hook for
      * @param treeBlocks The blocks of the tree that were broken
      */
-    public void applyHooks(Player player, TreeBlockSet treeBlocks) {
+    public void applyHooks(Player player, TreeBlockSet<Block> treeBlocks) {
         Set<TimberHook> invalidHooks = new HashSet<>();
         for (TimberHook hook : this.hooks) {
             try {

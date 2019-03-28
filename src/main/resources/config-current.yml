@@ -125,6 +125,7 @@ trees:
       - OAK_LEAVES
     sapling: OAK_SAPLING
     max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -146,6 +147,7 @@ trees:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
     max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -164,6 +166,7 @@ trees:
       - SPRUCE_BIRCH
     sapling: BIRCH_SAPLING
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -182,6 +185,7 @@ trees:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -200,6 +204,7 @@ trees:
       - ACACIA_LEAVES
     sapling: ACACIA_SAPLING
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -218,6 +223,7 @@ trees:
       - DARK_OAK_LEAVES
     sapling: DARK_OAK_SAPLING
     max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
     log-loot: []
@@ -236,6 +242,7 @@ trees:
       - BROWN_MUSHROOM_BLOCK
     sapling: BROWN_MUSHROOM
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
     drop-original-log: false
     drop-original-leaf: false
     log-loot: []
@@ -251,6 +258,7 @@ trees:
       - RED_MUSHROOM_BLOCK
     sapling: RED_MUSHROOM
     max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
     drop-original-log: false
     drop-original-leaf: false
     log-loot: []

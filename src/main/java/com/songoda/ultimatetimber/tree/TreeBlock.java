@@ -1,11 +1,11 @@
 package com.songoda.ultimatetimber.tree;
 
+import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.Set;
 
 public class TreeBlock implements ITreeBlock<Block> {
 
@@ -29,7 +29,7 @@ public class TreeBlock implements ITreeBlock<Block> {
 
     @Override
     public Collection<ItemStack> getDrops() {
-        return this.block.getDrops();
+        return UltimateTimber.getInstance().getVersionAdapter().getBlockDrops(this);
     }
 
     @Override

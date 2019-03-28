@@ -5,13 +5,12 @@ import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class LegacyAdapter implements VersionAdapter {
 
@@ -31,8 +30,13 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
-    public Set<ItemStack> getTreeBlockDrops(TreeBlock treeBlock, TreeDefinition treeDefinition) {
+    public Collection<ItemStack> getBlockDrops(TreeBlock treeBlock) {
         return null;
+    }
+
+    @Override
+    public boolean areBlockStatesSimilar(BlockState blockState1, BlockState blockState2) {
+        return false;
     }
 
     @Override

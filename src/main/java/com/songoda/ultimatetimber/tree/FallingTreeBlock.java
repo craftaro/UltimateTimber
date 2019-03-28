@@ -1,5 +1,6 @@
 package com.songoda.ultimatetimber.tree;
 
+import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.Location;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +16,7 @@ public class FallingTreeBlock implements ITreeBlock<FallingBlock> {
     public FallingTreeBlock(TreeBlock originalTreeBlock, FallingBlock fallingBlock, TreeBlockType treeBlockType) {
         this.fallingBlock = fallingBlock;
         this.treeBlockType = treeBlockType;
-        this.drops = originalTreeBlock.getDrops();
+        this.drops = UltimateTimber.getInstance().getVersionAdapter().getBlockDrops(originalTreeBlock);
     }
 
     @Override

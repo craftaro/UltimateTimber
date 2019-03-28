@@ -12,18 +12,20 @@ public class TreeDefinition {
     private final Set<BlockState> logBlockStates, leafBlockStates;
     private final BlockState saplingBlockState;
     private final int maxLeafDistanceFromLog;
+    private final boolean detectLeavesDiagonally;
     private final boolean dropOriginalLog, dropOriginalLeaf;
     private final Set<TreeLoot> logLoot, leafLoot;
     private final Set<ItemStack> requiredTools;
 
     public TreeDefinition(String key, Set<BlockState> logBlocks, Set<BlockState> leafBlocks, BlockState saplingBlockState,
-                          int maxLeafDistanceFromLog, boolean dropOriginalLog, boolean dropOriginalLeaf,
+                          int maxLeafDistanceFromLog, boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf,
                           Set<TreeLoot> logLoot, Set<TreeLoot> leafLoot, Set<ItemStack> requiredTools) {
         this.key = key;
         this.logBlockStates = logBlocks;
         this.leafBlockStates = leafBlocks;
         this.saplingBlockState = saplingBlockState;
         this.maxLeafDistanceFromLog = maxLeafDistanceFromLog;
+        this.detectLeavesDiagonally = detectLeavesDiagonally;
         this.dropOriginalLog = dropOriginalLog;
         this.dropOriginalLeaf = dropOriginalLeaf;
         this.logLoot = logLoot;
@@ -74,6 +76,15 @@ public class TreeDefinition {
      */
     public int getMaxLeafDistanceFromLog() {
         return this.maxLeafDistanceFromLog;
+    }
+
+    /**
+     * Gets if tree detection should check for leaves diagonally
+     *
+     * @return True if leaves should be searched for diagonally, otherwise false
+     */
+    public boolean shouldDetectLeavesDiagonally() {
+        return this.detectLeavesDiagonally;
     }
 
     /**
