@@ -1,8 +1,8 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.HashSet;
-
 import org.bukkit.block.Block;
+
+import java.util.HashSet;
 
 class NoAnimationTreeDestroyer {
 

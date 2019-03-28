@@ -1,7 +1,9 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.HashSet;
-
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.events.TreeFallEvent;
+import com.songoda.ultimatetimber.events.TreeFellEvent;
+import com.songoda.ultimatetimber.manager.HookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,10 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.events.TreeFallEvent;
-import com.songoda.ultimatetimber.events.TreeFellEvent;
-import com.songoda.ultimatetimber.manager.HookManager;
+import java.util.HashSet;
 
 public class TreeFallListener implements Listener {
 

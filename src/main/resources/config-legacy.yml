@@ -92,6 +92,10 @@ add-items-to-inventory: false
 # Default: true
 use-custom-sounds: true
 
+# Use custom particles when toppling trees
+# Default: true
+use-custom-particles: true
+
 # The type of animation to use for tree toppling
 # Types: FANCY, DISINTEGRATE, CHAOS, NONE
 tree-animation-type: FANCY
@@ -109,7 +113,6 @@ mix-all-tree-types: false
 # Tree configuration
 # Allows for extreme fine-tuning of tree detection and what are considered trees
 # Multiple log and leaf types are allowed, only one sapling type is allowed
-# For custom-tool and required-tools use the same format as the global settings below the trees section
 # You can add your own custom tree types here, just add a new section
 trees:
   oak:
@@ -127,8 +130,8 @@ trees:
     max-leaf-distance-from-log: 6
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:0
         chance: 5
@@ -151,8 +154,8 @@ trees:
     max-leaf-distance-from-log: 6
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:1
         chance: 5
@@ -172,8 +175,8 @@ trees:
     max-leaf-distance-from-log: 4
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:2
         chance: 5
@@ -193,8 +196,8 @@ trees:
     max-leaf-distance-from-log: 5
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:3
         chance: 2.5
@@ -214,8 +217,8 @@ trees:
     max-leaf-distance-from-log: 5
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:4
         chance: 5
@@ -235,8 +238,8 @@ trees:
     max-leaf-distance-from-log: 5
     drop-original-log: true
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: SAPLING:5
         chance: 5
@@ -264,8 +267,8 @@ trees:
     max-leaf-distance-from-log: 4
     drop-original-log: false
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: BROWN_MUSHROOM
         chance: 25
@@ -290,8 +293,8 @@ trees:
     max-leaf-distance-from-log: 4
     drop-original-log: false
     drop-original-leaf: false
-    custom-log-loot: []
-    custom-leaf-loot:
+    log-loot: []
+    leaf-loot:
       0:
         material: RED_MUSHROOM
         chance: 25
@@ -302,7 +305,7 @@ trees:
 # To add more, increment the number by 1
 # The chance is out of 100 and can contain decimals
 # The default examples here are to show what you can do with custom loot
-global-custom-log-loot:
+global-log-loot:
   0:
     material: DIAMOND
     chance: 0
@@ -311,14 +314,14 @@ global-custom-log-loot:
     chance: 0
   2:
     material: GOLDEN_APPLE
-    command: 'broadcast %player% found a golden apple in a %type tree!'
+    command: 'broadcast %player found a golden apple in a %type tree!'
     chance: 0
 
 # Custom loot that is available for all tree types
 # The loot applies to each leaf broken in the tree
 # To add more, increment the number by 1
 # The chance is out of 100 and can contain decimals
-global-custom-leaf-loot:
+global-leaf-loot:
   0:
     material: GOLDEN_APPLE
     chance: 0.5

@@ -13,12 +13,12 @@ public class TreeDefinition {
     private final BlockState saplingBlockState;
     private final int maxLeafDistanceFromLog;
     private final boolean dropOriginalLog, dropOriginalLeaf;
-    private final Set<TreeLoot> customLogLoot, customLeafLoot;
+    private final Set<TreeLoot> logLoot, leafLoot;
     private final Set<ItemStack> requiredTools;
 
     public TreeDefinition(String key, Set<BlockState> logBlocks, Set<BlockState> leafBlocks, BlockState saplingBlockState,
                           int maxLeafDistanceFromLog, boolean dropOriginalLog, boolean dropOriginalLeaf,
-                          Set<TreeLoot> customLogLoot, Set<TreeLoot> customLeafLoot, Set<ItemStack> requiredTools) {
+                          Set<TreeLoot> logLoot, Set<TreeLoot> leafLoot, Set<ItemStack> requiredTools) {
         this.key = key;
         this.logBlockStates = logBlocks;
         this.leafBlockStates = leafBlocks;
@@ -26,8 +26,8 @@ public class TreeDefinition {
         this.maxLeafDistanceFromLog = maxLeafDistanceFromLog;
         this.dropOriginalLog = dropOriginalLog;
         this.dropOriginalLeaf = dropOriginalLeaf;
-        this.customLogLoot = customLogLoot;
-        this.customLeafLoot = customLeafLoot;
+        this.logLoot = logLoot;
+        this.leafLoot = leafLoot;
         this.requiredTools = requiredTools;
     }
 
@@ -95,21 +95,21 @@ public class TreeDefinition {
     }
 
     /**
-     * Gets the custom log loot for this TreeDefinition
+     * Gets the log loot for this TreeDefinition
      *
      * @return A Set of TreeLoot
      */
-    public Set<TreeLoot> getCustomLogLoot() {
-        return Collections.unmodifiableSet(this.customLogLoot);
+    public Set<TreeLoot> getLogLoot() {
+        return Collections.unmodifiableSet(this.logLoot);
     }
 
     /**
-     * Gets the custom leaf loot for this TreeDefinition
+     * Gets the leaf loot for this TreeDefinition
      *
      * @return A Set of TreeLoot
      */
-    public Set<TreeLoot> getCustomLeafLoot() {
-        return Collections.unmodifiableSet(this.customLeafLoot);
+    public Set<TreeLoot> getLeafLoot() {
+        return Collections.unmodifiableSet(this.leafLoot);
     }
 
     /**

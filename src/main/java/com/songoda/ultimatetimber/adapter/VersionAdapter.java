@@ -6,6 +6,7 @@ import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -46,6 +47,14 @@ public interface VersionAdapter {
      * @param tool The tool to apply damage to
      */
     void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool);
+
+    /**
+     * Gets the item in the player's main hand
+     *
+     * @param player The Player to get the item from
+     * @return The ItemStack in the Player's main hand
+     */
+    ItemStack getItemInHand(Player player);
 
     /**
      * Plays particles to indicate a tree has started falling

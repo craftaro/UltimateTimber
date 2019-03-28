@@ -1,16 +1,15 @@
 package com.songoda.ultimatetimber.manager;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.hooks.JobsHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.hooks.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class HookManager extends Manager {
 

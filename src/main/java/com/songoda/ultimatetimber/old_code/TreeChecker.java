@@ -1,18 +1,17 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.utils.LogToLeafConverter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
-import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.utils.LogToLeafConverter;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TreeChecker {
 

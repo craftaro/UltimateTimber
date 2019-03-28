@@ -1,8 +1,6 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.HashSet;
-import java.util.Random;
-
+import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.songoda.ultimatetimber.utils.WoodToLogConverter;
+import java.util.HashSet;
+import java.util.Random;
 
 public class AxeDurability {
     

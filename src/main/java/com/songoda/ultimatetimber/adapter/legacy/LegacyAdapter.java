@@ -8,6 +8,7 @@ import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -37,6 +38,11 @@ public class LegacyAdapter implements VersionAdapter {
     @Override
     public void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool) {
 
+    }
+
+    @Override
+    public ItemStack getItemInHand(Player player) {
+        return null;
     }
 
     @Override

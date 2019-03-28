@@ -1,15 +1,14 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.Random;
-
+import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
+import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
-import com.songoda.ultimatetimber.utils.LeafToSaplingConverter;
-import com.songoda.ultimatetimber.utils.WoodToLogConverter;
+import java.util.Random;
 
 class TreeLoot {
     

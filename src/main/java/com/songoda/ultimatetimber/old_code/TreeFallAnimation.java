@@ -1,10 +1,6 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
+import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -19,7 +15,10 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.songoda.ultimatetimber.UltimateTimber;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class TreeFallAnimation implements Listener, Runnable {
 

@@ -1,9 +1,7 @@
 package com.songoda.ultimatetimber.old_code;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,8 +10,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.util.Vector;
 
-import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.utils.WoodToLogConverter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 class TreeReplant {
 
