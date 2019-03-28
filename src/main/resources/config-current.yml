@@ -124,6 +124,7 @@ trees:
     leaves:
       - OAK_LEAVES
     sapling: OAK_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -146,6 +147,7 @@ trees:
     leaves:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -165,6 +167,7 @@ trees:
     leaves:
       - SPRUCE_BIRCH
     sapling: BIRCH_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -184,6 +187,7 @@ trees:
     leaves:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -203,6 +207,7 @@ trees:
     leaves:
       - ACACIA_LEAVES
     sapling: ACACIA_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -222,6 +227,7 @@ trees:
     leaves:
       - DARK_OAK_LEAVES
     sapling: DARK_OAK_SAPLING
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -241,6 +247,8 @@ trees:
     leaves:
       - BROWN_MUSHROOM_BLOCK
     sapling: BROWN_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: false
@@ -257,6 +265,8 @@ trees:
     leaves:
       - RED_MUSHROOM_BLOCK
     sapling: RED_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: true
     drop-original-log: false
@@ -267,6 +277,12 @@ trees:
         material: RED_MUSHROOM
         chance: 25
     required-tools: []
+
+# All soil types that the tree type's saplings can be planted on
+global-plantable-soil:
+  - GRASS_BLOCK
+  - DIRT
+  - COARSE_DIRT
 
 # Custom loot that is available for all tree types
 # The loot applies to each log broken in the tree

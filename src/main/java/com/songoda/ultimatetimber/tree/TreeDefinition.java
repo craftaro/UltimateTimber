@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.tree;
 
-import org.bukkit.block.BlockState;
+import com.songoda.ultimatetimber.adapter.IBlockData;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -9,21 +9,23 @@ import java.util.Set;
 public class TreeDefinition {
 
     private final String key;
-    private final Set<BlockState> logBlockStates, leafBlockStates;
-    private final BlockState saplingBlockState;
+    private final Set<IBlockData> logBlockData, leafBlockData, plantableSoilBlockData;
+    private final IBlockData saplingBlockData;
     private final int maxLeafDistanceFromLog;
     private final boolean detectLeavesDiagonally;
     private final boolean dropOriginalLog, dropOriginalLeaf;
     private final Set<TreeLoot> logLoot, leafLoot;
     private final Set<ItemStack> requiredTools;
 
-    public TreeDefinition(String key, Set<BlockState> logBlocks, Set<BlockState> leafBlocks, BlockState saplingBlockState,
-                          int maxLeafDistanceFromLog, boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf,
-                          Set<TreeLoot> logLoot, Set<TreeLoot> leafLoot, Set<ItemStack> requiredTools) {
+    public TreeDefinition(String key, Set<IBlockData> logBlockData, Set<IBlockData> leafBlockData, IBlockData saplingBlockData,
+                          Set<IBlockData> plantableSoilBlockData, int maxLeafDistanceFromLog, boolean detectLeavesDiagonally,
+                          boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
+                          Set<TreeLoot> leafLoot, Set<ItemStack> requiredTools) {
         this.key = key;
-        this.logBlockStates = logBlocks;
-        this.leafBlockStates = leafBlocks;
-        this.saplingBlockState = saplingBlockState;
+        this.logBlockData = logBlockData;
+        this.leafBlockData = leafBlockData;
+        this.saplingBlockData = saplingBlockData;
+        this.plantableSoilBlockData = plantableSoilBlockData;
         this.maxLeafDistanceFromLog = maxLeafDistanceFromLog;
         this.detectLeavesDiagonally = detectLeavesDiagonally;
         this.dropOriginalLog = dropOriginalLog;
@@ -43,30 +45,39 @@ public class TreeDefinition {
     }
 
     /**
-     * Gets a set of valid log block states for this TreeDefinition
+     * Gets a set of valid log block data for this TreeDefinition
      *
-     * @return A Set of BlockStates
+     * @return A Set of IBlockData
      */
-    public Set<BlockState> getLogBlockStates() {
-        return Collections.unmodifiableSet(this.logBlockStates);
+    public Set<IBlockData> getLogBlockData() {
+        return Collections.unmodifiableSet(this.logBlockData);
     }
 
     /**
-     * Gets a set of valid leaf block states for this TreeDefinition
+     * Gets a set of valid leaf block data for this TreeDefinition
      *
-     * @return A Set of BlockStates
+     * @return A Set of IBlockData
      */
-    public Set<BlockState> getLeafBlockStates() {
-        return Collections.unmodifiableSet(this.leafBlockStates);
+    public Set<IBlockData> getLeafBlockData() {
+        return Collections.unmodifiableSet(this.leafBlockData);
     }
 
     /**
-     * Gets the sapling block state of this TreeDefinition
+     * Gets the sapling block data of this TreeDefinition
      *
-     * @return A BlockState for the sapling
+     * @return An IBlockData instance for the sapling
      */
-    public BlockState getSaplingBlockState() {
-        return this.saplingBlockState;
+    public IBlockData getSaplingBlockData() {
+        return this.saplingBlockData;
+    }
+
+    /**
+     * Gets a set of plantable soil block data for this TreeDefinition
+     *
+     * @return A Set of IBlockData
+     */
+    public Set<IBlockData> getPlantableSoilBlockData() {
+        return Collections.unmodifiableSet(this.plantableSoilBlockData);
     }
 
     /**

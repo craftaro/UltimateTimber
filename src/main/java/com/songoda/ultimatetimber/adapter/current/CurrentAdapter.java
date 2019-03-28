@@ -1,12 +1,12 @@
 package com.songoda.ultimatetimber.adapter.current;
 
+import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +20,7 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public BlockState parseBlockStateFromString(String blockStateString) {
+    public IBlockData parseBlockDataFromString(String blockDataString) {
         return null;
     }
 
@@ -32,11 +32,6 @@ public class CurrentAdapter implements VersionAdapter {
     @Override
     public Collection<ItemStack> getBlockDrops(TreeBlock treeBlock) {
         return null;
-    }
-
-    @Override
-    public boolean areBlockStatesSimilar(BlockState blockState1, BlockState blockState2) {
-        return false;
     }
 
     @Override

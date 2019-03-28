@@ -3,14 +3,11 @@ package com.songoda.ultimatetimber.adapter;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.Set;
 
 public interface VersionAdapter {
 
@@ -22,12 +19,12 @@ public interface VersionAdapter {
     VersionAdapterType getVersionAdapterType();
 
     /**
-     * Parses a String into a BlockState
+     * Parses a String into an IBlockData instance
      *
-     * @param blockStateString The String to parse
-     * @return A BlockState that the given String represents
+     * @param blockDataString The String to parse
+     * @return An IBlockData instance that the given String represents
      */
-    BlockState parseBlockStateFromString(String blockStateString);
+    IBlockData parseBlockDataFromString(String blockDataString);
 
     /**
      * Parses a String into an ItemStack
@@ -44,15 +41,6 @@ public interface VersionAdapter {
      * @return A Set of ItemStacks that should be dropped
      */
     Collection<ItemStack> getBlockDrops(TreeBlock treeBlock);
-
-    /**
-     * Checks if two block states are similar
-     *
-     * @param blockState1 The first BlockState
-     * @param blockState2 The second BlockState
-     * @return True if the BlockStates are similar, otherwise false
-     */
-    boolean areBlockStatesSimilar(BlockState blockState1, BlockState blockState2);
 
     /**
      * Applies damage to a tool

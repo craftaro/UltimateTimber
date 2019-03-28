@@ -1,11 +1,11 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.tree.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.util.Vector;
 
 import java.util.Comparator;
@@ -76,7 +76,7 @@ public class TreeDetectionManager extends Manager {
     public DetectedTree detectTree(Block initialBlock) {
         TreeBlock initialTreeBlock = new TreeBlock(initialBlock, TreeBlockType.LOG);
         TreeBlockSet<Block> detectedTreeBlocks = new TreeBlockSet<>(initialTreeBlock);
-        Set<TreeDefinition> possibleTreeDefinitions = treeDefinitionManager.getTreeDefinitionsForLog(initialBlock.getState());
+        Set<TreeDefinition> possibleTreeDefinitions = treeDefinitionManager.getTreeDefinitionsForLog(initialBlock);
 
         // Detect tree trunk
         Set<Block> trunkBlocks = new HashSet<>();
@@ -86,7 +86,7 @@ public class TreeDetectionManager extends Manager {
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
             detectedTreeBlocks.add(treeBlock);
             trunkBlocks.add(initialBlock);
-            possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock.getState(), TreeBlockType.LOG));
+            possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
         }
 
         // Tree must be at least 2 blocks tall
@@ -102,18 +102,23 @@ public class TreeDetectionManager extends Manager {
         for (ITreeBlock<Block> branchBlock : branchBlocks)
             this.recursiveLeafSearch(possibleTreeDefinitions, detectedTreeBlocks, branchBlock.getBlock(), 1);
 
+        TreeDefinition actualTreeDefinition = possibleTreeDefinitions.iterator().next();
+
         // Trees need at least a certain number of leaves
         if (detectedTreeBlocks.getLeafBlocks().size() < this.numLeavesRequiredForTree)
             return null;
 
         // TODO: Soil detection
+        if (this.entireTreeBase) {
+            // TODO: Yadda yadda
+        }
 
         // Delete the starting block if applicable
         if (this.destroyBaseLog)
             detectedTreeBlocks.remove(initialTreeBlock);
 
         // Use the first tree definition in the set
-        return new DetectedTree(possibleTreeDefinitions.iterator().next(), detectedTreeBlocks);
+        return new DetectedTree(actualTreeDefinition, detectedTreeBlocks);
     }
 
     /**
@@ -133,7 +138,7 @@ public class TreeDetectionManager extends Manager {
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
             if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(treeBlock)) {
                 treeBlocks.add(treeBlock);
-                treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block.getState(), TreeBlockType.LOG));
+                treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block, TreeBlockType.LOG));
                 if (!this.onlyBreakLogsUpwards || targetBlock.getLocation().getBlockY() > startingBlockY)
                     this.recursiveBranchSearch(treeDefinitions, treeBlocks, targetBlock, startingBlockY);
             }
@@ -161,7 +166,7 @@ public class TreeDetectionManager extends Manager {
             if (this.isValidLeafType(treeDefinitions, targetBlock)) {
                 if (!treeBlocks.contains(treeBlock) && !this.doesLeafBorderInvalidLog(treeDefinitions, treeBlocks, targetBlock)) {
                     treeBlocks.add(treeBlock);
-                    treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block.getState(), TreeBlockType.LEAF));
+                    treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block, TreeBlockType.LEAF));
                 }
                 this.recursiveLeafSearch(treeDefinitions, treeBlocks, targetBlock, distanceFromLog + 1);
             }
@@ -195,8 +200,8 @@ public class TreeDetectionManager extends Manager {
     private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, Block block) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
         for (TreeDefinition treeDefinition : treeDefinitions)
-            for (BlockState logBlockState : treeDefinition.getLogBlockStates())
-                if (versionAdapter.areBlockStatesSimilar(logBlockState, block.getState()))
+            for (IBlockData logBlockData : treeDefinition.getLogBlockData())
+                if (logBlockData.isSimilar(block))
                     return true;
         return false;
     }
@@ -211,8 +216,8 @@ public class TreeDetectionManager extends Manager {
     private boolean isValidLeafType(Set<TreeDefinition> treeDefinitions, Block block) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
         for (TreeDefinition treeDefinition : treeDefinitions)
-            for (BlockState leafBlockState : treeDefinition.getLeafBlockStates())
-                if (versionAdapter.areBlockStatesSimilar(leafBlockState, block.getState()))
+            for (IBlockData leafBlockData : treeDefinition.getLeafBlockData())
+                if (leafBlockData.isSimilar(block))
                     return true;
         return false;
     }

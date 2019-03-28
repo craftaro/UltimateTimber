@@ -127,6 +127,7 @@ trees:
       - LEAVES:8
       - LEAVES:12
     sapling: SAPLING:0
+    plantable-soil: []
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -152,6 +153,7 @@ trees:
       - LEAVES:9
       - LEAVES:13
     sapling: SAPLING:1
+    plantable-soil: []
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -174,6 +176,7 @@ trees:
       - LEAVES:10
       - LEAVES:14
     sapling: SAPLING:2
+    plantable-soil: []
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -196,6 +199,7 @@ trees:
       - LEAVES:11
       - LEAVES:15
     sapling: SAPLING:3
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -218,6 +222,7 @@ trees:
       - LEAVES_2:8
       - LEAVES_2:12
     sapling: SAPLING:4
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -240,6 +245,7 @@ trees:
       - LEAVES:9
       - LEAVES:13
     sapling: SAPLING:5
+    plantable-soil: []
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -270,6 +276,8 @@ trees:
       - HUGE_MUSHROOM_1:9
       - HUGE_MUSHROOM_1:14
     sapling: BROWN_MUSHROOM
+    plantable-soil:
+      - MYCEL
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: false
@@ -297,6 +305,8 @@ trees:
       - HUGE_MUSHROOM_2:9
       - HUGE_MUSHROOM_2:14
     sapling: RED_MUSHROOM
+    plantable-soil:
+      - MYCEL
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: true
     drop-original-log: false
@@ -307,6 +317,12 @@ trees:
         material: RED_MUSHROOM
         chance: 25
     required-tools: []
+
+# All soil types that the tree type's saplings can be planted on
+global-plantable-soil:
+  - GRASS
+  - DIRT:0
+  - DIRT:1
 
 # Custom loot that is available for all tree types
 # The loot applies to each log broken in the tree

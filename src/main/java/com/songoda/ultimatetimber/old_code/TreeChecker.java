@@ -217,7 +217,7 @@ public class TreeChecker {
         
         for (Vector offset : !this.isMushroom ? VALID_LEAF_OFFSETS : VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
-            if (this.isValidLeafType(targetBlock.getType()) || (this.isMushroom && this.isMushroomBlock(targetBlock.getType()))) {
+            if (this.isValidLeafType(targetBlock.getType())) {
                 if (!this.treeBlocks.contains(targetBlock) && !doesLeafBorderInvalidLog(targetBlock))
                     this.treeBlocks.add(targetBlock);
                 this.recursiveLeafSearch(targetBlock, distanceFromLog + 1);
@@ -250,16 +250,6 @@ public class TreeChecker {
         if (this.allowMixedTreeTypes)
             return VALID_LEAF_MATERIALS.contains(material);
         return material.equals(this.leafType);
-    }
-    
-    /**
-     * Checks if a block is a mushroom head block
-     * 
-     * @param block The block to check
-     * @return If the given block is a mushroom
-     */
-    private boolean isMushroomBlock(Material material) {
-        return material.equals(Material.BROWN_MUSHROOM_BLOCK) || material.equals(Material.RED_MUSHROOM_BLOCK);
     }
     
     /**

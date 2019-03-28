@@ -1,6 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
@@ -8,7 +9,7 @@ import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.tree.TreeLoot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -51,9 +52,10 @@ public class TreeDefinitionManager extends Manager {
         for (String key : treeSection.getKeys(false)) {
             ConfigurationSection tree = treeSection.getConfigurationSection(key);
 
-            Set<BlockState> logBlockStates = new HashSet<>();
-            Set<BlockState> leafBlockStates = new HashSet<>();
-            BlockState saplingBlockState;
+            Set<IBlockData> logBlockData = new HashSet<>();
+            Set<IBlockData> leafBlockData = new HashSet<>();
+            IBlockData saplingBlockData;
+            Set<IBlockData> plantableSoilBlockData = new HashSet<>();
             int maxLeafDistanceFromLog;
             boolean detectLeavesDiagonally;
             boolean dropOriginalLog;
@@ -62,13 +64,17 @@ public class TreeDefinitionManager extends Manager {
             Set<TreeLoot> leafLoot = new HashSet<>();
             Set<ItemStack> requiredTools = new HashSet<>();
 
-            for (String blockStateString : tree.getStringList("logs"))
-                logBlockStates.add(versionAdapter.parseBlockStateFromString(blockStateString));
+            for (String blockDataString : tree.getStringList("logs"))
+                logBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
 
-            for (String blockStateString : tree.getStringList("leaves"))
-                leafBlockStates.add(versionAdapter.parseBlockStateFromString(blockStateString));
+            for (String blockDataString : tree.getStringList("leaves"))
+                leafBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
 
-            saplingBlockState = versionAdapter.parseBlockStateFromString(tree.getString("sapling"));
+            saplingBlockData = versionAdapter.parseBlockDataFromString(tree.getString("sapling"));
+
+            for (String blockDataString : tree.getStringList("plantable-soil"))
+                plantableSoilBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
+
             maxLeafDistanceFromLog = tree.getInt("max-leaf-distance-from-log");
             detectLeavesDiagonally = tree.getBoolean("search-for-leaves-diagonally");
             dropOriginalLog = tree.getBoolean("drop-original-log");
@@ -85,7 +91,7 @@ public class TreeDefinitionManager extends Manager {
             for (String itemStackString : tree.getStringList("required-tools"))
                 requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
 
-            this.treeDefinitions.add(new TreeDefinition(key, logBlockStates, leafBlockStates, saplingBlockState, maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
+            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
         }
 
         // Load global log drops
@@ -109,32 +115,32 @@ public class TreeDefinitionManager extends Manager {
     }
 
     /**
-     * Gets a Set of possible TreeDefinitions that match the given BlockState
+     * Gets a Set of possible TreeDefinitions that match the given Block
      *
-     * @param blockState The BlockState to check
-     * @return A Set of TreeDefinitions for the given BlockState
+     * @param block The Block to check
+     * @return A Set of TreeDefinitions for the given Block
      */
-    public Set<TreeDefinition> getTreeDefinitionsForLog(BlockState blockState) {
-        return this.narrowTreeDefinition(this.treeDefinitions, blockState, TreeBlockType.LOG);
+    public Set<TreeDefinition> getTreeDefinitionsForLog(Block block) {
+        return this.narrowTreeDefinition(this.treeDefinitions, block, TreeBlockType.LOG);
     }
 
     /**
-     * Narrows a Set of TreeDefinitions down to ones matching the given BlockState and TreeBlockType
+     * Narrows a Set of TreeDefinitions down to ones matching the given Block and TreeBlockType
      *
      * @param possibleTreeDefinitions The possible TreeDefinitions
-     * @param blockState The BlockState to narrow to
-     * @param treeBlockType The TreeBlockType of the given BlockState
+     * @param block The Block to narrow to
+     * @param treeBlockType The TreeBlockType of the given Block
      * @return A Set of TreeDefinitions narrowed down
      */
-    public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, BlockState blockState, TreeBlockType treeBlockType) {
+    public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, Block block, TreeBlockType treeBlockType) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
 
         Set<TreeDefinition> matchingTreeDefinitions = new HashSet<>();
         switch (treeBlockType) {
             case LOG:
-                for (TreeDefinition treeDefinition : this.treeDefinitions) {
-                    for (BlockState logBlockState : treeDefinition.getLogBlockStates()) {
-                        if (versionAdapter.areBlockStatesSimilar(logBlockState, blockState)) {
+                for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
+                    for (IBlockData logBlockData : treeDefinition.getLogBlockData()) {
+                        if (logBlockData.isSimilar(block)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -142,9 +148,9 @@ public class TreeDefinitionManager extends Manager {
                 }
                 break;
             case LEAF:
-                for (TreeDefinition treeDefinition : this.treeDefinitions) {
-                    for (BlockState leafBlockState : treeDefinition.getLeafBlockStates()) {
-                        if (versionAdapter.areBlockStatesSimilar(leafBlockState, blockState)) {
+                for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
+                    for (IBlockData leafBlockData : treeDefinition.getLeafBlockData()) {
+                        if (leafBlockData.isSimilar(block)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -154,6 +160,23 @@ public class TreeDefinitionManager extends Manager {
         }
 
         return matchingTreeDefinitions;
+    }
+
+    /**
+     * Checks if a given tool is valid for any tree definitions, also takes into account global tools
+     *
+     * @param tool The tool to check
+     * @return True if the tool is allowed for toppling any trees
+     */
+    public boolean isToolValidForAnyTreeDefinition(ItemStack tool) {
+        for (TreeDefinition treeDefinition : this.treeDefinitions)
+            for (ItemStack requiredTool : treeDefinition.getRequiredTools())
+                if (requiredTool.isSimilar(tool))
+                    return true;
+        for (ItemStack requiredTool : this.globalRequiredTools)
+            if (requiredTool.isSimilar(tool))
+                return true;
+        return false;
     }
 
     /**

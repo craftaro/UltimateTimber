@@ -19,8 +19,10 @@ import java.util.Set;
  */
 public class UltimateTimber extends JavaPlugin {
 
-    private static final CommandSender console = Bukkit.getConsoleSender();
     private static UltimateTimber INSTANCE;
+
+    private final String prefix = "&8[&6UltimateTimber&8]";
+    private final CommandSender console = Bukkit.getConsoleSender();
 
     private Set<Manager> managers;
 
@@ -118,6 +120,15 @@ public class UltimateTimber extends JavaPlugin {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Gets the plugin prefix for chat
+     *
+     * @return The plugin prefix
+     */
+    public String getPrefix() {
+        return this.prefix;
     }
 
     /**

@@ -39,7 +39,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
                     return true;
 
                 UltimateTimber.getInstance().reload();
-                commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getMessageManager().getPrefix() + " &7Configuration reloaded"));
+                commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " &7Configuration reloaded"));
                 return true;
             } else if (args[0].equalsIgnoreCase("toggle")) {
                 if (!(commandSender instanceof Player)) {
@@ -51,9 +51,9 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
                     return true;
 
                 if (UltimateTimber.getInstance().getChoppingManager().togglePlayer((Player)commandSender)) {
-                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getMessageManager().getPrefix() + " Chopping Mode: &aEnabled"));
+                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &aEnabled"));
                 } else {
-                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getMessageManager().getPrefix() + " Chopping Mode: &cDisabled"));
+                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &cDisabled"));
                 }
 
                 return true;
@@ -61,7 +61,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
         }
 
         commandSender.sendMessage("");
-        commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getMessageManager().getPrefix() + " &7Version " + UltimateTimber.getInstance().getDescription().getVersion() + " Created with <3 by &5&l&oSongoda"));
+        commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " &7Version " + UltimateTimber.getInstance().getDescription().getVersion() + " Created with <3 by &5&l&oSongoda"));
         commandSender.sendMessage(Methods.formatText("&8 - &a/ut reload &7 - Reloads the config."));
         commandSender.sendMessage(Methods.formatText("&8 - &a/ut toggle &7 - Toggles your chopping mode"));
         commandSender.sendMessage("");
