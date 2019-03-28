@@ -19,7 +19,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (args.length > 0)
+        if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 if (commandSender instanceof Player && !permCheck((Player) commandSender, "ultimatetimber.reload")) {
                     return true;
@@ -37,6 +37,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 commandSender.sendMessage(Methods.formatText("&cConsole cannot toggle chopping mode!"));
                 return true;
             }
+        }
 
         commandSender.sendMessage("");
         commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " &7Version " + UltimateTimber.getInstance().getDescription().getVersion() + " Created with <3 by &5&l&oSongoda"));

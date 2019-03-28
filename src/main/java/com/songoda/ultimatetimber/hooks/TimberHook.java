@@ -1,15 +1,15 @@
 package com.songoda.ultimatetimber.hooks;
 
-import java.util.HashSet;
-
-import org.bukkit.block.Block;
+import com.songoda.ultimatetimber.tree.TreeBlock;
 import org.bukkit.entity.Player;
+
+import java.util.Set;
 
 public interface TimberHook {
     
     /**
      * Applies the hook
      */
-    void apply(Player player, HashSet<Block> treeBlocks) throws Exception;
+    void apply(Player player, Set<TreeBlock> treeBlocks) throws Exception;
     
 }

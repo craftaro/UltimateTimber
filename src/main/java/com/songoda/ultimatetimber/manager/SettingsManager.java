@@ -1,8 +1,20 @@
 package com.songoda.ultimatetimber.manager;
 
-public class SettingsManager {
+import com.songoda.ultimatetimber.UltimateTimber;
 
-    public enum TSetting {
+public class SettingsManager extends Manager {
+
+    public SettingsManager(UltimateTimber ultimateTimber) {
+        super(ultimateTimber);
+    }
+
+    @Override
+    public void reload() {
+
+    }
+
+    @Override
+    public void disable() {
 
     }
 

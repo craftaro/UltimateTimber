@@ -12,7 +12,7 @@ import com.songoda.ultimatetimber.treefall.TreeChecker;
  */
 public class TreeFallEvent extends TreeEvent implements Cancellable {
 	
-	boolean cancelled = false;
+	private boolean cancelled = false;
 	
     public TreeFallEvent(Player player, TreeChecker treeChecker, Block broke) {
         super(player, treeChecker, broke);

@@ -256,9 +256,17 @@ trees:
 # The loot applies to each log broken in the tree
 # To add more, increment the number by 1
 # The chance is out of 100 and can contain decimals
+# The default examples here are to show what you can do with custom loot
 global-custom-log-loot:
   0:
     material: DIAMOND
+    chance: 0
+  1:
+    command: 'eco give %player% 5'
+    chance: 0
+  2:
+    material: GOLDEN_APPLE
+    command: 'broadcast %player% found a golden apple in a tree!'
     chance: 0
 
 # Custom loot that is available for all tree types
@@ -278,3 +286,12 @@ global-required-tools:
   - IRON_AXE
   - GOLDEN_AXE
   - DIAMOND_AXE
+
+# Hooks into other plugins to apply exp gain/abilities
+hooks:
+  jobs:
+    enabled: false
+  mcmmo:
+    enabled: false
+    require-tree-feller-ability-active: false
+    apply-extra-drops-multiplier: true

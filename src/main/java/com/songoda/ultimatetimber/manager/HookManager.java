@@ -3,32 +3,30 @@ package com.songoda.ultimatetimber.manager;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.songoda.ultimatetimber.hooks.JobsRebornHook;
+import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.hooks.JobsHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.hooks.TimberHook;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class HookManager {
+public class HookManager extends Manager {
 
-    private static HookManager instance;
-    
     private Set<TimberHook> hooks;
-    
-    private HookManager() {
-        this.hooks = new HashSet<>();
+
+    public HookManager(UltimateTimber ultimateTimber) {
+        super(ultimateTimber);
     }
-    
-    /**
-     * Gets the instance of the HookManager
-     * 
-     * @return The instance of the HookManager
-     */
-    public static HookManager getInstance() {
-        if (instance == null)
-            instance = new HookManager();
-        return instance;
+
+    @Override
+    public void reload() {
+
+    }
+
+    @Override
+    public void disable() {
+
     }
     
     /**
@@ -36,7 +34,7 @@ public class HookManager {
      */
     public void hook() {
         this.tryHook("mcMMO", McMMOHook.class);
-        this.tryHook("Jobs", JobsRebornHook.class);
+        this.tryHook("Jobs", JobsHook.class);
     }
     
     /**

@@ -6,18 +6,26 @@ import com.songoda.ultimatetimber.tree.TreeDefinition;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TreeDefinitionManager {
+public class TreeDefinitionManager extends Manager {
 
     private UltimateTimber ultimateTimber;
     private Set<TreeDefinition> treeDefinitions;
 
     public TreeDefinitionManager(UltimateTimber ultimateTimber) {
-        this.ultimateTimber = ultimateTimber;
+        super(ultimateTimber);
         this.treeDefinitions = new HashSet<>();
     }
 
-    public void load() {
+    @Override
+    public void reload() {
+        this.treeDefinitions.clear();
 
+        this.treeDefinitions = this.ultimateTimber.getVersionAdapter().loadTreeDefinitions();
+    }
+
+    @Override
+    public void disable() {
+        this.treeDefinitions.clear();
     }
 
 }

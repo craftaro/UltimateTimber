@@ -14,7 +14,7 @@ import com.gamingmesh.jobs.container.ActionType;
 import com.gamingmesh.jobs.container.JobsPlayer;
 import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 
-public class JobsRebornHook implements TimberHook {
+public class JobsHook implements TimberHook {
 
     @Override
     public void apply(Player player, HashSet<Block> treeBlocks) throws Exception {

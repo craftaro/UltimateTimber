@@ -1,8 +1,9 @@
 package com.songoda.ultimatetimber.hooks;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.Set;
 
+import com.songoda.ultimatetimber.tree.TreeBlock;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import com.gmail.nossr50.api.ExperienceAPI;
 import com.gmail.nossr50.config.experience.ExperienceConfig;
-import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 
 public class McMMOHook implements TimberHook {
 
@@ -42,7 +42,7 @@ public class McMMOHook implements TimberHook {
     }
 
     @Override
-    public void apply(Player player, HashSet<Block> treeBlocks) throws Exception {
+    public void apply(Player player, Set<TreeBlock> treeBlocks) throws Exception {
         if (player.getGameMode().equals(GameMode.CREATIVE)) 
             return;
         

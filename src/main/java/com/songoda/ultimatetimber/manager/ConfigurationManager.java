@@ -1,4 +1,21 @@
 package com.songoda.ultimatetimber.manager;
 
-public class ConfigurationManager {
+import com.songoda.ultimatetimber.UltimateTimber;
+
+public class ConfigurationManager extends Manager {
+
+    public ConfigurationManager(UltimateTimber ultimateTimber) {
+        super(ultimateTimber);
+    }
+
+    @Override
+    public void reload() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
 }
