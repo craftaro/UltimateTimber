@@ -108,9 +108,27 @@ public class TreeDetectionManager extends Manager {
         if (detectedTreeBlocks.getLeafBlocks().size() < this.numLeavesRequiredForTree)
             return null;
 
-        // TODO: Soil detection
+        // Check that the tree isn't on the ground if enabled
         if (this.entireTreeBase) {
-            // TODO: Yadda yadda
+            Set<Block> groundBlocks = new HashSet<>();
+            for (ITreeBlock<Block> treeBlock : detectedTreeBlocks.getLogBlocks())
+                if (treeBlock.getLocation().getBlockY() == initialBlock.getLocation().getBlockY())
+                    groundBlocks.add(treeBlock.getBlock());
+
+            for (Block block : groundBlocks) {
+                Block blockBelow = block.getRelative(BlockFace.DOWN);
+                boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, blockBelow);
+                boolean blockBelowIsSoil = false;
+                for (IBlockData blockData : actualTreeDefinition.getPlantableSoilBlockData()) {
+                    if (blockData.isSimilar(blockBelow)) {
+                        blockBelowIsSoil = true;
+                        break;
+                    }
+                }
+
+                if (!blockBelowIsLog && blockBelowIsSoil)
+                    return null;
+            }
         }
 
         // Delete the starting block if applicable
