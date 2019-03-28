@@ -14,6 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Esophose
+ */
 public class UltimateTimber extends JavaPlugin {
 
     private static final CommandSender console = Bukkit.getConsoleSender();
@@ -22,11 +25,11 @@ public class UltimateTimber extends JavaPlugin {
     private Set<Manager> managers;
 
     private VersionAdapter versionAdapter;
+    private ChoppingManager choppingManager;
+    private CommandManager commandManager;
     private ConfigurationManager configurationManager;
-    private DisabledWorldManager disabledWorldManager;
     private HookManager hookManager;
     private MessageManager messageManager;
-    private SettingsManager settingsManager;
     private TreeAnimationManager treeAnimationManager;
     private TreeDefinitionManager treeDefinitionManager;
     private TreeDetectionManager treeDetectionManager;
@@ -45,18 +48,17 @@ public class UltimateTimber extends JavaPlugin {
         console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
 
         this.managers = new HashSet<>();
+        this.choppingManager = this.registerManager(ChoppingManager.class);
+        this.commandManager = this.registerManager(CommandManager.class);
         this.configurationManager = this.registerManager(ConfigurationManager.class);
-        this.disabledWorldManager = this.registerManager(DisabledWorldManager.class);
         this.hookManager = this.registerManager(HookManager.class);
         this.messageManager = this.registerManager(MessageManager.class);
-        this.settingsManager = this.registerManager(SettingsManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
         this.treeDefinitionManager = this.registerManager(TreeDefinitionManager.class);
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
         this.setupVersionAdapter();
-        this.reload();
 
         new Metrics(this);
         
@@ -110,6 +112,7 @@ public class UltimateTimber extends JavaPlugin {
         try {
             T newManager = managerClass.getConstructor(UltimateTimber.class).newInstance(this);
             this.managers.add(newManager);
+            newManager.reload();
             return newManager;
         } catch (Exception ignored) {
             return null;
@@ -126,21 +129,30 @@ public class UltimateTimber extends JavaPlugin {
     }
 
     /**
+     * Gets the chopping manager
+     *
+     * @return The ChoppingManager instance
+     */
+    public ChoppingManager getChoppingManager() {
+        return this.choppingManager;
+    }
+
+    /**
+     * Gets the command manager
+     *
+     * @return The CommandManager instance
+     */
+    public CommandManager getCommandManager() {
+        return this.commandManager;
+    }
+
+    /**
      * Gets the configuration manager
      *
      * @return The ConfigurationManager instance
      */
     public ConfigurationManager getConfigurationManager() {
         return configurationManager;
-    }
-
-    /**
-     * Gets the disabled world manager
-     *
-     * @return The DisabledWorldManager instance
-     */
-    public DisabledWorldManager getDisabledWorldManager() {
-        return disabledWorldManager;
     }
 
     /**
@@ -159,15 +171,6 @@ public class UltimateTimber extends JavaPlugin {
      */
     public MessageManager getMessageManager() {
         return messageManager;
-    }
-
-    /**
-     * Gets the settings manager
-     *
-     * @return The SettingsManager instance
-     */
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
     }
 
     /**

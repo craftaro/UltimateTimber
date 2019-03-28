@@ -81,8 +81,10 @@ public class TreeBlockSet<BlockType> implements Collection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean add(Object o) {
-        ITreeBlock<BlockType> treeBlock = (ITreeBlock<BlockType>) o;
+        if (!(o instanceof ITreeBlock)) return false;
+        ITreeBlock treeBlock = (ITreeBlock) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
                 return this.logBlocks.add(treeBlock);
@@ -94,7 +96,8 @@ public class TreeBlockSet<BlockType> implements Collection {
 
     @Override
     public boolean remove(Object o) {
-        ITreeBlock<BlockType> treeBlock = (ITreeBlock<BlockType>) o;
+        if (!(o instanceof ITreeBlock)) return false;
+        ITreeBlock treeBlock = (ITreeBlock) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
                 return this.logBlocks.remove(treeBlock);

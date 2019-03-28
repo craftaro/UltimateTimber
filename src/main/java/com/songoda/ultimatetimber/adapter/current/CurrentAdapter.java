@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -19,7 +20,12 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public Set<TreeDefinition> loadTreeDefinitions() {
+    public BlockState parseBlockStateFromString(String blockStateString) {
+        return null;
+    }
+
+    @Override
+    public ItemStack parseItemStackFromString(String itemStackString) {
         return null;
     }
 

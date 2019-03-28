@@ -20,7 +20,7 @@ public class TreeDefinitionManager extends Manager {
     public void reload() {
         this.treeDefinitions.clear();
 
-        this.treeDefinitions = this.ultimateTimber.getVersionAdapter().loadTreeDefinitions();
+        ConfigurationManager configurationManager = ultimateTimber.getConfigurationManager();
     }
 
     @Override

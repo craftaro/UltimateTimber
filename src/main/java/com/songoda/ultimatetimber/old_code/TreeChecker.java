@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.utils.LogToLeafConverter;
 
 public class TreeChecker {

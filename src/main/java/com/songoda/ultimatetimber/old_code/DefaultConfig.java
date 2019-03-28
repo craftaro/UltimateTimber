@@ -1,4 +1,4 @@
-package com.songoda.ultimatetimber.configurations;
+package com.songoda.ultimatetimber.old_code;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.Bukkit;

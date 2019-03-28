@@ -5,6 +5,7 @@ import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -14,11 +15,20 @@ public interface VersionAdapter {
     VersionAdapterType getVersionAdapterType();
 
     /**
-     * Loads a Set of TreeDefinitions from the config
+     * Parses a String into a BlockState
      *
-     * @return A Set of loaded TreeDefinitions
+     * @param blockStateString The String to parse
+     * @return A BlockState that the given String represents
      */
-    Set<TreeDefinition> loadTreeDefinitions();
+    BlockState parseBlockStateFromString(String blockStateString);
+
+    /**
+     * Parses a String into an ItemStack
+     *
+     * @param itemStackString The String to parse
+     * @return An ItemStack that the given String represents
+     */
+    ItemStack parseItemStackFromString(String itemStackString);
 
     /**
      * Get the items that a tree block should drop when it breaks

@@ -13,7 +13,6 @@ import org.bukkit.entity.FallingBlock;
 import org.bukkit.util.Vector;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.configurations.DefaultConfig;
 import com.songoda.ultimatetimber.utils.WoodToLogConverter;
 
 class TreeReplant {
