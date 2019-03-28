@@ -1,16 +1,15 @@
 package com.songoda.ultimatetimber.hooks;
 
-import java.lang.reflect.Method;
-import java.util.Set;
-
-import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.gmail.nossr50.api.ExperienceAPI;
+import com.gmail.nossr50.config.experience.ExperienceConfig;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.config.experience.ExperienceConfig;
+import java.lang.reflect.Method;
 
 public class McMMOHook implements TimberHook {
 
@@ -42,13 +41,14 @@ public class McMMOHook implements TimberHook {
     }
 
     @Override
-    public void apply(Player player, Set<TreeBlock> treeBlocks) throws Exception {
+    public void apply(Player player, TreeBlockSet<Block> treeBlocks) throws Exception {
         if (player.getGameMode().equals(GameMode.CREATIVE)) 
             return;
         
         int xp = 0;
-        for (Block block : treeBlocks) {
-            Material material = WoodToLogConverter.convert(block.getType());
+        for (ITreeBlock<Block> treeBlock : treeBlocks.getLogBlocks()) {
+            Block block = treeBlock.getBlock();
+            Material material = block.getType();
             if (!material.name().endsWith("LOG")) continue;
             xp += (int) getXpMethod.invoke(ExperienceConfig.getInstance(), woodcuttingEnum, material);
         }

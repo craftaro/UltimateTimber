@@ -1,4 +1,4 @@
-package com.songoda.ultimatetimber.treefall;
+package com.songoda.ultimatetimber.old_code;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -49,7 +49,7 @@ public class AxeDurability {
 
         item.setItemMeta((ItemMeta) damageableMeta);
 
-        if (item.getDurability() >= item.getType().getMaxDurability())
+        if (damageableMeta.getDamage() >= item.getType().getMaxDurability())
             player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
     }
     

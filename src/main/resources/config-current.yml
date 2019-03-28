@@ -11,7 +11,7 @@ server-type: CURRENT
 
 # A list of worlds that the plugin is disabled in
 # Default:
-# - 'disabled_world_name'
+# - disabled_world_name
 disabled-worlds:
   - disabled_world_name
 
@@ -50,6 +50,10 @@ allow-creative-mode: true
 # Require the player to have the permission 'ultimatetimber.chop' to topple trees
 # Default: true
 require-chop-permission: true
+
+# Allow players to topple trees regardless of what they are holding in their hand
+# Default: false
+ignore-required-tools: false
 
 # Automatically replant saplings when a tree is toppled
 # Default: true
@@ -98,6 +102,7 @@ scatter-tree-blocks-on-ground: false
 
 # Mix all the tree types below and consider all of them as a single tree type
 # Useful for EpicWorldGenerator and similar plugins that make custom trees
+# Warning: Custom loot can get messy with this enabled
 # Default: false
 mix-all-tree-types: false
 
@@ -266,7 +271,7 @@ global-custom-log-loot:
     chance: 0
   2:
     material: GOLDEN_APPLE
-    command: 'broadcast %player% found a golden apple in a tree!'
+    command: 'broadcast %player% found a golden apple in a %type% tree!'
     chance: 0
 
 # Custom loot that is available for all tree types

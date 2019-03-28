@@ -1,4 +1,4 @@
-package com.songoda.ultimatetimber.treefall;
+package com.songoda.ultimatetimber.old_code;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;

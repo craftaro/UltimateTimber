@@ -2,7 +2,7 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 
-abstract class Manager {
+public abstract class Manager {
 
     protected UltimateTimber ultimateTimber;
 
@@ -13,11 +13,11 @@ abstract class Manager {
     /**
      * Reloads the Manager's settings
      */
-    abstract void reload();
+    public abstract void reload();
 
     /**
      * Cleans up the Manager's resources
      */
-    abstract void disable();
+    public abstract void disable();
 
 }

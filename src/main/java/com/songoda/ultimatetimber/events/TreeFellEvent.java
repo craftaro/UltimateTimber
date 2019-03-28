@@ -4,7 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import com.songoda.ultimatetimber.treefall.TreeChecker;
+import com.songoda.ultimatetimber.old_code.TreeChecker;
 
 /**
  * Called when a tree fell

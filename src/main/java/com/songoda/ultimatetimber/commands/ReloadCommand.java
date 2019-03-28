@@ -3,7 +3,7 @@ package com.songoda.ultimatetimber.commands;
 import org.bukkit.command.CommandSender;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.treefall.CustomLoot;
+import com.songoda.ultimatetimber.old_code.CustomLoot;
 import com.songoda.ultimatetimber.utils.Methods;
 
 class ReloadCommand {

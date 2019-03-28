@@ -1,8 +1,10 @@
 package com.songoda.ultimatetimber.adapter;
 
+import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
-import jdk.nashorn.internal.ir.Block;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -33,6 +35,30 @@ public interface VersionAdapter {
      * @param treeBlocks The Set of tree blocks that are being broken
      * @param tool The tool to apply damage to
      */
-    void applyToolDurability(Set<TreeBlock> treeBlocks, ItemStack tool);
+    void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool);
+
+    /**
+     * Plays particles to indicate a tree has started falling
+     */
+    void playFallingParticles(TreeBlockSet<Block> treeBlocks);
+
+    /**
+     * Plays particles to indicate a tree block has hit the ground
+     */
+    void playLandingParticles(FallingTreeBlock treeBlock);
+
+    /**
+     * Plays a sound to indicate a tree block has started falling
+     *
+     * @param treeBlocks The TreeBlocks to play the sound for
+     */
+    void playFallingSound(TreeBlockSet<Block> treeBlocks);
+
+    /**
+     * Plays a sound to indicate a tree block has hit the ground
+     *
+     * @param treeBlock The FallingTreeBlock to play the sound for
+     */
+    void playLandingSound(FallingTreeBlock treeBlock);
 
 }

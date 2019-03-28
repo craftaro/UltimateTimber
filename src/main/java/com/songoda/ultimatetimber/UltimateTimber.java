@@ -11,10 +11,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class UltimateTimber extends JavaPlugin {
 
     private static final CommandSender console = Bukkit.getConsoleSender();
     private static UltimateTimber INSTANCE;
+
+    private Set<Manager> managers;
 
     private VersionAdapter versionAdapter;
     private ConfigurationManager configurationManager;
@@ -24,6 +29,7 @@ public class UltimateTimber extends JavaPlugin {
     private SettingsManager settingsManager;
     private TreeAnimationManager treeAnimationManager;
     private TreeDefinitionManager treeDefinitionManager;
+    private TreeDetectionManager treeDetectionManager;
     private TreeFallManager treeFallManager;
 
     public static UltimateTimber getInstance() {
@@ -38,14 +44,16 @@ public class UltimateTimber extends JavaPlugin {
         console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
         console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
 
-        this.configurationManager = new ConfigurationManager(this);
-        this.disabledWorldManager = new DisabledWorldManager(this);
-        this.hookManager = new HookManager(this);
-        this.messageManager = new MessageManager(this);
-        this.settingsManager = new SettingsManager(this);
-        this.treeAnimationManager = new TreeAnimationManager(this);
-        this.treeDefinitionManager = new TreeDefinitionManager(this);
-        this.treeFallManager = new TreeFallManager(this);
+        this.managers = new HashSet<>();
+        this.configurationManager = this.registerManager(ConfigurationManager.class);
+        this.disabledWorldManager = this.registerManager(DisabledWorldManager.class);
+        this.hookManager = this.registerManager(HookManager.class);
+        this.messageManager = this.registerManager(MessageManager.class);
+        this.settingsManager = this.registerManager(SettingsManager.class);
+        this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
+        this.treeDefinitionManager = this.registerManager(TreeDefinitionManager.class);
+        this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
+        this.treeFallManager = this.registerManager(TreeFallManager.class);
 
         this.setupVersionAdapter();
         this.reload();
@@ -61,7 +69,7 @@ public class UltimateTimber extends JavaPlugin {
         console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
         console.sendMessage(Methods.formatText("&7Action: &cDisabling&7..."));
         
-
+        this.disable();
         
         console.sendMessage(Methods.formatText("&a============================="));
     }
@@ -70,7 +78,14 @@ public class UltimateTimber extends JavaPlugin {
      * Reloads the plugin's settings
      */
     public void reload() {
+        this.managers.forEach(Manager::reload);
+    }
 
+    /**
+     * Disables most of the plugin
+     */
+    public void disable() {
+        this.managers.forEach(Manager::disable);
     }
 
     /**
@@ -84,6 +99,28 @@ public class UltimateTimber extends JavaPlugin {
         }
     }
 
+    /**
+     * Registers a manager
+     *
+     * @param managerClass The class of the manager to create a new instance of
+     * @param <T> extends Manager
+     * @return A new instance of the given manager class
+     */
+    private <T extends Manager> T registerManager(Class<T> managerClass) {
+        try {
+            T newManager = managerClass.getConstructor(UltimateTimber.class).newInstance(this);
+            this.managers.add(newManager);
+            return newManager;
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the active version adapter being used
+     *
+     * @return The VersionAdapter being used for the plugin
+     */
     public VersionAdapter getVersionAdapter() {
         return this.versionAdapter;
     }
@@ -149,6 +186,15 @@ public class UltimateTimber extends JavaPlugin {
      */
     public TreeDefinitionManager getTreeDefinitionManager() {
         return treeDefinitionManager;
+    }
+
+    /**
+     * Gets the tree detection manager
+     *
+     * @return The TreeDetectionManager instance
+     */
+    public TreeDetectionManager getTreeDetectionManager() {
+        return treeDetectionManager;
     }
 
     /**

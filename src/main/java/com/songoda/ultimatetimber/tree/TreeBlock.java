@@ -2,7 +2,7 @@ package com.songoda.ultimatetimber.tree;
 
 import org.bukkit.block.Block;
 
-public class TreeBlock {
+public class TreeBlock implements ITreeBlock<Block> {
 
     private final Block block;
     private final TreeBlockType treeBlockType;
@@ -12,10 +12,12 @@ public class TreeBlock {
         this.treeBlockType = treeBlockType;
     }
 
+    @Override
     public Block getBlock() {
         return this.block;
     }
 
+    @Override
     public TreeBlockType getTreeBlockType() {
         return this.treeBlockType;
     }

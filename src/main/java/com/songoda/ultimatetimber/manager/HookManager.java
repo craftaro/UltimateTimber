@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.hooks.JobsHook;
 import com.songoda.ultimatetimber.hooks.McMMOHook;
 import com.songoda.ultimatetimber.hooks.TimberHook;
+import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -21,20 +22,15 @@ public class HookManager extends Manager {
 
     @Override
     public void reload() {
+        this.hooks.clear();
 
+        this.tryHook("mcMMO", McMMOHook.class);
+        this.tryHook("Jobs", JobsHook.class);
     }
 
     @Override
     public void disable() {
-
-    }
-    
-    /**
-     * Hooks into compatible plugins
-     */
-    public void hook() {
-        this.tryHook("mcMMO", McMMOHook.class);
-        this.tryHook("Jobs", JobsHook.class);
+        this.hooks.clear();
     }
     
     /**
@@ -61,7 +57,7 @@ public class HookManager extends Manager {
      * @param player The player to apply the hook for
      * @param treeBlocks The blocks of the tree that were broken
      */
-    public void applyHooks(Player player, HashSet<Block> treeBlocks) {
+    public void applyHooks(Player player, TreeBlockSet treeBlocks) {
         Set<TimberHook> invalidHooks = new HashSet<>();
         for (TimberHook hook : this.hooks) {
             try {

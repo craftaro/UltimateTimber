@@ -2,14 +2,27 @@ package com.songoda.ultimatetimber.tree;
 
 import java.util.*;
 
-public class TreeBlockSet implements Collection {
+public class TreeBlockSet<BlockType> implements Collection {
 
-    private Set<TreeBlock> logBlocks;
-    private Set<TreeBlock> leafBlocks;
+    private final ITreeBlock<BlockType> initialLogBlock;
+    private final Set<ITreeBlock<BlockType>> logBlocks;
+    private final Set<ITreeBlock<BlockType>> leafBlocks;
 
-    public TreeBlockSet() {
+    public TreeBlockSet(ITreeBlock<BlockType> initialLogBlock) {
+        this.initialLogBlock = initialLogBlock;
         this.logBlocks = new HashSet<>();
         this.leafBlocks = new HashSet<>();
+
+        this.logBlocks.add(initialLogBlock);
+    }
+
+    /**
+     * Gets the TreeBlock that initiated the tree topple
+     *
+     * @return The TreeBlock of the initial topple point
+     */
+    public ITreeBlock<BlockType> getInitialLogBlock() {
+        return this.initialLogBlock;
     }
 
     /**
@@ -17,7 +30,7 @@ public class TreeBlockSet implements Collection {
      *
      * @return A Set of TreeBlocks
      */
-    public Set<TreeBlock> getLogBlocks() {
+    public Set<ITreeBlock<BlockType>> getLogBlocks() {
         return Collections.unmodifiableSet(this.logBlocks);
     }
 
@@ -26,7 +39,7 @@ public class TreeBlockSet implements Collection {
      *
      * @return A Set of TreeBlocks
      */
-    public Set<TreeBlock> getLeafBlocks() {
+    public Set<ITreeBlock<BlockType>> getLeafBlocks() {
         return Collections.unmodifiableSet(this.leafBlocks);
     }
 
@@ -35,8 +48,8 @@ public class TreeBlockSet implements Collection {
      *
      * @return A Set of all TreeBlocks
      */
-    public Set<TreeBlock> getAllTreeBlocks() {
-        Set<TreeBlock> treeBlocks = new HashSet<>();
+    public Set<ITreeBlock<BlockType>> getAllTreeBlocks() {
+        Set<ITreeBlock<BlockType>> treeBlocks = new HashSet<>();
         treeBlocks.addAll(this.logBlocks);
         treeBlocks.addAll(this.leafBlocks);
         return treeBlocks;
@@ -69,8 +82,7 @@ public class TreeBlockSet implements Collection {
 
     @Override
     public boolean add(Object o) {
-        if (!(o instanceof TreeBlock)) return false;
-        TreeBlock treeBlock = (TreeBlock) o;
+        ITreeBlock<BlockType> treeBlock = (ITreeBlock<BlockType>) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
                 return this.logBlocks.add(treeBlock);
@@ -82,8 +94,7 @@ public class TreeBlockSet implements Collection {
 
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof TreeBlock)) return false;
-        TreeBlock treeBlock = (TreeBlock) o;
+        ITreeBlock<BlockType> treeBlock = (ITreeBlock<BlockType>) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
                 return this.logBlocks.remove(treeBlock);
@@ -146,10 +157,10 @@ public class TreeBlockSet implements Collection {
 
     @Override
     public Object[] toArray(Object[] a) {
-        Set<TreeBlock> treeBlocks = new HashSet<>();
+        Set<ITreeBlock<BlockType>> treeBlocks = new HashSet<>();
         for (Object o : a)
-            if (o instanceof TreeBlock)
-                treeBlocks.add((TreeBlock)o);
+            if (o instanceof ITreeBlock)
+                treeBlocks.add((ITreeBlock<BlockType>)o);
         return treeBlocks.toArray();
     }
 

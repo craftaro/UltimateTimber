@@ -4,7 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerEvent;
 
-import com.songoda.ultimatetimber.treefall.TreeChecker;
+import com.songoda.ultimatetimber.old_code.TreeChecker;
 
 /**
  * Abstract tree event containing tree's blocks and broke block
