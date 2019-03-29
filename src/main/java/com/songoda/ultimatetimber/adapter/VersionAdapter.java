@@ -5,6 +5,7 @@ import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
@@ -45,10 +46,19 @@ public interface VersionAdapter {
     /**
      * Applies damage to a tool
      *
-     * @param treeBlocks The Set of tree blocks that are being broken
      * @param tool The tool to apply damage to
+     * @param damage The amount of damage to apply
      */
-    void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool);
+    void applyToolDurability(ItemStack tool, int damage);
+
+    /**
+     * Checks if a given tool has enough durability remaining
+     *
+     * @param tool The tool to check
+     * @param requiredAmount The amount of durability required
+     * @return True if enough durability is remaining to not break the tool, otherwise false
+     */
+    boolean hasEnoughDurability(ItemStack tool, int requiredAmount);
 
     /**
      * Gets the item in the player's main hand

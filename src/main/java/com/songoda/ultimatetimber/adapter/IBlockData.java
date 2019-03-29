@@ -33,4 +33,11 @@ public interface IBlockData {
      */
     boolean isSimilar(Block block);
 
+    /**
+     * Sets a given Block to use this IBlockData
+     *
+     * @param block The Block to set
+     */
+    void setBlock(Block block);
+
 }

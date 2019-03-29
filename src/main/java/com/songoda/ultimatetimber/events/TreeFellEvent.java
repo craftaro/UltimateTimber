@@ -1,7 +1,6 @@
 package com.songoda.ultimatetimber.events;
 
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import org.bukkit.block.Block;
+import com.songoda.ultimatetimber.tree.DetectedTree;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -10,8 +9,8 @@ import org.bukkit.event.HandlerList;
  */
 public class TreeFellEvent extends TreeEvent {
 
-    public TreeFellEvent(Player player, TreeBlockSet<Block> treeBlocks) {
-        super(player, treeBlocks);
+    public TreeFellEvent(Player player, DetectedTree detectedTree) {
+        super(player, detectedTree);
     }
 
     private static final HandlerList handlers = new HandlerList();

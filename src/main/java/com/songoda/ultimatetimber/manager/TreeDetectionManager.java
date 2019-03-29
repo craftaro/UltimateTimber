@@ -2,7 +2,6 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.IBlockData;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.tree.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,7 +18,6 @@ public class TreeDetectionManager extends Manager {
     private TreeDefinitionManager treeDefinitionManager;
     private int maxBranchBlocksAllowed;
     private int numLeavesRequiredForTree;
-    private boolean allowMixedTreeTypes;
     private boolean onlyBreakLogsUpwards;
     private boolean destroyBaseLog;
     private boolean entireTreeBase;
@@ -27,27 +25,27 @@ public class TreeDetectionManager extends Manager {
     public TreeDetectionManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
 
-        VALID_BRANCH_OFFSETS = new HashSet<>();
-        VALID_TRUNK_OFFSETS = new HashSet<>();
-        VALID_LEAF_OFFSETS = new HashSet<>();
+        this.VALID_BRANCH_OFFSETS = new HashSet<>();
+        this.VALID_TRUNK_OFFSETS = new HashSet<>();
+        this.VALID_LEAF_OFFSETS = new HashSet<>();
 
         // 3x2x3 centered around log, excluding -y axis
         for (int x = -1; x <= 1; x++)
             for (int y = 0; y <= 1; y++)
                 for (int z = -1; z <= 1; z++)
-                    VALID_BRANCH_OFFSETS.add(new Vector(x, y, z));
+                    this.VALID_BRANCH_OFFSETS.add(new Vector(x, y, z));
 
         // 3x3x3 centered around log
         for (int x = -1; x <= 1; x++)
             for (int y = -1; y <= 1; y++)
                 for (int z = -1; z <= 1; z++)
-                    VALID_TRUNK_OFFSETS.add(new Vector(x, y, z));
+                    this.VALID_TRUNK_OFFSETS.add(new Vector(x, y, z));
 
         // Adjacent blocks to log
         for (int i = -1; i <= 1; i += 2) {
-            VALID_LEAF_OFFSETS.add(new Vector(i, 0, 0));
-            VALID_LEAF_OFFSETS.add(new Vector(0, i, 0));
-            VALID_LEAF_OFFSETS.add(new Vector(0, 0, i));
+            this.VALID_LEAF_OFFSETS.add(new Vector(i, 0, 0));
+            this.VALID_LEAF_OFFSETS.add(new Vector(0, i, 0));
+            this.VALID_LEAF_OFFSETS.add(new Vector(0, 0, i));
         }
     }
 
@@ -56,7 +54,6 @@ public class TreeDetectionManager extends Manager {
         this.treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
         this.maxBranchBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
         this.numLeavesRequiredForTree = ConfigurationManager.Setting.LEAVES_REQUIRED_FOR_TREE.getInt();
-        this.allowMixedTreeTypes = ConfigurationManager.Setting.MIX_ALL_TREE_TYPES.getBoolean();
         this.onlyBreakLogsUpwards = ConfigurationManager.Setting.ONLY_DETECT_LOGS_UPWARDS.getBoolean();
         this.destroyBaseLog = ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean();
         this.entireTreeBase = ConfigurationManager.Setting.BREAK_ENTIRE_TREE_BASE.getBoolean();
@@ -76,7 +73,10 @@ public class TreeDetectionManager extends Manager {
     public DetectedTree detectTree(Block initialBlock) {
         TreeBlock initialTreeBlock = new TreeBlock(initialBlock, TreeBlockType.LOG);
         TreeBlockSet<Block> detectedTreeBlocks = new TreeBlockSet<>(initialTreeBlock);
-        Set<TreeDefinition> possibleTreeDefinitions = treeDefinitionManager.getTreeDefinitionsForLog(initialBlock);
+        Set<TreeDefinition> possibleTreeDefinitions = this.treeDefinitionManager.getTreeDefinitionsForLog(initialBlock);
+
+        if (possibleTreeDefinitions.isEmpty())
+            return null;
 
         // Detect tree trunk
         Set<Block> trunkBlocks = new HashSet<>();
@@ -151,7 +151,7 @@ public class TreeDetectionManager extends Manager {
         if (treeBlocks.size() > this.maxBranchBlocksAllowed)
             return;
 
-        for (Vector offset : this.onlyBreakLogsUpwards ? VALID_BRANCH_OFFSETS : VALID_TRUNK_OFFSETS) {
+        for (Vector offset : this.onlyBreakLogsUpwards ? this.VALID_BRANCH_OFFSETS : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
             if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(treeBlock)) {
@@ -178,7 +178,7 @@ public class TreeDetectionManager extends Manager {
         if (distanceFromLog > maxDistanceFromLog)
             return;
 
-        for (Vector offset : !detectLeavesDiagonally ? VALID_LEAF_OFFSETS : VALID_TRUNK_OFFSETS) {
+        for (Vector offset : !detectLeavesDiagonally ? this.VALID_LEAF_OFFSETS : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LEAF);
             if (this.isValidLeafType(treeDefinitions, targetBlock)) {
@@ -200,7 +200,7 @@ public class TreeDetectionManager extends Manager {
      * @return True if the leaf borders an invalid log, otherwise false
      */
     private boolean doesLeafBorderInvalidLog(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block) {
-        for (Vector offset : VALID_TRUNK_OFFSETS) {
+        for (Vector offset : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
             if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(new TreeBlock(targetBlock, TreeBlockType.LOG)))
                 return true;
@@ -216,7 +216,6 @@ public class TreeDetectionManager extends Manager {
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, Block block) {
-        VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
         for (TreeDefinition treeDefinition : treeDefinitions)
             for (IBlockData logBlockData : treeDefinition.getLogBlockData())
                 if (logBlockData.isSimilar(block))
@@ -232,7 +231,6 @@ public class TreeDetectionManager extends Manager {
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLeafType(Set<TreeDefinition> treeDefinitions, Block block) {
-        VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
         for (TreeDefinition treeDefinition : treeDefinitions)
             for (IBlockData leafBlockData : treeDefinition.getLeafBlockData())
                 if (leafBlockData.isSimilar(block))

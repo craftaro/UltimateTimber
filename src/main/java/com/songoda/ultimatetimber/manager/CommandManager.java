@@ -35,7 +35,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                if (commandSender instanceof Player && !permCheck((Player) commandSender, "ultimatetimber.reload"))
+                if (commandSender instanceof Player && !this.permCheck((Player) commandSender, "ultimatetimber.reload"))
                     return true;
 
                 UltimateTimber.getInstance().reload();
@@ -47,7 +47,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
                     return true;
                 }
 
-                if (!permCheck((Player) commandSender, "ultimatetimber.toggle"))
+                if (!this.permCheck((Player) commandSender, "ultimatetimber.toggle"))
                     return true;
 
                 if (UltimateTimber.getInstance().getChoppingManager().togglePlayer((Player)commandSender)) {
@@ -81,7 +81,7 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
         List<String> completions = new ArrayList<>();
 
-        if (args.length == 0 || args.length > 1)
+        if (args.length < 1)
             return completions;
 
         Set<String> possibleCompletions = new HashSet<>();

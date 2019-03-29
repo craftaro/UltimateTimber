@@ -58,7 +58,7 @@ public class TreeLoot {
      * @return The command that this tree loot can run
      */
     public String getCommand() {
-        return command;
+        return this.command;
     }
 
     /**

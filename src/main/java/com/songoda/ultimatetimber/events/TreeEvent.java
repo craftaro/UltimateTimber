@@ -1,7 +1,6 @@
 package com.songoda.ultimatetimber.events;
 
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import org.bukkit.block.Block;
+import com.songoda.ultimatetimber.tree.DetectedTree;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerEvent;
 
@@ -10,11 +9,11 @@ import org.bukkit.event.player.PlayerEvent;
  */
 public abstract class TreeEvent extends PlayerEvent {
 	
-	protected final TreeBlockSet<Block> treeBlocks;
+	protected final DetectedTree detectedTree;
 
-    public TreeEvent(Player player, TreeBlockSet<Block> treeBlocks) {
+    public TreeEvent(Player player, DetectedTree detectedTree) {
         super(player);
-        this.treeBlocks = treeBlocks;
+        this.detectedTree = detectedTree;
     }
 
     /**
@@ -22,8 +21,8 @@ public abstract class TreeEvent extends PlayerEvent {
      * 
      * @return The blocks that are part of the tree
      */
-    public TreeBlockSet<Block> getTreeBlocks() {
-        return this.treeBlocks;
+    public DetectedTree getDetectedTree() {
+        return this.detectedTree;
     }
     
 }

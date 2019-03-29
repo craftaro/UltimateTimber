@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 
+@SuppressWarnings("deprecation")
 public class LegacyAdapter implements VersionAdapter {
 
     @Override
@@ -35,13 +36,18 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
-    public void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool) {
+    public void applyToolDurability(ItemStack tool, int damage) {
 
     }
 
     @Override
+    public boolean hasEnoughDurability(ItemStack tool, int requiredAmount) {
+        return false;
+    }
+
+    @Override
     public ItemStack getItemInHand(Player player) {
-        return null;
+        return player.getItemInHand();
     }
 
     @Override

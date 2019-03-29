@@ -18,6 +18,7 @@ public class HookManager extends Manager {
 
     public HookManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
+        this.hooks = new HashSet<>();
     }
 
     @Override

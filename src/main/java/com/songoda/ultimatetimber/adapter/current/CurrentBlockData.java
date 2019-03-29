@@ -32,4 +32,9 @@ public class CurrentBlockData implements IBlockData {
         return this.material.equals(block.getType());
     }
 
+    @Override
+    public void setBlock(Block block) {
+        block.setType(this.material);
+    }
+
 }

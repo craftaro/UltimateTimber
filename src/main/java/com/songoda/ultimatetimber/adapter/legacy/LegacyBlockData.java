@@ -37,4 +37,11 @@ public class LegacyBlockData implements IBlockData {
         return this.material.equals(blockMaterial) && this.data == blockData;
     }
 
+    @Override
+    public void setBlock(Block block) {
+        block.setType(this.material);
+        // TODO: Break into maven modules so this can use a 1.12.2 jar for compiling instead
+        // block.setData(this.data);
+    }
+
 }

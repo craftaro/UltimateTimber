@@ -22,21 +22,21 @@ public class McMMOHook implements TimberHook {
             for (Object enumValue : primarySkillTypeClass.getEnumConstants()) {
                 Enum<?> primarySkillTypeEnum = (Enum<?>) enumValue;
                 if (primarySkillTypeEnum.name().equals("WOODCUTTING")) {
-                    woodcuttingEnum = primarySkillTypeEnum;
+                    this.woodcuttingEnum = primarySkillTypeEnum;
                     break;
                 }
             }
-            getXpMethod = ExperienceConfig.class.getMethod("getXp", woodcuttingEnum.getClass(), Material.class);
+            this.getXpMethod = ExperienceConfig.class.getMethod("getXp", this.woodcuttingEnum.getClass(), Material.class);
         } catch (Exception ex) {
             Class<?> skillTypeClass = Class.forName("com.gmail.nossr50.datatypes.skills.SkillType");
             for (Object enumValue : skillTypeClass.getEnumConstants()) {
                 Enum<?> skillTypeEnum = (Enum<?>) enumValue;
                 if (skillTypeEnum.name().equals("WOODCUTTING")) {
-                    woodcuttingEnum = skillTypeEnum;
+                    this.woodcuttingEnum = skillTypeEnum;
                     break;
                 }
             }
-            getXpMethod = ExperienceConfig.class.getMethod("getXp", woodcuttingEnum.getClass(), Material.class);
+            this.getXpMethod = ExperienceConfig.class.getMethod("getXp", this.woodcuttingEnum.getClass(), Material.class);
         }
     }
 
@@ -50,7 +50,7 @@ public class McMMOHook implements TimberHook {
             Block block = treeBlock.getBlock();
             Material material = block.getType();
             if (!material.name().endsWith("LOG")) continue;
-            xp += (int) getXpMethod.invoke(ExperienceConfig.getInstance(), woodcuttingEnum, material);
+            xp += (int) this.getXpMethod.invoke(ExperienceConfig.getInstance(), this.woodcuttingEnum, material);
         }
         
         ExperienceAPI.addXP(player, "woodcutting", xp, "pve");

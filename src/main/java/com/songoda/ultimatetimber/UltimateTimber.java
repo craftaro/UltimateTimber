@@ -31,6 +31,7 @@ public class UltimateTimber extends JavaPlugin {
     private CommandManager commandManager;
     private ConfigurationManager configurationManager;
     private HookManager hookManager;
+    private SaplingManager saplingManager;
     private TreeAnimationManager treeAnimationManager;
     private TreeDefinitionManager treeDefinitionManager;
     private TreeDetectionManager treeDetectionManager;
@@ -44,15 +45,16 @@ public class UltimateTimber extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
 
-        console.sendMessage(Methods.formatText("&a============================="));
-        console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
-        console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
+        this.console.sendMessage(Methods.formatText("&a============================="));
+        this.console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
+        this.console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
 
         this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
         this.commandManager = this.registerManager(CommandManager.class);
         this.configurationManager = new ConfigurationManager(this);
         this.hookManager = this.registerManager(HookManager.class);
+        this.saplingManager = this.registerManager(SaplingManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
         this.treeDefinitionManager = this.registerManager(TreeDefinitionManager.class);
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
@@ -62,19 +64,19 @@ public class UltimateTimber extends JavaPlugin {
         this.reload();
 
         new Metrics(this);
-        
-        console.sendMessage(Methods.formatText("&a============================="));
+
+        this.console.sendMessage(Methods.formatText("&a============================="));
     }
 
     @Override
     public void onDisable() {
-        console.sendMessage(Methods.formatText("&a============================="));
-        console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
-        console.sendMessage(Methods.formatText("&7Action: &cDisabling&7..."));
+        this.console.sendMessage(Methods.formatText("&a============================="));
+        this.console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
+        this.console.sendMessage(Methods.formatText("&7Action: &cDisabling&7..."));
         
         this.disable();
-        
-        console.sendMessage(Methods.formatText("&a============================="));
+
+        this.console.sendMessage(Methods.formatText("&a============================="));
     }
 
     /**
@@ -164,7 +166,7 @@ public class UltimateTimber extends JavaPlugin {
      * @return The ConfigurationManager instance
      */
     public ConfigurationManager getConfigurationManager() {
-        return configurationManager;
+        return this.configurationManager;
     }
 
     /**
@@ -173,7 +175,16 @@ public class UltimateTimber extends JavaPlugin {
      * @return The HookManager instance
      */
     public HookManager getHookManager() {
-        return hookManager;
+        return this.hookManager;
+    }
+
+    /**
+     * Gets the sapling manager
+     *
+     * @return The SaplingManager instance
+     */
+    public SaplingManager getSaplingManager() {
+        return this.saplingManager;
     }
 
     /**
@@ -182,7 +193,7 @@ public class UltimateTimber extends JavaPlugin {
      * @return The TreeAnimationManager instance
      */
     public TreeAnimationManager getTreeAnimationManager() {
-        return treeAnimationManager;
+        return this.treeAnimationManager;
     }
 
     /**
@@ -191,7 +202,7 @@ public class UltimateTimber extends JavaPlugin {
      * @return The TreeDefinitionManager instance
      */
     public TreeDefinitionManager getTreeDefinitionManager() {
-        return treeDefinitionManager;
+        return this.treeDefinitionManager;
     }
 
     /**
@@ -200,7 +211,7 @@ public class UltimateTimber extends JavaPlugin {
      * @return The TreeDetectionManager instance
      */
     public TreeDetectionManager getTreeDetectionManager() {
-        return treeDetectionManager;
+        return this.treeDetectionManager;
     }
 
     /**
@@ -209,7 +220,7 @@ public class UltimateTimber extends JavaPlugin {
      * @return The TreeFallManager instance
      */
     public TreeFallManager getTreeFallManager() {
-        return treeFallManager;
+        return this.treeFallManager;
     }
 
 }

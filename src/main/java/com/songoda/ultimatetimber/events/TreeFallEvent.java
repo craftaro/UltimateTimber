@@ -1,7 +1,6 @@
 package com.songoda.ultimatetimber.events;
 
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import org.bukkit.block.Block;
+import com.songoda.ultimatetimber.tree.DetectedTree;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -13,8 +12,8 @@ public class TreeFallEvent extends TreeEvent implements Cancellable {
 	
 	private boolean cancelled = false;
 	
-    public TreeFallEvent(Player player, TreeBlockSet<Block> treeBlocks) {
-        super(player, treeBlocks);
+    public TreeFallEvent(Player player, DetectedTree detectedTree) {
+        super(player, detectedTree);
     }
 
     private static final HandlerList handlers = new HandlerList();

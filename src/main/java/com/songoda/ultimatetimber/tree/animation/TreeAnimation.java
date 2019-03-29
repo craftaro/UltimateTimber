@@ -1,8 +1,10 @@
 package com.songoda.ultimatetimber.tree.animation;
 
+import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 public abstract class TreeAnimation {
 
@@ -16,6 +18,12 @@ public abstract class TreeAnimation {
         this.treeDefinition = treeDefinition;
     }
 
-    abstract void playAnimation();
+    /**
+     * Plays this tree topple animation
+     *
+     * @param detectedTree The DetectedTree
+     * @param player The Player who toppled the tree
+     */
+    abstract void playAnimation(DetectedTree detectedTree, Player player);
 
 }

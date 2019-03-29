@@ -10,10 +10,12 @@ import java.util.List;
 public class ConfigurationManager extends Manager {
 
     public enum Setting {
+        SERVER_TYPE,
         DISABLED_WORLDS,
         MAX_LOGS_PER_CHOP,
         LEAVES_REQUIRED_FOR_TREE,
         REALISTIC_TOOL_DAMAGE,
+        PROTECT_TOOL,
         BREAK_ENTIRE_TREE_BASE,
         DESTROY_INITIATED_BLOCK,
         ONLY_DETECT_LOGS_UPWARDS,
@@ -29,6 +31,8 @@ public class ConfigurationManager extends Manager {
         FALLING_BLOCK_DAMAGE,
         ADD_ITEMS_TO_INVENTORY,
         USE_CUSTOM_SOUNDS,
+        USE_CUSTOM_PARTICLES,
+        BONUS_LOOT_MULTIPLIER,
         SCATTER_TREE_BLOCKS_ON_GROUND,
         MIX_ALL_TREE_TYPES;
 
@@ -41,7 +45,7 @@ public class ConfigurationManager extends Manager {
          */
         public boolean getBoolean() {
             this.loadValue();
-            return (boolean)value;
+            return (boolean)this.value;
         }
 
         /**
@@ -51,7 +55,27 @@ public class ConfigurationManager extends Manager {
          */
         public int getInt() {
             this.loadValue();
-            return (int)value;
+            return (int)this.value;
+        }
+
+        /**
+         * Gets the setting as a double
+         *
+         * @return The setting a double
+         */
+        public double getDouble() {
+            this.loadValue();
+            return (double)this.value;
+        }
+
+        /**
+         * Gets the setting as a String
+         *
+         * @return The setting a String
+         */
+        public String getString() {
+            this.loadValue();
+            return (String)this.value;
         }
 
         /**
@@ -62,7 +86,7 @@ public class ConfigurationManager extends Manager {
         @SuppressWarnings("unchecked")
         public List<String> getStringList() {
             this.loadValue();
-            return (List<String>)value;
+            return (List<String>)this.value;
         }
 
         /**
@@ -77,7 +101,7 @@ public class ConfigurationManager extends Manager {
          */
         private void loadValue() {
             if (this.value == null)
-                value = UltimateTimber.getInstance().getConfigurationManager().getConfig().get(this.getNameAsKey());
+                this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().get(this.getNameAsKey());
         }
 
         /**
@@ -98,21 +122,21 @@ public class ConfigurationManager extends Manager {
 
     @Override
     public void reload() {
-        File configFile = new File(ultimateTimber.getDataFolder() + "/config.yml");
+        File configFile = new File(this.ultimateTimber.getDataFolder() + "/config.yml");
 
         // If an old config still exists, rename it so it doesn't interfere
-        if (configFile.exists() && ultimateTimber.getConfig().get("server-type") == null) {
-            File renameConfigTo = new File(ultimateTimber.getDataFolder() + "/config-old.yml");
+        if (configFile.exists() && this.ultimateTimber.getConfig().get("server-type") == null) {
+            File renameConfigTo = new File(this.ultimateTimber.getDataFolder() + "/config-old.yml");
             configFile.renameTo(renameConfigTo);
-            configFile = new File(ultimateTimber.getDataFolder() + "/config.yml");
+            configFile = new File(this.ultimateTimber.getDataFolder() + "/config.yml");
         }
 
         // Create the new config if it doesn't exist
         if (!configFile.exists()) {
-            boolean isCurrentConfig = ultimateTimber.getVersionAdapter().getVersionAdapterType() == VersionAdapterType.CURRENT;
+            boolean isCurrentConfig = this.ultimateTimber.getVersionAdapter().getVersionAdapterType() == VersionAdapterType.CURRENT;
             String newConfigName = "config-" + (isCurrentConfig ? "current" : "legacy") + ".yml";
-            File newConfigFile = new File(ultimateTimber.getDataFolder() + "/" + newConfigName);
-            ultimateTimber.saveResource(newConfigName, false);
+            File newConfigFile = new File(this.ultimateTimber.getDataFolder() + "/" + newConfigName);
+            this.ultimateTimber.saveResource(newConfigName, false);
             newConfigFile.renameTo(configFile);
         }
 

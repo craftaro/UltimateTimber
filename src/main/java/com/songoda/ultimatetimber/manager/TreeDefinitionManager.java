@@ -169,6 +169,8 @@ public class TreeDefinitionManager extends Manager {
      * @return True if the tool is allowed for toppling any trees
      */
     public boolean isToolValidForAnyTreeDefinition(ItemStack tool) {
+        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
+            return true;
         for (TreeDefinition treeDefinition : this.treeDefinitions)
             for (ItemStack requiredTool : treeDefinition.getRequiredTools())
                 if (requiredTool.isSimilar(tool))
@@ -187,6 +189,8 @@ public class TreeDefinitionManager extends Manager {
      * @return True if the tool is allowed for toppling the given TreeDefinition
      */
     public boolean isToolValidForTreeDefinition(TreeDefinition treeDefinition, ItemStack tool) {
+        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
+            return true;
         for (ItemStack requiredTool : treeDefinition.getRequiredTools())
             if (requiredTool.isSimilar(tool))
                 return true;
@@ -230,9 +234,10 @@ public class TreeDefinitionManager extends Manager {
         }
 
         // Roll the dice
+        double bonusLootMultiplier = ConfigurationManager.Setting.BONUS_LOOT_MULTIPLIER.getDouble();
         for (TreeLoot treeLoot : toTry) {
             double chance = hasBonusChance ? treeLoot.getChance() * 2 : treeLoot.getChance();
-            if (this.random.nextDouble() > chance)
+            if (this.random.nextDouble() > chance / 100)
                 continue;
             if (treeLoot.hasItem())
                 lootedItems.add(treeLoot.getItem());
@@ -252,7 +257,12 @@ public class TreeDefinitionManager extends Manager {
 
         // Run looted commands
         for (String lootedCommand : lootedCommands)
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), lootedCommand.replace("%player", player.getName()).replace("%type", treeDefinition.getKey()));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
+                    lootedCommand.replace("%player", player.getName())
+                                 .replace("%type", treeDefinition.getKey())
+                                 .replace("%xPos", treeBlock.getLocation().getBlockX() + "")
+                                 .replace("%yPos", treeBlock.getLocation().getBlockY() + "")
+                                 .replace("%zPos", treeBlock.getLocation().getBlockZ() + ""));
     }
 
     /**

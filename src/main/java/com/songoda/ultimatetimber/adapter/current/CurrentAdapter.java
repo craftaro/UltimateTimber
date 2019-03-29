@@ -35,13 +35,18 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public void applyToolDurability(TreeBlockSet<Block> treeBlocks, ItemStack tool) {
+    public void applyToolDurability(ItemStack tool, int damage) {
 
     }
 
     @Override
+    public boolean hasEnoughDurability(ItemStack tool, int requiredAmount) {
+        return false;
+    }
+
+    @Override
     public ItemStack getItemInHand(Player player) {
-        return null;
+        return player.getInventory().getItemInMainHand();
     }
 
     @Override

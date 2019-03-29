@@ -159,6 +159,7 @@ public class TreeBlockSet<BlockType> implements Collection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         Set<ITreeBlock<BlockType>> treeBlocks = new HashSet<>();
         for (Object o : a)

@@ -25,8 +25,14 @@ max-logs-per-chop: 120
 leaves-required-for-tree: 5
 
 # Apply realistic damage to the tools based on the number of logs chopped
+# If false, only one durability will be removed from the tool
 # Default: true
 realistic-tool-damage: true
+
+# Protect the tool used to chop down the tree from breaking
+# Prevents the tree from being toppled if the tool would break
+# Default: false
+protect-tool: false
 
 # Require the entire base of the tree to be broken before it topples
 # Default: false
@@ -63,8 +69,8 @@ replant-saplings: true
 # How many seconds to prevent players from breaking replanted saplings
 # Set to 0 to disable
 # Does nothing if replant-saplings is false
-# Default: 5
-replant-saplings-cooldown: 5
+# Default: 3
+replant-saplings-cooldown: 3
 
 # Give fallen leaf blocks a chance to replant saplings when they hit the ground
 # Default: true
@@ -72,6 +78,7 @@ falling-blocks-replant-saplings: true
 
 # The percent chance that fallen leaves have of planting a sapling
 # Does nothing if falling-blocks-replant-saplings is false
+# The chance is out of 100 and may contain decimals
 # Default: 1
 falling-blocks-replant-saplings-chance: 1
 
@@ -95,6 +102,12 @@ use-custom-sounds: true
 # Use custom particles when toppling trees
 # Default: true
 use-custom-particles: true
+
+# The bonus loot multiplier when a player has the permission ultimatetimber.bonusloot
+# Multiplies the chance of tree drops by this value
+# Decimal values are allowed
+# Default: 2
+bonus-loot-multiplier: 2
 
 # The type of animation to use for tree toppling
 # Types: FANCY, DISINTEGRATE, CHAOS, NONE
@@ -323,6 +336,7 @@ global-plantable-soil:
   - GRASS
   - DIRT:0
   - DIRT:1
+  - DIRT:2
 
 # Custom loot that is available for all tree types
 # The loot applies to each log broken in the tree
@@ -338,7 +352,7 @@ global-log-loot:
     chance: 0
   2:
     material: GOLDEN_APPLE
-    command: 'broadcast %player found a golden apple in a %type tree!'
+    command: 'broadcast %player found a golden apple in a %type tree at %xPos %yPos %zPos!'
     chance: 0
 
 # Custom loot that is available for all tree types
