@@ -59,18 +59,18 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
-    public void playFallingParticles(TreeBlockSet<Block> treeBlocks) {
+    public void playFallingParticles(ITreeBlock treeBlock) {
 
     }
 
     @Override
-    public void playLandingParticles(FallingTreeBlock treeBlock) {
+    public void playLandingParticles(ITreeBlock treeBlock) {
 
     }
 
     @Override
-    public void playFallingSound(TreeBlockSet<Block> treeBlocks) {
-        Location location = treeBlocks.getInitialLogBlock().getLocation();
+    public void playFallingSound(ITreeBlock treeBlock) {
+        Location location = treeBlock.getLocation();
         if (NMSUtil.getVersionNumber() > 8) {
             location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 3F, 0.1F);
         } else {
@@ -79,7 +79,7 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
-    public void playLandingSound(FallingTreeBlock treeBlock) {
+    public void playLandingSound(ITreeBlock treeBlock) {
         Location location = treeBlock.getLocation();
         if (NMSUtil.getVersionNumber() > 8) {
             location.getWorld().playSound(location, Sound.BLOCK_WOOD_FALL, 3F, 0.1F);

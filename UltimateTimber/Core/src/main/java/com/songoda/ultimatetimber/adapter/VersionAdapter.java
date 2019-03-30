@@ -75,27 +75,31 @@ public interface VersionAdapter {
     void removeItemInHand(Player player);
 
     /**
-     * Plays particles to indicate a tree has started falling
+     * Plays particles to indicate a tree block has started falling
+     *
+     * @param treeBlock The TreeBlock to play the particles for
      */
-    void playFallingParticles(TreeBlockSet<Block> treeBlocks);
+    void playFallingParticles(ITreeBlock treeBlock);
 
     /**
      * Plays particles to indicate a tree block has hit the ground
+     *
+     * @param treeBlock The TreeBlock to play the particles for
      */
-    void playLandingParticles(FallingTreeBlock treeBlock);
+    void playLandingParticles(ITreeBlock treeBlock);
 
     /**
      * Plays a sound to indicate a tree block has started falling
      *
-     * @param treeBlocks The TreeBlocks to play the sound for
+     * @param treeBlock The TreeBlock to play the sound for
      */
-    void playFallingSound(TreeBlockSet<Block> treeBlocks);
+    void playFallingSound(ITreeBlock treeBlock);
 
     /**
      * Plays a sound to indicate a tree block has hit the ground
      *
-     * @param treeBlock The FallingTreeBlock to play the sound for
+     * @param treeBlock The TreeBlock to play the sound for
      */
-    void playLandingSound(FallingTreeBlock treeBlock);
+    void playLandingSound(ITreeBlock treeBlock);
 
 }

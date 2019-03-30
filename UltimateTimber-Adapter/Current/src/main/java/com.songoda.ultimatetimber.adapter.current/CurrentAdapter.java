@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -94,27 +95,39 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public void playFallingParticles(TreeBlockSet<Block> treeBlocks) {
-        for (ITreeBlock<Block> treeBlock : treeBlocks.getAllTreeBlocks()) {
-            Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-            location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, 0.25, 0.25, 0.25, treeBlock.getBlock().getBlockData());
-        }
-    }
+    public void playFallingParticles(ITreeBlock treeBlock) {
+        BlockData blockData;
+        if (treeBlock.getBlock() instanceof Block) {
+            blockData = ((Block)treeBlock.getBlock()).getBlockData();
+        } else if (treeBlock.getBlock() instanceof FallingBlock) {
+            blockData = ((FallingBlock)treeBlock.getBlock()).getBlockData();
+        } else return;
 
-    @Override
-    public void playLandingParticles(FallingTreeBlock treeBlock) {
         Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-        location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, 0.25, 0.25, 0.25, treeBlock.getBlock().getBlockData());
+        location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, 0.25, 0.25, 0.25, blockData);
     }
 
     @Override
-    public void playFallingSound(TreeBlockSet<Block> treeBlocks) {
-        Location location = treeBlocks.getInitialLogBlock().getLocation();
+    public void playLandingParticles(ITreeBlock treeBlock) {
+        BlockData blockData;
+        if (treeBlock.getBlock() instanceof Block) {
+            blockData = ((Block)treeBlock.getBlock()).getBlockData();
+        } else if (treeBlock.getBlock() instanceof FallingBlock) {
+            blockData = ((FallingBlock)treeBlock.getBlock()).getBlockData();
+        } else return;
+
+        Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
+        location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, 0.25, 0.25, 0.25, blockData);
+    }
+
+    @Override
+    public void playFallingSound(ITreeBlock treeBlock) {
+        Location location = treeBlock.getLocation();
         location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 3F, 0.1F);
     }
 
     @Override
-    public void playLandingSound(FallingTreeBlock treeBlock) {
+    public void playLandingSound(ITreeBlock treeBlock) {
         Location location = treeBlock.getLocation();
         location.getWorld().playSound(location, Sound.BLOCK_WOOD_FALL, 3F, 0.1F);
     }

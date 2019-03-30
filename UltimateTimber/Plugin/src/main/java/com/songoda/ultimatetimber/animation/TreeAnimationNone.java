@@ -23,10 +23,11 @@ public class TreeAnimationNone extends TreeAnimation {
         VersionAdapter versionAdapter = UltimateTimber.getInstance().getVersionAdapter();
 
         if (ConfigurationManager.Setting.USE_CUSTOM_SOUNDS.getBoolean())
-            versionAdapter.playFallingSound(this.detectedTree.getDetectedTreeBlocks());
+            versionAdapter.playFallingSound(this.detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
 
         if (ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean())
-            versionAdapter.playFallingParticles(this.detectedTree.getDetectedTreeBlocks());
+            for (ITreeBlock<Block> treeBlock : this.detectedTree.getDetectedTreeBlocks().getAllTreeBlocks())
+                versionAdapter.playFallingParticles(treeBlock);
 
         for (ITreeBlock<Block> treeBlock : this.detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
             treeDefinitionManager.dropTreeLoot(this.detectedTree.getTreeDefinition(), treeBlock, this.player);
