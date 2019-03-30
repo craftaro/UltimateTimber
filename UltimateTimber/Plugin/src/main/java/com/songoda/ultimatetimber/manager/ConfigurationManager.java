@@ -10,34 +10,39 @@ import java.util.List;
 public class ConfigurationManager extends Manager {
 
     public enum Setting {
-        SERVER_TYPE,
-        DISABLED_WORLDS,
-        MAX_LOGS_PER_CHOP,
-        LEAVES_REQUIRED_FOR_TREE,
-        REALISTIC_TOOL_DAMAGE,
-        PROTECT_TOOL,
-        BREAK_ENTIRE_TREE_BASE,
-        DESTROY_INITIATED_BLOCK,
-        ONLY_DETECT_LOGS_UPWARDS,
-        ONLY_TOPPLE_WHILE_SNEAKING,
-        ALLOW_CREATIVE_MODE,
-        REQUIRE_CHOP_PERMISSION,
-        IGNORE_REQUIRED_TOOLS,
-        REPLANT_SAPLINGS,
-        REPLANT_SAPLINGS_COOLDOWN,
-        FALLING_BLOCKS_REPLANT_SAPLINGS,
-        FALLING_BLOCKS_REPLANT_SAPLINGS_CHANCE,
-        FALLING_BLOCKS_DEAL_DAMAGE,
-        FALLING_BLOCK_DAMAGE,
-        ADD_ITEMS_TO_INVENTORY,
-        USE_CUSTOM_SOUNDS,
-        USE_CUSTOM_PARTICLES,
-        BONUS_LOOT_MULTIPLIER,
-        TREE_ANIMATION_TYPE,
-        SCATTER_TREE_BLOCKS_ON_GROUND,
-        MIX_ALL_TREE_TYPES;
+        SERVER_TYPE(SettingType.STRING),
+        DISABLED_WORLDS(SettingType.STRING_LIST),
+        MAX_LOGS_PER_CHOP(SettingType.INT),
+        LEAVES_REQUIRED_FOR_TREE(SettingType.INT),
+        REALISTIC_TOOL_DAMAGE(SettingType.BOOLEAN),
+        PROTECT_TOOL(SettingType.BOOLEAN),
+        BREAK_ENTIRE_TREE_BASE(SettingType.BOOLEAN),
+        DESTROY_INITIATED_BLOCK(SettingType.BOOLEAN),
+        ONLY_DETECT_LOGS_UPWARDS(SettingType.BOOLEAN),
+        ONLY_TOPPLE_WHILE_SNEAKING(SettingType.BOOLEAN),
+        ALLOW_CREATIVE_MODE(SettingType.BOOLEAN),
+        REQUIRE_CHOP_PERMISSION(SettingType.BOOLEAN),
+        IGNORE_REQUIRED_TOOLS(SettingType.BOOLEAN),
+        REPLANT_SAPLINGS(SettingType.BOOLEAN),
+        REPLANT_SAPLINGS_COOLDOWN(SettingType.INT),
+        FALLING_BLOCKS_REPLANT_SAPLINGS(SettingType.BOOLEAN),
+        FALLING_BLOCKS_REPLANT_SAPLINGS_CHANCE(SettingType.DOUBLE),
+        FALLING_BLOCKS_DEAL_DAMAGE(SettingType.BOOLEAN),
+        FALLING_BLOCK_DAMAGE(SettingType.INT),
+        ADD_ITEMS_TO_INVENTORY(SettingType.BOOLEAN),
+        USE_CUSTOM_SOUNDS(SettingType.BOOLEAN),
+        USE_CUSTOM_PARTICLES(SettingType.BOOLEAN),
+        BONUS_LOOT_MULTIPLIER(SettingType.DOUBLE),
+        TREE_ANIMATION_TYPE(SettingType.STRING),
+        SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN),
+        MIX_ALL_TREE_TYPES(SettingType.BOOLEAN);
 
+        private SettingType settingType;
         private Object value = null;
+
+        Setting(SettingType settingType) {
+            this.settingType = settingType;
+        }
 
         /**
          * Gets the setting as a boolean
@@ -101,8 +106,26 @@ public class ConfigurationManager extends Manager {
          * Loads the value from the config and caches it if it isn't set yet
          */
         private void loadValue() {
-            if (this.value == null)
-                this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().get(this.getNameAsKey());
+            if (this.value != null)
+                return;
+
+            switch (this.settingType) {
+                case BOOLEAN:
+                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getBoolean(this.getNameAsKey());
+                    break;
+                case INT:
+                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getInt(this.getNameAsKey());
+                    break;
+                case DOUBLE:
+                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getDouble(this.getNameAsKey());
+                    break;
+                case STRING:
+                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getString(this.getNameAsKey());
+                    break;
+                case STRING_LIST:
+                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getStringList(this.getNameAsKey());
+                    break;
+            }
         }
 
         /**
@@ -113,6 +136,14 @@ public class ConfigurationManager extends Manager {
         private String getNameAsKey() {
             return this.name().replace("_", "-").toLowerCase();
         }
+    }
+
+    private enum SettingType {
+        BOOLEAN,
+        INT,
+        DOUBLE,
+        STRING,
+        STRING_LIST
     }
 
     private YamlConfiguration configuration;

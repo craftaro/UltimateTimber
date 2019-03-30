@@ -24,6 +24,7 @@ public class TreeDefinitionManager extends Manager {
 
     private final Random random;
     private Set<TreeDefinition> treeDefinitions;
+    private Set<IBlockData> globalPlantableSoil;
     private Set<TreeLoot> globalLogLoot, globalLeafLoot;
     private Set<ItemStack> globalRequiredTools;
 
@@ -31,6 +32,7 @@ public class TreeDefinitionManager extends Manager {
         super(ultimateTimber);
         this.random = new Random();
         this.treeDefinitions = new HashSet<>();
+        this.globalPlantableSoil = new HashSet<>();
         this.globalLogLoot = new HashSet<>();
         this.globalLeafLoot = new HashSet<>();
         this.globalRequiredTools = new HashSet<>();
@@ -39,6 +41,7 @@ public class TreeDefinitionManager extends Manager {
     @Override
     public void reload() {
         this.treeDefinitions.clear();
+        this.globalPlantableSoil.clear();
         this.globalLogLoot.clear();
         this.globalLeafLoot.clear();
         this.globalRequiredTools.clear();
@@ -81,12 +84,14 @@ public class TreeDefinitionManager extends Manager {
             dropOriginalLeaf = tree.getBoolean("drop-original-leaf");
 
             ConfigurationSection logLootSection = tree.getConfigurationSection("log-loot");
-            for (String lootKey : logLootSection.getKeys(false))
-                logLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logLootSection.getConfigurationSection(lootKey)));
+            if (logLootSection != null)
+                for (String lootKey : logLootSection.getKeys(false))
+                    logLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logLootSection.getConfigurationSection(lootKey)));
 
             ConfigurationSection leafLootSection = tree.getConfigurationSection("leaf-loot");
-            for (String lootKey : leafLootSection.getKeys(false))
-                leafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
+            if (leafLootSection != null)
+                for (String lootKey : leafLootSection.getKeys(false))
+                    leafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
 
             for (String itemStackString : tree.getStringList("required-tools"))
                 requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
@@ -94,15 +99,21 @@ public class TreeDefinitionManager extends Manager {
             this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
         }
 
+        // Load global plantable soil
+        for (String blockDataString : config.getStringList("global-plantable-soil"))
+            this.globalPlantableSoil.add(versionAdapter.parseBlockDataFromString(blockDataString));
+
         // Load global log drops
         ConfigurationSection logSection = config.getConfigurationSection("global-log-loot");
-        for (String lootKey : logSection.getKeys(false))
-            this.globalLogLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logSection.getConfigurationSection(lootKey)));
+        if (logSection != null)
+            for (String lootKey : logSection.getKeys(false))
+                this.globalLogLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logSection.getConfigurationSection(lootKey)));
 
         // Load global leaf drops
         ConfigurationSection leafSection = config.getConfigurationSection("global-leaf-loot");
-        for (String lootKey : leafSection.getKeys(false))
-            this.globalLeafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
+        if (leafSection != null)
+            for (String lootKey : leafSection.getKeys(false))
+                this.globalLeafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools"))
@@ -133,8 +144,6 @@ public class TreeDefinitionManager extends Manager {
      * @return A Set of TreeDefinitions narrowed down
      */
     public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, Block block, TreeBlockType treeBlockType) {
-        VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
-
         Set<TreeDefinition> matchingTreeDefinitions = new HashSet<>();
         switch (treeBlockType) {
             case LOG:
@@ -173,10 +182,10 @@ public class TreeDefinitionManager extends Manager {
             return true;
         for (TreeDefinition treeDefinition : this.treeDefinitions)
             for (ItemStack requiredTool : treeDefinition.getRequiredTools())
-                if (requiredTool.isSimilar(tool))
+                if (requiredTool.getType().equals(tool.getType()))
                     return true;
         for (ItemStack requiredTool : this.globalRequiredTools)
-            if (requiredTool.isSimilar(tool))
+            if (requiredTool.getType().equals(tool.getType()))
                 return true;
         return false;
     }
@@ -192,10 +201,10 @@ public class TreeDefinitionManager extends Manager {
         if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
             return true;
         for (ItemStack requiredTool : treeDefinition.getRequiredTools())
-            if (requiredTool.isSimilar(tool))
+            if (requiredTool.getType().equals(tool.getType()))
                 return true;
         for (ItemStack requiredTool : this.globalRequiredTools)
-            if (requiredTool.isSimilar(tool))
+            if (requiredTool.getType().equals(tool.getType()))
                 return true;
         return false;
     }
@@ -237,7 +246,7 @@ public class TreeDefinitionManager extends Manager {
         // Roll the dice
         double bonusLootMultiplier = ConfigurationManager.Setting.BONUS_LOOT_MULTIPLIER.getDouble();
         for (TreeLoot treeLoot : toTry) {
-            double chance = hasBonusChance ? treeLoot.getChance() * 2 : treeLoot.getChance();
+            double chance = hasBonusChance ? treeLoot.getChance() * bonusLootMultiplier : treeLoot.getChance();
             if (this.random.nextDouble() > chance / 100)
                 continue;
             if (treeLoot.hasItem())
@@ -267,6 +276,19 @@ public class TreeDefinitionManager extends Manager {
     }
 
     /**
+     * Gets all possible plantable soil blocks for the given tree definition
+     *
+     * @param treeDefinition The TreeDefinition
+     * @return A Set of IBlockData of plantable soil
+     */
+    public Set<IBlockData> getPlantableSoilBlockData(TreeDefinition treeDefinition) {
+        Set<IBlockData> plantableSoilBlockData = new HashSet<>();
+        plantableSoilBlockData.addAll(treeDefinition.getPlantableSoilBlockData());
+        plantableSoilBlockData.addAll(this.globalPlantableSoil);
+        return plantableSoilBlockData;
+    }
+
+    /**
      * Gets a TreeLoot entry from a ConfigurationSection
      *
      * @param versionAdapter The VersionAdapter to use
@@ -275,7 +297,8 @@ public class TreeDefinitionManager extends Manager {
      * @return A TreeLoot entry from the section
      */
     private TreeLoot getTreeLootEntry(VersionAdapter versionAdapter, TreeBlockType treeBlockType, ConfigurationSection configurationSection) {
-        ItemStack item = versionAdapter.parseItemStackFromString(configurationSection.getString("material"));
+        String material = configurationSection.getString("material");
+        ItemStack item = material != null ? versionAdapter.parseItemStackFromString(material) : null;
         String command = configurationSection.getString("command");
         double chance = configurationSection.getDouble("chance");
         return new TreeLoot(treeBlockType, item, command, chance);

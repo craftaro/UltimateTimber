@@ -6,9 +6,11 @@ import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -20,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 public class CurrentAdapter implements VersionAdapter {
 
@@ -42,7 +45,9 @@ public class CurrentAdapter implements VersionAdapter {
     public Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock) {
         if (treeBlock.getBlock() instanceof Block) {
             Block block = (Block)treeBlock.getBlock();
-            return block.getDrops(); // TODO: Do this properly
+            Set<ItemStack> drops = new HashSet<>();
+            drops.add(new ItemStack(block.getType()));
+            return drops; // TODO: Do this properly
         }
         return new HashSet<>();
     }
@@ -90,12 +95,16 @@ public class CurrentAdapter implements VersionAdapter {
 
     @Override
     public void playFallingParticles(TreeBlockSet<Block> treeBlocks) {
-
+        for (ITreeBlock<Block> treeBlock : treeBlocks.getAllTreeBlocks()) {
+            Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
+            location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, 0.25, 0.25, 0.25, treeBlock.getBlock().getBlockData());
+        }
     }
 
     @Override
     public void playLandingParticles(FallingTreeBlock treeBlock) {
-
+        Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
+        location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, 0.25, 0.25, 0.25, treeBlock.getBlock().getBlockData());
     }
 
     @Override

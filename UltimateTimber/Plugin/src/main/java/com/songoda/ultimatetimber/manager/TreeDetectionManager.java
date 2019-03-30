@@ -71,6 +71,8 @@ public class TreeDetectionManager extends Manager {
      * @return A DetectedTree if one was found, otherwise null
      */
     public DetectedTree detectTree(Block initialBlock) {
+        TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
+
         TreeBlock initialTreeBlock = new TreeBlock(initialBlock, TreeBlockType.LOG);
         TreeBlockSet<Block> detectedTreeBlocks = new TreeBlockSet<>(initialTreeBlock);
         Set<TreeDefinition> possibleTreeDefinitions = this.treeDefinitionManager.getTreeDefinitionsForLog(initialBlock);
@@ -85,7 +87,7 @@ public class TreeDetectionManager extends Manager {
         while (this.isValidLogType(possibleTreeDefinitions, (targetBlock = targetBlock.getRelative(BlockFace.UP)))) {
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
             detectedTreeBlocks.add(treeBlock);
-            trunkBlocks.add(initialBlock);
+            trunkBlocks.add(targetBlock);
             possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
         }
 
@@ -102,6 +104,7 @@ public class TreeDetectionManager extends Manager {
         for (ITreeBlock<Block> branchBlock : branchBlocks)
             this.recursiveLeafSearch(possibleTreeDefinitions, detectedTreeBlocks, branchBlock.getBlock(), 1);
 
+        // Use the first tree definition in the set
         TreeDefinition actualTreeDefinition = possibleTreeDefinitions.iterator().next();
 
         // Trees need at least a certain number of leaves
@@ -119,7 +122,7 @@ public class TreeDetectionManager extends Manager {
                 Block blockBelow = block.getRelative(BlockFace.DOWN);
                 boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, blockBelow);
                 boolean blockBelowIsSoil = false;
-                for (IBlockData blockData : actualTreeDefinition.getPlantableSoilBlockData()) {
+                for (IBlockData blockData : treeDefinitionManager.getPlantableSoilBlockData(actualTreeDefinition)) {
                     if (blockData.isSimilar(blockBelow)) {
                         blockBelowIsSoil = true;
                         break;
@@ -135,7 +138,6 @@ public class TreeDetectionManager extends Manager {
         if (this.destroyBaseLog)
             detectedTreeBlocks.remove(initialTreeBlock);
 
-        // Use the first tree definition in the set
         return new DetectedTree(actualTreeDefinition, detectedTreeBlocks);
     }
 
@@ -156,7 +158,7 @@ public class TreeDetectionManager extends Manager {
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
             if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(treeBlock)) {
                 treeBlocks.add(treeBlock);
-                treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block, TreeBlockType.LOG));
+                treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, targetBlock, TreeBlockType.LOG));
                 if (!this.onlyBreakLogsUpwards || targetBlock.getLocation().getBlockY() > startingBlockY)
                     this.recursiveBranchSearch(treeDefinitions, treeBlocks, targetBlock, startingBlockY);
             }
@@ -184,7 +186,7 @@ public class TreeDetectionManager extends Manager {
             if (this.isValidLeafType(treeDefinitions, targetBlock)) {
                 if (!treeBlocks.contains(treeBlock) && !this.doesLeafBorderInvalidLog(treeDefinitions, treeBlocks, targetBlock)) {
                     treeBlocks.add(treeBlock);
-                    treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, block, TreeBlockType.LEAF));
+                    treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, targetBlock, TreeBlockType.LEAF));
                 }
                 this.recursiveLeafSearch(treeDefinitions, treeBlocks, targetBlock, distanceFromLog + 1);
             }

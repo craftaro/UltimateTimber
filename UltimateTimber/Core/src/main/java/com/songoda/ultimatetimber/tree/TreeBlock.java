@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class TreeBlock implements ITreeBlock<Block> {
 
@@ -29,6 +30,19 @@ public class TreeBlock implements ITreeBlock<Block> {
     @Override
     public TreeBlockType getTreeBlockType() {
         return this.treeBlockType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.block, this.treeBlockType);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TreeBlock)) return false;
+        if (o == this) return true;
+        TreeBlock oTreeBlock = (TreeBlock)o;
+        return oTreeBlock.block.equals(this.block) && oTreeBlock.treeBlockType.equals(this.treeBlockType);
     }
 
 }

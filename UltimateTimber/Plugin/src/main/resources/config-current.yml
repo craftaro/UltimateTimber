@@ -178,7 +178,7 @@ trees:
       - BIRCH_WOOD
       - STRIPPED_BIRCH_WOOD
     leaves:
-      - SPRUCE_BIRCH
+      - BIRCH_LEAVES
     sapling: BIRCH_SAPLING
     plantable-soil: []
     max-leaf-distance-from-log: 4

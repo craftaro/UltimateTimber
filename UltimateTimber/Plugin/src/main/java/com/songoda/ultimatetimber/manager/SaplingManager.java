@@ -73,13 +73,15 @@ public class SaplingManager extends Manager {
      * @param location The Location to plant the sapling
      */
     private void internalReplant(TreeDefinition treeDefinition, Location location) {
+        TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
+
         Block block = location.getBlock();
         if (!block.getType().equals(Material.AIR))
             return;
 
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         boolean isValidSoil = false;
-        for (IBlockData soilBlockData : treeDefinition.getPlantableSoilBlockData()) {
+        for (IBlockData soilBlockData : treeDefinitionManager.getPlantableSoilBlockData(treeDefinition)) {
             if (soilBlockData.isSimilar(blockBelow)) {
                 isValidSoil = true;
                 break;

@@ -33,12 +33,11 @@ public abstract class TreeAnimation {
     /**
      * Replaces a given block with a new one
      *
-     * @param treeDefinition The tree definition for the replacement
      * @param block The block to replace
      */
-    protected void replaceBlock(TreeDefinition treeDefinition, Block block) {
+    protected void replaceBlock(Block block) {
         block.setType(Material.AIR);
-        UltimateTimber.getInstance().getSaplingManager().replantSapling(treeDefinition, block.getLocation());
+        UltimateTimber.getInstance().getSaplingManager().replantSapling(this.detectedTree.getTreeDefinition(), block.getLocation());
     }
 
 }
