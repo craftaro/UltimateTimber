@@ -42,7 +42,7 @@ public class Methods {
      * @return True if durability should be applied, otherwise false
      */
     public static boolean checkUnbreakingChance(int level) {
-        return ((double) 1 / (level + 1)) > random.nextDouble();
+        return (1.0 / (level + 1)) > random.nextDouble();
     }
 
 }

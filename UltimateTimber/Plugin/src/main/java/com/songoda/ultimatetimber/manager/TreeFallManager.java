@@ -75,6 +75,9 @@ public class TreeFallManager extends Manager implements Listener {
         if (detectedTree == null)
             return;
 
+        if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool))
+            return;
+
         int toolDamage = ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean() ? detectedTree.getDetectedTreeBlocks().getLogBlocks().size() : 1;
         if (ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !versionAdapter.hasEnoughDurability(tool, toolDamage))
             return;

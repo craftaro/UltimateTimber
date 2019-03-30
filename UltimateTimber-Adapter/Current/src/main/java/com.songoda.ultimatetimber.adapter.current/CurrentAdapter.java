@@ -56,8 +56,7 @@ public class CurrentAdapter implements VersionAdapter {
     @Override
     public void applyToolDurability(Player player, int damage) {
         ItemStack tool = this.getItemInHand(player);
-
-        if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable))
+        if (!(tool.getItemMeta() instanceof Damageable))
             return;
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
@@ -71,7 +70,8 @@ public class CurrentAdapter implements VersionAdapter {
         damageable.setDamage(damageable.getDamage() + actualDamage);
         tool.setItemMeta((ItemMeta) damageable);
 
-
+        if (!this.hasEnoughDurability(tool, 1))
+            this.removeItemInHand(player);
     }
 
     @Override
