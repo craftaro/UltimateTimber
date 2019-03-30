@@ -123,13 +123,17 @@ public class CurrentAdapter implements VersionAdapter {
     @Override
     public void playFallingSound(ITreeBlock treeBlock) {
         Location location = treeBlock.getLocation();
-        location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 3F, 0.1F);
+        location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 2F, 0.1F);
     }
 
     @Override
     public void playLandingSound(ITreeBlock treeBlock) {
         Location location = treeBlock.getLocation();
-        location.getWorld().playSound(location, Sound.BLOCK_WOOD_FALL, 3F, 0.1F);
+        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
+            location.getWorld().playSound(location, Sound.BLOCK_WOOD_FALL, 2F, 0.1F);
+        } else {
+            location.getWorld().playSound(location, Sound.BLOCK_GRASS_BREAK, 0.5F, 0.75F);
+        }
     }
 
 }

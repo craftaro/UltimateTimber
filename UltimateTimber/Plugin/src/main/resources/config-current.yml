@@ -16,8 +16,8 @@ disabled-worlds:
   - disabled_world_name
 
 # The max number of logs that can be broken at one time
-# Default: 120
-max-logs-per-chop: 120
+# Default: 150
+max-logs-per-chop: 150
 
 # The minimum number of leaves required for something to be considered a tree
 # Default: 5
@@ -202,10 +202,10 @@ trees:
       - JUNGLE_WOOD
       - STRIPPED_JUNGLE_WOOD
     leaves:
-      - SPRUCE_LEAVES
-    sapling: SPRUCE_SAPLING
+      - JUNGLE_LEAVES
+    sapling: JUNGLE_SAPLING
     plantable-soil: []
-    max-leaf-distance-from-log: 5
+    max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
