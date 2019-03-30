@@ -46,7 +46,6 @@
 
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -60,6 +59,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <outputFile>../../target\UltimateTimber-${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

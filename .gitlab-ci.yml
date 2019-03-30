@@ -13,7 +13,6 @@ build:
     - find $path/ -type f -name "*.xml" -print0 | xargs -0 sed -i -e s/maven-version-number/$version/g
     - find $path/ -type f -name "*.yml" -print0 | xargs -0 sed -i -e s/maven-version-number/$version/g
     - mvn clean package
-    - find $path/ -depth -path '*original*' -delete
     - mv -v $path/target/*.jar $path
   artifacts:
     name: $name-$version
