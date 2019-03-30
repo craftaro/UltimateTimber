@@ -24,6 +24,10 @@ max-logs-per-chop: 120
 # Default: 5
 leaves-required-for-tree: 5
 
+# If leaves should be destroyed
+# Default: true
+destroy-leaves: true
+
 # Apply realistic damage to the tools based on the number of logs chopped
 # If false, only one durability will be removed from the tool
 # Default: true

@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -13,6 +14,7 @@ public class ConfigurationManager extends Manager {
         SERVER_TYPE(SettingType.STRING),
         DISABLED_WORLDS(SettingType.STRING_LIST),
         MAX_LOGS_PER_CHOP(SettingType.INT),
+        DESTROY_LEAVES(SettingType.BOOLEAN),
         LEAVES_REQUIRED_FOR_TREE(SettingType.INT),
         REALISTIC_TOOL_DAMAGE(SettingType.BOOLEAN),
         PROTECT_TOOL(SettingType.BOOLEAN),
@@ -109,21 +111,22 @@ public class ConfigurationManager extends Manager {
             if (this.value != null)
                 return;
 
+            FileConfiguration config = UltimateTimber.getInstance().getConfigurationManager().getConfig();
             switch (this.settingType) {
                 case BOOLEAN:
-                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getBoolean(this.getNameAsKey());
+                    this.value = config.getBoolean(this.getNameAsKey());
                     break;
                 case INT:
-                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getInt(this.getNameAsKey());
+                    this.value = config.getInt(this.getNameAsKey());
                     break;
                 case DOUBLE:
-                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getDouble(this.getNameAsKey());
+                    this.value = config.getDouble(this.getNameAsKey());
                     break;
                 case STRING:
-                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getString(this.getNameAsKey());
+                    this.value = config.getString(this.getNameAsKey());
                     break;
                 case STRING_LIST:
-                    this.value = UltimateTimber.getInstance().getConfigurationManager().getConfig().getStringList(this.getNameAsKey());
+                    this.value = config.getStringList(this.getNameAsKey());
                     break;
             }
         }

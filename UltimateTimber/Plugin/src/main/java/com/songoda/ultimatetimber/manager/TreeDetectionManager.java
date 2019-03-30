@@ -16,11 +16,8 @@ public class TreeDetectionManager extends Manager {
     private final Set<Vector> VALID_TRUNK_OFFSETS, VALID_BRANCH_OFFSETS, VALID_LEAF_OFFSETS;
 
     private TreeDefinitionManager treeDefinitionManager;
-    private int maxBranchBlocksAllowed;
-    private int numLeavesRequiredForTree;
-    private boolean onlyBreakLogsUpwards;
-    private boolean destroyBaseLog;
-    private boolean entireTreeBase;
+    private int maxBranchBlocksAllowed, numLeavesRequiredForTree;
+    private boolean onlyBreakLogsUpwards, destroyBaseLog, entireTreeBase, destroyLeaves;
 
     public TreeDetectionManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
@@ -57,6 +54,7 @@ public class TreeDetectionManager extends Manager {
         this.onlyBreakLogsUpwards = ConfigurationManager.Setting.ONLY_DETECT_LOGS_UPWARDS.getBoolean();
         this.destroyBaseLog = ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean();
         this.entireTreeBase = ConfigurationManager.Setting.BREAK_ENTIRE_TREE_BASE.getBoolean();
+        this.destroyLeaves = ConfigurationManager.Setting.DESTROY_LEAVES.getBoolean();
     }
 
     @Override
@@ -137,6 +135,10 @@ public class TreeDetectionManager extends Manager {
         // Delete the starting block if applicable
         if (this.destroyBaseLog)
             detectedTreeBlocks.remove(initialTreeBlock);
+
+        // Remove all leaves if applicable
+        if (!this.destroyLeaves)
+            detectedTreeBlocks.removeAll(detectedTreeBlocks.getLeafBlocks());
 
         return new DetectedTree(actualTreeDefinition, detectedTreeBlocks);
     }
