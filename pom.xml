@@ -4,17 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ultimatetimber</groupId>
+    <groupId>com.songoda.ultimatetimber</groupId>
     <artifactId>UltimateTimber</artifactId>
+    <packaging>pom</packaging>
     <version>maven-version-number</version>
+
+    <modules>
+        <module>UltimateTimber-Adapter/Current</module>
+        <module>UltimateTimber-Adapter/Legacy</module>
+        <module>UltimateTimber/Core</module>
+        <module>UltimateTimber/Plugin</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <finalName>UltimateTimber-${project.version}</finalName>
-        <defaultGoal>clean resources:resources package</defaultGoal>
+        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -25,70 +32,13 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>${project.build.directory}/classes/plugin.yml</file>
-                    <replacements>
-                        <replacement>
-                            <token>maven-version-number</token>
-                            <value>${project.version}</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-        	<id>songoda-repo</id>
-        	<url>http://repo.songoda.com/artifactory/private</url>
+            <id>songoda-repo</id>
+            <url>http://repo.songoda.com/artifactory/private</url>
         </repository>
     </repositories>
-    <dependencies>
-        <!--Spigot API-->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--Bukkit API-->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--mcMMO-->
-        <dependency>
-        	<groupId>com.gmail.nossr50</groupId>
-        	<artifactId>mcmmo</artifactId>
-        	<version>1.5.09</version>
-        	<scope>provided</scope>
-        </dependency>
-        <!--Jobs Reborn-->
-        <dependency>
-        	<groupId>com.gamingmesh</groupId>
-        	<artifactId>jobs</artifactId>
-        	<version>4.6.0</version>
-        	<scope>provided</scope>
-        </dependency>
-    </dependencies>
-
 </project>
