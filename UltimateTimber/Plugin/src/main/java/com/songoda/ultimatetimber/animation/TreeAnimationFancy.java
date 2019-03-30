@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 
 public class TreeAnimationFancy extends TreeAnimation {
 
-    public TreeAnimationFancy(TreeBlockSet<Block> treeBlocks, TreeDefinition treeDefinition) {
-        super(TreeAnimationType.FANCY, treeBlocks, treeDefinition);
+    public TreeAnimationFancy(DetectedTree detectedTree, Player player) {
+        super(TreeAnimationType.FANCY, detectedTree, player);
     }
 
     @Override
-    public void playAnimation(DetectedTree detectedTree, Player player) {
+    public void playAnimation(Runnable whenFinished) {
 
     }
 

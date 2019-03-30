@@ -12,7 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.13.2" level="project" />
     <orderEntry type="module" module-name="UltimateTimber-Core" />
-    <orderEntry type="module" module-name="Current" />
-    <orderEntry type="module" module-name="Legacy" />
+    <orderEntry type="module" module-name="UltimateTimber-CurrentAdapter" />
+    <orderEntry type="module" module-name="UltimateTimber-LegacyAdapter" />
   </component>
 </module>

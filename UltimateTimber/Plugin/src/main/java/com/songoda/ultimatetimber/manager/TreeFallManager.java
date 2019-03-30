@@ -89,7 +89,7 @@ public class TreeFallManager extends Manager implements Listener {
         event.setCancelled(true);
 
         if (!player.getGameMode().equals(GameMode.CREATIVE)) {
-            versionAdapter.applyToolDurability(tool, toolDamage);
+            versionAdapter.applyToolDurability(player, toolDamage);
             hookManager.applyHooks(player, detectedTree.getDetectedTreeBlocks());
         }
 

@@ -207,8 +207,9 @@ public class TreeDefinitionManager extends Manager {
      * @param treeBlock The TreeBlock to drop for
      * @param player The Player to drop for
      */
-    @SuppressWarnings("unchecked")
     public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player) {
+        VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
+
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
         ItemStack itemInHand = this.ultimateTimber.getVersionAdapter().getItemInHand(player);
         boolean hasSilkTouch = itemInHand != null && itemInHand.hasItemMeta() && itemInHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH);
@@ -223,13 +224,13 @@ public class TreeDefinitionManager extends Manager {
                 toTry.addAll(treeDefinition.getLogLoot());
                 toTry.addAll(this.globalLogLoot);
                 if (treeDefinition.shouldDropOriginalLog() || hasSilkTouch)
-                    lootedItems.addAll(treeBlock.getDrops());
+                    lootedItems.addAll(versionAdapter.getBlockDrops(treeBlock));
                 break;
             case LEAF:
                 toTry.addAll(treeDefinition.getLeafLoot());
                 toTry.addAll(this.globalLeafLoot);
                 if (treeDefinition.shouldDropOriginalLeaf() || hasSilkTouch)
-                    lootedItems.addAll(treeBlock.getDrops());
+                    lootedItems.addAll(versionAdapter.getBlockDrops(treeBlock));
                 break;
         }
 

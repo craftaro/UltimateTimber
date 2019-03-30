@@ -1,9 +1,7 @@
 .idea/
-UltimateTimber\.iml
+*.iml
 target/
 .settings/
 bin/
 .classpath
 .project
-
-src/main/main\.iml

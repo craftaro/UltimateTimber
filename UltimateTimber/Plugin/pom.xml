@@ -6,14 +6,12 @@
 
     <parent>
         <groupId>com.songoda.ultimatetimber</groupId>
-        <artifactId>UltimateTimber</artifactId>
+        <artifactId>UltimateTimber-Parent</artifactId>
         <version>maven-version-number</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>UltimateTimber-Plugin</artifactId>
-    <packaging>jar</packaging>
-    <version>maven-version-number</version>
 
     <dependencies>
         <!--Spigot API-->
@@ -47,29 +45,22 @@
     </dependencies>
 
     <build>
-        <finalName>${parent.artifactId}-${project.version}</finalName>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <showDeprecation>false</showDeprecation>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

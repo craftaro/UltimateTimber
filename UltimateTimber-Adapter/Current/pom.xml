@@ -6,14 +6,12 @@
 
     <parent>
         <groupId>com.songoda.ultimatetimber</groupId>
-        <artifactId>UltimateTimber</artifactId>
+        <artifactId>UltimateTimber-Parent</artifactId>
         <version>maven-version-number</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>UltimateTimber-CurrentAdapter</artifactId>
-    <packaging>jar</packaging>
-    <version>maven-version-number</version>
 
     <dependencies>
         <!--Spigot API-->
@@ -45,4 +43,9 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 </project>

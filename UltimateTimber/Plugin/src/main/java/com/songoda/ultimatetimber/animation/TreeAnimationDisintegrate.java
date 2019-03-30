@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 
 public class TreeAnimationDisintegrate extends TreeAnimation {
 
-    public TreeAnimationDisintegrate(TreeBlockSet<Block> treeBlocks, TreeDefinition treeDefinition) {
-        super(TreeAnimationType.DISINTIGRATE, treeBlocks, treeDefinition);
+    public TreeAnimationDisintegrate(DetectedTree detectedTree, Player player) {
+        super(TreeAnimationType.DISINTIGRATE, detectedTree, player);
     }
 
     @Override
-    public void playAnimation(DetectedTree detectedTree, Player player) {
+    public void playAnimation(Runnable whenFinished) {
 
     }
 

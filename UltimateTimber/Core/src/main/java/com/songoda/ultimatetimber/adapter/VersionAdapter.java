@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.adapter;
 
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -40,15 +40,15 @@ public interface VersionAdapter {
      * @param treeBlock The tree block
      * @return A Set of ItemStacks that should be dropped
      */
-    Collection<ItemStack> getBlockDrops(TreeBlock treeBlock);
+    Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock);
 
     /**
      * Applies damage to a tool
      *
-     * @param tool The tool to apply damage to
+     * @param player The Player who's tool to apply damage to
      * @param damage The amount of damage to apply
      */
-    void applyToolDurability(ItemStack tool, int damage);
+    void applyToolDurability(Player player, int damage);
 
     /**
      * Checks if a given tool has enough durability remaining
@@ -66,6 +66,13 @@ public interface VersionAdapter {
      * @return The ItemStack in the Player's main hand
      */
     ItemStack getItemInHand(Player player);
+
+    /**
+     * Removes the item in the player's main hand
+     *
+     * @param player The Player to remove the item from
+     */
+    void removeItemInHand(Player player);
 
     /**
      * Plays particles to indicate a tree has started falling

@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import utils.Methods;
+import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;

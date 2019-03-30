@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 
 public class TreeAnimationChaos extends TreeAnimation {
 
-    public TreeAnimationChaos(TreeBlockSet<Block> treeBlocks, TreeDefinition treeDefinition) {
-        super(TreeAnimationType.CHAOS, treeBlocks, treeDefinition);
+    public TreeAnimationChaos(DetectedTree detectedTree, Player player) {
+        super(TreeAnimationType.CHAOS, detectedTree, player);
     }
 
     @Override
-    public void playAnimation(DetectedTree detectedTree, Player player) {
+    public void playAnimation(Runnable whenFinished) {
 
     }
 

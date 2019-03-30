@@ -4,8 +4,11 @@ import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.utils.NMSUtil;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,12 +34,12 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
-    public Collection<ItemStack> getBlockDrops(TreeBlock treeBlock) {
+    public Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock) {
         return null;
     }
 
     @Override
-    public void applyToolDurability(ItemStack tool, int damage) {
+    public void applyToolDurability(Player player, int damage) {
 
     }
 
@@ -51,6 +54,11 @@ public class LegacyAdapter implements VersionAdapter {
     }
 
     @Override
+    public void removeItemInHand(Player player) {
+        player.setItemInHand(null);
+    }
+
+    @Override
     public void playFallingParticles(TreeBlockSet<Block> treeBlocks) {
 
     }
@@ -62,12 +70,22 @@ public class LegacyAdapter implements VersionAdapter {
 
     @Override
     public void playFallingSound(TreeBlockSet<Block> treeBlocks) {
-
+        Location location = treeBlocks.getInitialLogBlock().getLocation();
+        if (NMSUtil.getVersionNumber() > 8) {
+            location.getWorld().playSound(location, Sound.BLOCK_CHEST_OPEN, 3F, 0.1F);
+        } else {
+            location.getWorld().playSound(location, Sound.valueOf("CHEST_OPEN"), 3F, 0.1F);
+        }
     }
 
     @Override
     public void playLandingSound(FallingTreeBlock treeBlock) {
-
+        Location location = treeBlock.getLocation();
+        if (NMSUtil.getVersionNumber() > 8) {
+            location.getWorld().playSound(location, Sound.BLOCK_WOOD_FALL, 3F, 0.1F);
+        } else {
+            location.getWorld().playSound(location, Sound.valueOf("DIG_WOOD"), 3F, 0.1F);
+        }
     }
 
 }

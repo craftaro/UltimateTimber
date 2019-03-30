@@ -5,35 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.songoda.ultimatetimber</groupId>
-    <artifactId>UltimateTimber</artifactId>
+    <artifactId>UltimateTimber-Parent</artifactId>
     <packaging>pom</packaging>
     <version>maven-version-number</version>
 
     <modules>
+        <module>UltimateTimber/Core</module>
         <module>UltimateTimber-Adapter/Current</module>
         <module>UltimateTimber-Adapter/Legacy</module>
-        <module>UltimateTimber/Core</module>
         <module>UltimateTimber/Plugin</module>
     </modules>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <build>
-        <defaultGoal>clean install</defaultGoal>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>
@@ -41,4 +22,19 @@
             <url>http://repo.songoda.com/artifactory/private</url>
         </repository>
     </repositories>
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

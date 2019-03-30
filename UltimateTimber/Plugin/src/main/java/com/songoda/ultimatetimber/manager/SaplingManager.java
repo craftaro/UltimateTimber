@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -44,7 +45,7 @@ public class SaplingManager extends Manager {
         if (!ConfigurationManager.Setting.REPLANT_SAPLINGS.getBoolean())
             return;
 
-        this.internalReplant(treeDefinition, location);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, location), 1L);
     }
 
     /**
@@ -62,7 +63,7 @@ public class SaplingManager extends Manager {
         if (this.random.nextDouble() > chance / 100)
             return;
 
-        this.internalReplant(treeDefinition, location);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, location), 1L);
     }
 
     /**
@@ -74,6 +75,18 @@ public class SaplingManager extends Manager {
     private void internalReplant(TreeDefinition treeDefinition, Location location) {
         Block block = location.getBlock();
         if (!block.getType().equals(Material.AIR))
+            return;
+
+        Block blockBelow = block.getRelative(BlockFace.DOWN);
+        boolean isValidSoil = false;
+        for (IBlockData soilBlockData : treeDefinition.getPlantableSoilBlockData()) {
+            if (soilBlockData.isSimilar(blockBelow)) {
+                isValidSoil = true;
+                break;
+            }
+        }
+
+        if (!isValidSoil)
             return;
 
         IBlockData saplingBlockData = treeDefinition.getSaplingBlockData();

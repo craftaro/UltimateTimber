@@ -33,6 +33,7 @@ public class ConfigurationManager extends Manager {
         USE_CUSTOM_SOUNDS,
         USE_CUSTOM_PARTICLES,
         BONUS_LOOT_MULTIPLIER,
+        TREE_ANIMATION_TYPE,
         SCATTER_TREE_BLOCKS_ON_GROUND,
         MIX_ALL_TREE_TYPES;
 
