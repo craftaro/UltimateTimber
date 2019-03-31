@@ -3,10 +3,7 @@ package com.songoda.ultimatetimber.adapter.current;
 import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
-import com.songoda.ultimatetimber.tree.FallingTreeBlock;
-import com.songoda.ultimatetimber.tree.ITreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeBlockType;
+import com.songoda.ultimatetimber.tree.*;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,14 +40,16 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock) {
+    public Collection<ItemStack> getBlockDrops(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
+        Set<ItemStack> drops = new HashSet<>();
         if (treeBlock.getBlock() instanceof Block) {
             Block block = (Block)treeBlock.getBlock();
-            Set<ItemStack> drops = new HashSet<>();
             drops.add(new ItemStack(block.getType()));
-            return drops; // TODO: Do this properly
+        } else if (treeBlock.getBlock() instanceof FallingBlock) {
+            FallingBlock fallingBlock = (FallingBlock)treeBlock.getBlock();
+            drops.add(new ItemStack(fallingBlock.getBlockData().getMaterial()));
         }
-        return new HashSet<>();
+        return drops;
     }
 
     @Override
@@ -95,7 +94,7 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public void playFallingParticles(ITreeBlock treeBlock) {
+    public void playFallingParticles(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         BlockData blockData;
         if (treeBlock.getBlock() instanceof Block) {
             blockData = ((Block)treeBlock.getBlock()).getBlockData();
@@ -108,7 +107,7 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
-    public void playLandingParticles(ITreeBlock treeBlock) {
+    public void playLandingParticles(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         BlockData blockData;
         if (treeBlock.getBlock() instanceof Block) {
             blockData = ((Block)treeBlock.getBlock()).getBlockData();

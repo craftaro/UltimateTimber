@@ -64,7 +64,7 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
 
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
                         if (useCustomParticles)
-                            versionAdapter.playFallingParticles(treeBlock);
+                            versionAdapter.playFallingParticles(td, treeBlock);
                         treeDefinitionManager.dropTreeLoot(td, treeBlock, p);
                         TreeAnimationDisintegrate.this.replaceBlock(treeBlock.getBlock());
                     }

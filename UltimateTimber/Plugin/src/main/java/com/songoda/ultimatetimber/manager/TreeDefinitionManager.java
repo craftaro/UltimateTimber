@@ -233,13 +233,13 @@ public class TreeDefinitionManager extends Manager {
                 toTry.addAll(treeDefinition.getLogLoot());
                 toTry.addAll(this.globalLogLoot);
                 if (treeDefinition.shouldDropOriginalLog() || hasSilkTouch)
-                    lootedItems.addAll(versionAdapter.getBlockDrops(treeBlock));
+                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                 break;
             case LEAF:
                 toTry.addAll(treeDefinition.getLeafLoot());
                 toTry.addAll(this.globalLeafLoot);
                 if (treeDefinition.shouldDropOriginalLeaf() || hasSilkTouch)
-                    lootedItems.addAll(versionAdapter.getBlockDrops(treeBlock));
+                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                 break;
         }
 
@@ -257,8 +257,12 @@ public class TreeDefinitionManager extends Manager {
 
         // Add to inventory or drop on ground
         if (addToInventory) {
+            Set<ItemStack> extraItems = new HashSet<>();
             for (ItemStack lootedItem : lootedItems)
-                player.getInventory().addItem(lootedItem);
+                extraItems.addAll(player.getInventory().addItem(lootedItem).values());
+            Location location = player.getLocation();
+            for (ItemStack extraItem : extraItems)
+                location.getWorld().dropItemNaturally(location, extraItem);
         } else {
             Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
             for (ItemStack lootedItem : lootedItems)

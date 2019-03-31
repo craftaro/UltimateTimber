@@ -4,13 +4,16 @@ import com.songoda.ultimatetimber.adapter.IBlockData;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SuppressWarnings("deprecation")
 public class LegacyBlockData implements IBlockData {
 
     private final Material material;
-    private final byte data;
+    private final List<Byte> data;
 
-    public LegacyBlockData(Material material, byte data) {
+    public LegacyBlockData(Material material, List<Byte> data) {
         this.material = material;
         this.data = data;
     }
@@ -22,25 +25,37 @@ public class LegacyBlockData implements IBlockData {
 
     @Override
     public byte getData() {
-        return this.data;
+        return this.data.get(0);
     }
 
     @Override
     public boolean isSimilar(IBlockData otherBlockData) {
-        return this.getMaterial().equals(otherBlockData.getMaterial()) && this.getData() == otherBlockData.getData();
+        Material blockMaterial = otherBlockData.getMaterial();
+        byte blockData = otherBlockData.getData();
+        if (!this.material.equals(blockMaterial))
+            return false;
+        for (byte value : this.data)
+            if (value == blockData)
+                return true;
+        return false;
     }
 
     @Override
     public boolean isSimilar(Block block) {
         Material blockMaterial = block.getType();
         byte blockData = block.getData();
-        return this.material.equals(blockMaterial) && this.data == blockData;
+        if (!this.material.equals(blockMaterial))
+            return false;
+        for (byte value : this.data)
+            if (value == blockData)
+                return true;
+        return false;
     }
 
     @Override
     public void setBlock(Block block) {
         block.setType(this.material);
-        block.setData(this.data);
+        block.setData(this.data.get(0));
     }
 
 }

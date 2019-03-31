@@ -3,6 +3,7 @@ package com.songoda.ultimatetimber.adapter;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,10 +38,11 @@ public interface VersionAdapter {
     /**
      * Get the items that a tree block should drop when it breaks
      *
+     * @param treeDefinition The tree definition to get the items for
      * @param treeBlock The tree block
      * @return A Set of ItemStacks that should be dropped
      */
-    Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock);
+    Collection<ItemStack> getBlockDrops(TreeDefinition treeDefinition, ITreeBlock treeBlock);
 
     /**
      * Applies damage to a tool
@@ -77,16 +79,18 @@ public interface VersionAdapter {
     /**
      * Plays particles to indicate a tree block has started falling
      *
+     * @param treeDefinition The TreeDefinition of the block
      * @param treeBlock The TreeBlock to play the particles for
      */
-    void playFallingParticles(ITreeBlock treeBlock);
+    void playFallingParticles(TreeDefinition treeDefinition, ITreeBlock treeBlock);
 
     /**
      * Plays particles to indicate a tree block has hit the ground
      *
+     * @param treeDefinition The TreeDefinition of the block
      * @param treeBlock The TreeBlock to play the particles for
      */
-    void playLandingParticles(ITreeBlock treeBlock);
+    void playLandingParticles(TreeDefinition treeDefinition, ITreeBlock treeBlock);
 
     /**
      * Plays a sound to indicate a tree block has started falling

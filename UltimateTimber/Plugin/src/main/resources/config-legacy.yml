@@ -134,15 +134,9 @@ mix-all-tree-types: false
 trees:
   oak:
     logs:
-      - LOG:0
-      - LOG:4
-      - LOG:8
-      - LOG:12
+      - LOG:0,4,8,12
     leaves:
-      - LEAVES:0
-      - LEAVES:4
-      - LEAVES:8
-      - LEAVES:12
+      - LEAVES:0,4,8,12
     sapling: SAPLING:0
     plantable-soil: []
     max-leaf-distance-from-log: 6
@@ -160,15 +154,9 @@ trees:
     required-tools: []
   spruce:
     logs:
-      - LOG:1
-      - LOG:5
-      - LOG:9
-      - LOG:13
+      - LOG:1,5,9,13
     leaves:
-      - LEAVES:1
-      - LEAVES:5
-      - LEAVES:9
-      - LEAVES:13
+      - LEAVES:1,5,9,13
     sapling: SAPLING:1
     plantable-soil: []
     max-leaf-distance-from-log: 6
@@ -183,15 +171,9 @@ trees:
     required-tools: []
   birch:
     logs:
-      - LOG:2
-      - LOG:6
-      - LOG:10
-      - LOG:14
+      - LOG:2,6,10,14
     leaves:
-      - LEAVES:2
-      - LEAVES:6
-      - LEAVES:10
-      - LEAVES:14
+      - LEAVES:2,6,10,14
     sapling: SAPLING:2
     plantable-soil: []
     max-leaf-distance-from-log: 4
@@ -206,15 +188,9 @@ trees:
     required-tools: []
   jungle:
     logs:
-      - LOG:3
-      - LOG:7
-      - LOG:11
-      - LOG:15
+      - LOG:3,7,11,15
     leaves:
-      - LEAVES:3
-      - LEAVES:7
-      - LEAVES:11
-      - LEAVES:15
+      - LEAVES:3,7,11,15
     sapling: SAPLING:3
     plantable-soil: []
     max-leaf-distance-from-log: 6
@@ -229,15 +205,9 @@ trees:
     required-tools: []
   acacia:
     logs:
-      - LOG_2:0
-      - LOG_2:4
-      - LOG_2:8
-      - LOG_2:12
+      - LOG_2:0,4,8,12
     leaves:
-      - LEAVES_2:0
-      - LEAVES_2:4
-      - LEAVES_2:8
-      - LEAVES_2:12
+      - LEAVES_2:0,4,8,12
     sapling: SAPLING:4
     plantable-soil: []
     max-leaf-distance-from-log: 5
@@ -252,15 +222,9 @@ trees:
     required-tools: []
   dark_oak:
     logs:
-      - LOG:1
-      - LOG:5
-      - LOG:9
-      - LOG:13
+      - LOG:1,5,9,13
     leaves:
-      - LEAVES:1
-      - LEAVES:5
-      - LEAVES:9
-      - LEAVES:13
+      - LEAVES:1,5,9,13
     sapling: SAPLING:5
     plantable-soil: []
     max-leaf-distance-from-log: 5
@@ -278,20 +242,9 @@ trees:
     required-tools: []
   brown_mushroom:
     logs:
-      - HUGE_MUSHROOM_1:10
-      - HUGE_MUSHROOM_1:15
+      - HUGE_MUSHROOM_1:15,10
     leaves:
-      - HUGE_MUSHROOM_1:0
-      - HUGE_MUSHROOM_1:1
-      - HUGE_MUSHROOM_1:2
-      - HUGE_MUSHROOM_1:3
-      - HUGE_MUSHROOM_1:4
-      - HUGE_MUSHROOM_1:5
-      - HUGE_MUSHROOM_1:6
-      - HUGE_MUSHROOM_1:7
-      - HUGE_MUSHROOM_1:8
-      - HUGE_MUSHROOM_1:9
-      - HUGE_MUSHROOM_1:14
+      - HUGE_MUSHROOM_1:14,0,1,2,3,4,5,6,7,8,9
     sapling: BROWN_MUSHROOM
     plantable-soil:
       - MYCEL
@@ -307,20 +260,9 @@ trees:
     required-tools: []
   red_mushroom:
     logs:
-      - HUGE_MUSHROOM_2:10
-      - HUGE_MUSHROOM_2:15
+      - HUGE_MUSHROOM_2:15,10
     leaves:
-      - HUGE_MUSHROOM_2:0
-      - HUGE_MUSHROOM_2:1
-      - HUGE_MUSHROOM_2:2
-      - HUGE_MUSHROOM_2:3
-      - HUGE_MUSHROOM_2:4
-      - HUGE_MUSHROOM_2:5
-      - HUGE_MUSHROOM_2:6
-      - HUGE_MUSHROOM_2:7
-      - HUGE_MUSHROOM_2:8
-      - HUGE_MUSHROOM_2:9
-      - HUGE_MUSHROOM_2:14
+      - HUGE_MUSHROOM_2:14,0,1,2,3,4,5,6,7,8,9
     sapling: RED_MUSHROOM
     plantable-soil:
       - MYCEL
