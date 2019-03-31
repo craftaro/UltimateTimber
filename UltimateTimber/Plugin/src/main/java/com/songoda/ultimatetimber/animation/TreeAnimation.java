@@ -9,18 +9,24 @@ import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class TreeAnimation {
 
     protected final TreeAnimationType treeAnimationType;
     protected final DetectedTree detectedTree;
     protected final Player player;
+    protected final boolean hasSilkTouch;
 
     TreeAnimation(TreeAnimationType treeAnimationType, DetectedTree detectedTree, Player player) {
         this.treeAnimationType = treeAnimationType;
         this.detectedTree = detectedTree;
         this.player = player;
+
+        ItemStack itemInHand = UltimateTimber.getInstance().getVersionAdapter().getItemInHand(player);
+        this.hasSilkTouch = itemInHand != null && itemInHand.hasItemMeta() && itemInHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH);
     }
 
     /**

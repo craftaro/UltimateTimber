@@ -35,6 +35,7 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
 
         Player p = this.player;
         TreeDefinition td = this.detectedTree.getTreeDefinition();
+        boolean hst = this.hasSilkTouch;
 
         new BukkitRunnable() {
             @Override
@@ -65,7 +66,7 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
                         if (useCustomParticles)
                             versionAdapter.playFallingParticles(td, treeBlock);
-                        treeDefinitionManager.dropTreeLoot(td, treeBlock, p);
+                        treeDefinitionManager.dropTreeLoot(td, treeBlock, p, hst);
                         TreeAnimationDisintegrate.this.replaceBlock(treeBlock.getBlock());
                     }
                 } else {

@@ -216,31 +216,33 @@ public class TreeDefinitionManager extends Manager {
      * @param treeBlock The TreeBlock to drop for
      * @param player The Player to drop for
      */
-    public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player) {
+    public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
 
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
-        ItemStack itemInHand = this.ultimateTimber.getVersionAdapter().getItemInHand(player);
-        boolean hasSilkTouch = itemInHand != null && itemInHand.hasItemMeta() && itemInHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH);
         boolean hasBonusChance = player.hasPermission("ultimatetimber.bonusloot");
         Set<ItemStack> lootedItems = new HashSet<>();
         Set<String> lootedCommands = new HashSet<>();
 
         // Get the loot that we should try to drop
         Set<TreeLoot> toTry = new HashSet<>();
-        switch (treeBlock.getTreeBlockType()) {
-            case LOG:
-                toTry.addAll(treeDefinition.getLogLoot());
-                toTry.addAll(this.globalLogLoot);
-                if (treeDefinition.shouldDropOriginalLog() || hasSilkTouch)
-                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                break;
-            case LEAF:
-                toTry.addAll(treeDefinition.getLeafLoot());
-                toTry.addAll(this.globalLeafLoot);
-                if (treeDefinition.shouldDropOriginalLeaf() || hasSilkTouch)
-                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                break;
+        if (hasSilkTouch) {
+            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+        } else {
+            switch (treeBlock.getTreeBlockType()) {
+                case LOG:
+                    toTry.addAll(treeDefinition.getLogLoot());
+                    toTry.addAll(this.globalLogLoot);
+                    if (treeDefinition.shouldDropOriginalLog())
+                        lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                    break;
+                case LEAF:
+                    toTry.addAll(treeDefinition.getLeafLoot());
+                    toTry.addAll(this.globalLeafLoot);
+                    if (treeDefinition.shouldDropOriginalLeaf())
+                        lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                    break;
+            }
         }
 
         // Roll the dice
