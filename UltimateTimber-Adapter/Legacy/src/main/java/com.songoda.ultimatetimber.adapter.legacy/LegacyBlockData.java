@@ -30,8 +30,12 @@ public class LegacyBlockData implements IBlockData {
 
     @Override
     public boolean isSimilar(IBlockData otherBlockData) {
+        if (this.data.size() == 1)
+            return this.material.equals(otherBlockData.getMaterial()) && this.getData() == otherBlockData.getData();
+
         Material blockMaterial = otherBlockData.getMaterial();
         byte blockData = otherBlockData.getData();
+
         if (!this.material.equals(blockMaterial))
             return false;
         for (byte value : this.data)
@@ -42,6 +46,9 @@ public class LegacyBlockData implements IBlockData {
 
     @Override
     public boolean isSimilar(Block block) {
+        if (this.data.size() == 1)
+            return this.material.equals(block.getType()) && this.getData() == block.getData();
+
         Material blockMaterial = block.getType();
         byte blockData = block.getData();
         if (!this.material.equals(blockMaterial))

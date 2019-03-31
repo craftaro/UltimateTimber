@@ -67,16 +67,18 @@ public class LegacyAdapter implements VersionAdapter {
             treeBlockData = new LegacyBlockData(fallingBlock.getMaterial(), data);
         } else return drops;
 
+        Set<IBlockData> typedBlockData = treeBlock.getTreeBlockType().equals(TreeBlockType.LOG) ? treeDefinition.getLogBlockData() : treeDefinition.getLeafBlockData();
+
         IBlockData definitionBlockData = null;
-        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
-            for (IBlockData blockData : treeDefinition.getLogBlockData()) {
-                if (blockData.getMaterial().equals(treeBlockData.getMaterial())) {
-                    definitionBlockData = blockData;
-                    break;
-                }
+        for (IBlockData blockData : typedBlockData) {
+            if (blockData.getMaterial().equals(treeBlockData.getMaterial()) && blockData.getData() == treeBlockData.getData()) {
+                definitionBlockData = blockData;
+                break;
             }
-        } else {
-            for (IBlockData blockData : treeDefinition.getLeafBlockData()) {
+        }
+
+        if (definitionBlockData == null) {
+            for (IBlockData blockData : typedBlockData) {
                 if (blockData.getMaterial().equals(treeBlockData.getMaterial())) {
                     definitionBlockData = blockData;
                     break;

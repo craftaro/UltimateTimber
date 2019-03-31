@@ -222,9 +222,9 @@ trees:
     required-tools: []
   dark_oak:
     logs:
-      - LOG:1,5,9,13
+      - LOG_2:1,5,9,13
     leaves:
-      - LEAVES:1,5,9,13
+      - LEAVES_2:1,5,9,13
     sapling: SAPLING:5
     plantable-soil: []
     max-leaf-distance-from-log: 5
@@ -248,7 +248,7 @@ trees:
     sapling: BROWN_MUSHROOM
     plantable-soil:
       - MYCEL
-    max-leaf-distance-from-log: 4
+    max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: false
     drop-original-leaf: false
