@@ -6,8 +6,7 @@ import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeDefinition;
+import com.songoda.ultimatetimber.tree.TreeBlock;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -31,8 +30,10 @@ public class TreeAnimationNone extends TreeAnimation {
 
         for (ITreeBlock<Block> treeBlock : this.detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
             treeDefinitionManager.dropTreeLoot(this.detectedTree.getTreeDefinition(), treeBlock, this.player, this.hasSilkTouch);
-            this.replaceBlock(treeBlock.getBlock());
+            this.replaceBlock((TreeBlock)treeBlock);
         }
+
+        whenFinished.run();
     }
 
 }

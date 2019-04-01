@@ -2,6 +2,8 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.IBlockData;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -39,13 +41,13 @@ public class SaplingManager extends Manager {
      * Takes into account config settings
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param location The Location to plant the sapling
+     * @param treeBlock The ITreeBlock to replant for
      */
-    public void replantSapling(TreeDefinition treeDefinition, Location location) {
+    public void replantSapling(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         if (!ConfigurationManager.Setting.REPLANT_SAPLINGS.getBoolean())
             return;
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, location), 1L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, treeBlock), 1L);
     }
 
     /**
@@ -53,9 +55,9 @@ public class SaplingManager extends Manager {
      * Takes into account config settings
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param location The Location to plant the sapling
+     * @param treeBlock The ITreeBlock to replant for
      */
-    public void replantSaplingWithChance(TreeDefinition treeDefinition, Location location) {
+    public void replantSaplingWithChance(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean())
             return;
 
@@ -63,20 +65,20 @@ public class SaplingManager extends Manager {
         if (this.random.nextDouble() > chance / 100)
             return;
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, location), 1L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, treeBlock), 1L);
     }
 
     /**
      * Replants a sapling given a TreeDefinition and Location
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param location The Location to plant the sapling
+     * @param treeBlock The ITreeBlock to replant for
      */
-    private void internalReplant(TreeDefinition treeDefinition, Location location) {
+    private void internalReplant(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
 
-        Block block = location.getBlock();
-        if (!block.getType().equals(Material.AIR))
+        Block block = treeBlock.getLocation().getBlock();
+        if (!block.getType().equals(Material.AIR) || !treeBlock.getTreeBlockType().equals(TreeBlockType.LOG))
             return;
 
         Block blockBelow = block.getRelative(BlockFace.DOWN);
@@ -92,12 +94,12 @@ public class SaplingManager extends Manager {
             return;
 
         IBlockData saplingBlockData = treeDefinition.getSaplingBlockData();
-        saplingBlockData.setBlock(location.getBlock());
+        saplingBlockData.setBlock(block);
 
         int cooldown = ConfigurationManager.Setting.REPLANT_SAPLINGS_COOLDOWN.getInt();
         if (cooldown != 0) {
-            this.protectedSaplings.add(location);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.protectedSaplings.remove(location), cooldown * 20L);
+            this.protectedSaplings.add(block.getLocation());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.protectedSaplings.remove(block.getLocation()), cooldown * 20L);
         }
     }
 

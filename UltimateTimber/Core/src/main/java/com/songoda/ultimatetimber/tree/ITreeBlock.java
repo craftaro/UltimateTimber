@@ -1,9 +1,6 @@
 package com.songoda.ultimatetimber.tree;
 
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Collection;
 
 public interface ITreeBlock<BlockType> {
 

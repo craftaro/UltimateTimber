@@ -3,7 +3,9 @@ package com.songoda.ultimatetimber.adapter.current;
 import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
-import com.songoda.ultimatetimber.tree.*;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
+import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.utils.Methods;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -44,6 +46,8 @@ public class CurrentAdapter implements VersionAdapter {
         Set<ItemStack> drops = new HashSet<>();
         if (treeBlock.getBlock() instanceof Block) {
             Block block = (Block)treeBlock.getBlock();
+            if (block.getType().equals(Material.AIR))
+                return drops;
             drops.add(new ItemStack(block.getType()));
         } else if (treeBlock.getBlock() instanceof FallingBlock) {
             FallingBlock fallingBlock = (FallingBlock)treeBlock.getBlock();

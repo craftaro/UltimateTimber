@@ -2,9 +2,6 @@ package com.songoda.ultimatetimber.tree;
 
 import org.bukkit.Location;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Collection;
 
 public class FallingTreeBlock implements ITreeBlock<FallingBlock> {
 

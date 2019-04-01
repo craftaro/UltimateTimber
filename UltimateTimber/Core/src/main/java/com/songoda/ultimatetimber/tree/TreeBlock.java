@@ -2,9 +2,7 @@ package com.songoda.ultimatetimber.tree;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public class TreeBlock implements ITreeBlock<Block> {

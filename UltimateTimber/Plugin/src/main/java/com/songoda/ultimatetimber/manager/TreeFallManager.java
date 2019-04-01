@@ -68,6 +68,9 @@ public class TreeFallManager extends Manager implements Listener {
         if (!choppingManager.isChopping(player))
             return;
 
+        if (treeAnimationManager.isBlockInAnimation(block))
+            return;
+
         if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool))
             return;
 

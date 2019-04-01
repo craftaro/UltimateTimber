@@ -2,7 +2,12 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.IBlockData;
-import com.songoda.ultimatetimber.tree.*;
+import com.songoda.ultimatetimber.tree.DetectedTree;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
+import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;

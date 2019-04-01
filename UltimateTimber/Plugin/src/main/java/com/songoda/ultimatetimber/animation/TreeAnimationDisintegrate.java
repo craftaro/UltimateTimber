@@ -4,13 +4,18 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
-import com.songoda.ultimatetimber.tree.*;
-import org.bukkit.Bukkit;
+import com.songoda.ultimatetimber.tree.DetectedTree;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class TreeAnimationDisintegrate extends TreeAnimation {
 
@@ -67,10 +72,11 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                         if (useCustomParticles)
                             versionAdapter.playFallingParticles(td, treeBlock);
                         treeDefinitionManager.dropTreeLoot(td, treeBlock, p, hst);
-                        TreeAnimationDisintegrate.this.replaceBlock(treeBlock.getBlock());
+                        TreeAnimationDisintegrate.this.replaceBlock((TreeBlock)treeBlock);
                     }
                 } else {
                     this.cancel();
+                    whenFinished.run();
                 }
             }
         }.runTaskTimer(ultimateTimber, 0, 1);

@@ -3,18 +3,27 @@ package com.songoda.ultimatetimber.adapter.legacy;
 import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
-import com.songoda.ultimatetimber.tree.*;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
+import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.utils.Methods;
 import com.songoda.ultimatetimber.utils.NMSUtil;
-import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class LegacyAdapter implements VersionAdapter {
@@ -57,6 +66,8 @@ public class LegacyAdapter implements VersionAdapter {
         IBlockData treeBlockData;
         if (treeBlock.getBlock() instanceof Block) {
             Block block = (Block)treeBlock.getBlock();
+            if (block.getType().equals(Material.AIR))
+                return drops;
             List<Byte> data = new ArrayList<>();
             data.add(block.getData());
             treeBlockData = new LegacyBlockData(block.getType(), data);
