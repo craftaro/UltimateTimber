@@ -75,7 +75,7 @@ public class TreeAnimationFancy extends TreeAnimation {
 
                 for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationFancy.this.fallingTreeBlocks.getAllTreeBlocks()) {
                     FallingBlock fallingBlock = fallingTreeBlock.getBlock();
-                    fallingBlock.setVelocity(fallingBlock.getVelocity().clone().subtract(new Vector(0, 0.01, 0)));
+                    fallingBlock.setVelocity(fallingBlock.getVelocity().clone().subtract(new Vector(0, 0.05, 0)));
                 }
 
                 this.timer++;
@@ -89,8 +89,6 @@ public class TreeAnimationFancy extends TreeAnimation {
                 }
             }
         }.runTaskTimer(ultimateTimber, 20L, 1L);
-
-        whenFinished.run();
     }
 
 }
