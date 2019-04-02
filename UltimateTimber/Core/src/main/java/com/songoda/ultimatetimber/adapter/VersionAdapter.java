@@ -2,8 +2,12 @@ package com.songoda.ultimatetimber.adapter;
 
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.Collection;
 
@@ -72,6 +76,30 @@ public interface VersionAdapter {
      * @param player The Player to remove the item from
      */
     void removeItemInHand(Player player);
+
+    /**
+     * Spawns a falling block at the given location with the given block data
+     *
+     * @param location The location to spawn at
+     * @param block The block to use block data
+     * @return A newly spawned FallingBlock entity
+     */
+    FallingBlock spawnFallingBlock(Location location, Block block);
+
+    /**
+     * Configures a falling block for animating
+     *
+     * @param fallingBlock The falling block to configure
+     */
+    void configureFallingBlock(FallingBlock fallingBlock);
+
+    /**
+     * Enables/Disables gravity for a falling block
+     *
+     * @param fallingBlock The falling block to apply gravity settings to
+     * @param applyGravity Whether or not to apply the gravity
+     */
+    void toggleGravityFallingBlock(FallingBlock fallingBlock, boolean applyGravity);
 
     /**
      * Plays particles to indicate a tree block has started falling

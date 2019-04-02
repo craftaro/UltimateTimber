@@ -47,6 +47,10 @@ public class SaplingManager extends Manager {
         if (!ConfigurationManager.Setting.REPLANT_SAPLINGS.getBoolean())
             return;
 
+        Block block = treeBlock.getLocation().getBlock();
+        if (!block.getType().equals(Material.AIR) || treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF))
+            return;
+
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () -> this.internalReplant(treeDefinition, treeBlock), 1L);
     }
 
@@ -78,9 +82,6 @@ public class SaplingManager extends Manager {
         TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
 
         Block block = treeBlock.getLocation().getBlock();
-        if (!block.getType().equals(Material.AIR) || !treeBlock.getTreeBlockType().equals(TreeBlockType.LOG))
-            return;
-
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         boolean isValidSoil = false;
         for (IBlockData soilBlockData : treeDefinitionManager.getPlantableSoilBlockData(treeDefinition)) {

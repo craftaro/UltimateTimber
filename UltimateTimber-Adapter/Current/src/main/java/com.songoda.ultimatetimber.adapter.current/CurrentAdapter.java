@@ -98,6 +98,23 @@ public class CurrentAdapter implements VersionAdapter {
     }
 
     @Override
+    public FallingBlock spawnFallingBlock(Location location, Block block) {
+        return location.getWorld().spawnFallingBlock(location, block.getBlockData());
+    }
+
+    @Override
+    public void configureFallingBlock(FallingBlock fallingBlock) {
+        this.toggleGravityFallingBlock(fallingBlock, false);
+        fallingBlock.setDropItem(false);
+        fallingBlock.setHurtEntities(false);
+    }
+
+    @Override
+    public void toggleGravityFallingBlock(FallingBlock fallingBlock, boolean applyGravity) {
+        fallingBlock.setGravity(applyGravity);
+    }
+
+    @Override
     public void playFallingParticles(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         BlockData blockData;
         if (treeBlock.getBlock() instanceof Block) {

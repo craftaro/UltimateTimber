@@ -3,7 +3,6 @@ package com.songoda.ultimatetimber.manager;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
-import com.songoda.ultimatetimber.animation.TreeAnimationChaos;
 import com.songoda.ultimatetimber.animation.TreeAnimationDisintegrate;
 import com.songoda.ultimatetimber.animation.TreeAnimationFancy;
 import com.songoda.ultimatetimber.animation.TreeAnimationNone;
@@ -79,9 +78,6 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
                 break;
             case "DISINTEGRATE":
                 this.registerTreeAnimation(new TreeAnimationDisintegrate(detectedTree, player));
-                break;
-            case "CHAOS":
-                this.registerTreeAnimation(new TreeAnimationChaos(detectedTree, player));
                 break;
             case "NONE":
                 this.registerTreeAnimation(new TreeAnimationNone(detectedTree, player));
@@ -172,7 +168,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             int damage = ConfigurationManager.Setting.FALLING_BLOCK_DAMAGE.getInt();
             for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
                 if (!(entity instanceof LivingEntity)) continue;
-                ((LivingEntity)entity).damage(damage);
+                ((LivingEntity)entity).damage(damage, fallingBlock);
             }
         }
 

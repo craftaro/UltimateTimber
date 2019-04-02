@@ -1,6 +1,7 @@
 package com.songoda.ultimatetimber.animation;
 
 import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
@@ -94,18 +95,17 @@ public abstract class TreeAnimation {
      * @return A FallingTreeBlock that has been converted from a TreeBlock
      */
     protected FallingTreeBlock convertToFallingBlock(TreeBlock treeBlock) {
+        VersionAdapter versionAdapter = UltimateTimber.getInstance().getVersionAdapter();
         Location location = treeBlock.getLocation().clone().add(0.5, 0, 0.5);
-        World world = location.getWorld();
         Block block = treeBlock.getBlock();
 
-        if (block.getType().equals(Material.AIR))
+        if (block.getType().equals(Material.AIR)) {
+            this.replaceBlock(treeBlock);
             return null;
+        }
 
-        FallingBlock fallingBlock = world.spawnFallingBlock(location, block.getBlockData());
-
-        fallingBlock.setGravity(false);
-        fallingBlock.setDropItem(false);
-        fallingBlock.setHurtEntities(false);
+        FallingBlock fallingBlock = versionAdapter.spawnFallingBlock(location, block);
+        UltimateTimber.getInstance().getVersionAdapter().configureFallingBlock(fallingBlock);
 
         FallingTreeBlock fallingTreeBlock = new FallingTreeBlock(fallingBlock, treeBlock.getTreeBlockType());
         this.replaceBlock(treeBlock);
@@ -129,7 +129,7 @@ public abstract class TreeAnimation {
      */
     public void removeFallingBlock(FallingBlock fallingBlock) {
         for (ITreeBlock<FallingBlock> fallingTreeBlock : this.fallingTreeBlocks.getAllTreeBlocks()) {
-            if (fallingTreeBlock.equals(fallingBlock)) {
+            if (fallingTreeBlock.getBlock().equals(fallingBlock)) {
                 this.fallingTreeBlocks.remove(fallingTreeBlock);
                 return;
             }

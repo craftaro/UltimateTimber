@@ -62,7 +62,7 @@ public class TreeAnimationFancy extends TreeAnimation {
                 if (this.timer == 0) {
                     for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationFancy.this.fallingTreeBlocks.getAllTreeBlocks()) {
                         FallingBlock fallingBlock = fallingTreeBlock.getBlock();
-                        fallingBlock.setGravity(true);
+                        versionAdapter.toggleGravityFallingBlock(fallingBlock, true);
                         fallingBlock.setVelocity(fallingBlock.getVelocity().multiply(1.5));
                     }
                 }
