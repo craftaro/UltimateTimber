@@ -53,30 +53,44 @@ public class TreeFallManager extends Manager implements Listener {
         }
 
         // Condition checks
+        boolean isValid = true;
+
         if (ConfigurationManager.Setting.DISABLED_WORLDS.getStringList().contains(player.getWorld().getName()))
-            return;
+            isValid = false;
 
         if (!ConfigurationManager.Setting.ALLOW_CREATIVE_MODE.getBoolean() && player.getGameMode().equals(GameMode.CREATIVE))
-            return;
+            isValid = false;
 
         if (ConfigurationManager.Setting.ONLY_TOPPLE_WHILE_SNEAKING.getBoolean() && !player.isSneaking())
-            return;
+            isValid = false;
 
         if (ConfigurationManager.Setting.REQUIRE_CHOP_PERMISSION.getBoolean() && !player.hasPermission("ultimatetimber.chop"))
-            return;
+            isValid = false;
 
         if (!choppingManager.isChopping(player))
-            return;
+            isValid = false;
 
         if (treeAnimationManager.isBlockInAnimation(block))
-            return;
+            isValid = false;
 
         if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool))
+            isValid = false;
+
+        boolean alwaysReplantSapling = ConfigurationManager.Setting.ALWAYS_REPLANT_SAPLING.getBoolean();
+        if (!isValid && !alwaysReplantSapling)
             return;
 
         DetectedTree detectedTree = treeDetectionManager.detectTree(block);
         if (detectedTree == null)
             return;
+
+        if (alwaysReplantSapling) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this.ultimateTimber, () ->
+                    saplingManager.replantSapling(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock()));
+
+            if (!isValid)
+                return;
+        }
 
         if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool))
             return;

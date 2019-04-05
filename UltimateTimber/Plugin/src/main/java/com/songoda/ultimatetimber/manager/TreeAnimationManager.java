@@ -93,7 +93,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
     public boolean isBlockInAnimation(Block block) {
         for (TreeAnimation treeAnimation : this.activeAnimations)
             for (ITreeBlock<Block> treeBlock : treeAnimation.getDetectedTree().getDetectedTreeBlocks().getAllTreeBlocks())
-                if (treeBlock.getBlock().getLocation().equals(block.getLocation()))
+                if (treeBlock.getBlock().equals(block))
                     return true;
         return false;
     }

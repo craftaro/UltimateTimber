@@ -273,11 +273,11 @@ public class TreeDefinitionManager extends Manager {
         // Run looted commands
         for (String lootedCommand : lootedCommands)
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
-                    lootedCommand.replace("%player", player.getName())
-                                 .replace("%type", treeDefinition.getKey())
-                                 .replace("%xPos", treeBlock.getLocation().getBlockX() + "")
-                                 .replace("%yPos", treeBlock.getLocation().getBlockY() + "")
-                                 .replace("%zPos", treeBlock.getLocation().getBlockZ() + ""));
+                    lootedCommand.replace("%player%", player.getName())
+                                 .replace("%type%", treeDefinition.getKey())
+                                 .replace("%xPos%", treeBlock.getLocation().getBlockX() + "")
+                                 .replace("%yPos%", treeBlock.getLocation().getBlockY() + "")
+                                 .replace("%zPos%", treeBlock.getLocation().getBlockZ() + ""));
     }
 
     /**

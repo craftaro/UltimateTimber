@@ -38,6 +38,10 @@ realistic-tool-damage: true
 # Default: false
 protect-tool: false
 
+# Always replant saplings for base tree blocks, regardless of player permissions
+# Default: false
+always-replant-sapling: false
+
 # Require the entire base of the tree to be broken before it topples
 # Default: false
 break-entire-tree-base: false
@@ -294,11 +298,11 @@ global-log-loot:
     material: DIAMOND
     chance: 0
   1:
-    command: 'eco give %player 5'
+    command: 'eco give %player% 5'
     chance: 0
   2:
     material: GOLDEN_APPLE
-    command: 'broadcast %player found a golden apple in a %type tree at %xPos %yPos %zPos!'
+    command: 'broadcast %player% found a golden apple in a %type% tree at %xPos% %yPos% %zPos%!'
     chance: 0
 
 # Custom loot that is available for all tree types

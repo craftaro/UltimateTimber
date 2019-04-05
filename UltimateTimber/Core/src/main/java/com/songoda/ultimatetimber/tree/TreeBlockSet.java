@@ -9,8 +9,13 @@ import java.util.Set;
 public class TreeBlockSet<BlockType> implements Collection {
 
     private final ITreeBlock<BlockType> initialLogBlock;
-    private final Set<ITreeBlock<BlockType>> logBlocks;
-    private final Set<ITreeBlock<BlockType>> leafBlocks;
+    private final Set<ITreeBlock<BlockType>> logBlocks, leafBlocks;
+
+    public TreeBlockSet() {
+        this.initialLogBlock = null;
+        this.logBlocks = new HashSet<>();
+        this.leafBlocks = new HashSet<>();
+    }
 
     public TreeBlockSet(ITreeBlock<BlockType> initialLogBlock) {
         this.initialLogBlock = initialLogBlock;
@@ -152,6 +157,25 @@ public class TreeBlockSet<BlockType> implements Collection {
             }
         }
         return removedAll;
+    }
+
+    /**
+     * Removes all tree blocks of a given type
+     *
+     * @param treeBlockType The type of tree block to remove
+     * @return If any blocks were removed
+     */
+    public boolean removeAll(TreeBlockType treeBlockType) {
+        if (treeBlockType.equals(TreeBlockType.LOG)) {
+            boolean removedAny = !this.logBlocks.isEmpty();
+            this.logBlocks.clear();
+            return removedAny;
+        } else if (treeBlockType.equals(TreeBlockType.LEAF)) {
+            boolean removedAny = !this.leafBlocks.isEmpty();
+            this.leafBlocks.clear();
+            return removedAny;
+        }
+        return false;
     }
 
     @Override

@@ -165,7 +165,7 @@ public class LegacyAdapter implements VersionAdapter {
 
         Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
         if (NMSUtil.getVersionNumber() > 8) {
-            location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, 0, 0, 0, blockDrops.iterator().next().getData());
+            location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, blockDrops.iterator().next().getData());
         } else {
             location.getWorld().playEffect(location, Effect.SMOKE, 4);
         }
@@ -179,7 +179,7 @@ public class LegacyAdapter implements VersionAdapter {
 
         Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
         if (NMSUtil.getVersionNumber() > 8) {
-            location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, 0, 0, 0, blockDrops.iterator().next().getData());
+            location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, blockDrops.iterator().next().getData());
         } else {
             location.getWorld().playEffect(location, Effect.SMOKE, 4);
         }

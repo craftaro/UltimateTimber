@@ -18,6 +18,7 @@ public class ConfigurationManager extends Manager {
         LEAVES_REQUIRED_FOR_TREE(SettingType.INT),
         REALISTIC_TOOL_DAMAGE(SettingType.BOOLEAN),
         PROTECT_TOOL(SettingType.BOOLEAN),
+        ALWAYS_REPLANT_SAPLING(SettingType.BOOLEAN),
         BREAK_ENTIRE_TREE_BASE(SettingType.BOOLEAN),
         DESTROY_INITIATED_BLOCK(SettingType.BOOLEAN),
         ONLY_DETECT_LOGS_UPWARDS(SettingType.BOOLEAN),

@@ -124,7 +124,7 @@ public class CurrentAdapter implements VersionAdapter {
         } else return;
 
         Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-        location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, 0.25, 0.25, 0.25, blockData);
+        location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 10, blockData);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class CurrentAdapter implements VersionAdapter {
         } else return;
 
         Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-        location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, 0.25, 0.25, 0.25, blockData);
+        location.getWorld().spawnParticle(Particle.BLOCK_CRACK, location, 10, blockData);
     }
 
     @Override

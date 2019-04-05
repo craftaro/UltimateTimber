@@ -143,7 +143,7 @@ public class TreeDetectionManager extends Manager {
 
         // Remove all leaves if applicable
         if (!this.destroyLeaves)
-            detectedTreeBlocks.removeAll(detectedTreeBlocks.getLeafBlocks());
+            detectedTreeBlocks.removeAll(TreeBlockType.LEAF);
 
         return new DetectedTree(actualTreeDefinition, detectedTreeBlocks);
     }

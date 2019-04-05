@@ -32,7 +32,7 @@ public abstract class TreeAnimation {
         ItemStack itemInHand = UltimateTimber.getInstance().getVersionAdapter().getItemInHand(player);
         this.hasSilkTouch = itemInHand != null && itemInHand.hasItemMeta() && itemInHand.getItemMeta().hasEnchant(Enchantment.SILK_TOUCH);
 
-        this.fallingTreeBlocks = null;
+        this.fallingTreeBlocks = new TreeBlockSet<>(); // Should be overridden in any subclasses that need to use it
     }
 
     /**
