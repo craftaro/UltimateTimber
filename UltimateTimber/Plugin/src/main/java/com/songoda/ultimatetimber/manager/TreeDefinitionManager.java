@@ -261,7 +261,7 @@ public class TreeDefinitionManager extends Manager {
             Set<ItemStack> extraItems = new HashSet<>();
             for (ItemStack lootedItem : lootedItems)
                 extraItems.addAll(player.getInventory().addItem(lootedItem).values());
-            Location location = player.getLocation();
+            Location location = player.getLocation().clone().subtract(0.5, 0, 0.5);
             for (ItemStack extraItem : extraItems)
                 location.getWorld().dropItemNaturally(location, extraItem);
         } else {

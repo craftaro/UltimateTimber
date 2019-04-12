@@ -32,7 +32,7 @@ public class TreeFallManager extends Manager implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent event) {
         TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
         TreeDetectionManager treeDetectionManager = this.ultimateTimber.getTreeDetectionManager();
