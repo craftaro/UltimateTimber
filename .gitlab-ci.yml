@@ -1,5 +1,5 @@
 stages:
-- build
+  - build
 
 variables:
   name: "UltimateTimber"
@@ -13,8 +13,9 @@ build:
     - find $path/ -type f -name "*.xml" -print0 | xargs -0 sed -i -e s/maven-version-number/$version/g
     - find $path/ -type f -name "*.yml" -print0 | xargs -0 sed -i -e s/maven-version-number/$version/g
     - mvn clean package
-    - mv -v $path/target/*.jar $path
+    - find $path/ -depth -path '*original*' -delete
+    - mv $path/target/*.jar $path/
   artifacts:
     name: $name-$version
     paths:
-    - "$path/*.jar"
+      - "$path/*.jar"
