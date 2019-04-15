@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class CurrentJobsHook implements TimberHook {
 
     @Override
-    public void apply(Player player, TreeBlockSet<Block> treeBlocks) throws Exception {
+    public void apply(Player player, TreeBlockSet<Block> treeBlocks) {
         if (player.getGameMode().equals(GameMode.CREATIVE)) 
             return;
         

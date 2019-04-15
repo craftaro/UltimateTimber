@@ -257,7 +257,7 @@ public class TreeDefinitionManager extends Manager {
         }
 
         // Add to inventory or drop on ground
-        if (addToInventory) {
+        if (addToInventory && player.getWorld().equals(treeBlock.getLocation().getWorld())) {
             Set<ItemStack> extraItems = new HashSet<>();
             for (ItemStack lootedItem : lootedItems)
                 extraItems.addAll(player.getInventory().addItem(lootedItem).values());

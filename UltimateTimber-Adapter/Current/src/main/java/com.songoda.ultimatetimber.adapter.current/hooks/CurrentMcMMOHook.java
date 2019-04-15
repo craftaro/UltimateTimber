@@ -16,7 +16,7 @@ public class CurrentMcMMOHook implements TimberHook {
 
     private Enum<?> woodcuttingEnum;
     private Method getXpMethod;
-    
+
     public CurrentMcMMOHook() throws NoSuchMethodException, SecurityException, ClassNotFoundException {
         try { // Try to find mcMMO Overhaul
             Class<?> primarySkillTypeClass = Class.forName("com.gmail.nossr50.datatypes.skills.PrimarySkillType");
@@ -43,17 +43,16 @@ public class CurrentMcMMOHook implements TimberHook {
 
     @Override
     public void apply(Player player, TreeBlockSet<Block> treeBlocks) throws Exception {
-        if (player.getGameMode().equals(GameMode.CREATIVE)) 
+        if (player.getGameMode().equals(GameMode.CREATIVE))
             return;
-        
+
         int xp = 0;
         for (ITreeBlock<Block> treeBlock : treeBlocks.getLogBlocks()) {
             Block block = treeBlock.getBlock();
             Material material = block.getType();
-            if (!material.name().endsWith("LOG")) continue;
             xp += (int) this.getXpMethod.invoke(ExperienceConfig.getInstance(), this.woodcuttingEnum, material);
         }
-        
+
         ExperienceAPI.addXP(player, "woodcutting", xp, "pve");
     }
 

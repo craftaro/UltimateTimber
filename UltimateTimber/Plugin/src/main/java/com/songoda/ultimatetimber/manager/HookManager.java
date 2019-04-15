@@ -1,8 +1,11 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
+import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import com.songoda.ultimatetimber.adapter.current.hooks.CurrentJobsHook;
 import com.songoda.ultimatetimber.adapter.current.hooks.CurrentMcMMOHook;
+import com.songoda.ultimatetimber.adapter.legacy.hooks.LegacyJobsHook;
+import com.songoda.ultimatetimber.adapter.legacy.hooks.LegacyMcMMOHook;
 import com.songoda.ultimatetimber.hook.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
@@ -25,8 +28,13 @@ public class HookManager extends Manager {
     public void reload() {
         this.hooks.clear();
 
-        this.tryHook("mcMMO", CurrentMcMMOHook.class);
-        this.tryHook("Jobs", CurrentJobsHook.class);
+        if (this.ultimateTimber.getVersionAdapter().getVersionAdapterType().equals(VersionAdapterType.CURRENT)) {
+            this.tryHook("mcMMO", CurrentMcMMOHook.class);
+            this.tryHook("Jobs", CurrentJobsHook.class);
+        } else {
+            this.tryHook("mcMMO", LegacyMcMMOHook.class);
+            this.tryHook("Jobs", LegacyJobsHook.class);
+        }
     }
 
     @Override
