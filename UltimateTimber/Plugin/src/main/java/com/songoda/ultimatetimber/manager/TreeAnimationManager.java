@@ -3,6 +3,7 @@ package com.songoda.ultimatetimber.manager;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
+import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
 import com.songoda.ultimatetimber.animation.TreeAnimationDisintegrate;
 import com.songoda.ultimatetimber.animation.TreeAnimationFancy;
 import com.songoda.ultimatetimber.animation.TreeAnimationNone;
@@ -78,6 +79,9 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
                 break;
             case "DISINTEGRATE":
                 this.registerTreeAnimation(new TreeAnimationDisintegrate(detectedTree, player));
+                break;
+            case "CRUMBLE":
+                this.registerTreeAnimation(new TreeAnimationCrumble(detectedTree, player));
                 break;
             case "NONE":
                 this.registerTreeAnimation(new TreeAnimationNone(detectedTree, player));

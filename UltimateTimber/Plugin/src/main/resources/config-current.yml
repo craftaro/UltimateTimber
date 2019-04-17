@@ -117,11 +117,11 @@ use-custom-particles: true
 bonus-loot-multiplier: 2
 
 # The type of animation to use for tree toppling
-# Types: FANCY, DISINTEGRATE, NONE
+# Types: FANCY, DISINTEGRATE, CRUMBLE, NONE
 tree-animation-type: FANCY
 
-# If the tree-animation-type is FANCY, make the blocks stick to the ground
-# Does nothing if tree-animation-type is not FANCY
+# If the tree-animation-type is FANCY or CRUMBLE, make the blocks stick to the ground
+# Does nothing if tree-animation-type is not FANCY or CRUMBLE
 # Default: false
 scatter-tree-blocks-on-ground: false
 

@@ -48,17 +48,14 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                 List<ITreeBlock<Block>> toDestroy = new ArrayList<>();
 
                 if (!orderedLogBlocks.isEmpty()) {
-                    ITreeBlock<Block> treeBlock = orderedLogBlocks.get(0);
-                    orderedLogBlocks.remove(treeBlock);
+                    ITreeBlock<Block> treeBlock = orderedLogBlocks.remove(0);
                     toDestroy.add(treeBlock);
                 } else if (!leafBlocks.isEmpty()) {
-                    ITreeBlock<Block> treeBlock = leafBlocks.get(0);
-                    leafBlocks.remove(treeBlock);
+                    ITreeBlock<Block> treeBlock = leafBlocks.remove(0);
                     toDestroy.add(treeBlock);
 
                     if (!leafBlocks.isEmpty()) {
-                        treeBlock = leafBlocks.get(0);
-                        leafBlocks.remove(treeBlock);
+                        treeBlock = leafBlocks.remove(0);
                         toDestroy.add(treeBlock);
                     }
                 }
