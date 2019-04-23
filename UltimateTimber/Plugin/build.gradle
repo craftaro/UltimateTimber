@@ -1,0 +1,16 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+dependencies {
+    compile project(':UltimateTimber-Core')
+    compile project(':UltimateTimber-CurrentAdapter')
+    compile project(':UltimateTimber-LegacyAdapter')
+    compileOnly 'org.spigotmc:spigot:1.13.2'
+}
+
+
+processResources {
+    from (sourceSets.main.resources.srcDirs) {
+        include '**/*.yml'
+        filter ReplaceTokens, tokens: ["version": project.property("version")]
+    }
+}

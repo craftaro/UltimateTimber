@@ -1,0 +1,44 @@
+allprojects {
+    apply plugin: 'java'
+    group = 'com.songoda.ultimatetimber'
+    version = '2.0.0'
+}
+
+subprojects {
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+		jcenter()
+		
+        maven {
+            url = 'http://repo.songoda.com/artifactory/private'
+        }
+    }
+}
+
+dependencies {
+    compile project(':UltimateTimber-Core')
+    compile project(':UltimateTimber-CurrentAdapter')
+    compile project(':UltimateTimber-LegacyAdapter')
+    compile project(':UltimateTimber-Plugin')
+}
+
+configurations {
+    childJars
+}
+
+dependencies {
+    subprojects.each {
+        childJars project(it.path)
+    }
+}
+
+jar {
+    dependsOn configurations.childJars
+    from {
+        configurations.childJars.collect {
+            zipTree(it)
+        }
+    }
+}
