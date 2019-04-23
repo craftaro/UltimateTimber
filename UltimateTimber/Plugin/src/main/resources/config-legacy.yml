@@ -38,10 +38,6 @@ realistic-tool-damage: true
 # Default: false
 protect-tool: false
 
-# Always replant saplings for base tree blocks, regardless of player permissions
-# Default: false
-always-replant-sapling: false
-
 # Require the entire base of the tree to be broken before it topples
 # Default: false
 break-entire-tree-base: false
@@ -73,6 +69,10 @@ ignore-required-tools: false
 # Automatically replant saplings when a tree is toppled
 # Default: true
 replant-saplings: true
+
+# Always replant saplings for base tree blocks, regardless of player permissions
+# Default: false
+always-replant-sapling: false
 
 # How many seconds to prevent players from breaking replanted saplings
 # Set to 0 to disable

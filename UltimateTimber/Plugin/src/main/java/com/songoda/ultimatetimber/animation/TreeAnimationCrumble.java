@@ -52,9 +52,7 @@ public class TreeAnimationCrumble extends TreeAnimation {
         Collections.shuffle(currentPartition);
         treeBlocks.add(new ArrayList<>(currentPartition));
 
-        Player p = this.player;
         TreeDefinition td = this.detectedTree.getTreeDefinition();
-        boolean hst = this.hasSilkTouch;
 
         new BukkitRunnable() {
             @Override
