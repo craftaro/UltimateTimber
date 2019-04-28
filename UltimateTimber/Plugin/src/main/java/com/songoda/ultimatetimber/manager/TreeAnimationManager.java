@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
 import com.songoda.ultimatetimber.animation.TreeAnimationDisintegrate;
 import com.songoda.ultimatetimber.animation.TreeAnimationFancy;
 import com.songoda.ultimatetimber.animation.TreeAnimationNone;
+import com.songoda.ultimatetimber.animation.TreeAnimationType;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
@@ -73,17 +74,17 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * @param player The Player who toppled the tree
      */
     public void runAnimation(DetectedTree detectedTree, Player player) {
-        switch (ConfigurationManager.Setting.TREE_ANIMATION_TYPE.getString()) {
-            case "FANCY":
+        switch (TreeAnimationType.fromString(ConfigurationManager.Setting.TREE_ANIMATION_TYPE.getString())) {
+            case FANCY:
                 this.registerTreeAnimation(new TreeAnimationFancy(detectedTree, player));
                 break;
-            case "DISINTEGRATE":
+            case DISINTEGRATE:
                 this.registerTreeAnimation(new TreeAnimationDisintegrate(detectedTree, player));
                 break;
-            case "CRUMBLE":
+            case CRUMBLE:
                 this.registerTreeAnimation(new TreeAnimationCrumble(detectedTree, player));
                 break;
-            case "NONE":
+            case NONE:
                 this.registerTreeAnimation(new TreeAnimationNone(detectedTree, player));
                 break;
         }

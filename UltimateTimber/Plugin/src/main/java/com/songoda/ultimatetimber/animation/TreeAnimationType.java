@@ -5,7 +5,7 @@ package com.songoda.ultimatetimber.animation;
  */
 public enum TreeAnimationType {
     FANCY,
-    DISINTIGRATE,
+    DISINTEGRATE,
     CRUMBLE,
     NONE;
 

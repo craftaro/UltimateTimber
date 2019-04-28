@@ -20,7 +20,7 @@ import java.util.List;
 public class TreeAnimationDisintegrate extends TreeAnimation {
 
     public TreeAnimationDisintegrate(DetectedTree detectedTree, Player player) {
-        super(TreeAnimationType.DISINTIGRATE, detectedTree, player);
+        super(TreeAnimationType.DISINTEGRATE, detectedTree, player);
     }
 
     @Override
