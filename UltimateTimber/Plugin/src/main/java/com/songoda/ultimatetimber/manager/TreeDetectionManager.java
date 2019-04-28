@@ -12,8 +12,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TreeDetectionManager extends Manager {
@@ -21,8 +24,8 @@ public class TreeDetectionManager extends Manager {
     private final Set<Vector> VALID_TRUNK_OFFSETS, VALID_BRANCH_OFFSETS, VALID_LEAF_OFFSETS;
 
     private TreeDefinitionManager treeDefinitionManager;
-    private int maxBranchBlocksAllowed, numLeavesRequiredForTree;
-    private boolean onlyBreakLogsUpwards, destroyBaseLog, entireTreeBase, destroyLeaves;
+    private int maxLogBlocksAllowed, numLeavesRequiredForTree;
+    private boolean onlyBreakLogsUpwards, entireTreeBase, destroyLeaves;
 
     public TreeDetectionManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
@@ -32,14 +35,14 @@ public class TreeDetectionManager extends Manager {
         this.VALID_LEAF_OFFSETS = new HashSet<>();
 
         // 3x2x3 centered around log, excluding -y axis
-        for (int x = -1; x <= 1; x++)
-            for (int y = 0; y <= 1; y++)
+        for (int y = 0; y <= 1; y++)
+            for (int x = -1; x <= 1; x++)
                 for (int z = -1; z <= 1; z++)
                     this.VALID_BRANCH_OFFSETS.add(new Vector(x, y, z));
 
         // 3x3x3 centered around log
-        for (int x = -1; x <= 1; x++)
-            for (int y = -1; y <= 1; y++)
+        for (int y = -1; y <= 1; y++)
+            for (int x = -1; x <= 1; x++)
                 for (int z = -1; z <= 1; z++)
                     this.VALID_TRUNK_OFFSETS.add(new Vector(x, y, z));
 
@@ -54,10 +57,9 @@ public class TreeDetectionManager extends Manager {
     @Override
     public void reload() {
         this.treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
-        this.maxBranchBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
+        this.maxLogBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
         this.numLeavesRequiredForTree = ConfigurationManager.Setting.LEAVES_REQUIRED_FOR_TREE.getInt();
         this.onlyBreakLogsUpwards = ConfigurationManager.Setting.ONLY_DETECT_LOGS_UPWARDS.getBoolean();
-        this.destroyBaseLog = ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean();
         this.entireTreeBase = ConfigurationManager.Setting.BREAK_ENTIRE_TREE_BASE.getBoolean();
         this.destroyLeaves = ConfigurationManager.Setting.DESTROY_LEAVES.getBoolean();
     }
@@ -84,18 +86,19 @@ public class TreeDetectionManager extends Manager {
             return null;
 
         // Detect tree trunk
-        Set<Block> trunkBlocks = new HashSet<>();
+        List<Block> trunkBlocks = new ArrayList<>();
         trunkBlocks.add(initialBlock);
         Block targetBlock = initialBlock;
         while (this.isValidLogType(possibleTreeDefinitions, (targetBlock = targetBlock.getRelative(BlockFace.UP)))) {
-            TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
-            detectedTreeBlocks.add(treeBlock);
             trunkBlocks.add(targetBlock);
             possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
         }
 
+        // Lowest blocks at the front of the list
+        Collections.reverse(trunkBlocks);
+
         // Tree must be at least 2 blocks tall
-        if (detectedTreeBlocks.size() < 2)
+        if (trunkBlocks.size() < 2)
             return null;
 
         // Detect branches off the main trunk
@@ -137,10 +140,6 @@ public class TreeDetectionManager extends Manager {
             }
         }
 
-        // Delete the starting block if applicable
-        if (this.destroyBaseLog)
-            detectedTreeBlocks.remove(initialTreeBlock);
-
         // Remove all leaves if applicable
         if (!this.destroyLeaves)
             detectedTreeBlocks.removeAll(TreeBlockType.LEAF);
@@ -157,7 +156,7 @@ public class TreeDetectionManager extends Manager {
      * @param startingBlockY The Y coordinate of the initial block
      */
     private void recursiveBranchSearch(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block, int startingBlockY) {
-        if (treeBlocks.size() > this.maxBranchBlocksAllowed)
+        if (treeBlocks.size() > this.maxLogBlocksAllowed)
             return;
 
         for (Vector offset : this.onlyBreakLogsUpwards ? this.VALID_BRANCH_OFFSETS : this.VALID_TRUNK_OFFSETS) {

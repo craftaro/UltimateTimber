@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,11 +33,8 @@ public class TreeFallManager extends Manager implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-        if (event.isCancelled())
-            return;
-
         TreeDefinitionManager treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
         TreeDetectionManager treeDetectionManager = this.ultimateTimber.getTreeDetectionManager();
         TreeAnimationManager treeAnimationManager = this.ultimateTimber.getTreeAnimationManager();
@@ -79,6 +77,9 @@ public class TreeFallManager extends Manager implements Listener {
         if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool))
             isValid = false;
 
+        if (!hookManager.isUsingAbilityHooks(player))
+            isValid = false;
+
         boolean alwaysReplantSapling = ConfigurationManager.Setting.ALWAYS_REPLANT_SAPLING.getBoolean();
         if (!isValid && !alwaysReplantSapling)
             return;
@@ -111,9 +112,15 @@ public class TreeFallManager extends Manager implements Listener {
         // Valid tree and meets all conditions past this point
         event.setCancelled(true);
 
+        // Destroy initiated block if enabled
+        if (ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean()) {
+            detectedTree.getDetectedTreeBlocks().getInitialLogBlock().getBlock().setType(Material.AIR);
+            detectedTree.getDetectedTreeBlocks().remove(detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
+        }
+
         if (!player.getGameMode().equals(GameMode.CREATIVE)) {
             versionAdapter.applyToolDurability(player, toolDamage);
-            hookManager.applyHooks(player, detectedTree.getDetectedTreeBlocks());
+            hookManager.applyExperienceHooks(player, detectedTree.getDetectedTreeBlocks());
         }
 
         treeAnimationManager.runAnimation(detectedTree, player);

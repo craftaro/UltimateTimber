@@ -21,6 +21,11 @@ dependencies {
     compile project(':UltimateTimber-Core')
     compile project(':UltimateTimber-CurrentAdapter')
     compile project(':UltimateTimber-LegacyAdapter')
+    compile project(':UltimateTimber-Jobs')
+    compile project(':UltimateTimber-McMMO')
+    compile project(':UltimateTimber-McMMOClassic13')
+    compile project(':UltimateTimber-McMMOClassic12')
+    compile project(':UltimateTimber-McMMOClassic8')
     compile project(':UltimateTimber-Plugin')
 }
 

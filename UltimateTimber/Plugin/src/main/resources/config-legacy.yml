@@ -117,6 +117,21 @@ use-custom-particles: true
 # Default: 2
 bonus-loot-multiplier: 2
 
+# Applies experience when using Jobs/mcMMO
+# Only does something if Jobs or mcMMO is installed
+# Default: true
+hooks-apply-experience: true
+
+# Applies extra drops passive ability when using mcMMO
+# Only does something if mcMMO is installed
+# Default: true
+hooks-apply-extra-drops: true
+
+# Requires the tree feller ability in mcMMO to be active to use timber
+# Only does something if mcMMO is installed
+# Default: false
+hooks-require-ability-active: false
+
 # The type of animation to use for tree toppling
 # Types: FANCY, DISINTEGRATE, CRUMBLE, NONE
 tree-animation-type: FANCY
@@ -323,12 +338,3 @@ global-required-tools:
   - IRON_AXE
   - GOLD_AXE
   - DIAMOND_AXE
-
-# Hooks into other plugins to apply exp gain/abilities
-hooks:
-  jobs:
-    enabled: false
-  mcmmo:
-    enabled: false
-    require-tree-feller-ability-active: false
-    apply-extra-drops-multiplier: true

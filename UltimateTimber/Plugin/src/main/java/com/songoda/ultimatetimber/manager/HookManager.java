@@ -2,15 +2,18 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
-import com.songoda.ultimatetimber.adapter.current.hooks.CurrentJobsHook;
-import com.songoda.ultimatetimber.adapter.current.hooks.CurrentMcMMOHook;
-import com.songoda.ultimatetimber.adapter.legacy.hooks.LegacyJobsHook;
-import com.songoda.ultimatetimber.adapter.legacy.hooks.LegacyMcMMOHook;
+import com.songoda.ultimatetimber.hook.JobsHook;
+import com.songoda.ultimatetimber.hook.McMMOClassic12Hook;
+import com.songoda.ultimatetimber.hook.McMMOClassic13Hook;
+import com.songoda.ultimatetimber.hook.McMMOClassic8Hook;
+import com.songoda.ultimatetimber.hook.McMMOHook;
+import com.songoda.ultimatetimber.utils.NMSUtil;
 import com.songoda.ultimatetimber.hook.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,12 +31,24 @@ public class HookManager extends Manager {
     public void reload() {
         this.hooks.clear();
 
+        this.tryHook("Jobs", JobsHook.class);
+
         if (this.ultimateTimber.getVersionAdapter().getVersionAdapterType().equals(VersionAdapterType.CURRENT)) {
-            this.tryHook("mcMMO", CurrentMcMMOHook.class);
-            this.tryHook("Jobs", CurrentJobsHook.class);
+            Plugin mcMMO = Bukkit.getPluginManager().getPlugin("mcMMO");
+            if (mcMMO != null) {
+                String version = mcMMO.getDescription().getVersion();
+                if (version.startsWith("2")) {
+                    this.tryHook("mcMMO", McMMOHook.class);
+                } else {
+                    this.tryHook("mcMMO", McMMOClassic13Hook.class);
+                }
+            }
         } else {
-            this.tryHook("mcMMO", LegacyMcMMOHook.class);
-            this.tryHook("Jobs", LegacyJobsHook.class);
+            if (NMSUtil.getVersionNumber() == 12) {
+                this.tryHook("mcMMO", McMMOClassic12Hook.class);
+            } else if (NMSUtil.getVersionNumber() == 8) {
+                this.tryHook("mcMMO", McMMOClassic8Hook.class);
+            }
         }
     }
 
@@ -61,23 +76,47 @@ public class HookManager extends Manager {
     }
     
     /**
-     * Applies the loaded hooks
-     * 
-     * @param player The player to apply the hook for
+     * Applies experience to the loaded hooks
+     *
+     * @param player The player to apply experience to
      * @param treeBlocks The blocks of the tree that were broken
      */
-    public void applyHooks(Player player, TreeBlockSet<Block> treeBlocks) {
-        Set<TimberHook> invalidHooks = new HashSet<>();
-        for (TimberHook hook : this.hooks) {
-            try {
-                hook.apply(player, treeBlocks);
-            } catch (Exception ex) {
-                invalidHooks.add(hook);
-            }
-        }
-        
-        for (TimberHook hook : invalidHooks)
-            this.hooks.remove(hook);
+    public void applyExperienceHooks(Player player, TreeBlockSet<Block> treeBlocks) {
+        if (!ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean())
+            return;
+
+        for (TimberHook hook : this.hooks)
+            hook.applyExperience(player, treeBlocks);
+    }
+
+    /**
+     * Checks if double drops should be applied from the loaded hooks
+     *
+     * @param player The player to check
+     */
+    public boolean shouldApplyDoubleDropsHooks(Player player) {
+        if (!ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean())
+            return false;
+
+        for (TimberHook hook : this.hooks)
+            if (hook.shouldApplyDoubleDrops(player))
+                return true;
+        return false;
+    }
+
+    /**
+     * Checks if a player is using an ability from the loaded hooks
+     *
+     * @param player The player to check
+     */
+    public boolean isUsingAbilityHooks(Player player) {
+        if (!ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean() || this.hooks.isEmpty())
+            return true;
+
+        for (TimberHook hook : this.hooks)
+            if (hook.isUsingAbility(player))
+                return true;
+        return false;
     }
 
 }

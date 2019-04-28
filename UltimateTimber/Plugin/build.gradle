@@ -4,9 +4,13 @@ dependencies {
     compile project(':UltimateTimber-Core')
     compile project(':UltimateTimber-CurrentAdapter')
     compile project(':UltimateTimber-LegacyAdapter')
-    compileOnly 'org.spigotmc:spigot:1.13.2'
+    compile project(':UltimateTimber-Jobs')
+    compile project(':UltimateTimber-McMMO')
+    compile project(':UltimateTimber-McMMOClassic13')
+    compile project(':UltimateTimber-McMMOClassic12')
+    compile project(':UltimateTimber-McMMOClassic8')
+    compileOnly 'org.spigotmc:spigot:1.14'
 }
-
 
 processResources {
     from (sourceSets.main.resources.srcDirs) {

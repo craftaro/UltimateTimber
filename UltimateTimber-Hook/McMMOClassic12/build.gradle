@@ -1,6 +1,5 @@
 dependencies {
     compile project(':UltimateTimber-Core')
     compileOnly 'org.spigotmc:spigot:1.12.2'
-    compileOnly 'com.gmail.nossr50:mcmmo:1.5.09'
-    compileOnly 'com.gamingmesh:jobs:4.10.3'
+    compileOnly 'com.gmail.nossr50:mcmmo:1.5.10'
 }

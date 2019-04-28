@@ -217,6 +217,7 @@ public class TreeDefinitionManager extends Manager {
      */
     public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
+        HookManager hookManager = this.ultimateTimber.getHookManager();
 
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
         boolean hasBonusChance = player.hasPermission("ultimatetimber.bonusloot");
@@ -250,10 +251,18 @@ public class TreeDefinitionManager extends Manager {
             double chance = hasBonusChance ? treeLoot.getChance() * bonusLootMultiplier : treeLoot.getChance();
             if (this.random.nextDouble() > chance / 100)
                 continue;
-            if (treeLoot.hasItem())
+
+            if (treeLoot.hasItem()) {
+                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                    lootedItems.add(treeLoot.getItem());
                 lootedItems.add(treeLoot.getItem());
-            if (treeLoot.hasCommand())
+            }
+
+            if (treeLoot.hasCommand()) {
+                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                    lootedCommands.add(treeLoot.getCommand());
                 lootedCommands.add(treeLoot.getCommand());
+            }
         }
 
         // Add to inventory or drop on ground
