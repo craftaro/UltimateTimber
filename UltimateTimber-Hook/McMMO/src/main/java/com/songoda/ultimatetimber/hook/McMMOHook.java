@@ -2,25 +2,20 @@ package com.songoda.ultimatetimber.hook;
 
 import com.gmail.nossr50.api.AbilityAPI;
 import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.config.experience.ExperienceConfig;
-import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.datatypes.skills.SubSkillType;
-import com.gmail.nossr50.datatypes.skills.SuperAbilityType;
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.util.Permissions;
 import com.gmail.nossr50.util.player.UserManager;
 import com.gmail.nossr50.util.random.RandomChanceUtil;
-import com.gmail.nossr50.util.skills.PerksUtils;
 import com.gmail.nossr50.util.skills.RankUtils;
 import com.gmail.nossr50.util.skills.SkillActivationType;
-import com.gmail.nossr50.util.skills.SkillUtils;
-import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public class McMMOHook implements TimberHook {
 
@@ -29,14 +24,9 @@ public class McMMOHook implements TimberHook {
         if (player.getGameMode().equals(GameMode.CREATIVE))
             return;
 
-        int xp = 0;
-        for (ITreeBlock<Block> treeBlock : treeBlocks.getLogBlocks()) {
-            Block block = treeBlock.getBlock();
-            BlockData blockData = block.getBlockData();
-            xp += ExperienceConfig.getInstance().getXp(PrimarySkillType.WOODCUTTING, blockData);
-        }
-
-        ExperienceAPI.addXP(player, "woodcutting", xp, "pve");
+        ArrayList<BlockState> blockStates = new ArrayList<>();
+        treeBlocks.getLogBlocks().forEach(x -> blockStates.add(x.getBlock().getState()));
+        ExperienceAPI.addXpFromBlocksBySkill(blockStates, UserManager.getPlayer(player), PrimarySkillType.WOODCUTTING);
     }
 
     @Override

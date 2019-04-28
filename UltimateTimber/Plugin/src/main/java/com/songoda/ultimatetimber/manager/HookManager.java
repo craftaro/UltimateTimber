@@ -7,9 +7,9 @@ import com.songoda.ultimatetimber.hook.McMMOClassic12Hook;
 import com.songoda.ultimatetimber.hook.McMMOClassic13Hook;
 import com.songoda.ultimatetimber.hook.McMMOClassic8Hook;
 import com.songoda.ultimatetimber.hook.McMMOHook;
-import com.songoda.ultimatetimber.utils.NMSUtil;
 import com.songoda.ultimatetimber.hook.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.utils.NMSUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -110,7 +110,7 @@ public class HookManager extends Manager {
      * @param player The player to check
      */
     public boolean isUsingAbilityHooks(Player player) {
-        if (!ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean() || this.hooks.isEmpty())
+        if (!ConfigurationManager.Setting.HOOKS_REQUIRE_ABILITY_ACTIVE.getBoolean() || this.hooks.isEmpty())
             return true;
 
         for (TimberHook hook : this.hooks)

@@ -118,11 +118,10 @@ public class TreeFallManager extends Manager implements Listener {
             detectedTree.getDetectedTreeBlocks().remove(detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
         }
 
-        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+        if (!player.getGameMode().equals(GameMode.CREATIVE))
             versionAdapter.applyToolDurability(player, toolDamage);
-            hookManager.applyExperienceHooks(player, detectedTree.getDetectedTreeBlocks());
-        }
 
+        hookManager.applyExperienceHooks(player, detectedTree.getDetectedTreeBlocks());
         treeAnimationManager.runAnimation(detectedTree, player);
 
         // Trigger fell event
