@@ -8,6 +8,7 @@ import com.songoda.ultimatetimber.manager.CommandManager;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.HookManager;
 import com.songoda.ultimatetimber.manager.Manager;
+import com.songoda.ultimatetimber.manager.PlacedBlockManager;
 import com.songoda.ultimatetimber.manager.SaplingManager;
 import com.songoda.ultimatetimber.manager.TreeAnimationManager;
 import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
@@ -40,6 +41,7 @@ public class UltimateTimber extends JavaPlugin {
     private CommandManager commandManager;
     private ConfigurationManager configurationManager;
     private HookManager hookManager;
+    private PlacedBlockManager placedBlockManager;
     private SaplingManager saplingManager;
     private TreeAnimationManager treeAnimationManager;
     private TreeDefinitionManager treeDefinitionManager;
@@ -63,6 +65,7 @@ public class UltimateTimber extends JavaPlugin {
         this.commandManager = this.registerManager(CommandManager.class);
         this.configurationManager = new ConfigurationManager(this);
         this.hookManager = this.registerManager(HookManager.class);
+        this.placedBlockManager = this.registerManager(PlacedBlockManager.class);
         this.saplingManager = this.registerManager(SaplingManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
         this.treeDefinitionManager = this.registerManager(TreeDefinitionManager.class);
@@ -185,6 +188,15 @@ public class UltimateTimber extends JavaPlugin {
      */
     public HookManager getHookManager() {
         return this.hookManager;
+    }
+
+    /**
+     * Gets the placed block manager
+     *
+     * @return The PlacedBlockManager instance
+     */
+    public PlacedBlockManager getPlacedBlockManager() {
+        return this.placedBlockManager;
     }
 
     /**

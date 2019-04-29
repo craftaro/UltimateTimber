@@ -9,8 +9,10 @@ import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +60,11 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                         treeBlock = leafBlocks.remove(0);
                         toDestroy.add(treeBlock);
                     }
+                }
+
+                for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationDisintegrate.this.fallingTreeBlocks.getAllTreeBlocks()) {
+                    FallingBlock fallingBlock = fallingTreeBlock.getBlock();
+                    fallingBlock.setVelocity(fallingBlock.getVelocity().clone().subtract(new Vector(0, 0.05, 0)));
                 }
 
                 if (!toDestroy.isEmpty()) {

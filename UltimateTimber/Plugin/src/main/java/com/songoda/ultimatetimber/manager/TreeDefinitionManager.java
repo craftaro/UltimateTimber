@@ -15,7 +15,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -221,11 +223,11 @@ public class TreeDefinitionManager extends Manager {
 
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
         boolean hasBonusChance = player.hasPermission("ultimatetimber.bonusloot");
-        Set<ItemStack> lootedItems = new HashSet<>();
-        Set<String> lootedCommands = new HashSet<>();
+        List<ItemStack> lootedItems = new ArrayList<>();
+        List<String> lootedCommands = new ArrayList<>();
 
         // Get the loot that we should try to drop
-        Set<TreeLoot> toTry = new HashSet<>();
+        List<TreeLoot> toTry = new ArrayList<>();
         if (hasSilkTouch) {
             lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
         } else {
@@ -233,14 +235,20 @@ public class TreeDefinitionManager extends Manager {
                 case LOG:
                     toTry.addAll(treeDefinition.getLogLoot());
                     toTry.addAll(this.globalLogLoot);
-                    if (treeDefinition.shouldDropOriginalLog())
+                    if (treeDefinition.shouldDropOriginalLog()) {
+                        if (hookManager.shouldApplyDoubleDropsHooks(player))
+                            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                         lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                    }
                     break;
                 case LEAF:
                     toTry.addAll(treeDefinition.getLeafLoot());
                     toTry.addAll(this.globalLeafLoot);
-                    if (treeDefinition.shouldDropOriginalLeaf())
+                    if (treeDefinition.shouldDropOriginalLeaf()) {
+                        if (hookManager.shouldApplyDoubleDropsHooks(player))
+                            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                         lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                    }
                     break;
             }
         }
@@ -267,7 +275,7 @@ public class TreeDefinitionManager extends Manager {
 
         // Add to inventory or drop on ground
         if (addToInventory && player.getWorld().equals(treeBlock.getLocation().getWorld())) {
-            Set<ItemStack> extraItems = new HashSet<>();
+            List<ItemStack> extraItems = new ArrayList<>();
             for (ItemStack lootedItem : lootedItems)
                 extraItems.addAll(player.getInventory().addItem(lootedItem).values());
             Location location = player.getLocation().clone().subtract(0.5, 0, 0.5);

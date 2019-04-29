@@ -116,6 +116,17 @@ use-custom-particles: true
 # Default: 2
 bonus-loot-multiplier: 2
 
+# If placed blocks should be ignored for toppling trees
+# Note: This only keeps track of blocks placed during the current server load
+#       If your server restarts, the placed tree blocks could be toppled again
+# Default: true
+ignore-placed-blocks: true
+
+# The maximum number of blocks to keep track of in memory at once
+# Use a lower number if this starts to take up too much memory
+# Default: 10000
+ignore-placed-blocks-memory-size: 10000
+
 # Applies experience when using Jobs/mcMMO
 # Only does something if Jobs or mcMMO is installed
 # Default: true
@@ -139,12 +150,6 @@ tree-animation-type: FANCY
 # Does nothing if tree-animation-type is not FANCY or CRUMBLE
 # Default: false
 scatter-tree-blocks-on-ground: false
-
-# Mix all the tree types below and consider all of them as a single tree type
-# Useful for EpicWorldGenerator and similar plugins that make custom trees
-# Warning: Custom loot can get messy with this enabled
-# Default: false
-mix-all-tree-types: false
 
 # Tree configuration
 # Allows for extreme fine-tuning of tree detection and what are considered trees

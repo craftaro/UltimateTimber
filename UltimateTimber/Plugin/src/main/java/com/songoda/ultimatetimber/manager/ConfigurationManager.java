@@ -36,12 +36,13 @@ public class ConfigurationManager extends Manager {
         USE_CUSTOM_SOUNDS(SettingType.BOOLEAN),
         USE_CUSTOM_PARTICLES(SettingType.BOOLEAN),
         BONUS_LOOT_MULTIPLIER(SettingType.DOUBLE),
+        IGNORE_PLACED_BLOCKS(SettingType.BOOLEAN),
+        IGNORE_PLACED_BLOCKS_MEMORY_SIZE(SettingType.INT),
         HOOKS_APPLY_EXPERIENCE(SettingType.BOOLEAN),
         HOOKS_APPLY_EXTRA_DROPS(SettingType.BOOLEAN),
         HOOKS_REQUIRE_ABILITY_ACTIVE(SettingType.BOOLEAN),
         TREE_ANIMATION_TYPE(SettingType.STRING),
-        SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN),
-        MIX_ALL_TREE_TYPES(SettingType.BOOLEAN);
+        SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN);
 
         private SettingType settingType;
         private Object value = null;

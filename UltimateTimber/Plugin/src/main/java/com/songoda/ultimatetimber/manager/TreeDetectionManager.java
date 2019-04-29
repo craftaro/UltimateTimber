@@ -24,6 +24,7 @@ public class TreeDetectionManager extends Manager {
     private final Set<Vector> VALID_TRUNK_OFFSETS, VALID_BRANCH_OFFSETS, VALID_LEAF_OFFSETS;
 
     private TreeDefinitionManager treeDefinitionManager;
+    private PlacedBlockManager placedBlockManager;
     private int maxLogBlocksAllowed, numLeavesRequiredForTree;
     private boolean onlyBreakLogsUpwards, entireTreeBase, destroyLeaves;
 
@@ -57,6 +58,7 @@ public class TreeDetectionManager extends Manager {
     @Override
     public void reload() {
         this.treeDefinitionManager = this.ultimateTimber.getTreeDefinitionManager();
+        this.placedBlockManager = this.ultimateTimber.getPlacedBlockManager();
         this.maxLogBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
         this.numLeavesRequiredForTree = ConfigurationManager.Setting.LEAVES_REQUIRED_FOR_TREE.getInt();
         this.onlyBreakLogsUpwards = ConfigurationManager.Setting.ONLY_DETECT_LOGS_UPWARDS.getBoolean();
@@ -224,6 +226,9 @@ public class TreeDetectionManager extends Manager {
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, Block block) {
+        if (this.placedBlockManager.isBlockPlaced(block))
+            return false;
+
         for (TreeDefinition treeDefinition : treeDefinitions)
             for (IBlockData logBlockData : treeDefinition.getLogBlockData())
                 if (logBlockData.isSimilar(block))
@@ -239,6 +244,9 @@ public class TreeDetectionManager extends Manager {
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLeafType(Set<TreeDefinition> treeDefinitions, Block block) {
+        if (this.placedBlockManager.isBlockPlaced(block))
+            return false;
+
         for (TreeDefinition treeDefinition : treeDefinitions)
             for (IBlockData leafBlockData : treeDefinition.getLeafBlockData())
                 if (leafBlockData.isSimilar(block))
