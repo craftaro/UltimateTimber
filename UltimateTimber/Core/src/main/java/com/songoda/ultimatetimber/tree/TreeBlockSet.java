@@ -22,7 +22,8 @@ public class TreeBlockSet<BlockType> implements Collection {
         this.logBlocks = new HashSet<>();
         this.leafBlocks = new HashSet<>();
 
-        this.logBlocks.add(initialLogBlock);
+        if (initialLogBlock != null)
+            this.logBlocks.add(initialLogBlock);
     }
 
     /**

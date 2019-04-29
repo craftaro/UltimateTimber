@@ -105,7 +105,7 @@ public class TreeDetectionManager extends Manager {
 
         // Detect branches off the main trunk
         for (Block trunkBlock : trunkBlocks)
-            this.recursiveBranchSearch(possibleTreeDefinitions, detectedTreeBlocks, trunkBlock, initialBlock.getY());
+            this.recursiveBranchSearch(possibleTreeDefinitions, detectedTreeBlocks, trunkBlock, initialBlock.getLocation().getBlockY());
 
         // Detect leaves off the trunk/branches
         Set<ITreeBlock<Block>> branchBlocks = new HashSet<>(detectedTreeBlocks.getLogBlocks());
@@ -123,7 +123,7 @@ public class TreeDetectionManager extends Manager {
         if (this.entireTreeBase) {
             Set<Block> groundBlocks = new HashSet<>();
             for (ITreeBlock<Block> treeBlock : detectedTreeBlocks.getLogBlocks())
-                if (treeBlock.getLocation().getBlockY() == initialBlock.getLocation().getBlockY())
+                if (treeBlock != detectedTreeBlocks.getInitialLogBlock() && treeBlock.getLocation().getBlockY() == initialBlock.getLocation().getBlockY())
                     groundBlocks.add(treeBlock.getBlock());
 
             for (Block block : groundBlocks) {
@@ -137,7 +137,7 @@ public class TreeDetectionManager extends Manager {
                     }
                 }
 
-                if (!blockBelowIsLog && blockBelowIsSoil)
+                if (blockBelowIsLog || blockBelowIsSoil)
                     return null;
             }
         }
