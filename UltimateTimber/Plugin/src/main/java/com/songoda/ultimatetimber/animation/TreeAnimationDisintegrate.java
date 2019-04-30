@@ -7,7 +7,9 @@ import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -73,10 +75,18 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                         versionAdapter.playLandingSound(first);
 
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
+                        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
+                            if (td.getLogBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                                continue;
+                        } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
+                            if (td.getLeafBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                                continue;
+                        }
+
                         if (useCustomParticles)
                             versionAdapter.playFallingParticles(td, treeBlock);
                         treeDefinitionManager.dropTreeLoot(td, treeBlock, p, hst);
-                        TreeAnimationDisintegrate.this.replaceBlock((TreeBlock)treeBlock);
+                        TreeAnimationDisintegrate.this.replaceBlock((TreeBlock) treeBlock);
                     }
                 } else {
                     this.cancel();

@@ -8,6 +8,7 @@ import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -61,6 +62,14 @@ public class TreeAnimationCrumble extends TreeAnimation {
                     List<ITreeBlock<Block>> partition = treeBlocks.get(0);
                     for (int i = 0; i < 3 && !partition.isEmpty(); i++) {
                         ITreeBlock<Block> treeBlock = partition.remove(0);
+                        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
+                            if (td.getLogBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                                continue;
+                        } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
+                            if (td.getLeafBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                                continue;
+                        }
+
                         FallingTreeBlock fallingTreeBlock = TreeAnimationCrumble.this.convertToFallingBlock((TreeBlock)treeBlock);
                         if (fallingTreeBlock == null)
                             continue;

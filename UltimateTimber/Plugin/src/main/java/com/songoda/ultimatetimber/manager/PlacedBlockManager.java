@@ -1,17 +1,11 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlockType;
-import com.songoda.ultimatetimber.tree.TreeDefinition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,31 +15,34 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class PlacedBlockManager extends Manager implements Listener {
 
-    private List<Location> placedBlocks;
+    private Set<Location> placedBlocks;
     private boolean ignorePlacedBlocks;
     private int maxPlacedBlockMemorySize;
 
     public PlacedBlockManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
-        this.placedBlocks = new ArrayList<>();
-        this.ignorePlacedBlocks = true;
-        this.maxPlacedBlockMemorySize = 10000;
         Bukkit.getPluginManager().registerEvents(this, ultimateTimber);
     }
 
     @Override
     public void reload() {
-        this.placedBlocks.clear();
         this.ignorePlacedBlocks = ConfigurationManager.Setting.IGNORE_PLACED_BLOCKS.getBoolean();
         this.maxPlacedBlockMemorySize = ConfigurationManager.Setting.IGNORE_PLACED_BLOCKS_MEMORY_SIZE.getInt();
+
+        // Ensures the oldest entry is removed if it exceeds the limit
+        this.placedBlocks = Collections.newSetFromMap(new LinkedHashMap<Location, Boolean>() {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Location, Boolean> eldest) {
+                return this.size() > PlacedBlockManager.this.maxPlacedBlockMemorySize;
+            }
+        });
     }
 
     @Override
@@ -104,8 +101,6 @@ public class PlacedBlockManager extends Manager implements Listener {
                 return;
 
             this.placedBlocks.add(block.getLocation());
-            if (this.placedBlocks.size() > this.maxPlacedBlockMemorySize)
-                this.placedBlocks.remove(0);
         } else {
             this.placedBlocks.remove(block.getLocation());
         }

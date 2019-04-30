@@ -123,9 +123,9 @@ bonus-loot-multiplier: 2
 ignore-placed-blocks: true
 
 # The maximum number of blocks to keep track of in memory at once
-# Use a lower number if this starts to take up too much memory
-# Default: 10000
-ignore-placed-blocks-memory-size: 10000
+# Use a lower number if this starts to take up too much memory or trees start taking too long to detect
+# Default: 5000
+ignore-placed-blocks-memory-size: 5000
 
 # Applies experience when using Jobs/mcMMO
 # Only does something if Jobs or mcMMO is installed
