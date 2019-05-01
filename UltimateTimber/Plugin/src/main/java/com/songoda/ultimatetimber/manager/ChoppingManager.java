@@ -84,9 +84,9 @@ public class ChoppingManager extends Manager {
      * @return True if the player can topple trees, otherwise false
      */
     public boolean isInCooldown(Player player) {
-        boolean cooldowned = !this.useCooldown && this.cooldownedPlayers.containsKey(player.getUniqueId());
-        if (this.cooldownedPlayers.containsKey(player.getUniqueId()) && !this.cooldownedPlayers.get(player.getUniqueId())) {
-            player.sendMessage(UltimateTimber.getInstance().getPrefix() + ChatColor.YELLOW + "You are on cooldown and cannot topple trees right now.");
+        boolean cooldowned = this.useCooldown && this.cooldownedPlayers.containsKey(player.getUniqueId());
+        if (cooldowned && !this.cooldownedPlayers.get(player.getUniqueId())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', UltimateTimber.getInstance().getPrefix() + ChatColor.YELLOW + "You are on cooldown and cannot topple trees right now."));
             this.cooldownedPlayers.replace(player.getUniqueId(), true);
         }
         return cooldowned;

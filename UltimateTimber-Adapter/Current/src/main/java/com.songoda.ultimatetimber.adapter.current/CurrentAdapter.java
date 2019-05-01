@@ -7,6 +7,7 @@ import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.utils.Methods;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -59,11 +60,12 @@ public class CurrentAdapter implements VersionAdapter {
     @Override
     public void applyToolDurability(Player player, int damage) {
         ItemStack tool = this.getItemInHand(player);
-        if (!(tool.getItemMeta() instanceof Damageable))
+        if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable) || tool.getType().getMaxDurability() < 1)
             return;
+        Bukkit.broadcastMessage("Damageable: " + tool.getType());
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
-        Damageable damageable = (Damageable)tool.getItemMeta();
+        Damageable damageable = (Damageable) tool.getItemMeta();
 
         int actualDamage = 0;
         for (int i = 0; i < damage; i++)
@@ -79,10 +81,10 @@ public class CurrentAdapter implements VersionAdapter {
 
     @Override
     public boolean hasEnoughDurability(ItemStack tool, int requiredAmount) {
-        if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable))
-            return false;
+        if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable) || tool.getType().getMaxDurability() < 1)
+            return true;
 
-        Damageable damageable = (Damageable)tool.getItemMeta();
+        Damageable damageable = (Damageable) tool.getItemMeta();
         int durabilityRemaining = tool.getType().getMaxDurability() - damageable.getDamage();
         return durabilityRemaining > requiredAmount;
     }
