@@ -37,6 +37,16 @@ realistic-tool-damage: true
 # Default: false
 protect-tool: false
 
+# Use the silk touch enchantment if the tool has it
+# Logs and leaves will drop their original block 100% of the time
+# Default: true
+apply-silk-touch: true
+
+# Damage the tool extra for each leaf block broken, this is vanilla behavior but can be disabled here
+# Note: Does nothing if realistic-tool-damage is false
+# Default: true
+apply-silk-touch-tool-damage: true
+
 # Require the entire base of the tree to be broken before it topples
 # Default: false
 break-entire-tree-base: false

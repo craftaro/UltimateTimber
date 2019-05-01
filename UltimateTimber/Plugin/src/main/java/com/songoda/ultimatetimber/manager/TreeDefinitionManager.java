@@ -26,7 +26,7 @@ public class TreeDefinitionManager extends Manager {
     private final Random random;
     private Set<TreeDefinition> treeDefinitions;
     private Set<IBlockData> globalPlantableSoil;
-    private Set<TreeLoot> globalLogLoot, globalLeafLoot;
+    private Set<TreeLoot> globalLogLoot, globalLeafLoot, globalEntireTreeLoot;
     private Set<ItemStack> globalRequiredTools;
 
     public TreeDefinitionManager(UltimateTimber ultimateTimber) {
@@ -36,6 +36,7 @@ public class TreeDefinitionManager extends Manager {
         this.globalPlantableSoil = new HashSet<>();
         this.globalLogLoot = new HashSet<>();
         this.globalLeafLoot = new HashSet<>();
+        this.globalEntireTreeLoot = new HashSet<>();
         this.globalRequiredTools = new HashSet<>();
     }
 
@@ -45,6 +46,7 @@ public class TreeDefinitionManager extends Manager {
         this.globalPlantableSoil.clear();
         this.globalLogLoot.clear();
         this.globalLeafLoot.clear();
+        this.globalEntireTreeLoot.clear();
         this.globalRequiredTools.clear();
 
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
@@ -122,6 +124,12 @@ public class TreeDefinitionManager extends Manager {
         if (leafSection != null)
             for (String lootKey : leafSection.getKeys(false))
                 this.globalLeafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
+
+        // Load global entire tree drops
+        ConfigurationSection entireTreeSection = config.getConfigurationSection("global-leaf-loot");
+        if (entireTreeSection != null)
+            for (String lootKey : entireTreeSection.getKeys(false))
+                this.globalEntireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, entireTreeSection.getConfigurationSection(lootKey)));
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools"))
@@ -238,8 +246,11 @@ public class TreeDefinitionManager extends Manager {
         List<TreeLoot> toTry = new ArrayList<>();
         if (isForEntireTree) {
             toTry.addAll(treeDefinition.getEntireTreeLoot());
+            toTry.addAll(this.globalEntireTreeLoot);
         } else {
-            if (hasSilkTouch) {
+            if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
+                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                 lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
             } else {
                 switch (treeBlock.getTreeBlockType()) {

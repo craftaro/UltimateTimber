@@ -155,7 +155,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
         if (useCustomSound)
             versionAdapter.playLandingSound(treeBlock);
 
-        treeDefinitionManager.dropTreeLoot(treeDefinition, treeBlock, treeAnimation.getPlayer(), treeAnimation.hasSilkTouch());
+        treeDefinitionManager.dropTreeLoot(treeDefinition, treeBlock, treeAnimation.getPlayer(), treeAnimation.hasSilkTouch(), false);
         this.ultimateTimber.getSaplingManager().replantSaplingWithChance(treeDefinition, treeBlock);
         treeAnimation.getFallingTreeBlocks().remove(treeBlock);
     }
@@ -165,7 +165,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
         if (!event.getEntityType().equals(EntityType.FALLING_BLOCK))
             return;
 
-        FallingBlock fallingBlock = (FallingBlock)event.getEntity();
+        FallingBlock fallingBlock = (FallingBlock) event.getEntity();
         if (!this.isBlockInAnimation(fallingBlock))
             return;
 

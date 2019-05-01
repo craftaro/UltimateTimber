@@ -6,10 +6,12 @@ import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.misc.OnlyToppleWhile;
 import com.songoda.ultimatetimber.tree.DetectedTree;
+import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -105,7 +107,7 @@ public class TreeFallManager extends Manager implements Listener {
         if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool))
             return;
 
-        int toolDamage = ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean() ? detectedTree.getDetectedTreeBlocks().getLogBlocks().size() : 1;
+        int toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
         if (ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !versionAdapter.hasEnoughDurability(tool, toolDamage))
             return;
 
@@ -152,6 +154,17 @@ public class TreeFallManager extends Manager implements Listener {
                 return !player.isSneaking();
             default:
                 return true;
+        }
+    }
+
+    private int getToolDamage(TreeBlockSet<Block> treeBlocks, boolean hasSilkTouch) {
+        if (!ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean())
+            return 1;
+
+        if (ConfigurationManager.Setting.APPLY_SILK_TOUCH_TOOL_DAMAGE.getBoolean() && hasSilkTouch) {
+            return treeBlocks.size();
+        } else {
+            return treeBlocks.getLogBlocks().size();
         }
     }
 

@@ -29,8 +29,8 @@ public class TreeAnimationNone extends TreeAnimation {
                 versionAdapter.playFallingParticles(this.detectedTree.getTreeDefinition(), treeBlock);
 
         for (ITreeBlock<Block> treeBlock : this.detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
-            treeDefinitionManager.dropTreeLoot(this.detectedTree.getTreeDefinition(), treeBlock, this.player, this.hasSilkTouch);
-            this.replaceBlock((TreeBlock)treeBlock);
+            treeDefinitionManager.dropTreeLoot(this.detectedTree.getTreeDefinition(), treeBlock, this.player, this.hasSilkTouch, false);
+            this.replaceBlock((TreeBlock) treeBlock);
         }
 
         whenFinished.run();
