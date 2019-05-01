@@ -1,6 +1,6 @@
 name: UltimateTimber
 version: @version@
-author: Songoda
+authors: [Songoda, Esophose]
 main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
 softdepend: [mcMMO, Jobs]
@@ -16,6 +16,7 @@ permissions:
       ultimatetimber.chop: true
       ultimatetimber.bonusloot: true
       ultimatetimber.reload: true
+      ultimatetimber.bypasscooldown: true
   ultimatetimber.chop:
     description: Allows players to trigger the trees toppling down effect
     default: op
@@ -24,4 +25,7 @@ permissions:
     default: op
   ultimatetimber.reload:
     description: Reloads the configuration file
+    default: op
+  ultimatetimber.bypasscooldown:
+    description: Allows a player to bypass the tree topple cooldown
     default: op

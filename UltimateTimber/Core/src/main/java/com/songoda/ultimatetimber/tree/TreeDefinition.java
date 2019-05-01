@@ -14,13 +14,13 @@ public class TreeDefinition {
     private final int maxLeafDistanceFromLog;
     private final boolean detectLeavesDiagonally;
     private final boolean dropOriginalLog, dropOriginalLeaf;
-    private final Set<TreeLoot> logLoot, leafLoot;
+    private final Set<TreeLoot> logLoot, leafLoot, entireTreeLoot;
     private final Set<ItemStack> requiredTools;
 
     public TreeDefinition(String key, Set<IBlockData> logBlockData, Set<IBlockData> leafBlockData, IBlockData saplingBlockData,
                           Set<IBlockData> plantableSoilBlockData, int maxLeafDistanceFromLog, boolean detectLeavesDiagonally,
-                          boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
-                          Set<TreeLoot> leafLoot, Set<ItemStack> requiredTools) {
+                          boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot, Set<TreeLoot> leafLoot,
+                          Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools) {
         this.key = key;
         this.logBlockData = logBlockData;
         this.leafBlockData = leafBlockData;
@@ -32,6 +32,7 @@ public class TreeDefinition {
         this.dropOriginalLeaf = dropOriginalLeaf;
         this.logLoot = logLoot;
         this.leafLoot = leafLoot;
+        this.entireTreeLoot = entireTreeLoot;
         this.requiredTools = requiredTools;
     }
 
@@ -132,6 +133,15 @@ public class TreeDefinition {
      */
     public Set<TreeLoot> getLeafLoot() {
         return Collections.unmodifiableSet(this.leafLoot);
+    }
+
+    /**
+     * Gets the loot for this TreeDefinition
+     *
+     * @return A Set of TreeLoot
+     */
+    public Set<TreeLoot> getEntireTreeLoot() {
+        return Collections.unmodifiableSet(this.entireTreeLoot);
     }
 
     /**

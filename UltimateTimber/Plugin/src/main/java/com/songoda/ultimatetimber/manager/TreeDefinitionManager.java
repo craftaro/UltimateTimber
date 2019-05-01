@@ -66,6 +66,7 @@ public class TreeDefinitionManager extends Manager {
             boolean dropOriginalLeaf;
             Set<TreeLoot> logLoot = new HashSet<>();
             Set<TreeLoot> leafLoot = new HashSet<>();
+            Set<TreeLoot> entireTreeLoot = new HashSet<>();
             Set<ItemStack> requiredTools = new HashSet<>();
 
             for (String blockDataString : tree.getStringList("logs"))
@@ -94,10 +95,16 @@ public class TreeDefinitionManager extends Manager {
                 for (String lootKey : leafLootSection.getKeys(false))
                     leafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
 
+            ConfigurationSection entireTreeLootSection = tree.getConfigurationSection("entire-tree-loot");
+            if (entireTreeLootSection != null)
+                for (String lootKey : entireTreeLootSection.getKeys(false))
+                    entireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, entireTreeLootSection.getConfigurationSection(lootKey)));
+
             for (String itemStackString : tree.getStringList("required-tools"))
                 requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
 
-            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, requiredTools));
+            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData,
+                    maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools));
         }
 
         // Load global plantable soil
@@ -211,13 +218,14 @@ public class TreeDefinitionManager extends Manager {
     }
 
     /**
-     * Tries to spawn loot for a given TreeBlock with the given TreeDefinition for a given player
+     * Tries to spawn loot for a given TreeBlock with the given TreeDefinition for a given Player
      *
      * @param treeDefinition The TreeDefinition to use
      * @param treeBlock The TreeBlock to drop for
      * @param player The Player to drop for
+     * @param isForEntireTree If the loot is for the entire tree
      */
-    public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch) {
+    public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch, boolean isForEntireTree) {
         VersionAdapter versionAdapter = this.ultimateTimber.getVersionAdapter();
         HookManager hookManager = this.ultimateTimber.getHookManager();
 
@@ -228,28 +236,32 @@ public class TreeDefinitionManager extends Manager {
 
         // Get the loot that we should try to drop
         List<TreeLoot> toTry = new ArrayList<>();
-        if (hasSilkTouch) {
-            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+        if (isForEntireTree) {
+            toTry.addAll(treeDefinition.getEntireTreeLoot());
         } else {
-            switch (treeBlock.getTreeBlockType()) {
-                case LOG:
-                    toTry.addAll(treeDefinition.getLogLoot());
-                    toTry.addAll(this.globalLogLoot);
-                    if (treeDefinition.shouldDropOriginalLog()) {
-                        if (hookManager.shouldApplyDoubleDropsHooks(player))
+            if (hasSilkTouch) {
+                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+            } else {
+                switch (treeBlock.getTreeBlockType()) {
+                    case LOG:
+                        toTry.addAll(treeDefinition.getLogLoot());
+                        toTry.addAll(this.globalLogLoot);
+                        if (treeDefinition.shouldDropOriginalLog()) {
+                            if (hookManager.shouldApplyDoubleDropsHooks(player))
+                                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                             lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                        lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                    }
-                    break;
-                case LEAF:
-                    toTry.addAll(treeDefinition.getLeafLoot());
-                    toTry.addAll(this.globalLeafLoot);
-                    if (treeDefinition.shouldDropOriginalLeaf()) {
-                        if (hookManager.shouldApplyDoubleDropsHooks(player))
+                        }
+                        break;
+                    case LEAF:
+                        toTry.addAll(treeDefinition.getLeafLoot());
+                        toTry.addAll(this.globalLeafLoot);
+                        if (treeDefinition.shouldDropOriginalLeaf()) {
+                            if (hookManager.shouldApplyDoubleDropsHooks(player))
+                                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                             lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                        lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                    }
-                    break;
+                        }
+                        break;
+                }
             }
         }
 

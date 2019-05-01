@@ -49,17 +49,27 @@ destroy-initiated-block: false
 # Default: true
 only-detect-logs-upwards: true
 
-# Only topple over trees while the player is sneaking
-# Default: false
-only-topple-while-sneaking: false
+# Only topple trees while the player is doing something
+# Valid values: SNEAKING, NOT_SNEAKING, ALWAYS
+# Default: ALWAYS
+only-topple-while: ALWAYS
 
 # Allow toppling trees in creative mode
 # Default: true
 allow-creative-mode: true
 
 # Require the player to have the permission 'ultimatetimber.chop' to topple trees
-# Default: true
-require-chop-permission: true
+# Default: false
+require-chop-permission: false
+
+# If a player should only be allowed to chop one tree per cooldown length
+# Default: false
+player-tree-topple-cooldown: false
+
+# The amount of seconds a player has to wait before they can chop a tree again
+# Does nothing if player-tree-topple-cooldown is false
+# Default: 5
+player-tree-topple-cooldown-length: 5
 
 # Allow players to topple trees regardless of what they are holding in their hand
 # Default: false
@@ -178,6 +188,7 @@ trees:
       1:
         material: APPLE
         chance: 0.5
+    entire-tree-loot: []
     required-tools: []
   spruce:
     logs:
@@ -198,6 +209,7 @@ trees:
       0:
         material: SPRUCE_SAPLING
         chance: 5
+    entire-tree-loot: []
     required-tools: []
   birch:
     logs:
@@ -218,6 +230,7 @@ trees:
       0:
         material: BIRCH_SAPLING
         chance: 5
+    entire-tree-loot: []
     required-tools: []
   jungle:
     logs:
@@ -238,6 +251,7 @@ trees:
       0:
         material: JUNGLE_SAPLING
         chance: 2.5
+    entire-tree-loot: []
     required-tools: []
   acacia:
     logs:
@@ -258,6 +272,7 @@ trees:
       0:
         material: ACACIA_SAPLING
         chance: 5
+    entire-tree-loot: []
     required-tools: []
   dark_oak:
     logs:
@@ -281,6 +296,7 @@ trees:
       1:
         material: APPLE
         chance: 0.5
+    entire-tree-loot: []
     required-tools: []
   brown_mushroom:
     logs:
@@ -299,6 +315,7 @@ trees:
       0:
         material: BROWN_MUSHROOM
         chance: 25
+    entire-tree-loot: []
     required-tools: []
   red_mushroom:
     logs:
@@ -317,6 +334,7 @@ trees:
       0:
         material: RED_MUSHROOM
         chance: 25
+    entire-tree-loot: []
     required-tools: []
 
 # All soil types that the tree type's saplings can be planted on
@@ -331,6 +349,7 @@ global-plantable-soil:
 # To add more, increment the number by 1
 # The chance is out of 100 and can contain decimals
 # The default examples here are to show what you can do with custom loot
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
 global-log-loot:
   0:
     material: DIAMOND
@@ -347,10 +366,21 @@ global-log-loot:
 # The loot applies to each leaf broken in the tree
 # To add more, increment the number by 1
 # The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
 global-leaf-loot:
   0:
     material: GOLDEN_APPLE
-    chance: 0.5
+    chance: 0.1
+
+# Custom entire tree loot that is available for all tree types
+# The loot will be dropped only one time for the entire tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-entire-tree-loot:
+  0:
+    material: DIAMOND
+    chance: 0
 
 # Tools that must be used to topple over a tree
 # Applies to all tree types

@@ -4,6 +4,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
+import com.songoda.ultimatetimber.misc.OnlyToppleWhile;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -62,13 +63,16 @@ public class TreeFallManager extends Manager implements Listener {
         if (!ConfigurationManager.Setting.ALLOW_CREATIVE_MODE.getBoolean() && player.getGameMode().equals(GameMode.CREATIVE))
             isValid = false;
 
-        if (ConfigurationManager.Setting.ONLY_TOPPLE_WHILE_SNEAKING.getBoolean() && !player.isSneaking())
+        if (!this.checkToppleWhile(player))
             isValid = false;
 
         if (ConfigurationManager.Setting.REQUIRE_CHOP_PERMISSION.getBoolean() && !player.hasPermission("ultimatetimber.chop"))
             isValid = false;
 
         if (!choppingManager.isChopping(player))
+            isValid = false;
+
+        if (choppingManager.isInCooldown(player))
             isValid = false;
 
         if (treeAnimationManager.isBlockInAnimation(block)) {
@@ -114,6 +118,8 @@ public class TreeFallManager extends Manager implements Listener {
         // Valid tree and meets all conditions past this point
         event.setCancelled(true);
 
+        choppingManager.cooldownPlayer(player);
+
         // Destroy initiated block if enabled
         if (ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean()) {
             detectedTree.getDetectedTreeBlocks().getInitialLogBlock().getBlock().setType(Material.AIR);
@@ -125,10 +131,28 @@ public class TreeFallManager extends Manager implements Listener {
 
         hookManager.applyExperienceHooks(player, detectedTree.getDetectedTreeBlocks());
         treeAnimationManager.runAnimation(detectedTree, player);
+        treeDefinitionManager.dropTreeLoot(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock(), player, false, true);
 
         // Trigger fell event
         TreeFellEvent treeFellEvent = new TreeFellEvent(player, detectedTree);
         Bukkit.getPluginManager().callEvent(treeFellEvent);
+    }
+
+    /**
+     * Checks if a player is doing a certain action required to topple a tree
+     *
+     * @param player The player to check
+     * @return True if the check passes, otherwise false
+     */
+    private boolean checkToppleWhile(Player player) {
+        switch (OnlyToppleWhile.fromString(ConfigurationManager.Setting.ONLY_TOPPLE_WHILE.getString())) {
+            case SNEAKING:
+                return player.isSneaking();
+            case NOT_SNEAKING:
+                return !player.isSneaking();
+            default:
+                return true;
+        }
     }
 
 }
