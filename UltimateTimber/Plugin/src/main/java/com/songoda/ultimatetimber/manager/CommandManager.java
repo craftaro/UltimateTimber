@@ -21,8 +21,10 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
         super(ultimateTimber);
 
         PluginCommand command = ultimateTimber.getCommand("ultimatetimber");
-        command.setExecutor(this);
-        command.setTabCompleter(this);
+        if (command != null) {
+            command.setExecutor(this);
+            command.setTabCompleter(this);
+        }
     }
 
     @Override
@@ -37,13 +39,15 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        LocaleManager localeManager = this.ultimateTimber.getLocaleManager();
+
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                if (commandSender instanceof Player && !this.permCheck((Player) commandSender, "ultimatetimber.reload"))
+                if (commandSender instanceof Player && this.doesntHavePermission(commandSender, "ultimatetimber.reload", localeManager))
                     return true;
 
                 UltimateTimber.getInstance().reload();
-                commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " &7Configuration reloaded"));
+                localeManager.sendPrefixedMessage(commandSender, LocaleManager.Locale.COMMAND_RELOAD_RELOADED);
                 return true;
             } else if (args[0].equalsIgnoreCase("toggle")) {
                 if (!(commandSender instanceof Player)) {
@@ -51,13 +55,13 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
                     return true;
                 }
 
-                if (!this.permCheck((Player) commandSender, "ultimatetimber.toggle"))
+                if (this.doesntHavePermission(commandSender, "ultimatetimber.toggle", localeManager))
                     return true;
 
-                if (UltimateTimber.getInstance().getChoppingManager().togglePlayer((Player)commandSender)) {
-                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &aEnabled"));
+                if (UltimateTimber.getInstance().getChoppingManager().togglePlayer((Player) commandSender)) {
+                    localeManager.sendPrefixedMessage(commandSender, LocaleManager.Locale.COMMAND_TOGGLE_ENABLED);
                 } else {
-                    commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " Chopping Mode: &cDisabled"));
+                    localeManager.sendPrefixedMessage(commandSender, LocaleManager.Locale.COMMAND_TOGGLE_DISABLED);
                 }
 
                 return true;
@@ -65,19 +69,11 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
         }
 
         commandSender.sendMessage("");
-        commandSender.sendMessage(Methods.formatText(UltimateTimber.getInstance().getPrefix() + " &7Version " + UltimateTimber.getInstance().getDescription().getVersion() + " Created with <3 by &5&l&oSongoda"));
-        commandSender.sendMessage(Methods.formatText("&8 - &a/ut reload &7 - Reloads the config."));
-        commandSender.sendMessage(Methods.formatText("&8 - &a/ut toggle &7 - Toggles your chopping mode"));
+        commandSender.sendMessage(Methods.formatText(LocaleManager.Locale.PREFIX.get() + " &7Version " + UltimateTimber.getInstance().getDescription().getVersion() + " Created with <3 by &5&l&oSongoda"));
+        localeManager.sendMessage(commandSender, LocaleManager.Locale.COMMAND_RELOAD_DESCRIPTION);
+        localeManager.sendMessage(commandSender, LocaleManager.Locale.COMMAND_TOGGLE_DESCRIPTION);
         commandSender.sendMessage("");
 
-        return true;
-    }
-
-    private boolean permCheck(Player sender, String permission) {
-        if (!sender.hasPermission(permission)) {
-            sender.sendMessage(Methods.formatText("&cYou don't have permission for that!"));
-            return false;
-        }
         return true;
     }
 
@@ -99,6 +95,22 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
         StringUtil.copyPartialMatches(args[0], possibleCompletions, completions);
 
         return completions;
+    }
+
+    /**
+     * Checks if a player has a permission
+     *
+     * @param sender The CommandSender to check
+     * @param permission The permission to check for
+     * @param localeManager The LocaleManager instance
+     * @return True if the player has permission, otherwise false and sends a message
+     */
+    private boolean doesntHavePermission(CommandSender sender, String permission, LocaleManager localeManager) {
+        if (!sender.hasPermission(permission)) {
+            localeManager.sendPrefixedMessage(sender, LocaleManager.Locale.NO_PERMISSION);
+            return true;
+        }
+        return false;
     }
 
 }

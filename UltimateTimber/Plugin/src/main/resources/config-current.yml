@@ -9,6 +9,10 @@
 # Default: CURRENT
 server-type: CURRENT
 
+# The locale to use in the /locale folder
+# Default: en_US
+locale: en_US
+
 # A list of worlds that the plugin is disabled in
 # Default:
 # - disabled_world_name

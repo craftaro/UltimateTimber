@@ -12,6 +12,7 @@ public class ConfigurationManager extends Manager {
 
     public enum Setting {
         SERVER_TYPE(SettingType.STRING),
+        LOCALE(SettingType.STRING),
         DISABLED_WORLDS(SettingType.STRING_LIST),
         MAX_LOGS_PER_CHOP(SettingType.INT),
         DESTROY_LEAVES(SettingType.BOOLEAN),
@@ -62,7 +63,7 @@ public class ConfigurationManager extends Manager {
          */
         public boolean getBoolean() {
             this.loadValue();
-            return (boolean)this.value;
+            return (boolean) this.value;
         }
 
         /**
@@ -72,7 +73,7 @@ public class ConfigurationManager extends Manager {
          */
         public int getInt() {
             this.loadValue();
-            return (int)this.value;
+            return (int) this.value;
         }
 
         /**
@@ -82,7 +83,7 @@ public class ConfigurationManager extends Manager {
          */
         public double getDouble() {
             this.loadValue();
-            return (double)this.value;
+            return (double) this.value;
         }
 
         /**
@@ -92,7 +93,7 @@ public class ConfigurationManager extends Manager {
          */
         public String getString() {
             this.loadValue();
-            return (String)this.value;
+            return (String) this.value;
         }
 
         /**
@@ -103,7 +104,7 @@ public class ConfigurationManager extends Manager {
         @SuppressWarnings("unchecked")
         public List<String> getStringList() {
             this.loadValue();
-            return (List<String>)this.value;
+            return (List<String>) this.value;
         }
 
         /**
@@ -141,9 +142,9 @@ public class ConfigurationManager extends Manager {
         }
 
         /**
-         * Gets the name of this Setting as a config-compatible key
+         * Gets the name of this Setting as a FileConfiguration-compatible key
          *
-         * @return The key in the config
+         * @return The key for a FileConfiguration
          */
         private String getNameAsKey() {
             return this.name().replace("_", "-").toLowerCase();

@@ -3,10 +3,12 @@ package com.songoda.ultimatetimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.current.CurrentAdapter;
 import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
+import com.songoda.ultimatetimber.locale.LocaleModule;
 import com.songoda.ultimatetimber.manager.ChoppingManager;
 import com.songoda.ultimatetimber.manager.CommandManager;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.HookManager;
+import com.songoda.ultimatetimber.manager.LocaleManager;
 import com.songoda.ultimatetimber.manager.Manager;
 import com.songoda.ultimatetimber.manager.PlacedBlockManager;
 import com.songoda.ultimatetimber.manager.SaplingManager;
@@ -17,6 +19,8 @@ import com.songoda.ultimatetimber.manager.TreeFallManager;
 import com.songoda.ultimatetimber.utils.Methods;
 import com.songoda.ultimatetimber.utils.Metrics;
 import com.songoda.ultimatetimber.utils.NMSUtil;
+import com.songoda.update.Plugin;
+import com.songoda.update.SongodaUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,7 +35,6 @@ public class UltimateTimber extends JavaPlugin {
 
     private static UltimateTimber INSTANCE;
 
-    private final String prefix = "&8[&6UltimateTimber&8]";
     private final CommandSender console = Bukkit.getConsoleSender();
 
     private Set<Manager> managers;
@@ -41,6 +44,7 @@ public class UltimateTimber extends JavaPlugin {
     private CommandManager commandManager;
     private ConfigurationManager configurationManager;
     private HookManager hookManager;
+    private LocaleManager localeManager;
     private PlacedBlockManager placedBlockManager;
     private SaplingManager saplingManager;
     private TreeAnimationManager treeAnimationManager;
@@ -60,11 +64,21 @@ public class UltimateTimber extends JavaPlugin {
         this.console.sendMessage(Methods.formatText("&7" + this.getDescription().getName() + " " + this.getDescription().getVersion() + " by &5Songoda <3&7!"));
         this.console.sendMessage(Methods.formatText("&7Action: &aEnabling&7..."));
 
+        // Songoda Updater
+        Plugin plugin = new Plugin(this, 18);
+        plugin.addModule(new LocaleModule());
+        SongodaUpdate.load(plugin);
+
+        // bStats Metrics
+        new Metrics(this);
+
+        // Register managers
         this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
         this.commandManager = this.registerManager(CommandManager.class);
         this.configurationManager = new ConfigurationManager(this);
         this.hookManager = this.registerManager(HookManager.class);
+        this.localeManager = this.registerManager(LocaleManager.class);
         this.placedBlockManager = this.registerManager(PlacedBlockManager.class);
         this.saplingManager = this.registerManager(SaplingManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
@@ -72,10 +86,9 @@ public class UltimateTimber extends JavaPlugin {
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
+        // Load version adapter and managers
         this.setupVersionAdapter();
         this.reload();
-
-        new Metrics(this);
 
         this.console.sendMessage(Methods.formatText("&a============================="));
     }
@@ -137,15 +150,6 @@ public class UltimateTimber extends JavaPlugin {
     }
 
     /**
-     * Gets the plugin prefix for chat
-     *
-     * @return The plugin prefix
-     */
-    public String getPrefix() {
-        return this.prefix;
-    }
-
-    /**
      * Gets the active version adapter being used
      *
      * @return The VersionAdapter being used for the plugin
@@ -188,6 +192,15 @@ public class UltimateTimber extends JavaPlugin {
      */
     public HookManager getHookManager() {
         return this.hookManager;
+    }
+
+    /**
+     * Gets the locale manager
+     *
+     * @return The LocaleManager instance
+     */
+    public LocaleManager getLocaleManager() {
+        return this.localeManager;
     }
 
     /**
