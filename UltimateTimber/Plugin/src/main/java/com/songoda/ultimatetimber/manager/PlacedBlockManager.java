@@ -5,6 +5,7 @@ import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.world.StructureGrowEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -53,6 +55,10 @@ public class PlacedBlockManager extends Manager implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockPlaced(BlockPlaceEvent event) {
         if (!this.ignorePlacedBlocks)
+            return;
+
+        // Ignore stripping logs
+        if (event.getBlockPlaced().getType().name().contains("STRIPPED") && !event.getBlockReplacedState().getType().equals(Material.AIR))
             return;
 
         this.internalProtect(event.getBlock(), true);
