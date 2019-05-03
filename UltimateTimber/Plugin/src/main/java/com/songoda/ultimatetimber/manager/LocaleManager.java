@@ -164,14 +164,13 @@ public class LocaleManager extends Manager {
      */
     private static void checkExistingFile(URL fileUrl, File targetFile) {
         UltimateTimber ultimateTimber = UltimateTimber.getInstance();
-        Bukkit.broadcastMessage("Checking file: " + targetFile.getName());
 
         List<String> keysToUpdate = new ArrayList<>();
         FileConfiguration existingConfiguration = YamlConfiguration.loadConfiguration(targetFile);
         for (Locale locale : Locale.values())
             if (existingConfiguration.get(locale.getNameAsKey()) == null)
                 keysToUpdate.add(locale.getNameAsKey());
-        Bukkit.broadcastMessage("Missing keys: " + keysToUpdate.size());
+
         if (keysToUpdate.isEmpty())
             return;
 
@@ -184,7 +183,6 @@ public class LocaleManager extends Manager {
             writer.write("# Changes since " + ultimateTimber.getName() + " v" + ultimateTimber.getDescription().getVersion());
 
             for (String key : keysToUpdate) {
-                Bukkit.broadcastMessage("Writing to file: " + key + ": " + "\"" + newFileConfiguration.getString(key) + "\"");
                 writer.newLine();
                 writer.write(key + ": " + "\"" + newFileConfiguration.getString(key) + "\"");
             }

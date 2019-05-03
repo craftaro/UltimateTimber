@@ -62,7 +62,6 @@ public class CurrentAdapter implements VersionAdapter {
         ItemStack tool = this.getItemInHand(player);
         if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable) || tool.getType().getMaxDurability() < 1)
             return;
-        Bukkit.broadcastMessage("Damageable: " + tool.getType());
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
         Damageable damageable = (Damageable) tool.getItemMeta();
