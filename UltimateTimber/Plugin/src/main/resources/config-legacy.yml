@@ -248,7 +248,7 @@ trees:
       - LEAVES:3,7,11,15
     sapling: SAPLING:3
     plantable-soil: []
-    max-log-distance-from-trunk: 5
+    max-log-distance-from-trunk: 6
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
