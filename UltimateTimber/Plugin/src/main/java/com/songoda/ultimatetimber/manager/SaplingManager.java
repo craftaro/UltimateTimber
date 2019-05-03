@@ -62,7 +62,7 @@ public class SaplingManager extends Manager {
      * @param treeBlock The ITreeBlock to replant for
      */
     public void replantSaplingWithChance(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
-        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean())
+        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean() || !treeBlock.getLocation().getBlock().getType().equals(Material.AIR))
             return;
 
         double chance = ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS_CHANCE.getDouble();

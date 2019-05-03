@@ -98,7 +98,8 @@ public class CommandManager extends Manager implements CommandExecutor, TabCompl
     }
 
     /**
-     * Checks if a player has a permission
+     * Checks if a player does have a permission
+     * Sends them an error message if they don't
      *
      * @param sender The CommandSender to check
      * @param permission The permission to check for

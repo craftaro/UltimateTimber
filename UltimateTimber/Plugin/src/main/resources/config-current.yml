@@ -190,6 +190,7 @@ trees:
       - OAK_LEAVES
     sapling: OAK_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 6
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -214,6 +215,7 @@ trees:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 1
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -235,6 +237,7 @@ trees:
       - BIRCH_LEAVES
     sapling: BIRCH_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 1
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -256,6 +259,7 @@ trees:
       - JUNGLE_LEAVES
     sapling: JUNGLE_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 5
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -277,6 +281,7 @@ trees:
       - ACACIA_LEAVES
     sapling: ACACIA_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -298,6 +303,7 @@ trees:
       - DARK_OAK_LEAVES
     sapling: DARK_OAK_SAPLING
     plantable-soil: []
+    max-log-distance-from-trunk: 3
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -320,6 +326,7 @@ trees:
     sapling: BROWN_MUSHROOM
     plantable-soil:
       - MYCELIUM
+    max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: false
@@ -339,6 +346,7 @@ trees:
     sapling: RED_MUSHROOM
     plantable-soil:
       - MYCELIUM
+    max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: true
     drop-original-log: false

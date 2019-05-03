@@ -188,6 +188,7 @@ trees:
       - LEAVES:0,4,8,12
     sapling: SAPLING:0
     plantable-soil: []
+    max-log-distance-from-trunk: 6
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -209,6 +210,7 @@ trees:
       - LEAVES:1,5,9,13
     sapling: SAPLING:1
     plantable-soil: []
+    max-log-distance-from-trunk: 1
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -227,6 +229,7 @@ trees:
       - LEAVES:2,6,10,14
     sapling: SAPLING:2
     plantable-soil: []
+    max-log-distance-from-trunk: 1
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -245,6 +248,7 @@ trees:
       - LEAVES:3,7,11,15
     sapling: SAPLING:3
     plantable-soil: []
+    max-log-distance-from-trunk: 5
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -263,6 +267,7 @@ trees:
       - LEAVES_2:0,4,8,12
     sapling: SAPLING:4
     plantable-soil: []
+    max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -281,6 +286,7 @@ trees:
       - LEAVES_2:1,5,9,13
     sapling: SAPLING:5
     plantable-soil: []
+    max-log-distance-from-trunk: 3
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
@@ -303,7 +309,8 @@ trees:
     sapling: BROWN_MUSHROOM
     plantable-soil:
       - MYCEL
-    max-leaf-distance-from-log: 6
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: false
     drop-original-leaf: false
@@ -322,6 +329,7 @@ trees:
     sapling: RED_MUSHROOM
     plantable-soil:
       - MYCEL
+    max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: true
     drop-original-log: false

@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerEvent;
  * Abstract tree event containing tree's blocks and broke block
  */
 public abstract class TreeEvent extends PlayerEvent {
-	
+
 	protected final DetectedTree detectedTree;
 
     public TreeEvent(Player player, DetectedTree detectedTree) {

@@ -8,6 +8,7 @@ import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
@@ -91,7 +92,7 @@ public class TreeDetectionManager extends Manager {
         List<Block> trunkBlocks = new ArrayList<>();
         trunkBlocks.add(initialBlock);
         Block targetBlock = initialBlock;
-        while (this.isValidLogType(possibleTreeDefinitions, (targetBlock = targetBlock.getRelative(BlockFace.UP)))) {
+        while (this.isValidLogType(possibleTreeDefinitions, null, (targetBlock = targetBlock.getRelative(BlockFace.UP)))) {
             trunkBlocks.add(targetBlock);
             possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
         }
@@ -105,7 +106,7 @@ public class TreeDetectionManager extends Manager {
 
         // Detect branches off the main trunk
         for (Block trunkBlock : trunkBlocks)
-            this.recursiveBranchSearch(possibleTreeDefinitions, detectedTreeBlocks, trunkBlock, initialBlock.getLocation().getBlockY());
+            this.recursiveBranchSearch(possibleTreeDefinitions, trunkBlocks, detectedTreeBlocks, trunkBlock, initialBlock.getLocation().getBlockY());
 
         // Detect leaves off the trunk/branches
         Set<ITreeBlock<Block>> branchBlocks = new HashSet<>(detectedTreeBlocks.getLogBlocks());
@@ -128,7 +129,7 @@ public class TreeDetectionManager extends Manager {
 
             for (Block block : groundBlocks) {
                 Block blockBelow = block.getRelative(BlockFace.DOWN);
-                boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, blockBelow);
+                boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, null, blockBelow);
                 boolean blockBelowIsSoil = false;
                 for (IBlockData blockData : treeDefinitionManager.getPlantableSoilBlockData(actualTreeDefinition)) {
                     if (blockData.isSimilar(blockBelow)) {
@@ -153,22 +154,23 @@ public class TreeDetectionManager extends Manager {
      * Recursively searches for branches off a given block
      *
      * @param treeDefinitions The possible tree definitions
+     * @param trunkBlocks The tree trunk blocks
      * @param treeBlocks The detected tree blocks
      * @param block The next block to check for a branch
      * @param startingBlockY The Y coordinate of the initial block
      */
-    private void recursiveBranchSearch(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block, int startingBlockY) {
+    private void recursiveBranchSearch(Set<TreeDefinition> treeDefinitions, List<Block> trunkBlocks, TreeBlockSet<Block> treeBlocks, Block block, int startingBlockY) {
         if (treeBlocks.size() > this.maxLogBlocksAllowed)
             return;
 
         for (Vector offset : this.onlyBreakLogsUpwards ? this.VALID_BRANCH_OFFSETS : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);
-            if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(treeBlock)) {
+            if (this.isValidLogType(treeDefinitions, trunkBlocks, targetBlock) && !treeBlocks.contains(treeBlock)) {
                 treeBlocks.add(treeBlock);
                 treeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(treeDefinitions, targetBlock, TreeBlockType.LOG));
                 if (!this.onlyBreakLogsUpwards || targetBlock.getLocation().getBlockY() > startingBlockY)
-                    this.recursiveBranchSearch(treeDefinitions, treeBlocks, targetBlock, startingBlockY);
+                    this.recursiveBranchSearch(treeDefinitions, trunkBlocks, treeBlocks, targetBlock, startingBlockY);
             }
         }
     }
@@ -177,6 +179,7 @@ public class TreeDetectionManager extends Manager {
      * Recursively searches for leaves that are next to this tree
      *
      * @param treeDefinitions The possible tree definitions
+     *
      * @param treeBlocks The detected tree blocks
      * @param block The next block to check for a leaf
      * @param distanceFromLog The distance this leaf is from a log
@@ -212,7 +215,7 @@ public class TreeDetectionManager extends Manager {
     private boolean doesLeafBorderInvalidLog(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block) {
         for (Vector offset : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
-            if (this.isValidLogType(treeDefinitions, targetBlock) && !treeBlocks.contains(new TreeBlock(targetBlock, TreeBlockType.LOG)))
+            if (this.isValidLogType(treeDefinitions, null, targetBlock) && !treeBlocks.contains(new TreeBlock(targetBlock, TreeBlockType.LOG)))
                 return true;
         }
         return false;
@@ -222,17 +225,41 @@ public class TreeDetectionManager extends Manager {
      * Checks if a given block is valid for the given TreeDefinitions
      *
      * @param treeDefinitions The Set of TreeDefinitions to compare against
+     * @param trunkBlocks The trunk blocks of the tree for checking the distance
      * @param block The Block to check
      * @return True if the block is a valid log type, otherwise false
      */
-    private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, Block block) {
+    private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, List<Block> trunkBlocks, Block block) {
+        // Check if block is placed
         if (this.placedBlockManager.isBlockPlaced(block))
             return false;
 
-        for (TreeDefinition treeDefinition : treeDefinitions)
-            for (IBlockData logBlockData : treeDefinition.getLogBlockData())
-                if (logBlockData.isSimilar(block))
+        // Check if it matches the tree definition
+        boolean isCorrectType = false;
+        for (TreeDefinition treeDefinition : treeDefinitions) {
+            for (IBlockData logBlockData : treeDefinition.getLogBlockData()) {
+                if (logBlockData.isSimilar(block)) {
+                    isCorrectType = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isCorrectType)
+            return false;
+
+        // Check that it is close enough to the trunk
+        if (trunkBlocks == null || trunkBlocks.isEmpty())
+            return true;
+
+        Location location = block.getLocation();
+        for (TreeDefinition treeDefinition : treeDefinitions) {
+            double maxDistance = treeDefinition.getMaxLogDistanceFromTrunk() * treeDefinition.getMaxLogDistanceFromTrunk();
+            for (Block trunkBlock : trunkBlocks)
+                if (location.distanceSquared(trunkBlock.getLocation()) < maxDistance)
                     return true;
+        }
+
         return false;
     }
 

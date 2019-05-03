@@ -11,6 +11,7 @@ public class TreeDefinition {
     private final String key;
     private final Set<IBlockData> logBlockData, leafBlockData, plantableSoilBlockData;
     private final IBlockData saplingBlockData;
+    private final double maxLogDistanceFromTrunk;
     private final int maxLeafDistanceFromLog;
     private final boolean detectLeavesDiagonally;
     private final boolean dropOriginalLog, dropOriginalLeaf;
@@ -18,14 +19,15 @@ public class TreeDefinition {
     private final Set<ItemStack> requiredTools;
 
     public TreeDefinition(String key, Set<IBlockData> logBlockData, Set<IBlockData> leafBlockData, IBlockData saplingBlockData,
-                          Set<IBlockData> plantableSoilBlockData, int maxLeafDistanceFromLog, boolean detectLeavesDiagonally,
-                          boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot, Set<TreeLoot> leafLoot,
-                          Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools) {
+                          Set<IBlockData> plantableSoilBlockData, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
+                          boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
+                          Set<TreeLoot> leafLoot, Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools) {
         this.key = key;
         this.logBlockData = logBlockData;
         this.leafBlockData = leafBlockData;
         this.saplingBlockData = saplingBlockData;
         this.plantableSoilBlockData = plantableSoilBlockData;
+        this.maxLogDistanceFromTrunk = maxLogDistanceFromTrunk;
         this.maxLeafDistanceFromLog = maxLeafDistanceFromLog;
         this.detectLeavesDiagonally = detectLeavesDiagonally;
         this.dropOriginalLog = dropOriginalLog;
@@ -79,6 +81,15 @@ public class TreeDefinition {
      */
     public Set<IBlockData> getPlantableSoilBlockData() {
         return Collections.unmodifiableSet(this.plantableSoilBlockData);
+    }
+
+    /**
+     * Gets the max distance away a log can be from the tree trunk in order to be part of the tree
+     *
+     * @return The max distance a log can be from the tree trunk
+     */
+    public double getMaxLogDistanceFromTrunk() {
+        return this.maxLogDistanceFromTrunk;
     }
 
     /**

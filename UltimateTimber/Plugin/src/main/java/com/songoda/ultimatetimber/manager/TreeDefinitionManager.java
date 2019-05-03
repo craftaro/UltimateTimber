@@ -62,6 +62,7 @@ public class TreeDefinitionManager extends Manager {
             Set<IBlockData> leafBlockData = new HashSet<>();
             IBlockData saplingBlockData;
             Set<IBlockData> plantableSoilBlockData = new HashSet<>();
+            double maxLogDistanceFromTrunk;
             int maxLeafDistanceFromLog;
             boolean detectLeavesDiagonally;
             boolean dropOriginalLog;
@@ -82,6 +83,7 @@ public class TreeDefinitionManager extends Manager {
             for (String blockDataString : tree.getStringList("plantable-soil"))
                 plantableSoilBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
 
+            maxLogDistanceFromTrunk = tree.getDouble("max-log-distance-from-trunk");
             maxLeafDistanceFromLog = tree.getInt("max-leaf-distance-from-log");
             detectLeavesDiagonally = tree.getBoolean("search-for-leaves-diagonally");
             dropOriginalLog = tree.getBoolean("drop-original-log");
@@ -105,7 +107,7 @@ public class TreeDefinitionManager extends Manager {
             for (String itemStackString : tree.getStringList("required-tools"))
                 requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
 
-            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData,
+            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLogDistanceFromTrunk,
                     maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools));
         }
 

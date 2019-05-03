@@ -29,7 +29,7 @@ public class TreeFallEvent extends TreeEvent implements Cancellable {
 
     @Override
 	public boolean isCancelled() {
-		return cancelled;
+		return this.cancelled;
 	}
 
 	@Override
