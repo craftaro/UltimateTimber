@@ -128,10 +128,10 @@ public class TreeDefinitionManager extends Manager {
                 this.globalLeafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
 
         // Load global entire tree drops
-        ConfigurationSection entireTreeSection = config.getConfigurationSection("global-leaf-loot");
+        ConfigurationSection entireTreeSection = config.getConfigurationSection("global-entire-tree-loot");
         if (entireTreeSection != null)
             for (String lootKey : entireTreeSection.getKeys(false))
-                this.globalEntireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, entireTreeSection.getConfigurationSection(lootKey)));
+                this.globalEntireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, entireTreeSection.getConfigurationSection(lootKey)));
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools"))

@@ -98,6 +98,14 @@ public class TreeDetectionManager extends Manager {
             possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
         }
 
+        if (!this.onlyBreakLogsUpwards) {
+            targetBlock = initialBlock;
+            while (this.isValidLogType(possibleTreeDefinitions, null, (targetBlock = targetBlock.getRelative(BlockFace.DOWN)))) {
+                trunkBlocks.add(targetBlock);
+                possibleTreeDefinitions.retainAll(this.treeDefinitionManager.narrowTreeDefinition(possibleTreeDefinitions, targetBlock, TreeBlockType.LOG));
+            }
+        }
+
         // Lowest blocks at the front of the list
         Collections.reverse(trunkBlocks);
 
@@ -256,6 +264,8 @@ public class TreeDetectionManager extends Manager {
         Location location = block.getLocation();
         for (TreeDefinition treeDefinition : treeDefinitions) {
             double maxDistance = treeDefinition.getMaxLogDistanceFromTrunk() * treeDefinition.getMaxLogDistanceFromTrunk();
+            if (!this.onlyBreakLogsUpwards) // Help detect logs more often if the tree isn't broken at the base
+                maxDistance *= 1.5;
             for (Block trunkBlock : trunkBlocks)
                 if (location.distanceSquared(trunkBlock.getLocation()) < maxDistance)
                     return true;

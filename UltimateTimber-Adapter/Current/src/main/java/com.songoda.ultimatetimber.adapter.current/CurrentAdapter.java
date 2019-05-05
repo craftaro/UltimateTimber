@@ -60,7 +60,7 @@ public class CurrentAdapter implements VersionAdapter {
     @Override
     public void applyToolDurability(Player player, int damage) {
         ItemStack tool = this.getItemInHand(player);
-        if (!tool.hasItemMeta() || !(tool.getItemMeta() instanceof Damageable) || tool.getType().getMaxDurability() < 1)
+        if (tool.getType().getMaxDurability() < 1)
             return;
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);

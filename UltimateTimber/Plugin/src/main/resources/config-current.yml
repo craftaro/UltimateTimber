@@ -47,7 +47,7 @@ protect-tool: false
 apply-silk-touch: true
 
 # Damage the tool extra for each leaf block broken, this is vanilla behavior but can be disabled here
-# Note: Does nothing if realistic-tool-damage is false
+# Does nothing if realistic-tool-damage is false
 # Default: true
 apply-silk-touch-tool-damage: true
 
@@ -82,6 +82,7 @@ player-tree-topple-cooldown: false
 
 # The amount of seconds a player has to wait before they can chop a tree again
 # Does nothing if player-tree-topple-cooldown is false
+# The time is in seconds and must be a postive whole number
 # Default: 5
 player-tree-topple-cooldown-length: 5
 
@@ -100,6 +101,7 @@ always-replant-sapling: false
 # How many seconds to prevent players from breaking replanted saplings
 # Set to 0 to disable
 # Does nothing if replant-saplings is false
+# The time is in seconds and must be a postive whole number
 # Default: 3
 replant-saplings-cooldown: 3
 
