@@ -217,7 +217,7 @@ trees:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
     plantable-soil: []
-    max-log-distance-from-trunk: 1
+    max-log-distance-from-trunk: 2
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
