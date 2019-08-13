@@ -106,7 +106,7 @@ public class LegacyAdapter implements VersionAdapter {
     @Override
     public void applyToolDurability(Player player, int damage) {
         ItemStack tool = this.getItemInHand(player);
-        if (tool.getType().getMaxDurability() < 1)
+        if (tool.getType().getMaxDurability() < 1 || (tool.getItemMeta() != null && tool.getItemMeta().spigot().isUnbreakable()))
             return;
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);

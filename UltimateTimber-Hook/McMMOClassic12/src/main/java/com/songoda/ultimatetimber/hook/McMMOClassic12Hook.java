@@ -35,7 +35,7 @@ public class McMMOClassic12Hook implements TimberHook {
 
     @Override
     public boolean shouldApplyDoubleDrops(Player player) {
-        if (SkillType.WOODCUTTING.getDoubleDropsDisabled())
+        if (player == null || !player.hasMetadata("mcMMO: Player Data") || SkillType.WOODCUTTING.getDoubleDropsDisabled())
             return false;
 
         int skillLevel = UserManager.getPlayer(player).getSkillLevel(SkillType.WOODCUTTING);
