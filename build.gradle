@@ -26,6 +26,7 @@ dependencies {
     compile project(':UltimateTimber-McMMOClassic13')
     compile project(':UltimateTimber-McMMOClassic12')
     compile project(':UltimateTimber-McMMOClassic8')
+    compile project(':UltimateTimber-CoreProtect')
     compile project(':UltimateTimber-Plugin')
 }
 
