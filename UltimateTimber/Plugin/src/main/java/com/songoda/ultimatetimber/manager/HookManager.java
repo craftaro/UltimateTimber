@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
+import com.songoda.ultimatetimber.hook.CoreProtectHook;
 import com.songoda.ultimatetimber.hook.JobsHook;
 import com.songoda.ultimatetimber.hook.McMMOClassic12Hook;
 import com.songoda.ultimatetimber.hook.McMMOClassic13Hook;
@@ -32,6 +33,7 @@ public class HookManager extends Manager {
         this.hooks.clear();
 
         this.tryHook("Jobs", JobsHook.class);
+        this.tryHook("CoreProtect", CoreProtectHook.class);
 
         if (this.ultimateTimber.getVersionAdapter().getVersionAdapterType().equals(VersionAdapterType.CURRENT)) {
             Plugin mcMMO = Bukkit.getPluginManager().getPlugin("mcMMO");
