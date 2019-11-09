@@ -24,5 +24,8 @@ project(':UltimateTimber-McMMOClassic12').projectDir = file('UltimateTimber-Hook
 include(':UltimateTimber-McMMOClassic8')
 project(':UltimateTimber-McMMOClassic8').projectDir = file('UltimateTimber-Hook/McMMOClassic8')
 
+include(':UltimateTimber-CoreProtect')
+project(':UltimateTimber-CoreProtect').projectDir = file('UltimateTimber-Hook/CoreProtect')
+
 include(':UltimateTimber-Plugin')
 project(':UltimateTimber-Plugin').projectDir = file('UltimateTimber/Plugin')

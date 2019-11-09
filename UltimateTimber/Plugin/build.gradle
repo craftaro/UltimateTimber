@@ -13,7 +13,8 @@ dependencies {
     compile project(':UltimateTimber-McMMOClassic13')
     compile project(':UltimateTimber-McMMOClassic12')
     compile project(':UltimateTimber-McMMOClassic8')
-    compileOnly 'org.spigotmc:spigot:1.14'
+    compile project(':UltimateTimber-CoreProtect')
+    compileOnly 'org.spigotmc:spigot:1.14.4'
     extraLibs 'com.songoda:songodaupdater:1'
 
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
