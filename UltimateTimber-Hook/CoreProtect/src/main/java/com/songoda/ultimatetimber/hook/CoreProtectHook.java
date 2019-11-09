@@ -1,17 +1,12 @@
 package com.songoda.ultimatetimber.hook;
 
 import com.songoda.ultimatetimber.tree.ITreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.utils.NMSUtil;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
-import org.bukkit.GameMode;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class CoreProtectHook implements TimberHook {
 
