@@ -2,22 +2,13 @@ package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.IBlockData;
-import com.songoda.ultimatetimber.tree.DetectedTree;
-import com.songoda.ultimatetimber.tree.ITreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlock;
-import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeBlockType;
-import com.songoda.ultimatetimber.tree.TreeDefinition;
+import com.songoda.ultimatetimber.tree.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TreeDetectionManager extends Manager {
 
@@ -113,22 +104,19 @@ public class TreeDetectionManager extends Manager {
 
         // Detect leaves off the trunk/branches
         Set<ITreeBlock<Block>> branchBlocks = new HashSet<>(detectedTreeBlocks.getLogBlocks());
-        for (ITreeBlock<Block> branchBlock : branchBlocks) {
+        for (ITreeBlock<Block> branchBlock : branchBlocks)
             this.recursiveLeafSearch(possibleTreeDefinitions, detectedTreeBlocks, branchBlock.getBlock(), new HashSet<>());
-
-            // Check if we can stop checking early if we don't care about the leaves
-            if (!this.destroyLeaves && detectedTreeBlocks.getLeafBlocks().size() < this.numLeavesRequiredForTree) {
-                detectedTreeBlocks.removeAll(TreeBlockType.LEAF);
-                break;
-            }
-        }
 
         // Use the first tree definition in the set
         TreeDefinition actualTreeDefinition = possibleTreeDefinitions.iterator().next();
 
         // Trees need at least a certain number of leaves
-        if (this.destroyLeaves && detectedTreeBlocks.getLeafBlocks().size() < this.numLeavesRequiredForTree)
+        if (detectedTreeBlocks.getLeafBlocks().size() < this.numLeavesRequiredForTree)
             return null;
+
+        // Remove leaves if we don't care about the leaves
+        if (!this.destroyLeaves)
+            detectedTreeBlocks.removeAll(TreeBlockType.LEAF);
 
         // Check that the tree isn't on the ground if enabled
         if (this.entireTreeBase) {
@@ -160,10 +148,10 @@ public class TreeDetectionManager extends Manager {
      * Recursively searches for branches off a given block
      *
      * @param treeDefinitions The possible tree definitions
-     * @param trunkBlocks The tree trunk blocks
-     * @param treeBlocks The detected tree blocks
-     * @param block The next block to check for a branch
-     * @param startingBlockY The Y coordinate of the initial block
+     * @param trunkBlocks     The tree trunk blocks
+     * @param treeBlocks      The detected tree blocks
+     * @param block           The next block to check for a branch
+     * @param startingBlockY  The Y coordinate of the initial block
      */
     private void recursiveBranchSearch(Set<TreeDefinition> treeDefinitions, List<Block> trunkBlocks, TreeBlockSet<Block> treeBlocks, Block block, int startingBlockY) {
         if (treeBlocks.size() > this.maxLogBlocksAllowed)
@@ -185,9 +173,8 @@ public class TreeDetectionManager extends Manager {
      * Recursively searches for leaves that are next to this tree
      *
      * @param treeDefinitions The possible tree definitions
-     *
-     * @param treeBlocks The detected tree blocks
-     * @param block The next block to check for a leaf
+     * @param treeBlocks      The detected tree blocks
+     * @param block           The next block to check for a leaf
      */
     private void recursiveLeafSearch(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block, Set<Block> visitedBlocks) {
         boolean detectLeavesDiagonally = treeDefinitions.stream().anyMatch(TreeDefinition::shouldDetectLeavesDiagonally);
@@ -211,8 +198,8 @@ public class TreeDetectionManager extends Manager {
      * Checks if a leaf is bordering a log that isn't part of this tree
      *
      * @param treeDefinitions The possible tree definitions
-     * @param treeBlocks The detected tree blocks
-     * @param block The block to check
+     * @param treeBlocks      The detected tree blocks
+     * @param block           The block to check
      * @return True if the leaf borders an invalid log, otherwise false
      */
     private boolean doesLeafBorderInvalidLog(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block) {
@@ -228,8 +215,8 @@ public class TreeDetectionManager extends Manager {
      * Checks if a given block is valid for the given TreeDefinitions
      *
      * @param treeDefinitions The Set of TreeDefinitions to compare against
-     * @param trunkBlocks The trunk blocks of the tree for checking the distance
-     * @param block The Block to check
+     * @param trunkBlocks     The trunk blocks of the tree for checking the distance
+     * @param block           The Block to check
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLogType(Set<TreeDefinition> treeDefinitions, List<Block> trunkBlocks, Block block) {
@@ -272,8 +259,8 @@ public class TreeDetectionManager extends Manager {
      * Checks if a given block is valid for the given TreeDefinitions
      *
      * @param treeDefinitions The Set of TreeDefinitions to compare against
-     * @param treeBlocks The detected blocks of the tree for checking leaf distance
-     * @param block The Block to check
+     * @param treeBlocks      The detected blocks of the tree for checking leaf distance
+     * @param block           The Block to check
      * @return True if the block is a valid log type, otherwise false
      */
     private boolean isValidLeafType(Set<TreeDefinition> treeDefinitions, TreeBlockSet<Block> treeBlocks, Block block) {
