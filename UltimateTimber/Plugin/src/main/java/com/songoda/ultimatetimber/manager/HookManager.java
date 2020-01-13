@@ -11,13 +11,12 @@ import com.songoda.ultimatetimber.hook.McMMOHook;
 import com.songoda.ultimatetimber.hook.TimberHook;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.utils.NMSUtil;
+import java.util.HashSet;
+import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class HookManager extends Manager {
 
@@ -35,23 +34,25 @@ public class HookManager extends Manager {
         this.tryHook("Jobs", JobsHook.class);
         this.tryHook("CoreProtect", CoreProtectHook.class);
 
-        if (this.ultimateTimber.getVersionAdapter().getVersionAdapterType().equals(VersionAdapterType.CURRENT)) {
-            Plugin mcMMO = Bukkit.getPluginManager().getPlugin("mcMMO");
-            if (mcMMO != null) {
-                String version = mcMMO.getDescription().getVersion();
-                if (version.startsWith("2")) {
-                    this.tryHook("mcMMO", McMMOHook.class);
-                } else {
-                    this.tryHook("mcMMO", McMMOClassic13Hook.class);
+        Bukkit.getScheduler().runTaskAsynchronously(this.ultimateTimber, () -> {
+            if (this.ultimateTimber.getVersionAdapter().getVersionAdapterType().equals(VersionAdapterType.CURRENT)) {
+                Plugin mcMMO = Bukkit.getPluginManager().getPlugin("mcMMO");
+                if (mcMMO != null) {
+                    String version = mcMMO.getDescription().getVersion();
+                    if (version.startsWith("2")) {
+                        this.tryHook("mcMMO", McMMOHook.class);
+                    } else {
+                        this.tryHook("mcMMO", McMMOClassic13Hook.class);
+                    }
+                }
+            } else {
+                if (NMSUtil.getVersionNumber() == 12) {
+                    this.tryHook("mcMMO", McMMOClassic12Hook.class);
+                } else if (NMSUtil.getVersionNumber() == 8) {
+                    this.tryHook("mcMMO", McMMOClassic8Hook.class);
                 }
             }
-        } else {
-            if (NMSUtil.getVersionNumber() == 12) {
-                this.tryHook("mcMMO", McMMOClassic12Hook.class);
-            } else if (NMSUtil.getVersionNumber() == 8) {
-                this.tryHook("mcMMO", McMMOClassic8Hook.class);
-            }
-        }
+        });
     }
 
     @Override
