@@ -1,4 +1,0 @@
-dependencies {
-    compile project(':UltimateTimber-Core')
-    compileOnly 'org.spigotmc:spigot:1.12.2'
-}
