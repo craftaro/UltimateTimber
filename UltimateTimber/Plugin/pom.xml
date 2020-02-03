@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.songoda</groupId>
         <artifactId>UltimateTimber</artifactId>
-        <version>2.0.4</version>
+        <version>2.0.5</version>
         <relativePath>../../</relativePath>
     </parent>
 
@@ -21,6 +21,28 @@
                 <version>2.3.2</version>
                 <configuration>
                     <showDeprecation>false</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>${project.build.directory}/classes/plugin.yml</file>
+                    <replacements>
+                        <replacement>
+                            <token>maven-version-number</token>
+                            <value>${project.version}</value>
+                        </replacement>
+                    </replacements>
                 </configuration>
             </plugin>
             <plugin>
