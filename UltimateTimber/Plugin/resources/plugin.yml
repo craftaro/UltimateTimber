@@ -1,5 +1,5 @@
 name: UltimateTimber
-version: @version@
+version: maven-version-number
 authors: [Songoda, Esophose]
 main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13

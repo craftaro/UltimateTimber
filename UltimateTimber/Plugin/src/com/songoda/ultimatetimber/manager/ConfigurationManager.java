@@ -4,6 +4,7 @@ import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.List;
@@ -167,6 +168,8 @@ public class ConfigurationManager extends Manager {
 
     @Override
     public void reload() {
+        this.plugin.getCoreConfig().load();
+
         File configFile = new File(this.plugin.getDataFolder() + "/config.yml");
 
         // If an old config still exists, rename it so it doesn't interfere

@@ -72,9 +72,6 @@ public class UltimateTimber extends SongodaPlugin {
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
-        // Setup Locale
-        this.setLocale(getConfig().getString("locale"), false);
-
         // Load version adapter and managers
         this.setupVersionAdapter();
         this.reload();
