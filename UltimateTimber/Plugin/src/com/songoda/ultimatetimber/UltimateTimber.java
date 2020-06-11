@@ -57,7 +57,7 @@ public class UltimateTimber extends SongodaPlugin {
     @Override
     public void onPluginEnable() {
         // Run Songoda Updater
-        SongodaCore.registerPlugin(this, 44, CompatibleMaterial.IRON_AXE);
+        SongodaCore.registerPlugin(this, 18, CompatibleMaterial.IRON_AXE);
 
         // Register managers
         this.managers = new HashSet<>();
