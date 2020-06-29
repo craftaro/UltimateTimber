@@ -25,5 +25,11 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.songoda</groupId>
+            <artifactId>SongodaCore</artifactId>
+            <version>LATEST</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

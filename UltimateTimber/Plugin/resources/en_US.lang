@@ -9,10 +9,10 @@ general:
 
 command:
   reload:
-    description: '&8 - &a/ut reload &7 - Reloads the config.'
+    description: 'Reloads the config.'
     reloaded: '&7Configuration and locale files have been reloaded.'
   toggle:
-    description: '&8 - &a/ut toggle &7 - Toggles your chopping mode'
+    description: 'Toggles your chopping mode'
     enabled: '&7Chopping Mode: &aEnabled'
     disabled: '&7Chopping Mode: &cDisabled'
 

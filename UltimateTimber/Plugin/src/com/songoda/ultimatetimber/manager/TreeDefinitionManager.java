@@ -15,11 +15,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class TreeDefinitionManager extends Manager {
 
@@ -55,6 +51,7 @@ public class TreeDefinitionManager extends Manager {
 
         // Load tree settings
         ConfigurationSection treeSection = config.getConfigurationSection("trees");
+        top:
         for (String key : treeSection.getKeys(false)) {
             ConfigurationSection tree = treeSection.getConfigurationSection(key);
 
@@ -72,11 +69,17 @@ public class TreeDefinitionManager extends Manager {
             Set<TreeLoot> entireTreeLoot = new HashSet<>();
             Set<ItemStack> requiredTools = new HashSet<>();
 
-            for (String blockDataString : tree.getStringList("logs"))
-                logBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
+            for (String blockDataString : tree.getStringList("logs")) {
+                IBlockData blockData = versionAdapter.parseBlockDataFromString(blockDataString);
+                if (blockData == null || blockData.getMaterial() == null) continue top;
+                logBlockData.add(blockData);
+            }
 
-            for (String blockDataString : tree.getStringList("leaves"))
-                leafBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
+            for (String blockDataString : tree.getStringList("leaves")) {
+                IBlockData blockData = versionAdapter.parseBlockDataFromString(blockDataString);
+                if (blockData == null || blockData.getMaterial() == null) continue top;
+                leafBlockData.add(blockData);
+            }
 
             saplingBlockData = versionAdapter.parseBlockDataFromString(tree.getString("sapling"));
 
@@ -104,8 +107,11 @@ public class TreeDefinitionManager extends Manager {
                 for (String lootKey : entireTreeLootSection.getKeys(false))
                     entireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, entireTreeLootSection.getConfigurationSection(lootKey)));
 
-            for (String itemStackString : tree.getStringList("required-tools"))
-                requiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
+            for (String itemStackString : tree.getStringList("required-tools")) {
+                ItemStack tool = versionAdapter.parseItemStackFromString(itemStackString);
+                if (tool == null) continue top;
+                requiredTools.add(tool);
+            }
 
             this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLogDistanceFromTrunk,
                     maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools));
@@ -134,8 +140,11 @@ public class TreeDefinitionManager extends Manager {
                 this.globalEntireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, entireTreeSection.getConfigurationSection(lootKey)));
 
         // Load global tools
-        for (String itemStackString : config.getStringList("global-required-tools"))
-            this.globalRequiredTools.add(versionAdapter.parseItemStackFromString(itemStackString));
+        for (String itemStackString : config.getStringList("global-required-tools")) {
+            ItemStack tool = versionAdapter.parseItemStackFromString(itemStackString);
+            if (tool == null) continue;
+            this.globalRequiredTools.add(tool);
+        }
     }
 
     @Override
@@ -157,8 +166,8 @@ public class TreeDefinitionManager extends Manager {
      * Narrows a Set of TreeDefinitions down to ones matching the given Block and TreeBlockType
      *
      * @param possibleTreeDefinitions The possible TreeDefinitions
-     * @param block The Block to narrow to
-     * @param treeBlockType The TreeBlockType of the given Block
+     * @param block                   The Block to narrow to
+     * @param treeBlockType           The TreeBlockType of the given Block
      * @return A Set of TreeDefinitions narrowed down
      */
     public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, Block block, TreeBlockType treeBlockType) {
@@ -212,7 +221,7 @@ public class TreeDefinitionManager extends Manager {
      * Checks if a given tool is valid for a given tree definition, also takes into account global tools
      *
      * @param treeDefinition The TreeDefinition to use
-     * @param tool The tool to check
+     * @param tool           The tool to check
      * @return True if the tool is allowed for toppling the given TreeDefinition
      */
     public boolean isToolValidForTreeDefinition(TreeDefinition treeDefinition, ItemStack tool) {
@@ -230,9 +239,9 @@ public class TreeDefinitionManager extends Manager {
     /**
      * Tries to spawn loot for a given TreeBlock with the given TreeDefinition for a given Player
      *
-     * @param treeDefinition The TreeDefinition to use
-     * @param treeBlock The TreeBlock to drop for
-     * @param player The Player to drop for
+     * @param treeDefinition  The TreeDefinition to use
+     * @param treeBlock       The TreeBlock to drop for
+     * @param player          The Player to drop for
      * @param isForEntireTree If the loot is for the entire tree
      */
     public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch, boolean isForEntireTree) {
@@ -316,10 +325,10 @@ public class TreeDefinitionManager extends Manager {
         for (String lootedCommand : lootedCommands)
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
                     lootedCommand.replace("%player%", player.getName())
-                                 .replace("%type%", treeDefinition.getKey())
-                                 .replace("%xPos%", treeBlock.getLocation().getBlockX() + "")
-                                 .replace("%yPos%", treeBlock.getLocation().getBlockY() + "")
-                                 .replace("%zPos%", treeBlock.getLocation().getBlockZ() + ""));
+                            .replace("%type%", treeDefinition.getKey())
+                            .replace("%xPos%", treeBlock.getLocation().getBlockX() + "")
+                            .replace("%yPos%", treeBlock.getLocation().getBlockY() + "")
+                            .replace("%zPos%", treeBlock.getLocation().getBlockZ() + ""));
     }
 
     /**
@@ -338,8 +347,8 @@ public class TreeDefinitionManager extends Manager {
     /**
      * Gets a TreeLoot entry from a ConfigurationSection
      *
-     * @param versionAdapter The VersionAdapter to use
-     * @param treeBlockType The TreeBlockType to use
+     * @param versionAdapter       The VersionAdapter to use
+     * @param treeBlockType        The TreeBlockType to use
      * @param configurationSection The ConfigurationSection
      * @return A TreeLoot entry from the section
      */

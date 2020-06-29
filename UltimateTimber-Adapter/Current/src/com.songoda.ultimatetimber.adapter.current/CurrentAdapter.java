@@ -1,5 +1,6 @@
 package com.songoda.ultimatetimber.adapter.current;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.VersionAdapterType;
@@ -34,12 +35,16 @@ public class CurrentAdapter implements VersionAdapter {
 
     @Override
     public IBlockData parseBlockDataFromString(String blockDataString) {
-        return new CurrentBlockData(Material.matchMaterial(blockDataString));
+        Material material = Material.matchMaterial(blockDataString);
+        if (material == null) return null;
+        return new CurrentBlockData(material);
     }
 
     @Override
     public ItemStack parseItemStackFromString(String itemStackString) {
-        return new ItemStack(Material.matchMaterial(itemStackString));
+        CompatibleMaterial compatibleMaterial = CompatibleMaterial.getMaterial(itemStackString);
+        if (compatibleMaterial == null) return null;
+        return compatibleMaterial.getItem();
     }
 
     @Override

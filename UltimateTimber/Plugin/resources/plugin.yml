@@ -5,10 +5,10 @@ main: com.songoda.ultimatetimber.UltimateTimber
 api-version: 1.13
 softdepend: [mcMMO, Jobs]
 commands:
-  ultimatetimber:
+  ut:
     description: Reloads the configuration file
     usage: /ultimatetimber reload
-    aliases: [ut]
+    aliases: [ultimatetimber]
 permissions:
   ultimatetimber.*:
     description: Inherits all plugin permissions
