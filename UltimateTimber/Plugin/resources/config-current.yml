@@ -360,6 +360,48 @@ trees:
         chance: 25
     entire-tree-loot: []
     required-tools: []
+  huge_crimson_fungus:
+    logs:
+      - CRIMSON_STEM
+      - STRIPPED_CRIMSON_STEM
+      - CRIMSON_HYPHAE
+      - STRIPPED_CRIMSON_HYPHAE
+    leaves:
+      - NETHER_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: CRIMSON_FUNGUS
+    plantable-soil:
+      - CRIMSON_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: []
+    leaf-loot: []
+    entire-tree-loot: []
+    required-tools: []
+  huge_warpped_fungus:
+    logs:
+      - WARPED_STEM
+      - STRIPPED_WARPED_STEM
+      - WARPED_HYPHAE
+      - STRIPPED_WARPED_HYPHAE
+    leaves:
+      - WARPED_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: CRIMSON_FUNGUS
+    plantable-soil:
+      - WARPED_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: []
+    leaf-loot: []
+    entire-tree-loot: []
+    required-tools: []
 
 # All soil types that the tree type's saplings can be planted on
 global-plantable-soil:
@@ -414,3 +456,4 @@ global-required-tools:
   - IRON_AXE
   - GOLDEN_AXE
   - DIAMOND_AXE
+  - NETHERITE_AXE

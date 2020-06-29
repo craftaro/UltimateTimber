@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.songoda</groupId>
         <artifactId>UltimateTimber</artifactId>
-        <version>2.0.7</version>
+        <version>2.0.8</version>
         <relativePath>../../</relativePath>
     </parent>
 
@@ -23,6 +23,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Core</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.songoda</groupId>
+            <artifactId>SongodaCore</artifactId>
+            <version>LATEST</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

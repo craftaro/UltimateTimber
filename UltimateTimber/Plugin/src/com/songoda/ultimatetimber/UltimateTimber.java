@@ -7,17 +7,9 @@ import com.songoda.core.configuration.Config;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.current.CurrentAdapter;
 import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
-import com.songoda.ultimatetimber.manager.ChoppingManager;
-import com.songoda.ultimatetimber.manager.CommandManager;
-import com.songoda.ultimatetimber.manager.ConfigurationManager;
-import com.songoda.ultimatetimber.manager.HookManager;
-import com.songoda.ultimatetimber.manager.Manager;
-import com.songoda.ultimatetimber.manager.PlacedBlockManager;
-import com.songoda.ultimatetimber.manager.SaplingManager;
-import com.songoda.ultimatetimber.manager.TreeAnimationManager;
-import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
-import com.songoda.ultimatetimber.manager.TreeDetectionManager;
-import com.songoda.ultimatetimber.manager.TreeFallManager;
+import com.songoda.ultimatetimber.commands.CommandReload;
+import com.songoda.ultimatetimber.commands.CommandToggle;
+import com.songoda.ultimatetimber.manager.*;
 import com.songoda.ultimatetimber.utils.NMSUtil;
 
 import java.util.HashSet;
@@ -35,9 +27,9 @@ public class UltimateTimber extends SongodaPlugin {
 
     private VersionAdapter versionAdapter;
     private ChoppingManager choppingManager;
-    private CommandManager commandManager;
     private ConfigurationManager configurationManager;
     private HookManager hookManager;
+    private com.songoda.core.commands.CommandManager commandManager;
     private PlacedBlockManager placedBlockManager;
     private SaplingManager saplingManager;
     private TreeAnimationManager treeAnimationManager;
@@ -59,10 +51,16 @@ public class UltimateTimber extends SongodaPlugin {
         // Run Songoda Updater
         SongodaCore.registerPlugin(this, 18, CompatibleMaterial.IRON_AXE);
 
+        // Setup plugin commands
+        this.commandManager = new com.songoda.core.commands.CommandManager(this);
+        this.commandManager.addMainCommand("ut")
+                .addSubCommands(new CommandReload(this),
+                        new CommandToggle(this)
+                );
+
         // Register managers
         this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
-        this.commandManager = this.registerManager(CommandManager.class);
         this.configurationManager = new ConfigurationManager(this);
         this.hookManager = this.registerManager(HookManager.class);
         this.placedBlockManager = this.registerManager(PlacedBlockManager.class);
@@ -74,7 +72,7 @@ public class UltimateTimber extends SongodaPlugin {
 
         // Load version adapter and managers
         this.setupVersionAdapter();
-        this.reload();
+        this.reloadConfig();
     }
 
     @Override
@@ -84,21 +82,14 @@ public class UltimateTimber extends SongodaPlugin {
 
     @Override
     public void onConfigReload() {
-        reload();
+        this.configurationManager.reload();
+        this.managers.forEach(Manager::reload);
+        this.setLocale(getConfig().getString("locale"), true);
     }
 
     @Override
     public List<Config> getExtraConfig() {
         return null;
-    }
-
-    /**
-     * Reloads the plugin's settings
-     */
-    public void reload() {
-        this.configurationManager.reload();
-        this.managers.forEach(Manager::reload);
-        this.setLocale(getConfig().getString("locale"), true);
     }
 
     /**
@@ -124,7 +115,7 @@ public class UltimateTimber extends SongodaPlugin {
      * Registers a manager
      *
      * @param managerClass The class of the manager to create a new instance of
-     * @param <T> extends Manager
+     * @param <T>          extends Manager
      * @return A new instance of the given manager class
      */
     private <T extends Manager> T registerManager(Class<T> managerClass) {
@@ -154,15 +145,6 @@ public class UltimateTimber extends SongodaPlugin {
      */
     public ChoppingManager getChoppingManager() {
         return this.choppingManager;
-    }
-
-    /**
-     * Gets the command manager
-     *
-     * @return The CommandManager instance
-     */
-    public CommandManager getCommandManager() {
-        return this.commandManager;
     }
 
     /**
