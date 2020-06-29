@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.event.player.PlayerItemBreakEvent;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -79,8 +80,11 @@ public class CurrentAdapter implements VersionAdapter {
         damageable.setDamage(damageable.getDamage() + actualDamage);
         tool.setItemMeta((ItemMeta) damageable);
 
-        if (!this.hasEnoughDurability(tool, 1))
+        if (!this.hasEnoughDurability(tool, 1)) {
+            PlayerItemBreakEvent breakEvent = new PlayerItemBreakEvent(player, tool);
+            Bukkit.getServer().getPluginManager().callEvent(breakEvent);
             this.removeItemInHand(player);
+        }
     }
 
     @Override
