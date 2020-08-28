@@ -4,6 +4,7 @@ import com.songoda.core.SongodaCore;
 import com.songoda.core.SongodaPlugin;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
+import com.songoda.core.hooks.LogManager;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.adapter.current.CurrentAdapter;
 import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
@@ -28,7 +29,6 @@ public class UltimateTimber extends SongodaPlugin {
     private VersionAdapter versionAdapter;
     private ChoppingManager choppingManager;
     private ConfigurationManager configurationManager;
-    private HookManager hookManager;
     private com.songoda.core.commands.CommandManager commandManager;
     private PlacedBlockManager placedBlockManager;
     private SaplingManager saplingManager;
@@ -51,6 +51,9 @@ public class UltimateTimber extends SongodaPlugin {
         // Run Songoda Updater
         SongodaCore.registerPlugin(this, 18, CompatibleMaterial.IRON_AXE);
 
+        // Load hooks
+        LogManager.load();
+
         // Setup plugin commands
         this.commandManager = new com.songoda.core.commands.CommandManager(this);
         this.commandManager.addMainCommand("ut")
@@ -62,7 +65,6 @@ public class UltimateTimber extends SongodaPlugin {
         this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
         this.configurationManager = new ConfigurationManager(this);
-        this.hookManager = this.registerManager(HookManager.class);
         this.placedBlockManager = this.registerManager(PlacedBlockManager.class);
         this.saplingManager = this.registerManager(SaplingManager.class);
         this.treeAnimationManager = this.registerManager(TreeAnimationManager.class);
@@ -78,6 +80,10 @@ public class UltimateTimber extends SongodaPlugin {
     @Override
     public void onPluginDisable() {
         this.disable();
+    }
+
+    @Override
+    public void onDataLoad() {
     }
 
     @Override
@@ -154,15 +160,6 @@ public class UltimateTimber extends SongodaPlugin {
      */
     public ConfigurationManager getConfigurationManager() {
         return this.configurationManager;
-    }
-
-    /**
-     * Gets the hook manager
-     *
-     * @return The HookManager instance
-     */
-    public HookManager getHookManager() {
-        return this.hookManager;
     }
 
     /**
