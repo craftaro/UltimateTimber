@@ -390,7 +390,7 @@ trees:
     leaves:
       - WARPED_WART_BLOCK
       - SHROOMLIGHT
-    sapling: CRIMSON_FUNGUS
+    sapling: WARPED_FUNGUS
     plantable-soil:
       - WARPED_NYLIUM
     max-log-distance-from-trunk: 27
