@@ -1,12 +1,17 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.hooks.JobsHook;
+import com.songoda.core.hooks.LogManager;
+import com.songoda.core.hooks.McMMOHook;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.misc.OnlyToppleWhile;
 import com.songoda.ultimatetimber.tree.DetectedTree;
+import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.tree.TreeBlockType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,6 +23,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.stream.Collectors;
 
 public class TreeFallManager extends Manager implements Listener {
 
@@ -44,7 +51,6 @@ public class TreeFallManager extends Manager implements Listener {
         ChoppingManager choppingManager = this.plugin.getChoppingManager();
         SaplingManager saplingManager = this.plugin.getSaplingManager();
         VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
-        HookManager hookManager = this.plugin.getHookManager();
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
@@ -85,7 +91,8 @@ public class TreeFallManager extends Manager implements Listener {
         if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool))
             isValid = false;
 
-        if (!hookManager.isUsingAbilityHooks(player))
+        if (ConfigurationManager.Setting.HOOKS_REQUIRE_ABILITY_ACTIVE.getBoolean()
+                && McMMOHook.isUsingTreeFeller(player))
             isValid = false;
 
         boolean alwaysReplantSapling = ConfigurationManager.Setting.ALWAYS_REPLANT_SAPLING.getBoolean();
@@ -131,7 +138,15 @@ public class TreeFallManager extends Manager implements Listener {
         if (!player.getGameMode().equals(GameMode.CREATIVE))
             versionAdapter.applyToolDurability(player, toolDamage);
 
-        hookManager.applyExperienceHooks(player, detectedTree.getDetectedTreeBlocks());
+        McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
+                .map(ITreeBlock::getBlock).collect(Collectors.toList()));
+
+        for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
+            if (JobsHook.isEnabled() && treeBlock.getTreeBlockType() == TreeBlockType.LOG)
+                JobsHook.breakBlock(player, block);
+            LogManager.logRemoval(player, treeBlock.getBlock());
+        }
+
         treeAnimationManager.runAnimation(detectedTree, player);
         treeDefinitionManager.dropTreeLoot(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock(), player, false, true);
 

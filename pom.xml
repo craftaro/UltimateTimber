@@ -11,12 +11,6 @@
         <module>UltimateTimber/Plugin</module>
         <module>UltimateTimber-Adapter/Current</module>
         <module>UltimateTimber-Adapter/Legacy</module>
-        <module>UltimateTimber-Hook/Jobs</module>
-        <module>UltimateTimber-Hook/McMMO</module>
-        <module>UltimateTimber-Hook/McMMOClassic13</module>
-        <module>UltimateTimber-Hook/McMMOClassic12</module>
-        <module>UltimateTimber-Hook/McMMOClassic8</module>
-        <module>UltimateTimber-Hook/CoreProtect</module>
     </modules>
 
     <repositories>

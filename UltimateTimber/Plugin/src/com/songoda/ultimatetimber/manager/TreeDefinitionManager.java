@@ -1,5 +1,6 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.hooks.McMMOHook;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.adapter.VersionAdapter;
@@ -246,7 +247,6 @@ public class TreeDefinitionManager extends Manager {
      */
     public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch, boolean isForEntireTree) {
         VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
-        HookManager hookManager = this.plugin.getHookManager();
 
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
         boolean hasBonusChance = player.hasPermission("ultimatetimber.bonusloot");
@@ -260,7 +260,7 @@ public class TreeDefinitionManager extends Manager {
             toTry.addAll(this.globalEntireTreeLoot);
         } else {
             if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
-                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                 lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
             } else {
@@ -269,7 +269,7 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(treeDefinition.getLogLoot());
                         toTry.addAll(this.globalLogLoot);
                         if (treeDefinition.shouldDropOriginalLog()) {
-                            if (hookManager.shouldApplyDoubleDropsHooks(player))
+                            if (McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                             lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                         }
@@ -278,7 +278,7 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(treeDefinition.getLeafLoot());
                         toTry.addAll(this.globalLeafLoot);
                         if (treeDefinition.shouldDropOriginalLeaf()) {
-                            if (hookManager.shouldApplyDoubleDropsHooks(player))
+                            if (McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                             lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
                         }
@@ -295,13 +295,13 @@ public class TreeDefinitionManager extends Manager {
                 continue;
 
             if (treeLoot.hasItem()) {
-                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.add(treeLoot.getItem());
                 lootedItems.add(treeLoot.getItem());
             }
 
             if (treeLoot.hasCommand()) {
-                if (hookManager.shouldApplyDoubleDropsHooks(player))
+                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedCommands.add(treeLoot.getCommand());
                 lootedCommands.add(treeLoot.getCommand());
             }
@@ -359,5 +359,4 @@ public class TreeDefinitionManager extends Manager {
         double chance = configurationSection.getDouble("chance");
         return new TreeLoot(treeBlockType, item, command, chance);
     }
-
 }
