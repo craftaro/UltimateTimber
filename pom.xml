@@ -2,15 +2,13 @@
 
     <groupId>com.songoda</groupId>
     <artifactId>UltimateTimber</artifactId>
-    <version>2.0.9b</version>
+    <version>2.1</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
     <modules>
         <module>UltimateTimber/Core</module>
         <module>UltimateTimber/Plugin</module>
-        <module>UltimateTimber-Adapter/Current</module>
-        <module>UltimateTimber-Adapter/Legacy</module>
     </modules>
 
     <repositories>

@@ -1,13 +1,13 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.hooks.McMMOHook;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.IBlockData;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
 import com.songoda.ultimatetimber.tree.TreeLoot;
+import com.songoda.ultimatetimber.utils.BlockUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -21,10 +21,10 @@ import java.util.*;
 public class TreeDefinitionManager extends Manager {
 
     private final Random random;
-    private Set<TreeDefinition> treeDefinitions;
-    private Set<IBlockData> globalPlantableSoil;
-    private Set<TreeLoot> globalLogLoot, globalLeafLoot, globalEntireTreeLoot;
-    private Set<ItemStack> globalRequiredTools;
+    private final Set<TreeDefinition> treeDefinitions;
+    private final Set<CompatibleMaterial> globalPlantableSoil;
+    private final Set<TreeLoot> globalLogLoot, globalLeafLoot, globalEntireTreeLoot;
+    private final Set<ItemStack> globalRequiredTools;
 
     public TreeDefinitionManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
@@ -46,7 +46,6 @@ public class TreeDefinitionManager extends Manager {
         this.globalEntireTreeLoot.clear();
         this.globalRequiredTools.clear();
 
-        VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
         ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
         YamlConfiguration config = configurationManager.getConfig();
 
@@ -56,10 +55,10 @@ public class TreeDefinitionManager extends Manager {
         for (String key : treeSection.getKeys(false)) {
             ConfigurationSection tree = treeSection.getConfigurationSection(key);
 
-            Set<IBlockData> logBlockData = new HashSet<>();
-            Set<IBlockData> leafBlockData = new HashSet<>();
-            IBlockData saplingBlockData;
-            Set<IBlockData> plantableSoilBlockData = new HashSet<>();
+            Set<CompatibleMaterial> logMaterials = new HashSet<>();
+            Set<CompatibleMaterial> leafMaterials = new HashSet<>();
+            CompatibleMaterial saplingMaterial;
+            Set<CompatibleMaterial> plantableSoilMaterial = new HashSet<>();
             double maxLogDistanceFromTrunk;
             int maxLeafDistanceFromLog;
             boolean detectLeavesDiagonally;
@@ -70,22 +69,25 @@ public class TreeDefinitionManager extends Manager {
             Set<TreeLoot> entireTreeLoot = new HashSet<>();
             Set<ItemStack> requiredTools = new HashSet<>();
 
-            for (String blockDataString : tree.getStringList("logs")) {
-                IBlockData blockData = versionAdapter.parseBlockDataFromString(blockDataString);
-                if (blockData == null || blockData.getMaterial() == null) continue top;
-                logBlockData.add(blockData);
+            for (String materialString : tree.getStringList("logs")) {
+                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
+                if (material == null || material.getMaterial() == null) continue top;
+                logMaterials.add(material);
             }
 
-            for (String blockDataString : tree.getStringList("leaves")) {
-                IBlockData blockData = versionAdapter.parseBlockDataFromString(blockDataString);
-                if (blockData == null || blockData.getMaterial() == null) continue top;
-                leafBlockData.add(blockData);
+            for (String materialString : tree.getStringList("leaves")) {
+                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
+                if (material == null || material.getMaterial() == null) continue top;
+                leafMaterials.add(material);
             }
 
-            saplingBlockData = versionAdapter.parseBlockDataFromString(tree.getString("sapling"));
+            saplingMaterial = CompatibleMaterial.getMaterial(tree.getString("sapling"));
 
-            for (String blockDataString : tree.getStringList("plantable-soil"))
-                plantableSoilBlockData.add(versionAdapter.parseBlockDataFromString(blockDataString));
+            for (String materialString : tree.getStringList("plantable-soil")) {
+                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
+                if (material == null || material.getMaterial() == null) continue top;
+                plantableSoilMaterial.add(material);
+            }
 
             maxLogDistanceFromTrunk = tree.getDouble("max-log-distance-from-trunk");
             maxLeafDistanceFromLog = tree.getInt("max-leaf-distance-from-log");
@@ -96,53 +98,53 @@ public class TreeDefinitionManager extends Manager {
             ConfigurationSection logLootSection = tree.getConfigurationSection("log-loot");
             if (logLootSection != null)
                 for (String lootKey : logLootSection.getKeys(false))
-                    logLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logLootSection.getConfigurationSection(lootKey)));
+                    logLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, logLootSection.getConfigurationSection(lootKey)));
 
             ConfigurationSection leafLootSection = tree.getConfigurationSection("leaf-loot");
             if (leafLootSection != null)
                 for (String lootKey : leafLootSection.getKeys(false))
-                    leafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
+                    leafLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
 
             ConfigurationSection entireTreeLootSection = tree.getConfigurationSection("entire-tree-loot");
             if (entireTreeLootSection != null)
                 for (String lootKey : entireTreeLootSection.getKeys(false))
-                    entireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, entireTreeLootSection.getConfigurationSection(lootKey)));
+                    entireTreeLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, entireTreeLootSection.getConfigurationSection(lootKey)));
 
             for (String itemStackString : tree.getStringList("required-tools")) {
-                ItemStack tool = versionAdapter.parseItemStackFromString(itemStackString);
-                if (tool == null) continue top;
-                requiredTools.add(tool);
+                CompatibleMaterial material = CompatibleMaterial.getMaterial(itemStackString);
+                if (material == null) continue top;
+                requiredTools.add(material.getItem());
             }
 
-            this.treeDefinitions.add(new TreeDefinition(key, logBlockData, leafBlockData, saplingBlockData, plantableSoilBlockData, maxLogDistanceFromTrunk,
+            this.treeDefinitions.add(new TreeDefinition(key, logMaterials, leafMaterials, saplingMaterial, plantableSoilMaterial, maxLogDistanceFromTrunk,
                     maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools));
         }
 
         // Load global plantable soil
-        for (String blockDataString : config.getStringList("global-plantable-soil"))
-            this.globalPlantableSoil.add(versionAdapter.parseBlockDataFromString(blockDataString));
+        for (String material : config.getStringList("global-plantable-soil"))
+            this.globalPlantableSoil.add(CompatibleMaterial.getMaterial(material));
 
         // Load global log drops
         ConfigurationSection logSection = config.getConfigurationSection("global-log-loot");
         if (logSection != null)
             for (String lootKey : logSection.getKeys(false))
-                this.globalLogLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, logSection.getConfigurationSection(lootKey)));
+                this.globalLogLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, logSection.getConfigurationSection(lootKey)));
 
         // Load global leaf drops
         ConfigurationSection leafSection = config.getConfigurationSection("global-leaf-loot");
         if (leafSection != null)
             for (String lootKey : leafSection.getKeys(false))
-                this.globalLeafLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
+                this.globalLeafLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
 
         // Load global entire tree drops
         ConfigurationSection entireTreeSection = config.getConfigurationSection("global-entire-tree-loot");
         if (entireTreeSection != null)
             for (String lootKey : entireTreeSection.getKeys(false))
-                this.globalEntireTreeLoot.add(this.getTreeLootEntry(versionAdapter, TreeBlockType.LOG, entireTreeSection.getConfigurationSection(lootKey)));
+                this.globalEntireTreeLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, entireTreeSection.getConfigurationSection(lootKey)));
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools")) {
-            ItemStack tool = versionAdapter.parseItemStackFromString(itemStackString);
+            ItemStack tool = CompatibleMaterial.getMaterial(itemStackString).getItem();
             if (tool == null) continue;
             this.globalRequiredTools.add(tool);
         }
@@ -176,8 +178,8 @@ public class TreeDefinitionManager extends Manager {
         switch (treeBlockType) {
             case LOG:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
-                    for (IBlockData logBlockData : treeDefinition.getLogBlockData()) {
-                        if (logBlockData.isSimilar(block)) {
+                    for (CompatibleMaterial material : treeDefinition.getLogMaterial()) {
+                        if (material.equals(CompatibleMaterial.getMaterial(block))) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -186,8 +188,8 @@ public class TreeDefinitionManager extends Manager {
                 break;
             case LEAF:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
-                    for (IBlockData leafBlockData : treeDefinition.getLeafBlockData()) {
-                        if (leafBlockData.isSimilar(block)) {
+                    for (CompatibleMaterial material : treeDefinition.getLeafMaterial()) {
+                        if (material.equals(CompatibleMaterial.getMaterial(block))) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -246,8 +248,6 @@ public class TreeDefinitionManager extends Manager {
      * @param isForEntireTree If the loot is for the entire tree
      */
     public void dropTreeLoot(TreeDefinition treeDefinition, ITreeBlock treeBlock, Player player, boolean hasSilkTouch, boolean isForEntireTree) {
-        VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
-
         boolean addToInventory = ConfigurationManager.Setting.ADD_ITEMS_TO_INVENTORY.getBoolean();
         boolean hasBonusChance = player.hasPermission("ultimatetimber.bonusloot");
         List<ItemStack> lootedItems = new ArrayList<>();
@@ -261,8 +261,8 @@ public class TreeDefinitionManager extends Manager {
         } else {
             if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
                 if (McMMOHook.hasWoodcuttingDoubleDrops(player))
-                    lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                    lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
             } else {
                 switch (treeBlock.getTreeBlockType()) {
                     case LOG:
@@ -270,8 +270,8 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLogLoot);
                         if (treeDefinition.shouldDropOriginalLog()) {
                             if (McMMOHook.hasWoodcuttingDoubleDrops(player))
-                                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                                lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                            lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
                         break;
                     case LEAF:
@@ -279,8 +279,8 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLeafLoot);
                         if (treeDefinition.shouldDropOriginalLeaf()) {
                             if (McMMOHook.hasWoodcuttingDoubleDrops(player))
-                                lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
-                            lootedItems.addAll(versionAdapter.getBlockDrops(treeDefinition, treeBlock));
+                                lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                            lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
                         break;
                 }
@@ -290,6 +290,7 @@ public class TreeDefinitionManager extends Manager {
         // Roll the dice
         double bonusLootMultiplier = ConfigurationManager.Setting.BONUS_LOOT_MULTIPLIER.getDouble();
         for (TreeLoot treeLoot : toTry) {
+            if (treeLoot == null) continue;
             double chance = hasBonusChance ? treeLoot.getChance() * bonusLootMultiplier : treeLoot.getChance();
             if (this.random.nextDouble() > chance / 100)
                 continue;
@@ -337,9 +338,9 @@ public class TreeDefinitionManager extends Manager {
      * @param treeDefinition The TreeDefinition
      * @return A Set of IBlockData of plantable soil
      */
-    public Set<IBlockData> getPlantableSoilBlockData(TreeDefinition treeDefinition) {
-        Set<IBlockData> plantableSoilBlockData = new HashSet<>();
-        plantableSoilBlockData.addAll(treeDefinition.getPlantableSoilBlockData());
+    public Set<CompatibleMaterial> getPlantableSoilMaterial(TreeDefinition treeDefinition) {
+        Set<CompatibleMaterial> plantableSoilBlockData = new HashSet<>();
+        plantableSoilBlockData.addAll(treeDefinition.getPlantableSoilMaterial());
         plantableSoilBlockData.addAll(this.globalPlantableSoil);
         return plantableSoilBlockData;
     }
@@ -347,14 +348,15 @@ public class TreeDefinitionManager extends Manager {
     /**
      * Gets a TreeLoot entry from a ConfigurationSection
      *
-     * @param versionAdapter       The VersionAdapter to use
      * @param treeBlockType        The TreeBlockType to use
      * @param configurationSection The ConfigurationSection
      * @return A TreeLoot entry from the section
      */
-    private TreeLoot getTreeLootEntry(VersionAdapter versionAdapter, TreeBlockType treeBlockType, ConfigurationSection configurationSection) {
+    private TreeLoot getTreeLootEntry(TreeBlockType treeBlockType, ConfigurationSection configurationSection) {
         String material = configurationSection.getString("material");
-        ItemStack item = material != null ? versionAdapter.parseItemStackFromString(material) : null;
+        CompatibleMaterial compatibleMaterial = material == null ? null : CompatibleMaterial.getMaterial(material);
+
+        ItemStack item = compatibleMaterial == null ? null : compatibleMaterial.getItem();
         String command = configurationSection.getString("command");
         double chance = configurationSection.getDouble("chance");
         return new TreeLoot(treeBlockType, item, command, chance);

@@ -1,10 +1,8 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapterType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.List;
@@ -181,8 +179,7 @@ public class ConfigurationManager extends Manager {
 
         // Create the new config if it doesn't exist
         if (!configFile.exists()) {
-            boolean isCurrentConfig = this.plugin.getVersionAdapter().getVersionAdapterType() == VersionAdapterType.CURRENT;
-            String newConfigName = "config-" + (isCurrentConfig ? "current" : "legacy") + ".yml";
+            String newConfigName = "config.yml";
             File newConfigFile = new File(this.plugin.getDataFolder() + "/" + newConfigName);
             this.plugin.saveResource(newConfigName, false);
             newConfigFile.renameTo(configFile);

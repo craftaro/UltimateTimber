@@ -70,4 +70,13 @@ public class TreeLoot {
         return this.chance;
     }
 
+    @Override
+    public String toString() {
+        return "TreeLoot{" +
+                "treeBlockType=" + treeBlockType +
+                ", item=" + item +
+                ", command='" + command + '\'' +
+                ", chance=" + chance +
+                '}';
+    }
 }

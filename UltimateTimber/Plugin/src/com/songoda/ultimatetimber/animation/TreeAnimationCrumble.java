@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.animation;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
@@ -10,6 +10,9 @@ import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import com.songoda.ultimatetimber.utils.BlockUtils;
+import com.songoda.ultimatetimber.utils.ParticleUtils;
+import com.songoda.ultimatetimber.utils.SoundUtils;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,7 +32,6 @@ public class TreeAnimationCrumble extends TreeAnimation {
     @Override
     public void playAnimation(Runnable whenFinished) {
         UltimateTimber ultimateTimber = UltimateTimber.getInstance();
-        VersionAdapter versionAdapter = ultimateTimber.getVersionAdapter();
 
         boolean useCustomSound = ConfigurationManager.Setting.USE_CUSTOM_SOUNDS.getBoolean();
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
@@ -63,10 +65,10 @@ public class TreeAnimationCrumble extends TreeAnimation {
                     for (int i = 0; i < 3 && !partition.isEmpty(); i++) {
                         ITreeBlock<Block> treeBlock = partition.remove(0);
                         if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
-                            if (td.getLogBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                            if (td.getLogMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
                                 continue;
                         } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
-                            if (td.getLeafBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                            if (td.getLeafMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
                                 continue;
                         }
 
@@ -74,7 +76,7 @@ public class TreeAnimationCrumble extends TreeAnimation {
                         if (fallingTreeBlock == null)
                             continue;
 
-                        versionAdapter.toggleGravityFallingBlock(fallingTreeBlock.getBlock(), true);
+                        BlockUtils.toggleGravityFallingBlock(fallingTreeBlock.getBlock(), true);
                         fallingTreeBlock.getBlock().setVelocity(Vector.getRandom().setY(0).subtract(new Vector(0.5, 0, 0.5)).multiply(0.15));
                         TreeAnimationCrumble.this.fallingTreeBlocks.add(fallingTreeBlock);
 
@@ -82,9 +84,9 @@ public class TreeAnimationCrumble extends TreeAnimation {
                             TreeAnimationCrumble.this.fallingTreeBlocks = new TreeBlockSet<>(fallingTreeBlock);
 
                         if (useCustomSound)
-                            versionAdapter.playLandingSound(treeBlock);
+                            SoundUtils.playLandingSound(treeBlock);
                         if (useCustomParticles)
-                            versionAdapter.playFallingParticles(td, treeBlock);
+                            ParticleUtils.playFallingParticles(treeBlock);
                     }
 
                     if (partition.isEmpty()) {

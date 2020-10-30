@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.animation;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
 import com.songoda.ultimatetimber.tree.DetectedTree;
@@ -9,6 +9,8 @@ import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import com.songoda.ultimatetimber.utils.ParticleUtils;
+import com.songoda.ultimatetimber.utils.SoundUtils;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -30,7 +32,6 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
     public void playAnimation(Runnable whenFinished) {
         UltimateTimber ultimateTimber = UltimateTimber.getInstance();
         TreeDefinitionManager treeDefinitionManager = ultimateTimber.getTreeDefinitionManager();
-        VersionAdapter versionAdapter = ultimateTimber.getVersionAdapter();
 
         boolean useCustomSound = ConfigurationManager.Setting.USE_CUSTOM_SOUNDS.getBoolean();
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
@@ -71,19 +72,19 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
                 if (!toDestroy.isEmpty()) {
                     ITreeBlock<Block> first = toDestroy.get(0);
                     if (useCustomSound)
-                        versionAdapter.playLandingSound(first);
+                        SoundUtils.playLandingSound(first);
 
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
                         if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
-                            if (td.getLogBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                            if (td.getLogMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
                                 continue;
                         } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
-                            if (td.getLeafBlockData().stream().noneMatch(x -> x.isSimilar(treeBlock.getBlock())))
+                            if (td.getLeafMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
                                 continue;
                         }
 
                         if (useCustomParticles)
-                            versionAdapter.playFallingParticles(td, treeBlock);
+                            ParticleUtils.playFallingParticles(treeBlock);
                         treeDefinitionManager.dropTreeLoot(td, treeBlock, p, hst, false);
                         TreeAnimationDisintegrate.this.replaceBlock((TreeBlock) treeBlock);
                     }
