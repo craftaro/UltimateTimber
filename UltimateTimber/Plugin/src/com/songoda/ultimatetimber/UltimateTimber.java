@@ -5,28 +5,20 @@ import com.songoda.core.SongodaPlugin;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
 import com.songoda.core.hooks.LogManager;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
-import com.songoda.ultimatetimber.adapter.current.CurrentAdapter;
-import com.songoda.ultimatetimber.adapter.legacy.LegacyAdapter;
 import com.songoda.ultimatetimber.commands.CommandReload;
 import com.songoda.ultimatetimber.commands.CommandToggle;
 import com.songoda.ultimatetimber.manager.*;
-import com.songoda.ultimatetimber.utils.NMSUtil;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Esophose
- */
 public class UltimateTimber extends SongodaPlugin {
 
     private static UltimateTimber INSTANCE;
 
     private Set<Manager> managers;
 
-    private VersionAdapter versionAdapter;
     private ChoppingManager choppingManager;
     private ConfigurationManager configurationManager;
     private com.songoda.core.commands.CommandManager commandManager;
@@ -73,7 +65,6 @@ public class UltimateTimber extends SongodaPlugin {
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
         // Load version adapter and managers
-        this.setupVersionAdapter();
         this.reloadConfig();
     }
 
@@ -107,17 +98,6 @@ public class UltimateTimber extends SongodaPlugin {
     }
 
     /**
-     * Sets up the version adapter
-     */
-    private void setupVersionAdapter() {
-        if (NMSUtil.getVersionNumber() > 12) {
-            this.versionAdapter = new CurrentAdapter();
-        } else {
-            this.versionAdapter = new LegacyAdapter();
-        }
-    }
-
-    /**
      * Registers a manager
      *
      * @param managerClass The class of the manager to create a new instance of
@@ -133,15 +113,6 @@ public class UltimateTimber extends SongodaPlugin {
             ex.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Gets the active version adapter being used
-     *
-     * @return The VersionAdapter being used for the plugin
-     */
-    public VersionAdapter getVersionAdapter() {
-        return this.versionAdapter;
     }
 
     /**

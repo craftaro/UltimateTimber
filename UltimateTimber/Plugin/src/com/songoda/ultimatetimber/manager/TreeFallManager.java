@@ -1,10 +1,11 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.compatibility.CompatibleHand;
 import com.songoda.core.hooks.JobsHook;
 import com.songoda.core.hooks.LogManager;
 import com.songoda.core.hooks.McMMOHook;
+import com.songoda.core.utils.ItemUtils;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.misc.OnlyToppleWhile;
@@ -50,11 +51,10 @@ public class TreeFallManager extends Manager implements Listener {
         TreeAnimationManager treeAnimationManager = this.plugin.getTreeAnimationManager();
         ChoppingManager choppingManager = this.plugin.getChoppingManager();
         SaplingManager saplingManager = this.plugin.getSaplingManager();
-        VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        ItemStack tool = versionAdapter.getItemInHand(player);
+        ItemStack tool = CompatibleHand.getHand(event).getItem(player);
 
         // Protect saplings
         if (saplingManager.isSaplingProtected(block)) {
@@ -115,7 +115,7 @@ public class TreeFallManager extends Manager implements Listener {
             return;
 
         int toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
-        if (ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !versionAdapter.hasEnoughDurability(tool, toolDamage))
+        if (ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !ItemUtils.hasEnoughDurability(tool, toolDamage))
             return;
 
         // Trigger fall event
@@ -136,7 +136,7 @@ public class TreeFallManager extends Manager implements Listener {
         }
 
         if (!player.getGameMode().equals(GameMode.CREATIVE))
-            versionAdapter.applyToolDurability(player, toolDamage);
+            ItemUtils.addDamage(tool, toolDamage);
 
         McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
                 .map(ITreeBlock::getBlock).collect(Collectors.toList()));

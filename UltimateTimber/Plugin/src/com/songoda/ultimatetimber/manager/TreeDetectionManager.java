@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.tree.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -129,8 +129,8 @@ public class TreeDetectionManager extends Manager {
                 Block blockBelow = block.getRelative(BlockFace.DOWN);
                 boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, null, blockBelow);
                 boolean blockBelowIsSoil = false;
-                for (IBlockData blockData : treeDefinitionManager.getPlantableSoilBlockData(actualTreeDefinition)) {
-                    if (blockData.isSimilar(blockBelow)) {
+                for (CompatibleMaterial material : treeDefinitionManager.getPlantableSoilMaterial(actualTreeDefinition)) {
+                    if (material.equals(CompatibleMaterial.getMaterial(blockBelow))) {
                         blockBelowIsSoil = true;
                         break;
                     }
@@ -227,8 +227,8 @@ public class TreeDetectionManager extends Manager {
         // Check if it matches the tree definition
         boolean isCorrectType = false;
         for (TreeDefinition treeDefinition : treeDefinitions) {
-            for (IBlockData logBlockData : treeDefinition.getLogBlockData()) {
-                if (logBlockData.isSimilar(block)) {
+            for (CompatibleMaterial material : treeDefinition.getLogMaterial()) {
+                if (material.equals(CompatibleMaterial.getMaterial(block))) {
                     isCorrectType = true;
                     break;
                 }
@@ -271,8 +271,8 @@ public class TreeDetectionManager extends Manager {
         // Check if it matches the tree definition
         boolean isCorrectType = false;
         for (TreeDefinition treeDefinition : treeDefinitions) {
-            for (IBlockData leafBlockData : treeDefinition.getLeafBlockData()) {
-                if (leafBlockData.isSimilar(block)) {
+            for (CompatibleMaterial material : treeDefinition.getLeafMaterial()) {
+                if (material.equals(CompatibleMaterial.getMaterial(block))) {
                     isCorrectType = true;
                     break;
                 }

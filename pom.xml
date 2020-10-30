@@ -9,8 +9,6 @@
     <modules>
         <module>UltimateTimber/Core</module>
         <module>UltimateTimber/Plugin</module>
-        <module>UltimateTimber-Adapter/Current</module>
-        <module>UltimateTimber-Adapter/Legacy</module>
     </modules>
 
     <repositories>

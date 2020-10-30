@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.tree;
 
-import com.songoda.ultimatetimber.adapter.IBlockData;
+import com.songoda.core.compatibility.CompatibleMaterial;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -9,8 +9,8 @@ import java.util.Set;
 public class TreeDefinition {
 
     private final String key;
-    private final Set<IBlockData> logBlockData, leafBlockData, plantableSoilBlockData;
-    private final IBlockData saplingBlockData;
+    private final Set<CompatibleMaterial> logMaterial, leafMaterial, plantableSoilMaterial;
+    private final CompatibleMaterial saplingMaterial;
     private final double maxLogDistanceFromTrunk;
     private final int maxLeafDistanceFromLog;
     private final boolean detectLeavesDiagonally;
@@ -18,15 +18,15 @@ public class TreeDefinition {
     private final Set<TreeLoot> logLoot, leafLoot, entireTreeLoot;
     private final Set<ItemStack> requiredTools;
 
-    public TreeDefinition(String key, Set<IBlockData> logBlockData, Set<IBlockData> leafBlockData, IBlockData saplingBlockData,
-                          Set<IBlockData> plantableSoilBlockData, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
+    public TreeDefinition(String key, Set<CompatibleMaterial> logMaterial, Set<CompatibleMaterial> leafMaterial, CompatibleMaterial saplingMaterial,
+                          Set<CompatibleMaterial> plantableSoilMaterial, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
                           boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
                           Set<TreeLoot> leafLoot, Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools) {
         this.key = key;
-        this.logBlockData = logBlockData;
-        this.leafBlockData = leafBlockData;
-        this.saplingBlockData = saplingBlockData;
-        this.plantableSoilBlockData = plantableSoilBlockData;
+        this.logMaterial = logMaterial;
+        this.leafMaterial = leafMaterial;
+        this.saplingMaterial = saplingMaterial;
+        this.plantableSoilMaterial = plantableSoilMaterial;
         this.maxLogDistanceFromTrunk = maxLogDistanceFromTrunk;
         this.maxLeafDistanceFromLog = maxLeafDistanceFromLog;
         this.detectLeavesDiagonally = detectLeavesDiagonally;
@@ -50,37 +50,37 @@ public class TreeDefinition {
     /**
      * Gets a set of valid log block data for this TreeDefinition
      *
-     * @return A Set of IBlockData
+     * @return A Set of CompatibleMaterial
      */
-    public Set<IBlockData> getLogBlockData() {
-        return Collections.unmodifiableSet(this.logBlockData);
+    public Set<CompatibleMaterial> getLogMaterial() {
+        return Collections.unmodifiableSet(this.logMaterial);
     }
 
     /**
      * Gets a set of valid leaf block data for this TreeDefinition
      *
-     * @return A Set of IBlockData
+     * @return A Set of CompatibleMaterial
      */
-    public Set<IBlockData> getLeafBlockData() {
-        return Collections.unmodifiableSet(this.leafBlockData);
+    public Set<CompatibleMaterial> getLeafMaterial() {
+        return Collections.unmodifiableSet(this.leafMaterial);
     }
 
     /**
      * Gets the sapling block data of this TreeDefinition
      *
-     * @return An IBlockData instance for the sapling
+     * @return An CompatibleMaterial instance for the sapling
      */
-    public IBlockData getSaplingBlockData() {
-        return this.saplingBlockData;
+    public CompatibleMaterial getSaplingMaterial() {
+        return this.saplingMaterial;
     }
 
     /**
      * Gets a set of plantable soil block data for this TreeDefinition
      *
-     * @return A Set of IBlockData
+     * @return A Set of CompatibleMaterial
      */
-    public Set<IBlockData> getPlantableSoilBlockData() {
-        return Collections.unmodifiableSet(this.plantableSoilBlockData);
+    public Set<CompatibleMaterial> getPlantableSoilMaterial() {
+        return Collections.unmodifiableSet(this.plantableSoilMaterial);
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.IBlockData;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
@@ -84,8 +84,8 @@ public class SaplingManager extends Manager {
         Block block = treeBlock.getLocation().getBlock();
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         boolean isValidSoil = false;
-        for (IBlockData soilBlockData : treeDefinitionManager.getPlantableSoilBlockData(treeDefinition)) {
-            if (soilBlockData.isSimilar(blockBelow)) {
+        for (CompatibleMaterial soilMaterial : treeDefinitionManager.getPlantableSoilMaterial(treeDefinition)) {
+            if (soilMaterial.equals(CompatibleMaterial.getMaterial(blockBelow))) {
                 isValidSoil = true;
                 break;
             }
@@ -94,8 +94,8 @@ public class SaplingManager extends Manager {
         if (!isValidSoil)
             return;
 
-        IBlockData saplingBlockData = treeDefinition.getSaplingBlockData();
-        saplingBlockData.setBlock(block);
+        CompatibleMaterial material = treeDefinition.getSaplingMaterial();
+        material.applyToBlock(block);
 
         int cooldown = ConfigurationManager.Setting.REPLANT_SAPLINGS_COOLDOWN.getInt();
         if (cooldown != 0) {

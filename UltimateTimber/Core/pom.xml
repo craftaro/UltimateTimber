@@ -16,8 +16,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.15</version>
+            <version>1.16.2</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.songoda</groupId>
+            <artifactId>SongodaCore</artifactId>
+            <version>LATEST</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

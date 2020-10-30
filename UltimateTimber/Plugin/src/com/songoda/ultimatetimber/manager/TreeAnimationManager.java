@@ -1,7 +1,6 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
 import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
 import com.songoda.ultimatetimber.animation.TreeAnimationDisintegrate;
@@ -11,6 +10,8 @@ import com.songoda.ultimatetimber.animation.TreeAnimationType;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
+import com.songoda.ultimatetimber.utils.ParticleUtils;
+import com.songoda.ultimatetimber.utils.SoundUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -71,7 +72,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * Plays an animation for toppling a tree
      *
      * @param detectedTree The DetectedTree
-     * @param player The Player who toppled the tree
+     * @param player       The Player who toppled the tree
      */
     public void runAnimation(DetectedTree detectedTree, Player player) {
         switch (TreeAnimationType.fromString(ConfigurationManager.Setting.TREE_ANIMATION_TYPE.getString())) {
@@ -141,19 +142,18 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * Reacts to a falling block hitting the ground
      *
      * @param treeAnimation The tree animation for the falling block
-     * @param treeBlock The tree block to impact
+     * @param treeBlock     The tree block to impact
      */
     public void runFallingBlockImpact(TreeAnimation treeAnimation, ITreeBlock<FallingBlock> treeBlock) {
         TreeDefinitionManager treeDefinitionManager = this.plugin.getTreeDefinitionManager();
-        VersionAdapter versionAdapter = this.plugin.getVersionAdapter();
         boolean useCustomSound = ConfigurationManager.Setting.USE_CUSTOM_SOUNDS.getBoolean();
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
         TreeDefinition treeDefinition = treeAnimation.getDetectedTree().getTreeDefinition();
 
         if (useCustomParticles)
-            versionAdapter.playLandingParticles(treeDefinition, treeBlock);
+            ParticleUtils.playLandingParticles(treeBlock);
         if (useCustomSound)
-            versionAdapter.playLandingSound(treeBlock);
+            SoundUtils.playLandingSound(treeBlock);
 
         treeDefinitionManager.dropTreeLoot(treeDefinition, treeBlock, treeAnimation.getPlayer(), treeAnimation.hasSilkTouch(), false);
         this.plugin.getSaplingManager().replantSaplingWithChance(treeDefinition, treeBlock);
@@ -173,7 +173,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             int damage = ConfigurationManager.Setting.FALLING_BLOCK_DAMAGE.getInt();
             for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
                 if (!(entity instanceof LivingEntity)) continue;
-                ((LivingEntity)entity).damage(damage, fallingBlock);
+                ((LivingEntity) entity).damage(damage, fallingBlock);
             }
         }
 
@@ -187,5 +187,4 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
 
         event.setCancelled(true);
     }
-
 }

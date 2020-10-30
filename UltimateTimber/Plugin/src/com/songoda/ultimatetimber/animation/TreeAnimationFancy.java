@@ -1,7 +1,6 @@
 package com.songoda.ultimatetimber.animation;
 
 import com.songoda.ultimatetimber.UltimateTimber;
-import com.songoda.ultimatetimber.adapter.VersionAdapter;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.TreeAnimationManager;
 import com.songoda.ultimatetimber.tree.DetectedTree;
@@ -9,6 +8,9 @@ import com.songoda.ultimatetimber.tree.FallingTreeBlock;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
+import com.songoda.ultimatetimber.utils.BlockUtils;
+import com.songoda.ultimatetimber.utils.ParticleUtils;
+import com.songoda.ultimatetimber.utils.SoundUtils;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -24,7 +26,6 @@ public class TreeAnimationFancy extends TreeAnimation {
     @Override
     public void playAnimation(Runnable whenFinished) {
         UltimateTimber ultimateTimber = UltimateTimber.getInstance();
-        VersionAdapter versionAdapter = ultimateTimber.getVersionAdapter();
 
         boolean useCustomSound = ConfigurationManager.Setting.USE_CUSTOM_SOUNDS.getBoolean();
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
@@ -33,7 +34,7 @@ public class TreeAnimationFancy extends TreeAnimation {
         FallingTreeBlock initialFallingBlock = this.convertToFallingBlock((TreeBlock)this.detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
 
         if (useCustomSound)
-            versionAdapter.playFallingSound(initialTreeBlock);
+            SoundUtils.playFallingSound(initialTreeBlock);
 
         Vector velocityVector = initialTreeBlock.getLocation().clone().subtract(this.player.getLocation().clone()).toVector().normalize().setY(0);
 
@@ -47,7 +48,7 @@ public class TreeAnimationFancy extends TreeAnimation {
             this.fallingTreeBlocks.add(fallingTreeBlock);
 
             if (useCustomParticles)
-                versionAdapter.playFallingParticles(this.detectedTree.getTreeDefinition(), treeBlock);
+            ParticleUtils.playFallingParticles(treeBlock);
 
             double multiplier = (treeBlock.getLocation().getY() - this.player.getLocation().getY()) * 0.05;
             fallingBlock.setVelocity(velocityVector.clone().multiply(multiplier));
@@ -62,7 +63,7 @@ public class TreeAnimationFancy extends TreeAnimation {
                 if (this.timer == 0) {
                     for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationFancy.this.fallingTreeBlocks.getAllTreeBlocks()) {
                         FallingBlock fallingBlock = fallingTreeBlock.getBlock();
-                        versionAdapter.toggleGravityFallingBlock(fallingBlock, true);
+                        BlockUtils.toggleGravityFallingBlock(fallingBlock, true);
                         fallingBlock.setVelocity(fallingBlock.getVelocity().multiply(1.5));
                     }
                 }
