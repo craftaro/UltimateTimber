@@ -457,3 +457,20 @@ global-required-tools:
   - GOLDEN_AXE
   - DIAMOND_AXE
   - NETHERITE_AXE
+
+# Require the custom axe
+# Applies to all tree types
+global-required-axe: false
+
+# Axe item
+required-axe:
+  type: DIAMOND_AXE
+  name: '&aAn Epic Axe'
+  lore:
+    - "&7This axe... it's awesome."
+    - "&7It can chop down trees real fast."
+  enchants:
+    - 'DURABILITY:3'
+    - 'DIG_SPEED:5'
+  # NBT to identify the axe by.
+  nbt: 'ultimatetimber_axe'

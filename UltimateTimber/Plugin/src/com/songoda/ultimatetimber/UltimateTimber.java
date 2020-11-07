@@ -5,9 +5,18 @@ import com.songoda.core.SongodaPlugin;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
 import com.songoda.core.hooks.LogManager;
+import com.songoda.ultimatetimber.commands.CommandGiveAxe;
 import com.songoda.ultimatetimber.commands.CommandReload;
 import com.songoda.ultimatetimber.commands.CommandToggle;
-import com.songoda.ultimatetimber.manager.*;
+import com.songoda.ultimatetimber.manager.ChoppingManager;
+import com.songoda.ultimatetimber.manager.ConfigurationManager;
+import com.songoda.ultimatetimber.manager.Manager;
+import com.songoda.ultimatetimber.manager.PlacedBlockManager;
+import com.songoda.ultimatetimber.manager.SaplingManager;
+import com.songoda.ultimatetimber.manager.TreeAnimationManager;
+import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
+import com.songoda.ultimatetimber.manager.TreeDetectionManager;
+import com.songoda.ultimatetimber.manager.TreeFallManager;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,8 +58,10 @@ public class UltimateTimber extends SongodaPlugin {
         // Setup plugin commands
         this.commandManager = new com.songoda.core.commands.CommandManager(this);
         this.commandManager.addMainCommand("ut")
-                .addSubCommands(new CommandReload(this),
-                        new CommandToggle(this)
+                .addSubCommands(
+                        new CommandReload(this),
+                        new CommandToggle(this),
+                        new CommandGiveAxe(this)
                 );
 
         // Register managers
