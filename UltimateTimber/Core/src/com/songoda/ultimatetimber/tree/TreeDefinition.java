@@ -17,11 +17,12 @@ public class TreeDefinition {
     private final boolean dropOriginalLog, dropOriginalLeaf;
     private final Set<TreeLoot> logLoot, leafLoot, entireTreeLoot;
     private final Set<ItemStack> requiredTools;
+    private final boolean requiredAxe;
 
     public TreeDefinition(String key, Set<CompatibleMaterial> logMaterial, Set<CompatibleMaterial> leafMaterial, CompatibleMaterial saplingMaterial,
                           Set<CompatibleMaterial> plantableSoilMaterial, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
                           boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
-                          Set<TreeLoot> leafLoot, Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools) {
+                          Set<TreeLoot> leafLoot, Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools, boolean requiredAxe) {
         this.key = key;
         this.logMaterial = logMaterial;
         this.leafMaterial = leafMaterial;
@@ -36,6 +37,7 @@ public class TreeDefinition {
         this.leafLoot = leafLoot;
         this.entireTreeLoot = entireTreeLoot;
         this.requiredTools = requiredTools;
+        this.requiredAxe = requiredAxe;
     }
 
     /**
@@ -164,4 +166,12 @@ public class TreeDefinition {
         return Collections.unmodifiableSet(this.requiredTools);
     }
 
+    /**
+     * Returns whether or not does this TreeDefinition require a custom axe.
+     *
+     * @return True if the TreeDefinition requires a custom axe
+     */
+    public boolean isRequiredAxe() {
+        return requiredAxe;
+    }
 }
