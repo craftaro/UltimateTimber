@@ -207,6 +207,7 @@ trees:
         chance: 0.5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   spruce:
     logs:
       - SPRUCE_LOG
@@ -229,6 +230,7 @@ trees:
         chance: 5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   birch:
     logs:
       - BIRCH_LOG
@@ -251,6 +253,7 @@ trees:
         chance: 5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   jungle:
     logs:
       - JUNGLE_LOG
@@ -273,6 +276,7 @@ trees:
         chance: 2.5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   acacia:
     logs:
       - ACACIA_LOG
@@ -295,6 +299,7 @@ trees:
         chance: 5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   dark_oak:
     logs:
       - DARK_OAK_LOG
@@ -320,6 +325,7 @@ trees:
         chance: 0.5
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   brown_mushroom:
     logs:
       - MUSHROOM_STEM
@@ -340,6 +346,7 @@ trees:
         chance: 25
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   red_mushroom:
     logs:
       - MUSHROOM_STEM
@@ -360,6 +367,7 @@ trees:
         chance: 25
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   huge_crimson_fungus:
     logs:
       - CRIMSON_STEM
@@ -381,6 +389,7 @@ trees:
     leaf-loot: []
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
   huge_warpped_fungus:
     logs:
       - WARPED_STEM
@@ -402,6 +411,7 @@ trees:
     leaf-loot: []
     entire-tree-loot: []
     required-tools: []
+    required-axe: false
 
 # All soil types that the tree type's saplings can be planted on
 global-plantable-soil:
