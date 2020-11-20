@@ -70,7 +70,7 @@ public class CommandGiveAxe extends AbstractCommand {
 
     @Override
     public String getSyntax() {
-        return "give <player/me> (amount)";
+        return "give <player/me>";
     }
 
     @Override
