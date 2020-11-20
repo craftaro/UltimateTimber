@@ -24,11 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TreeDefinitionManager extends Manager {
@@ -198,11 +194,6 @@ public class TreeDefinitionManager extends Manager {
 
         ItemStack item = material.getItem();
 
-        // Apply NBT
-        NBTItem nbtItem = NmsManager.getNbt().of(item);
-        nbtItem.set(requiredAxeKey, true);
-        item = nbtItem.finish();
-
         // Add display name and lore
         String displayName = TextUtils.formatText(config.getString("required-axe.name"));
         List<String> lore = config.getStringList("required-axe.lore").stream()
@@ -239,6 +230,12 @@ public class TreeDefinitionManager extends Manager {
         }
 
         item.setItemMeta(meta);
+
+        // Apply NBT
+        NBTItem nbtItem = NmsManager.getNbt().of(item);
+        nbtItem.set(requiredAxeKey, true);
+        item = nbtItem.finish();
+
         this.requiredAxe = item;
     }
 
