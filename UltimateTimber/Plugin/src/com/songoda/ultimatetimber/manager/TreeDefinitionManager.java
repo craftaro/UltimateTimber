@@ -1,7 +1,12 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.google.common.base.Strings;
 import com.songoda.core.compatibility.CompatibleMaterial;
+import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.core.hooks.McMMOHook;
+import com.songoda.core.nms.NmsManager;
+import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.utils.TextUtils;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
@@ -10,13 +15,17 @@ import com.songoda.ultimatetimber.tree.TreeLoot;
 import com.songoda.ultimatetimber.utils.BlockUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TreeDefinitionManager extends Manager {
 
@@ -25,6 +34,10 @@ public class TreeDefinitionManager extends Manager {
     private final Set<CompatibleMaterial> globalPlantableSoil;
     private final Set<TreeLoot> globalLogLoot, globalLeafLoot, globalEntireTreeLoot;
     private final Set<ItemStack> globalRequiredTools;
+
+    private boolean globalAxeRequired;
+    private ItemStack requiredAxe;
+    private String requiredAxeKey;
 
     public TreeDefinitionManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
@@ -68,6 +81,7 @@ public class TreeDefinitionManager extends Manager {
             Set<TreeLoot> leafLoot = new HashSet<>();
             Set<TreeLoot> entireTreeLoot = new HashSet<>();
             Set<ItemStack> requiredTools = new HashSet<>();
+            boolean requiredAxe;
 
             for (String materialString : tree.getStringList("logs")) {
                 CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
@@ -116,8 +130,10 @@ public class TreeDefinitionManager extends Manager {
                 requiredTools.add(material.getItem());
             }
 
+            requiredAxe = tree.getBoolean("required-axe", false);
+
             this.treeDefinitions.add(new TreeDefinition(key, logMaterials, leafMaterials, saplingMaterial, plantableSoilMaterial, maxLogDistanceFromTrunk,
-                    maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools));
+                    maxLeafDistanceFromLog, detectLeavesDiagonally, dropOriginalLog, dropOriginalLeaf, logLoot, leafLoot, entireTreeLoot, requiredTools, requiredAxe));
         }
 
         // Load global plantable soil
@@ -148,6 +164,95 @@ public class TreeDefinitionManager extends Manager {
             if (tool == null) continue;
             this.globalRequiredTools.add(tool);
         }
+
+        this.globalAxeRequired = config.getBoolean("global-required-axe", false);
+
+        // Load required axe
+        if (config.contains("required-axe"))
+            loadAxe(config);
+    }
+
+    private void loadAxe(YamlConfiguration config) {
+
+        // Reset the axe loaded, but load the NBT anyway in case someone wanted to use another plugin to give it.
+        this.requiredAxeKey = config.getString("required-axe.nbt");
+        this.requiredAxe = null;
+
+        String typeString = config.getString("required-axe.type");
+
+        if (Strings.isNullOrEmpty(typeString)) {
+            plugin.getLogger().warning("Required-axe has to have a material set.");
+            return;
+        }
+
+        CompatibleMaterial material = CompatibleMaterial.getMaterial(typeString);
+
+        if (material == null) {
+            plugin.getLogger().warning("Material " + typeString + " is invalid.");
+            return;
+        }
+
+        ItemStack item = material.getItem();
+
+        // Add display name and lore
+        String displayName = TextUtils.formatText(config.getString("required-axe.name"));
+        List<String> lore = config.getStringList("required-axe.lore").stream()
+                .map(TextUtils::formatText)
+                .collect(Collectors.toList());
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(displayName);
+        meta.setLore(lore);
+
+        // Enchants
+        for (String enchantString : config.getStringList("required-axe.enchants")) {
+            String[] arr = enchantString.split(":");
+            int level = arr.length > 1 ? Math.max(1, parseInt(arr[1])) : 1;
+
+            // Enchantment#getKey is not present on versions below 1.13
+            Enchantment enchantment;
+            if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13)) {
+                NamespacedKey key = NamespacedKey.minecraft(arr[0].trim().toLowerCase());
+                enchantment = Enchantment.getByKey(key);
+
+                // Try to fall back to #getByName() if someone uses the old names.
+                if (enchantment == null)
+                    enchantment = Enchantment.getByName(arr[0].trim());
+            } else
+                enchantment = Enchantment.getByName(arr[0].trim());
+
+            if (enchantment == null) {
+                plugin.getLogger().warning("Enchantment " + arr[0].trim() + " is invalid.");
+                continue;
+            }
+
+            meta.addEnchant(enchantment, level, true);
+        }
+
+        item.setItemMeta(meta);
+
+        // Apply NBT
+        NBTItem nbtItem = NmsManager.getNbt().of(item);
+        nbtItem.set(requiredAxeKey, true);
+        item = nbtItem.finish();
+
+        this.requiredAxe = item;
+    }
+
+    private int parseInt(String str) {
+        try {
+            return Integer.parseInt(str.trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public ItemStack getRequiredAxe() {
+        return this.requiredAxe;
+    }
+
+    public boolean isGlobalAxeRequired() {
+        return globalAxeRequired;
     }
 
     @Override
@@ -210,13 +315,24 @@ public class TreeDefinitionManager extends Manager {
     public boolean isToolValidForAnyTreeDefinition(ItemStack tool) {
         if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
             return true;
+
+        for (TreeDefinition treeDefinition : this.treeDefinitions) {
+            if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
+                NBTItem nbtItem = NmsManager.getNbt().of(tool);
+                if (nbtItem.has(requiredAxeKey))
+                    return true;
+            }
+        }
+
         for (TreeDefinition treeDefinition : this.treeDefinitions)
             for (ItemStack requiredTool : treeDefinition.getRequiredTools())
                 if (requiredTool.getType().equals(tool.getType()))
                     return true;
+
         for (ItemStack requiredTool : this.globalRequiredTools)
             if (requiredTool.getType().equals(tool.getType()))
                 return true;
+
         return false;
     }
 
@@ -228,11 +344,20 @@ public class TreeDefinitionManager extends Manager {
      * @return True if the tool is allowed for toppling the given TreeDefinition
      */
     public boolean isToolValidForTreeDefinition(TreeDefinition treeDefinition, ItemStack tool) {
+
         if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
             return true;
+
+        // If the tree definition requires the custom axe, don't allow any other checks to pass.
+        if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
+            NBTItem nbtItem = NmsManager.getNbt().of(tool);
+            return nbtItem.has(requiredAxeKey);
+        }
+
         for (ItemStack requiredTool : treeDefinition.getRequiredTools())
             if (requiredTool.getType().equals(tool.getType()))
                 return true;
+
         for (ItemStack requiredTool : this.globalRequiredTools)
             if (requiredTool.getType().equals(tool.getType()))
                 return true;
