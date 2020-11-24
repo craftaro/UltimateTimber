@@ -12,7 +12,6 @@ import com.songoda.ultimatetimber.misc.OnlyToppleWhile;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
-import com.songoda.ultimatetimber.tree.TreeBlockType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -135,17 +134,20 @@ public class TreeFallManager extends Manager implements Listener {
             detectedTree.getDetectedTreeBlocks().remove(detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
         }
 
-        if (!player.getGameMode().equals(GameMode.CREATIVE))
+        boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
+
+        if (!isCreative)
             ItemUtils.addDamage(tool, toolDamage);
 
         McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
                 .map(ITreeBlock::getBlock).collect(Collectors.toList()));
 
-        for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
-            if (JobsHook.isEnabled() && treeBlock.getTreeBlockType() == TreeBlockType.LOG)
-                JobsHook.breakBlock(player, block);
+        if (!isCreative && JobsHook.isEnabled())
+            for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getLogBlocks())
+                JobsHook.breakBlock(player, treeBlock.getBlock());
+
+        for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks())
             LogManager.logRemoval(player, treeBlock.getBlock());
-        }
 
         treeAnimationManager.runAnimation(detectedTree, player);
         treeDefinitionManager.dropTreeLoot(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock(), player, false, true);
