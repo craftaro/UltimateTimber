@@ -12,8 +12,8 @@ import java.util.UUID;
 
 public class ChoppingManager extends Manager {
 
-    private Set<UUID> disabledPlayers;
-    private Map<UUID, Boolean> cooldownedPlayers;
+    private final Set<UUID> disabledPlayers;
+    private final Map<UUID, Boolean> cooldownedPlayers;
     private boolean useCooldown;
     private int cooldownAmount;
 

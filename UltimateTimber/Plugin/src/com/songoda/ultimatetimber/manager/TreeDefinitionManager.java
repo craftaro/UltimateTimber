@@ -385,7 +385,8 @@ public class TreeDefinitionManager extends Manager {
             toTry.addAll(this.globalEntireTreeLoot);
         } else {
             if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
-                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
+                if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
+                && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
             } else {
@@ -394,7 +395,8 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(treeDefinition.getLogLoot());
                         toTry.addAll(this.globalLogLoot);
                         if (treeDefinition.shouldDropOriginalLog()) {
-                            if (McMMOHook.hasWoodcuttingDoubleDrops(player))
+                            if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
+                && McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
@@ -403,7 +405,8 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(treeDefinition.getLeafLoot());
                         toTry.addAll(this.globalLeafLoot);
                         if (treeDefinition.shouldDropOriginalLeaf()) {
-                            if (McMMOHook.hasWoodcuttingDoubleDrops(player))
+                            if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
+                && McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
@@ -421,13 +424,15 @@ public class TreeDefinitionManager extends Manager {
                 continue;
 
             if (treeLoot.hasItem()) {
-                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
+                if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
+                && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.add(treeLoot.getItem());
                 lootedItems.add(treeLoot.getItem());
             }
 
             if (treeLoot.hasCommand()) {
-                if (McMMOHook.hasWoodcuttingDoubleDrops(player))
+                if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
+                && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedCommands.add(treeLoot.getCommand());
                 lootedCommands.add(treeLoot.getCommand());
             }
