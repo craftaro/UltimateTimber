@@ -139,12 +139,14 @@ public class TreeFallManager extends Manager implements Listener {
         if (!isCreative)
             ItemUtils.addDamage(tool, toolDamage);
 
-        McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
-                .map(ITreeBlock::getBlock).collect(Collectors.toList()));
+        if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
+            McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
+                    .map(ITreeBlock::getBlock).collect(Collectors.toList()));
 
-        if (!isCreative && JobsHook.isEnabled())
-            for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getLogBlocks())
-                JobsHook.breakBlock(player, treeBlock.getBlock());
+            if (!isCreative && JobsHook.isEnabled())
+                for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getLogBlocks())
+                    JobsHook.breakBlock(player, treeBlock.getBlock());
+        }
 
         for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks())
             LogManager.logRemoval(player, treeBlock.getBlock());
