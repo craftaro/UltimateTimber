@@ -137,7 +137,7 @@ public class TreeFallManager extends Manager implements Listener {
         boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
 
         if (!isCreative)
-            ItemUtils.addDamage(tool, toolDamage);
+            ItemUtils.addDamage(player, tool, toolDamage);
 
         if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
             McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
