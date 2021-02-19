@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 
 public class TreeFallManager extends Manager implements Listener {
 
+    private int maxLogBlocksAllowed;
+
     public TreeFallManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
         Bukkit.getPluginManager().registerEvents(this, ultimateTimber);
@@ -35,7 +37,7 @@ public class TreeFallManager extends Manager implements Listener {
 
     @Override
     public void reload() {
-
+        this.maxLogBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
     }
 
     @Override
@@ -125,6 +127,8 @@ public class TreeFallManager extends Manager implements Listener {
 
         // Valid tree and meets all conditions past this point
         event.setCancelled(true);
+
+        detectedTree.getDetectedTreeBlocks().sortAndLimit(maxLogBlocksAllowed);
 
         choppingManager.cooldownPlayer(player);
 

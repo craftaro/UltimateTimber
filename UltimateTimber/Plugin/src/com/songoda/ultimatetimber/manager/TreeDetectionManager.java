@@ -16,7 +16,7 @@ public class TreeDetectionManager extends Manager {
 
     private TreeDefinitionManager treeDefinitionManager;
     private PlacedBlockManager placedBlockManager;
-    private int maxLogBlocksAllowed, numLeavesRequiredForTree;
+    private int numLeavesRequiredForTree;
     private boolean onlyBreakLogsUpwards, entireTreeBase, destroyLeaves;
 
     public TreeDetectionManager(UltimateTimber ultimateTimber) {
@@ -50,7 +50,6 @@ public class TreeDetectionManager extends Manager {
     public void reload() {
         this.treeDefinitionManager = this.plugin.getTreeDefinitionManager();
         this.placedBlockManager = this.plugin.getPlacedBlockManager();
-        this.maxLogBlocksAllowed = ConfigurationManager.Setting.MAX_LOGS_PER_CHOP.getInt();
         this.numLeavesRequiredForTree = ConfigurationManager.Setting.LEAVES_REQUIRED_FOR_TREE.getInt();
         this.onlyBreakLogsUpwards = ConfigurationManager.Setting.ONLY_DETECT_LOGS_UPWARDS.getBoolean();
         this.entireTreeBase = ConfigurationManager.Setting.BREAK_ENTIRE_TREE_BASE.getBoolean();
@@ -154,9 +153,6 @@ public class TreeDetectionManager extends Manager {
      * @param startingBlockY  The Y coordinate of the initial block
      */
     private void recursiveBranchSearch(Set<TreeDefinition> treeDefinitions, List<Block> trunkBlocks, TreeBlockSet<Block> treeBlocks, Block block, int startingBlockY) {
-        if (treeBlocks.size() > this.maxLogBlocksAllowed)
-            return;
-
         for (Vector offset : this.onlyBreakLogsUpwards ? this.VALID_BRANCH_OFFSETS : this.VALID_TRUNK_OFFSETS) {
             Block targetBlock = block.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
             TreeBlock treeBlock = new TreeBlock(targetBlock, TreeBlockType.LOG);

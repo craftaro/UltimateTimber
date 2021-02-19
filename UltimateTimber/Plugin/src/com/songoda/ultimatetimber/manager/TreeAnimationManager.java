@@ -30,7 +30,7 @@ import java.util.Set;
 public class TreeAnimationManager extends Manager implements Listener, Runnable {
 
     private final Set<TreeAnimation> activeAnimations;
-    private int taskId;
+    private final int taskId;
 
     public TreeAnimationManager(UltimateTimber ultimateTimber) {
         super(ultimateTimber);
