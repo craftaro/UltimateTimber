@@ -75,7 +75,6 @@ public class UltimateTimber extends SongodaPlugin {
         this.treeDetectionManager = this.registerManager(TreeDetectionManager.class);
         this.treeFallManager = this.registerManager(TreeFallManager.class);
 
-        // Load version adapter and managers
         this.reloadConfig();
     }
 
