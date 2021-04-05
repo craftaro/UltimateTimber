@@ -1,5 +1,6 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
 import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
@@ -154,6 +155,12 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             ParticleUtils.playLandingParticles(treeBlock);
         if (useCustomSound)
             SoundUtils.playLandingSound(treeBlock);
+
+        Block block = treeBlock.getLocation().subtract(0, 1, 0).getBlock();
+        if (ConfigurationManager.Setting.FRAGILE_BLOCKS.getStringList().contains(block.getType().toString())) {
+            block.getWorld().dropItemNaturally(block.getLocation(), CompatibleMaterial.getMaterial(block).getItem());
+            block.breakNaturally();
+        }
 
         treeDefinitionManager.dropTreeLoot(treeDefinition, treeBlock, treeAnimation.getPlayer(), treeAnimation.hasSilkTouch(), false);
         this.plugin.getSaplingManager().replantSaplingWithChance(treeDefinition, treeBlock);

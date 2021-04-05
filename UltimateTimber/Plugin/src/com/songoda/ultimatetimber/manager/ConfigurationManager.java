@@ -46,7 +46,8 @@ public class ConfigurationManager extends Manager {
         HOOKS_APPLY_EXTRA_DROPS(SettingType.BOOLEAN),
         HOOKS_REQUIRE_ABILITY_ACTIVE(SettingType.BOOLEAN),
         TREE_ANIMATION_TYPE(SettingType.STRING),
-        SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN);
+        SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN),
+        FRAGILE_BLOCKS(SettingType.STRING_LIST);
 
         private SettingType settingType;
         private Object value = null;

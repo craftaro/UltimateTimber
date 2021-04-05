@@ -484,3 +484,10 @@ required-axe:
     - 'DIG_SPEED:5'
   # NBT to identify the axe by.
   nbt: 'ultimatetimber_axe'
+
+# If a tree lands on these blocks they will be destroyed.
+fragile-blocks:
+  - GLASS
+  - ICE
+  - PACKED_ICE
+  - BLUE_ICE
