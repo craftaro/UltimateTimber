@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TreeFallManager extends Manager implements Listener {
@@ -140,8 +141,10 @@ public class TreeFallManager extends Manager implements Listener {
 
         boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
 
-        if (!isCreative)
-            ItemUtils.addDamage(player, tool, toolDamage);
+        if (!isCreative) {
+            if (!applyUnbreaking(tool.getEnchantmentLevel(Enchantment.DURABILITY)))
+                ItemUtils.addDamage(player, tool, toolDamage);
+        }
 
         if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
             McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
@@ -189,6 +192,11 @@ public class TreeFallManager extends Manager implements Listener {
         } else {
             return treeBlocks.getLogBlocks().size();
         }
+    }
+
+    private boolean applyUnbreaking(int levels) {
+        if (levels == 0) return false;
+        return new Random().nextInt(levels + 1) > 0;
     }
 
 }
