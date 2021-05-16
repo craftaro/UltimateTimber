@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 public class ConfigurationManager extends Manager {
 
@@ -147,7 +148,7 @@ public class ConfigurationManager extends Manager {
          * @return The key for a FileConfiguration
          */
         private String getNameAsKey() {
-            return this.name().replace("_", "-").toLowerCase();
+            return this.name().replace("_", "-").toLowerCase(Locale.ENGLISH);
         }
     }
 
