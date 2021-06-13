@@ -5,6 +5,7 @@ import com.songoda.core.hooks.JobsHook;
 import com.songoda.core.hooks.LogManager;
 import com.songoda.core.hooks.McMMOHook;
 import com.songoda.core.utils.ItemUtils;
+import com.songoda.core.world.SItemStack;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
@@ -116,7 +117,7 @@ public class TreeFallManager extends Manager implements Listener {
         if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool))
             return;
 
-        int toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
+        short toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
         if (!ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !ItemUtils.hasEnoughDurability(tool, toolDamage))
             return;
 
@@ -141,10 +142,8 @@ public class TreeFallManager extends Manager implements Listener {
 
         boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
 
-        if (!isCreative) {
-            if (!applyUnbreaking(tool.getEnchantmentLevel(Enchantment.DURABILITY)))
-                ItemUtils.addDamage(player, tool, toolDamage);
-        }
+        if (!isCreative)
+            new SItemStack(tool).addDamage(player, toolDamage);
 
         if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
             McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
@@ -183,20 +182,15 @@ public class TreeFallManager extends Manager implements Listener {
         }
     }
 
-    private int getToolDamage(TreeBlockSet<Block> treeBlocks, boolean hasSilkTouch) {
+    private short getToolDamage(TreeBlockSet<Block> treeBlocks, boolean hasSilkTouch) {
         if (!ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean())
             return 1;
 
         if (ConfigurationManager.Setting.APPLY_SILK_TOUCH_TOOL_DAMAGE.getBoolean() && hasSilkTouch) {
-            return treeBlocks.size();
+            return (short) treeBlocks.size();
         } else {
-            return treeBlocks.getLogBlocks().size();
+            return (short) treeBlocks.getLogBlocks().size();
         }
-    }
-
-    private boolean applyUnbreaking(int levels) {
-        if (levels == 0) return false;
-        return new Random().nextInt(levels + 1) > 0;
     }
 
 }
