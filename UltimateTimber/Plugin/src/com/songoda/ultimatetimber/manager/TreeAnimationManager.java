@@ -1,6 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
 import com.songoda.core.compatibility.CompatibleMaterial;
+import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
 import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
@@ -58,12 +59,14 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             Set<ITreeBlock<FallingBlock>> groundedBlocks = new HashSet<>();
             for (ITreeBlock<FallingBlock> fallingTreeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks()) {
                 FallingBlock fallingBlock = fallingTreeBlock.getBlock();
-                if (fallingBlock.isDead())
+                if (fallingBlock.isDead() || ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17) && fallingBlock.isOnGround())
                     groundedBlocks.add(fallingTreeBlock);
             }
 
             for (ITreeBlock<FallingBlock> fallingBlock : groundedBlocks) {
                 this.runFallingBlockImpact(treeAnimation, fallingBlock);
+                if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17))
+                    fallingBlock.getBlock().remove();
                 treeAnimation.getFallingTreeBlocks().remove(fallingBlock);
             }
         }

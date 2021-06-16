@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.songoda</groupId>
         <artifactId>UltimateTimber</artifactId>
-        <version>2.2.4</version>
+        <version>2.2.5</version>
         <relativePath>../../</relativePath>
     </parent>
 
@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.3.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>shaded</id>
@@ -94,12 +94,17 @@
             </plugin>
         </plugins>
     </build>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.2</version>
+            <version>1.17</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
