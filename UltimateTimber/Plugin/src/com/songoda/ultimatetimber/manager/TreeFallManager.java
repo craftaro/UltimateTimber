@@ -25,7 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TreeFallManager extends Manager implements Listener {
@@ -142,8 +141,9 @@ public class TreeFallManager extends Manager implements Listener {
 
         boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
 
-        if (!isCreative)
-            new SItemStack(tool).addDamage(player, toolDamage);
+        if (!isCreative) {
+            new SItemStack(tool).addDamage(player, toolDamage, true);
+        }
 
         if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
             McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
@@ -169,6 +169,7 @@ public class TreeFallManager extends Manager implements Listener {
      * Checks if a player is doing a certain action required to topple a tree
      *
      * @param player The player to check
+     *
      * @return True if the check passes, otherwise false
      */
     private boolean checkToppleWhile(Player player) {
@@ -192,5 +193,4 @@ public class TreeFallManager extends Manager implements Listener {
             return (short) treeBlocks.getLogBlocks().size();
         }
     }
-
 }
