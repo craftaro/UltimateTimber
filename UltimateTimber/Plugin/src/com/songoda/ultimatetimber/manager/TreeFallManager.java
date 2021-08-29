@@ -94,7 +94,7 @@ public class TreeFallManager extends Manager implements Listener {
             isValid = false;
 
         if (ConfigurationManager.Setting.HOOKS_REQUIRE_ABILITY_ACTIVE.getBoolean()
-                && McMMOHook.isUsingTreeFeller(player))
+                && !McMMOHook.isUsingTreeFeller(player))
             isValid = false;
 
         boolean alwaysReplantSapling = ConfigurationManager.Setting.ALWAYS_REPLANT_SAPLING.getBoolean();
