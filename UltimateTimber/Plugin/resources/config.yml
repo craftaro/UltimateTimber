@@ -326,6 +326,30 @@ trees:
     entire-tree-loot: []
     required-tools: []
     required-axe: false
+  azalea:
+    logs:
+      - OAK_LOG
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
+    leaves:
+      - AZALEA_LEAVES
+      - FLOWERING_AZALEA_LEAVES
+    sapling: AZALEA
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 3
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: AZALEA
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
   brown_mushroom:
     logs:
       - MUSHROOM_STEM
@@ -419,6 +443,7 @@ global-plantable-soil:
   - DIRT
   - COARSE_DIRT
   - PODZOL
+  - ROOTED_DIRT
 
 # Custom loot that is available for all tree types
 # The loot applies to each log broken in the tree
