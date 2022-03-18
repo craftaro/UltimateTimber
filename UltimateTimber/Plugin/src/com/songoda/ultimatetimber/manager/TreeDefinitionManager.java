@@ -24,7 +24,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TreeDefinitionManager extends Manager {
@@ -264,6 +268,7 @@ public class TreeDefinitionManager extends Manager {
      * Gets a Set of possible TreeDefinitions that match the given Block
      *
      * @param block The Block to check
+     *
      * @return A Set of TreeDefinitions for the given Block
      */
     public Set<TreeDefinition> getTreeDefinitionsForLog(Block block) {
@@ -276,6 +281,7 @@ public class TreeDefinitionManager extends Manager {
      * @param possibleTreeDefinitions The possible TreeDefinitions
      * @param block                   The Block to narrow to
      * @param treeBlockType           The TreeBlockType of the given Block
+     *
      * @return A Set of TreeDefinitions narrowed down
      */
     public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, Block block, TreeBlockType treeBlockType) {
@@ -310,6 +316,7 @@ public class TreeDefinitionManager extends Manager {
      * Checks if a given tool is valid for any tree definitions, also takes into account global tools
      *
      * @param tool The tool to check
+     *
      * @return True if the tool is allowed for toppling any trees
      */
     public boolean isToolValidForAnyTreeDefinition(ItemStack tool) {
@@ -341,6 +348,7 @@ public class TreeDefinitionManager extends Manager {
      *
      * @param treeDefinition The TreeDefinition to use
      * @param tool           The tool to check
+     *
      * @return True if the tool is allowed for toppling the given TreeDefinition
      */
     public boolean isToolValidForTreeDefinition(TreeDefinition treeDefinition, ItemStack tool) {
@@ -386,7 +394,7 @@ public class TreeDefinitionManager extends Manager {
         } else {
             if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
             } else {
@@ -396,7 +404,7 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLogLoot);
                         if (treeDefinition.shouldDropOriginalLog()) {
                             if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                                    && McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
@@ -406,7 +414,7 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLeafLoot);
                         if (treeDefinition.shouldDropOriginalLeaf()) {
                             if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                                    && McMMOHook.hasWoodcuttingDoubleDrops(player))
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
@@ -425,14 +433,14 @@ public class TreeDefinitionManager extends Manager {
 
             if (treeLoot.hasItem()) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedItems.add(treeLoot.getItem());
                 lootedItems.add(treeLoot.getItem());
             }
 
             if (treeLoot.hasCommand()) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
                     lootedCommands.add(treeLoot.getCommand());
                 lootedCommands.add(treeLoot.getCommand());
             }
@@ -466,6 +474,7 @@ public class TreeDefinitionManager extends Manager {
      * Gets all possible plantable soil blocks for the given tree definition
      *
      * @param treeDefinition The TreeDefinition
+     *
      * @return A Set of IBlockData of plantable soil
      */
     public Set<CompatibleMaterial> getPlantableSoilMaterial(TreeDefinition treeDefinition) {
@@ -480,6 +489,7 @@ public class TreeDefinitionManager extends Manager {
      *
      * @param treeBlockType        The TreeBlockType to use
      * @param configurationSection The ConfigurationSection
+     *
      * @return A TreeLoot entry from the section
      */
     private TreeLoot getTreeLootEntry(TreeBlockType treeBlockType, ConfigurationSection configurationSection) {
