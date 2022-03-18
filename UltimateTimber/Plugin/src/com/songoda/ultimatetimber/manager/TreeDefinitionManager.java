@@ -4,8 +4,7 @@ import com.google.common.base.Strings;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.core.hooks.McMMOHook;
-import com.songoda.core.nms.NmsManager;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.core.utils.TextUtils;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
@@ -236,9 +235,9 @@ public class TreeDefinitionManager extends Manager {
         item.setItemMeta(meta);
 
         // Apply NBT
-        NBTItem nbtItem = NmsManager.getNbt().of(item);
-        nbtItem.set(requiredAxeKey, true);
-        item = nbtItem.finish();
+        NBTItem nbtItem = new NBTItem(item);
+        nbtItem.setBoolean(requiredAxeKey, true);
+        item = nbtItem.getItem();
 
         this.requiredAxe = item;
     }
@@ -325,8 +324,7 @@ public class TreeDefinitionManager extends Manager {
 
         for (TreeDefinition treeDefinition : this.treeDefinitions) {
             if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-                NBTItem nbtItem = NmsManager.getNbt().of(tool);
-                if (nbtItem.has(requiredAxeKey))
+                if (new NBTItem(tool).hasKey(requiredAxeKey))
                     return true;
             }
         }
@@ -358,8 +356,7 @@ public class TreeDefinitionManager extends Manager {
 
         // If the tree definition requires the custom axe, don't allow any other checks to pass.
         if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-            NBTItem nbtItem = NmsManager.getNbt().of(tool);
-            return nbtItem.has(requiredAxeKey);
+            return new NBTItem(tool).hasKey(requiredAxeKey);
         }
 
         for (ItemStack requiredTool : treeDefinition.getRequiredTools())
