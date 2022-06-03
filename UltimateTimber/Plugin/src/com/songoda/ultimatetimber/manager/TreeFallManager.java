@@ -117,7 +117,7 @@ public class TreeFallManager extends Manager implements Listener {
             return;
 
         short toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
-        if (!ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !ItemUtils.hasEnoughDurability(tool, toolDamage))
+        if (!tool.getItemMeta().isUnbreakable() && !ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !ItemUtils.hasEnoughDurability(tool, toolDamage))
             return;
 
         // Trigger fall event
