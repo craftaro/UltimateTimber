@@ -29,3 +29,6 @@ build/
 target/
 *.iml
 /bin/
+
+# avoid macOS DS_Store
+.DS_Store
