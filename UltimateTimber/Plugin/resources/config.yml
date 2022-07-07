@@ -350,6 +350,33 @@ trees:
     entire-tree-loot: [ ]
     required-tools: [ ]
     required-axe: false
+  mangrove:
+    logs:
+      - MANGROVE_LOG
+      - STRIPPED_MANGROVE_LOG
+      - MANGROVE_WOOD
+      - STRIPPED_MANGROVE_WOOD
+    leaves:
+      - MANGROVE_LEAVES
+      - MANGROVE_ROOTS
+    sapling: MANGROVE_PROPAGULE
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: MANGROVE_PROPAGULE
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
   brown_mushroom:
     logs:
       - MUSHROOM_STEM
