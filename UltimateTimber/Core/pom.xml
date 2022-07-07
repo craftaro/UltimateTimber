@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.songoda</groupId>
         <artifactId>UltimateTimber</artifactId>
-        <version>2.3.2</version>
+        <version>2.3.3</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>SongodaCore</artifactId>
-            <version>2.6.12</version>
+            <version>2.6.13</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
