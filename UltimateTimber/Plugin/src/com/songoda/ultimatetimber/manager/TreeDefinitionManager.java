@@ -324,7 +324,7 @@ public class TreeDefinitionManager extends Manager {
 
         for (TreeDefinition treeDefinition : this.treeDefinitions) {
             if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-                if (new NBTItem(tool).hasKey(requiredAxeKey))
+                if (tool != null && !tool.getType().isAir() && new NBTItem(tool).hasKey(requiredAxeKey))
                     return true;
             }
         }
@@ -356,7 +356,7 @@ public class TreeDefinitionManager extends Manager {
 
         // If the tree definition requires the custom axe, don't allow any other checks to pass.
         if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-            return new NBTItem(tool).hasKey(requiredAxeKey);
+            return tool != null && !tool.getType().isAir() && new NBTItem(tool).hasKey(requiredAxeKey);
         }
 
         for (ItemStack requiredTool : treeDefinition.getRequiredTools())
