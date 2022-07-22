@@ -1,0 +1,29 @@
+#########################################################
+# 参考 By https://www.mcbbs.net/thread-1297859-1-1.html #
+# command.give.not-a-player                             #
+# command.give.given                                    #
+# command.give.no-axe                                   #
+#########################################################
+
+# 一般信息
+general:
+  nametag:
+    prefix: '&8[&6UltimateTimber&8] '
+  nopermission: '&c你没有权限'
+# 命令消息
+command:
+  reload:
+    description: '&8 - &a/ut reload &7 - 配置已重载'
+    reloaded: '&7配置和语言环境文件已重新加载'
+  toggle:
+    description: '&8 - &a/ut toggle &7 - 切换砍树模式'
+    enabled: '&7Chopping Mode: &a开启'
+    disabled: '&7Chopping Mode: &c关闭'
+  give:
+    not-a-player: '&c你貌似并非一个玩家'
+    given: '&f给予玩家 &a%player%'
+    no-axe: '&cAxe 加载失败惹'
+# 事件消息
+event:
+  'on':
+    cooldown: '&e冷却中, 暂不能砍树哦'
