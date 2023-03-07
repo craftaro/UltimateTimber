@@ -8,7 +8,10 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class TreeDamageEvent extends PlayerEvent implements Cancellable {
 
-    FallingBlock attacker;
+    private boolean cancelled = false;
+    private final FallingBlock attacker;
+    private static final HandlerList handlers = new HandlerList();
+
     public TreeDamageEvent(FallingBlock attacker, Player victim) {
         super(victim);
         this.attacker = attacker;
@@ -16,24 +19,18 @@ public class TreeDamageEvent extends PlayerEvent implements Cancellable {
 
     public FallingBlock getAttacker() {return this.attacker;}
 
-    private static final HandlerList handlers = new HandlerList();
-
     @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+    public static HandlerList getHandlerList() {return handlers;}
 
     @Override
     public boolean isCancelled() {
-        return false;
+        return this.cancelled;
     }
 
     @Override
-    public void setCancelled(boolean cancel) {
-
-    }
+    public void setCancelled(boolean cancelState) {this.cancelled = cancelState;}
 }
