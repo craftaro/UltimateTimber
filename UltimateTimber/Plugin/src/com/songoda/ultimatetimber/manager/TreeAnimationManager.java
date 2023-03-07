@@ -184,7 +184,6 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             int damage = ConfigurationManager.Setting.FALLING_BLOCK_DAMAGE.getInt();
             for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
                 if (!(entity instanceof LivingEntity)) continue;
-                // Make tree damage on players cancellable
                 if (entity instanceof Player) {
                     Player p = ((Player) entity).getPlayer();
                     TreeDamageEvent treeDamageEvent = new TreeDamageEvent(fallingBlock, p);
