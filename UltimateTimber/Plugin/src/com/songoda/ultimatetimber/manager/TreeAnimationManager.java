@@ -9,6 +9,7 @@ import com.songoda.ultimatetimber.animation.TreeAnimationDisintegrate;
 import com.songoda.ultimatetimber.animation.TreeAnimationFancy;
 import com.songoda.ultimatetimber.animation.TreeAnimationNone;
 import com.songoda.ultimatetimber.animation.TreeAnimationType;
+import com.songoda.ultimatetimber.events.TreeDamageEvent;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeDefinition;
@@ -183,7 +184,14 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             int damage = ConfigurationManager.Setting.FALLING_BLOCK_DAMAGE.getInt();
             for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
                 if (!(entity instanceof LivingEntity)) continue;
-                ((LivingEntity) entity).damage(damage, fallingBlock);
+                // Make tree damage on players cancellable
+                if (entity instanceof Player) {
+                    Player p = ((Player) entity).getPlayer();
+                    TreeDamageEvent treeDamageEvent = new TreeDamageEvent(fallingBlock, p);
+                    if (!treeDamageEvent.isCancelled())
+                        ((LivingEntity) entity).damage(damage, fallingBlock);
+                } else
+                    ((LivingEntity) entity).damage(damage, fallingBlock);
             }
         }
 
