@@ -187,6 +187,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
                 if (entity instanceof Player) {
                     Player p = ((Player) entity).getPlayer();
                     TreeDamageEvent treeDamageEvent = new TreeDamageEvent(fallingBlock, p);
+                    Bukkit.getServer().getPluginManager().callEvent(treeDamageEvent);
                     if (!treeDamageEvent.isCancelled())
                         ((LivingEntity) entity).damage(damage, fallingBlock);
                 } else
