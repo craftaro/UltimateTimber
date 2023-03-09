@@ -43,7 +43,7 @@ public class TreeDamageEvent extends PlayerEvent implements Cancellable {
     }
 
     /**
-     * Get Player damaged by this event
+     * Get Player damaged by this event. This method is only here for clarification
      */
     public Player getVictim() {
         return this.getPlayer();
