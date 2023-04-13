@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>SongodaCore</artifactId>
-            <version>2.6.19-DEV</version>
+            <version>2.6.19</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
