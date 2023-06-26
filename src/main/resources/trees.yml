@@ -1,0 +1,359 @@
+# Tree configuration
+# Allows for extreme fine-tuning of tree detection and what are considered trees
+# Multiple log and leaf types are allowed, only one sapling type is allowed
+# You can add your own custom tree types here, just add a new section
+trees:
+  oak:
+    logs:
+      - OAK_LOG
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
+    leaves:
+      - OAK_LEAVES
+    sapling: OAK_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 6
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: OAK_SAPLING
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  spruce:
+    logs:
+      - SPRUCE_LOG
+      - STRIPPED_SPRUCE_LOG
+      - SPRUCE_WOOD
+      - STRIPPED_SPRUCE_WOOD
+    leaves:
+      - SPRUCE_LEAVES
+    sapling: SPRUCE_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 2
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: SPRUCE_SAPLING
+        chance: 5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  birch:
+    logs:
+      - BIRCH_LOG
+      - STRIPPED_BIRCH_LOG
+      - BIRCH_WOOD
+      - STRIPPED_BIRCH_WOOD
+    leaves:
+      - BIRCH_LEAVES
+    sapling: BIRCH_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 1
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: BIRCH_SAPLING
+        chance: 5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  jungle:
+    logs:
+      - JUNGLE_LOG
+      - STRIPPED_JUNGLE_LOG
+      - JUNGLE_WOOD
+      - STRIPPED_JUNGLE_WOOD
+    leaves:
+      - JUNGLE_LEAVES
+    sapling: JUNGLE_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 6
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: JUNGLE_SAPLING
+        chance: 2.5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  acacia:
+    logs:
+      - ACACIA_LOG
+      - STRIPPED_ACACIA_LOG
+      - ACACIA_WOOD
+      - STRIPPED_ACACIA_WOOD
+    leaves:
+      - ACACIA_LEAVES
+    sapling: ACACIA_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: ACACIA_SAPLING
+        chance: 5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  dark_oak:
+    logs:
+      - DARK_OAK_LOG
+      - STRIPPED_DARK_OAK_LOG
+      - DARK_OAK_WOOD
+      - STRIPPED_DARK_OAK_WOOD
+    leaves:
+      - DARK_OAK_LEAVES
+    sapling: DARK_OAK_SAPLING
+    plantable-soil: []
+    max-log-distance-from-trunk: 3
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: DARK_OAK_SAPLING
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  azalea:
+    logs:
+      - OAK_LOG
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
+    leaves:
+      - AZALEA_LEAVES
+      - FLOWERING_AZALEA_LEAVES
+    sapling: AZALEA
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 3
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: AZALEA
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  mangrove:
+    logs:
+      - MANGROVE_LOG
+      - STRIPPED_MANGROVE_LOG
+      - MANGROVE_WOOD
+      - STRIPPED_MANGROVE_WOOD
+    leaves:
+      - MANGROVE_LEAVES
+      - MANGROVE_ROOTS
+    sapling: MANGROVE_PROPAGULE
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: MANGROVE_PROPAGULE
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  brown_mushroom:
+    logs:
+      - MUSHROOM_STEM
+    leaves:
+      - BROWN_MUSHROOM_BLOCK
+    sapling: BROWN_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
+    drop-original-log: false
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: BROWN_MUSHROOM
+        chance: 25
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  red_mushroom:
+    logs:
+      - MUSHROOM_STEM
+    leaves:
+      - RED_MUSHROOM_BLOCK
+    sapling: RED_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
+    drop-original-log: false
+    drop-original-leaf: false
+    log-loot: []
+    leaf-loot:
+      0:
+        material: RED_MUSHROOM
+        chance: 25
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  huge_crimson_fungus:
+    logs:
+      - CRIMSON_STEM
+      - STRIPPED_CRIMSON_STEM
+      - CRIMSON_HYPHAE
+      - STRIPPED_CRIMSON_HYPHAE
+    leaves:
+      - NETHER_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: CRIMSON_FUNGUS
+    plantable-soil:
+      - CRIMSON_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: []
+    leaf-loot: []
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+  huge_warpped_fungus:
+    logs:
+      - WARPED_STEM
+      - STRIPPED_WARPED_STEM
+      - WARPED_HYPHAE
+      - STRIPPED_WARPED_HYPHAE
+    leaves:
+      - WARPED_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: WARPED_FUNGUS
+    plantable-soil:
+      - WARPED_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: []
+    leaf-loot: []
+    entire-tree-loot: []
+    required-tools: []
+    required-axe: false
+
+# All soil types that the tree type's saplings can be planted on
+global-plantable-soil:
+  - GRASS_BLOCK
+  - DIRT
+  - COARSE_DIRT
+  - PODZOL
+  - ROOTED_DIRT
+
+# Custom loot that is available for all tree types
+# The loot applies to each log broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# The default examples here are to show what you can do with custom loot
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-log-loot:
+  0:
+    material: DIAMOND
+    chance: 0
+  1:
+    command: 'eco give %player% 5'
+    chance: 0
+  2:
+    material: GOLDEN_APPLE
+    command: 'broadcast %player% found a golden apple in a %type% tree at %xPos% %yPos% %zPos%!'
+    chance: 0
+
+# Custom loot that is available for all tree types
+# The loot applies to each leaf broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-leaf-loot:
+  0:
+    material: GOLDEN_APPLE
+    chance: 0.1
+
+# Custom entire tree loot that is available for all tree types
+# The loot will be dropped only one time for the entire tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-entire-tree-loot:
+  0:
+    material: DIAMOND
+    chance: 0
+
+# Tools that must be used to topple over a tree
+# Applies to all tree types
+global-required-tools:
+  - WOODEN_AXE
+  - STONE_AXE
+  - IRON_AXE
+  - GOLDEN_AXE
+  - DIAMOND_AXE
+  - NETHERITE_AXE
+
+# Require the custom axe
+# Applies to all tree types
+global-required-axe: false
+
+# Axe item
+required-axe:
+  type: DIAMOND_AXE
+  name: '&aAn Epic Axe'
+  lore:
+    - "&7This axe... it's awesome."
+    - "&7It can chop down trees real fast."
+  enchants:
+    - 'DURABILITY:3'
+    - 'DIG_SPEED:5'
+  # NBT to identify the axe by.
+  nbt: 'ultimatetimber_axe'

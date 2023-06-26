@@ -1,0 +1,23 @@
+# Command Messages
+command:
+  help:
+    - '<gold><bold>UltimateTimber 3'
+    - '<gray><italic>Using CraftaroCore 3'
+    - ''
+    - '<yellow>Commands:'
+    - '<gold>/ut giveaxe <Player>'
+    - '<gold>/ut toggle'
+    - '<gold>/ut reload'
+  give:
+    no-axe: '<red>The axe could not be loaded.'
+    given: '<green>Axe given to <gold>%player%'
+  toggle:
+    enabled: '<gray>Chopping Mode: <green>Enabled'
+    disabled: '<gray>Chopping Mode: <red>Disabled'
+  reload:
+    success: '<green>Configuration and locale files have been reloaded.'
+
+
+# Event Messages
+event:
+  onCooldown: '<red>You are on cooldown and cannot topple trees right now.'

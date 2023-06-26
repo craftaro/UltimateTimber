@@ -1,0 +1,5 @@
+name: UltimateTimber
+version: 3.0.0
+author: Craftaro
+api-version: 1.13
+main: com.craftaro.ultimatetimber.UltimateTimber

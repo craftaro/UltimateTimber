@@ -1,34 +1,80 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.songoda</groupId>
+    <groupId>com.craftaro</groupId>
     <artifactId>UltimateTimber</artifactId>
-    <version>2.3.7</version>
-    <packaging>pom</packaging>
+    <version>3.0.0</version>
 
-    <!-- Run 'mvn versions:set -DgenerateBackupPoms=false -DnewVersion=X.Y.Z' to update version recursively -->
+    <name>UltimateTimber</name>
 
-    <modules>
-        <module>UltimateTimber/Core</module>
-        <module>UltimateTimber/Plugin</module>
-    </modules>
+    <properties>
+        <java.version>11</java.version>
+        <java.release>11</java.release>
 
-    <repositories>
-        <repository>
-            <id>public</id>
-            <url>https://repo.songoda.com/repository/public/</url>
-        </repository>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
 
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+
+                    <release>${java.release}</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+                            <finalName>${project.name}-${project.version}</finalName>
+
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>true</minimizeJar>
+
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                        <exclude>LICENSE</exclude>
+                                        <exclude>LICENSE.**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 
     <pluginRepositories>
         <pluginRepository>
@@ -37,79 +83,38 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <repositories>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
 
-    <build>
-        <defaultGoal>clean install</defaultGoal>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>test</testSourceDirectory>
+        <repository>
+            <id>songoda-public</id>
+            <url>https://repo.songoda.com/repository/public/</url>
+        </repository>
+    </repositories>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <scope>provided</scope>
+        </dependency>
 
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <inherited>false</inherited>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
-
-                <configuration>
-                    <outputDirectory>jars</outputDirectory>
-                    <stripVersion>true</stripVersion>
-
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>McMMO</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-
-                        <artifactItem>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>Plugin</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-
-                        <artifactItem>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>Core</artifactId>
-                            <version>${project.version}</version>
-                        </artifactItem>
-                    </artifactItems>
-                </configuration>
-
-                <inherited>false</inherited>
-            </plugin>
-        </plugins>
-
-        <resources>
-            <resource>
-                <directory>resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
+        <dependency>
+            <groupId>com.craftaro</groupId>
+            <artifactId>craftarocore-core</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

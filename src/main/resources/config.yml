@@ -1,0 +1,88 @@
+Settings:
+  # A list of worlds that the plugin is disabled in.
+  Disabled Worlds:
+    - disabled_world_name
+  # Allow toppling trees in creative mode
+  Allow Creative Mode: true
+  # The max number of logs that can be broken at one time
+  Max Logs Per Chop: 150
+  # Don't drop a block for the block that initiates the tree fall
+  Destroy Initiated Block: false
+  # Require the player to have the permission 'ultimatetimber.chop' to topple trees.
+  Require Chop Permission: false
+  ## This sets the cooldown for toppling a tree.
+  ## This cooldown is per-player.
+  ## Set to -1 to disable.
+  Tree Topple Cooldown: -1
+  # The maximum number of blocks to keep track of in memory at once
+  # Use a lower number if this starts to take up too much memory or trees start taking too long to detect
+  # To disable, set it to -1.
+  Ignore Placed Blocks Memory Size: 5000
+  # Automatically replant saplings when a tree is toppled.
+  Replant Saplings: true
+  # Give fallen leaf blocks a chance to replant saplings when they hit the ground.
+  Falling Blocks Replant Saplings: true
+  # The percent chance that fallen leaves have of planting a sapling.
+  # Does nothing if falling-blocks-replant-saplings is false.
+  # The chance is out of 100 and may contain decimals.
+  Falling Blocks Replant Saplings Chance: 1
+  # How many seconds to prevent players from breaking replanted saplings?
+  # Set to 0 to disable.
+  # Does nothing if replant-saplings is false.
+  # The time is in seconds and must be a positive whole number.
+  Replant Saplings Cooldown: 3
+  # Allow players to topple trees regardless of what they are holding in their hand?
+  Ignore Required Tools: false
+  # Automatically add tree blocks to the player's inventory instead of dropping them?
+  Add Items To Inventory: false
+  # Use the silk touch enchantment if the tool has it?
+  # Logs and leaves will drop their original block 100% of the time.
+  Apply Silk Touch: true
+  # The bonus loot multiplier when a player has the permission ultimatetimber.bonusloot
+  # Multiplies the chance of tree drops by this value
+  # Decimal values are allowed
+  # Default: 2
+  Bonus Loot Multiplier: 2
+  # Only detect logs above the initiated block?
+  Only Detect Logs Upwards: true
+  # The minimum number of leaves required for something to be considered a tree.
+  Leaves Required For Tree: 5
+  # Should leaves be destroyed?
+  Destroy Leaves: true
+  # Require the entire base of the tree to be broken before it topples.
+  Break Entire Tree Base: false
+  # Use custom sounds when toppling trees?
+  Use Custom Sounds: true
+  # Use custom particles when toppling trees?
+  Use Custom Particles: true
+  # The type of animation to use for tree toppling
+  # Types: FANCY, DISINTEGRATE, CRUMBLE, NONE
+  Tree Animation Type: FANCY
+  # If a tree lands on these blocks they will be destroyed.
+  Fragile Blocks:
+    - GLASS
+    - ICE
+    - PACKED_ICE
+    - BLUE_ICE
+  # Make falling tree blocks deal damage to players if they get hit
+  Falling Blocks Deal Damage: true
+  # The amount of damage that falling tree blocks do.
+  # This does nothing if falling-blocks-deal-damage is false.
+  Falling Block Damage: 1
+  # If the tree-animation-type is FANCY or CRUMBLE, make the blocks stick to the ground
+  # Does nothing if tree-animation-type is not FANCY or CRUMBLE.
+  Scatter Tree Blocks On Ground: false
+  # Always replant saplings for base tree blocks, regardless of player permissions
+  Always Replant Sapling: false
+  # Protect the tool used to chop down the tree from breaking
+  # Prevents the tree from being toppled if the tool would break
+  Protect Tool: false
+  # Only topple trees while the player is doing something
+  # Valid values: SNEAKING, NOT_SNEAKING, ALWAYS
+  Only Topple While: ALWAYS
+  # Apply realistic damage to the tools based on the number of logs chopped
+  # If false, only one durability will be removed from the tool
+  Realistic Tool Damage: true
+  # Damage the tool extra for each leaf block broken, this is vanilla behavior but can be disabled here
+  # Does nothing if realistic-tool-damage is false
+  Apply Silk Touch Tool Damage: true
