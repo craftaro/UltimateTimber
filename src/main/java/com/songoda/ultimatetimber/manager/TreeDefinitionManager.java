@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TreeDefinitionManager extends Manager {
-
     private final Random random;
     private final Set<TreeDefinition> treeDefinitions;
     private final Set<CompatibleMaterial> globalPlantableSoil;
@@ -42,8 +41,8 @@ public class TreeDefinitionManager extends Manager {
     private ItemStack requiredAxe;
     private String requiredAxeKey;
 
-    public TreeDefinitionManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
+    public TreeDefinitionManager(UltimateTimber plugin) {
+        super(plugin);
         this.random = new Random();
         this.treeDefinitions = new HashSet<>();
         this.globalPlantableSoil = new HashSet<>();
@@ -88,13 +87,17 @@ public class TreeDefinitionManager extends Manager {
 
             for (String materialString : tree.getStringList("logs")) {
                 CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) continue top;
+                if (material == null || material.getMaterial() == null) {
+                    continue top;
+                }
                 logMaterials.add(material);
             }
 
             for (String materialString : tree.getStringList("leaves")) {
                 CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) continue top;
+                if (material == null || material.getMaterial() == null) {
+                    continue top;
+                }
                 leafMaterials.add(material);
             }
 
@@ -102,7 +105,9 @@ public class TreeDefinitionManager extends Manager {
 
             for (String materialString : tree.getStringList("plantable-soil")) {
                 CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) continue top;
+                if (material == null || material.getMaterial() == null) {
+                    continue top;
+                }
                 plantableSoilMaterial.add(material);
             }
 
@@ -113,23 +118,31 @@ public class TreeDefinitionManager extends Manager {
             dropOriginalLeaf = tree.getBoolean("drop-original-leaf");
 
             ConfigurationSection logLootSection = tree.getConfigurationSection("log-loot");
-            if (logLootSection != null)
-                for (String lootKey : logLootSection.getKeys(false))
+            if (logLootSection != null) {
+                for (String lootKey : logLootSection.getKeys(false)) {
                     logLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, logLootSection.getConfigurationSection(lootKey)));
+                }
+            }
 
             ConfigurationSection leafLootSection = tree.getConfigurationSection("leaf-loot");
-            if (leafLootSection != null)
-                for (String lootKey : leafLootSection.getKeys(false))
+            if (leafLootSection != null) {
+                for (String lootKey : leafLootSection.getKeys(false)) {
                     leafLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, leafLootSection.getConfigurationSection(lootKey)));
+                }
+            }
 
             ConfigurationSection entireTreeLootSection = tree.getConfigurationSection("entire-tree-loot");
-            if (entireTreeLootSection != null)
-                for (String lootKey : entireTreeLootSection.getKeys(false))
+            if (entireTreeLootSection != null) {
+                for (String lootKey : entireTreeLootSection.getKeys(false)) {
                     entireTreeLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, entireTreeLootSection.getConfigurationSection(lootKey)));
+                }
+            }
 
             for (String itemStackString : tree.getStringList("required-tools")) {
                 CompatibleMaterial material = CompatibleMaterial.getMaterial(itemStackString);
-                if (material == null) continue top;
+                if (material == null) {
+                    continue top;
+                }
                 requiredTools.add(material.getItem());
             }
 
@@ -140,43 +153,52 @@ public class TreeDefinitionManager extends Manager {
         }
 
         // Load global plantable soil
-        for (String material : config.getStringList("global-plantable-soil"))
+        for (String material : config.getStringList("global-plantable-soil")) {
             this.globalPlantableSoil.add(CompatibleMaterial.getMaterial(material));
+        }
 
         // Load global log drops
         ConfigurationSection logSection = config.getConfigurationSection("global-log-loot");
-        if (logSection != null)
-            for (String lootKey : logSection.getKeys(false))
+        if (logSection != null) {
+            for (String lootKey : logSection.getKeys(false)) {
                 this.globalLogLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, logSection.getConfigurationSection(lootKey)));
+            }
+        }
 
         // Load global leaf drops
         ConfigurationSection leafSection = config.getConfigurationSection("global-leaf-loot");
-        if (leafSection != null)
-            for (String lootKey : leafSection.getKeys(false))
+        if (leafSection != null) {
+            for (String lootKey : leafSection.getKeys(false)) {
                 this.globalLeafLoot.add(this.getTreeLootEntry(TreeBlockType.LEAF, leafSection.getConfigurationSection(lootKey)));
+            }
+        }
 
         // Load global entire tree drops
         ConfigurationSection entireTreeSection = config.getConfigurationSection("global-entire-tree-loot");
-        if (entireTreeSection != null)
-            for (String lootKey : entireTreeSection.getKeys(false))
+        if (entireTreeSection != null) {
+            for (String lootKey : entireTreeSection.getKeys(false)) {
                 this.globalEntireTreeLoot.add(this.getTreeLootEntry(TreeBlockType.LOG, entireTreeSection.getConfigurationSection(lootKey)));
+            }
+        }
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools")) {
             ItemStack tool = CompatibleMaterial.getMaterial(itemStackString).getItem();
-            if (tool == null) continue;
+            if (tool == null) {
+                continue;
+            }
             this.globalRequiredTools.add(tool);
         }
 
         this.globalAxeRequired = config.getBoolean("global-required-axe", false);
 
         // Load required axe
-        if (config.contains("required-axe"))
+        if (config.contains("required-axe")) {
             loadAxe(config);
+        }
     }
 
     private void loadAxe(YamlConfiguration config) {
-
         // Reset the axe loaded, but load the NBT anyway in case someone wanted to use another plugin to give it.
         this.requiredAxeKey = config.getString("required-axe.nbt");
         this.requiredAxe = null;
@@ -184,14 +206,14 @@ public class TreeDefinitionManager extends Manager {
         String typeString = config.getString("required-axe.type");
 
         if (Strings.isNullOrEmpty(typeString)) {
-            plugin.getLogger().warning("Required-axe has to have a material set.");
+            this.plugin.getLogger().warning("Required-axe has to have a material set.");
             return;
         }
 
         CompatibleMaterial material = CompatibleMaterial.getMaterial(typeString);
 
         if (material == null) {
-            plugin.getLogger().warning("Material " + typeString + " is invalid.");
+            this.plugin.getLogger().warning("Material " + typeString + " is invalid.");
             return;
         }
 
@@ -219,13 +241,15 @@ public class TreeDefinitionManager extends Manager {
                 enchantment = Enchantment.getByKey(key);
 
                 // Try to fall back to #getByName() if someone uses the old names.
-                if (enchantment == null)
+                if (enchantment == null) {
                     enchantment = Enchantment.getByName(arr[0].trim());
-            } else
+                }
+            } else {
                 enchantment = Enchantment.getByName(arr[0].trim());
+            }
 
             if (enchantment == null) {
-                plugin.getLogger().warning("Enchantment " + arr[0].trim() + " is invalid.");
+                this.plugin.getLogger().warning("Enchantment " + arr[0].trim() + " is invalid.");
                 continue;
             }
 
@@ -236,7 +260,7 @@ public class TreeDefinitionManager extends Manager {
 
         // Apply NBT
         NBTItem nbtItem = new NBTItem(item);
-        nbtItem.setBoolean(requiredAxeKey, true);
+        nbtItem.setBoolean(this.requiredAxeKey, true);
         item = nbtItem.getItem();
 
         this.requiredAxe = item;
@@ -255,7 +279,7 @@ public class TreeDefinitionManager extends Manager {
     }
 
     public boolean isGlobalAxeRequired() {
-        return globalAxeRequired;
+        return this.globalAxeRequired;
     }
 
     @Override
@@ -267,7 +291,6 @@ public class TreeDefinitionManager extends Manager {
      * Gets a Set of possible TreeDefinitions that match the given Block
      *
      * @param block The Block to check
-     *
      * @return A Set of TreeDefinitions for the given Block
      */
     public Set<TreeDefinition> getTreeDefinitionsForLog(Block block) {
@@ -280,7 +303,6 @@ public class TreeDefinitionManager extends Manager {
      * @param possibleTreeDefinitions The possible TreeDefinitions
      * @param block                   The Block to narrow to
      * @param treeBlockType           The TreeBlockType of the given Block
-     *
      * @return A Set of TreeDefinitions narrowed down
      */
     public Set<TreeDefinition> narrowTreeDefinition(Set<TreeDefinition> possibleTreeDefinitions, Block block, TreeBlockType treeBlockType) {
@@ -289,7 +311,7 @@ public class TreeDefinitionManager extends Manager {
             case LOG:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
                     for (CompatibleMaterial material : treeDefinition.getLogMaterial()) {
-                        if (material.equals(CompatibleMaterial.getMaterial(block))) {
+                        if (material == CompatibleMaterial.getMaterial(block)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -299,7 +321,7 @@ public class TreeDefinitionManager extends Manager {
             case LEAF:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
                     for (CompatibleMaterial material : treeDefinition.getLeafMaterial()) {
-                        if (material.equals(CompatibleMaterial.getMaterial(block))) {
+                        if (material == CompatibleMaterial.getMaterial(block)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -315,28 +337,34 @@ public class TreeDefinitionManager extends Manager {
      * Checks if a given tool is valid for any tree definitions, also takes into account global tools
      *
      * @param tool The tool to check
-     *
      * @return True if the tool is allowed for toppling any trees
      */
     public boolean isToolValidForAnyTreeDefinition(ItemStack tool) {
-        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
+        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean()) {
             return true;
+        }
 
         for (TreeDefinition treeDefinition : this.treeDefinitions) {
             if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-                if (tool != null && !tool.getType().isAir() && new NBTItem(tool).hasKey(requiredAxeKey))
+                if (tool != null && !tool.getType().isAir() && new NBTItem(tool).hasTag(this.requiredAxeKey)) {
                     return true;
+                }
             }
         }
 
-        for (TreeDefinition treeDefinition : this.treeDefinitions)
-            for (ItemStack requiredTool : treeDefinition.getRequiredTools())
-                if (requiredTool.getType().equals(tool.getType()))
+        for (TreeDefinition treeDefinition : this.treeDefinitions) {
+            for (ItemStack requiredTool : treeDefinition.getRequiredTools()) {
+                if (requiredTool.getType() == tool.getType()) {
                     return true;
+                }
+            }
+        }
 
-        for (ItemStack requiredTool : this.globalRequiredTools)
-            if (requiredTool.getType().equals(tool.getType()))
+        for (ItemStack requiredTool : this.globalRequiredTools) {
+            if (requiredTool.getType() == tool.getType()) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -346,26 +374,29 @@ public class TreeDefinitionManager extends Manager {
      *
      * @param treeDefinition The TreeDefinition to use
      * @param tool           The tool to check
-     *
      * @return True if the tool is allowed for toppling the given TreeDefinition
      */
     public boolean isToolValidForTreeDefinition(TreeDefinition treeDefinition, ItemStack tool) {
-
-        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean())
+        if (ConfigurationManager.Setting.IGNORE_REQUIRED_TOOLS.getBoolean()) {
             return true;
+        }
 
         // If the tree definition requires the custom axe, don't allow any other checks to pass.
         if (treeDefinition.isRequiredAxe() || isGlobalAxeRequired()) {
-            return tool != null && !tool.getType().isAir() && new NBTItem(tool).hasKey(requiredAxeKey);
+            return tool != null && !tool.getType().isAir() && new NBTItem(tool).hasTag(this.requiredAxeKey);
         }
 
-        for (ItemStack requiredTool : treeDefinition.getRequiredTools())
-            if (requiredTool.getType().equals(tool.getType()))
+        for (ItemStack requiredTool : treeDefinition.getRequiredTools()) {
+            if (requiredTool.getType() == tool.getType()) {
                 return true;
+            }
+        }
 
-        for (ItemStack requiredTool : this.globalRequiredTools)
-            if (requiredTool.getType().equals(tool.getType()))
+        for (ItemStack requiredTool : this.globalRequiredTools) {
+            if (requiredTool.getType() == tool.getType()) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -391,8 +422,9 @@ public class TreeDefinitionManager extends Manager {
         } else {
             if (ConfigurationManager.Setting.APPLY_SILK_TOUCH.getBoolean() && hasSilkTouch) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player)) {
                     lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                }
                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
             } else {
                 switch (treeBlock.getTreeBlockType()) {
@@ -401,8 +433,9 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLogLoot);
                         if (treeDefinition.shouldDropOriginalLog()) {
                             if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                                    && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                                    && McMMOHook.hasWoodcuttingDoubleDrops(player)) {
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                            }
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
                         break;
@@ -411,8 +444,9 @@ public class TreeDefinitionManager extends Manager {
                         toTry.addAll(this.globalLeafLoot);
                         if (treeDefinition.shouldDropOriginalLeaf()) {
                             if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                                    && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                                    && McMMOHook.hasWoodcuttingDoubleDrops(player)) {
                                 lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
+                            }
                             lootedItems.addAll(BlockUtils.getBlockDrops(treeBlock));
                         }
                         break;
@@ -423,22 +457,27 @@ public class TreeDefinitionManager extends Manager {
         // Roll the dice
         double bonusLootMultiplier = ConfigurationManager.Setting.BONUS_LOOT_MULTIPLIER.getDouble();
         for (TreeLoot treeLoot : toTry) {
-            if (treeLoot == null) continue;
-            double chance = hasBonusChance ? treeLoot.getChance() * bonusLootMultiplier : treeLoot.getChance();
-            if (this.random.nextDouble() > chance / 100)
+            if (treeLoot == null) {
                 continue;
+            }
+            double chance = hasBonusChance ? treeLoot.getChance() * bonusLootMultiplier : treeLoot.getChance();
+            if (this.random.nextDouble() > chance / 100) {
+                continue;
+            }
 
             if (treeLoot.hasItem()) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player)) {
                     lootedItems.add(treeLoot.getItem());
+                }
                 lootedItems.add(treeLoot.getItem());
             }
 
             if (treeLoot.hasCommand()) {
                 if (ConfigurationManager.Setting.HOOKS_APPLY_EXTRA_DROPS.getBoolean()
-                        && McMMOHook.hasWoodcuttingDoubleDrops(player))
+                        && McMMOHook.hasWoodcuttingDoubleDrops(player)) {
                     lootedCommands.add(treeLoot.getCommand());
+                }
                 lootedCommands.add(treeLoot.getCommand());
             }
         }
@@ -446,32 +485,35 @@ public class TreeDefinitionManager extends Manager {
         // Add to inventory or drop on ground
         if (addToInventory && player.getWorld().equals(treeBlock.getLocation().getWorld())) {
             List<ItemStack> extraItems = new ArrayList<>();
-            for (ItemStack lootedItem : lootedItems)
+            for (ItemStack lootedItem : lootedItems) {
                 extraItems.addAll(player.getInventory().addItem(lootedItem).values());
+            }
             Location location = player.getLocation().clone().subtract(0.5, 0, 0.5);
-            for (ItemStack extraItem : extraItems)
+            for (ItemStack extraItem : extraItems) {
                 location.getWorld().dropItemNaturally(location, extraItem);
+            }
         } else {
             Location location = treeBlock.getLocation().clone().add(0.5, 0.5, 0.5);
-            for (ItemStack lootedItem : lootedItems)
+            for (ItemStack lootedItem : lootedItems) {
                 location.getWorld().dropItemNaturally(location, lootedItem);
+            }
         }
 
         // Run looted commands
-        for (String lootedCommand : lootedCommands)
+        for (String lootedCommand : lootedCommands) {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
                     lootedCommand.replace("%player%", player.getName())
                             .replace("%type%", treeDefinition.getKey())
-                            .replace("%xPos%", treeBlock.getLocation().getBlockX() + "")
-                            .replace("%yPos%", treeBlock.getLocation().getBlockY() + "")
-                            .replace("%zPos%", treeBlock.getLocation().getBlockZ() + ""));
+                            .replace("%xPos%", String.valueOf(treeBlock.getLocation().getBlockX()))
+                            .replace("%yPos%", String.valueOf(treeBlock.getLocation().getBlockY()))
+                            .replace("%zPos%", String.valueOf(treeBlock.getLocation().getBlockZ())));
+        }
     }
 
     /**
      * Gets all possible plantable soil blocks for the given tree definition
      *
      * @param treeDefinition The TreeDefinition
-     *
      * @return A Set of IBlockData of plantable soil
      */
     public Set<CompatibleMaterial> getPlantableSoilMaterial(TreeDefinition treeDefinition) {
@@ -486,7 +528,6 @@ public class TreeDefinitionManager extends Manager {
      *
      * @param treeBlockType        The TreeBlockType to use
      * @param configurationSection The ConfigurationSection
-     *
      * @return A TreeLoot entry from the section
      */
     private TreeLoot getTreeLootEntry(TreeBlockType treeBlockType, ConfigurationSection configurationSection) {

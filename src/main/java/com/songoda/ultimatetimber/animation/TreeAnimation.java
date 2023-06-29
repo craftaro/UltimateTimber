@@ -9,7 +9,6 @@ import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockSet;
 import com.songoda.ultimatetimber.utils.BlockUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class TreeAnimation {
-
     protected final TreeAnimationType treeAnimationType;
     protected final DetectedTree detectedTree;
     protected final Player player;

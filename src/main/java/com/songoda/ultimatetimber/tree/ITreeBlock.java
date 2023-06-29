@@ -3,7 +3,6 @@ package com.songoda.ultimatetimber.tree;
 import org.bukkit.Location;
 
 public interface ITreeBlock<BlockType> {
-
     /**
      * Gets the block this TreeBlock represents
      *
@@ -24,5 +23,4 @@ public interface ITreeBlock<BlockType> {
      * @return The TreeBlockType
      */
     TreeBlockType getTreeBlockType();
-
 }

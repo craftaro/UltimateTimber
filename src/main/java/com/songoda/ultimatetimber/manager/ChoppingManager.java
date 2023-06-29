@@ -11,14 +11,13 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ChoppingManager extends Manager {
-
     private final Set<UUID> disabledPlayers;
     private final Map<UUID, Boolean> cooldownedPlayers;
     private boolean useCooldown;
     private int cooldownAmount;
 
-    public ChoppingManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
+    public ChoppingManager(UltimateTimber plugin) {
+        super(plugin);
         this.disabledPlayers = new HashSet<>();
         this.cooldownedPlayers = new HashMap<>();
     }
@@ -72,8 +71,7 @@ public class ChoppingManager extends Manager {
 
         this.cooldownedPlayers.put(player.getUniqueId(), false);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateTimber.getInstance(), () ->
-                this.cooldownedPlayers.remove(player.getUniqueId()), this.cooldownAmount * 20L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> this.cooldownedPlayers.remove(player.getUniqueId()), this.cooldownAmount * 20L);
     }
 
     /**
@@ -90,5 +88,4 @@ public class ChoppingManager extends Manager {
         }
         return cooldowned;
     }
-
 }

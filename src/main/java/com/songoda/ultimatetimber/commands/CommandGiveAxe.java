@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGiveAxe extends AbstractCommand {
-
     private final UltimateTimber plugin;
 
     public CommandGiveAxe(UltimateTimber plugin) {
@@ -21,43 +20,44 @@ public class CommandGiveAxe extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-
-        if (args.length < 1)
+        if (args.length < 1) {
             return ReturnType.SYNTAX_ERROR;
+        }
 
         Player player = Bukkit.getPlayer(args[0]);
         if (player == null) {
             if (args[0].trim().equalsIgnoreCase("me")) {
-                if (!(sender instanceof Player))
+                if (!(sender instanceof Player)) {
                     return ReturnType.NEEDS_PLAYER;
+                }
                 player = (Player) sender;
             } else {
-                plugin.getLocale().getMessageOrDefault("command.give.not-a-player", "&cNot a player.")
+                this.plugin.getLocale().getMessageOrDefault("command.give.not-a-player", "&cNot a player.")
                         .sendPrefixedMessage(sender);
                 return ReturnType.FAILURE;
             }
         }
 
-        ItemStack axe = plugin.getTreeDefinitionManager().getRequiredAxe();
+        ItemStack axe = this.plugin.getTreeDefinitionManager().getRequiredAxe();
 
         if (axe == null) {
-            plugin.getLocale().getMessageOrDefault("command.give.no-axe", "&cThe axe could not be loaded.")
+            this.plugin.getLocale().getMessageOrDefault("command.give.no-axe", "&cThe axe could not be loaded.")
                     .sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
         player.getInventory().addItem(axe);
-        plugin.getLocale().getMessageOrDefault("command.give.given", "&fAxe given to &a%player%")
+        this.plugin.getLocale().getMessageOrDefault("command.give.given", "&fAxe given to &a%player%")
                 .processPlaceholder("player", player.getName())
                 .sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
     }
 
     @Override
-    protected List<String> onTab(CommandSender commandSender, String... args) {
+    protected List<String> onTab(CommandSender sender, String... args) {
         List<String> suggestions = null;
         if (args.length == 1) {
-            suggestions = PlayerUtils.getVisiblePlayerNames(commandSender, args[0]);
+            suggestions = PlayerUtils.getVisiblePlayerNames(sender, args[0]);
             suggestions.add("me");
         }
         return suggestions;

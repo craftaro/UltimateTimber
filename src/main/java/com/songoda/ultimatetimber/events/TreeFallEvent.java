@@ -9,32 +9,31 @@ import org.bukkit.event.HandlerList;
  * Called when a tree will fall
  */
 public class TreeFallEvent extends TreeEvent implements Cancellable {
-	
-	private boolean cancelled = false;
-	
-    public TreeFallEvent(Player player, DetectedTree detectedTree) {
-        super(player, detectedTree);
+    private static final HandlerList HANDLERS = new HandlerList();
+
+    private boolean cancelled = false;
+
+    public TreeFallEvent(Player who, DetectedTree detectedTree) {
+        super(who, detectedTree);
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    
+
     @Override
     public HandlerList getHandlers() {
-        return handlers;
+        return HANDLERS;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return this.cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
     }
 
     public static HandlerList getHandlerList() {
-        return handlers;
+        return HANDLERS;
     }
-
-    @Override
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
-	
 }

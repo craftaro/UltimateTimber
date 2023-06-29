@@ -13,17 +13,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BlockUtils {
-
     public static Collection<ItemStack> getBlockDrops(ITreeBlock treeBlock) {
         Set<ItemStack> drops = new HashSet<>();
         if (treeBlock.getBlock() instanceof Block) {
-            Block block = (Block)treeBlock.getBlock();
+            Block block = (Block) treeBlock.getBlock();
             CompatibleMaterial material = CompatibleMaterial.getMaterial(block);
             if (material.isAir())
                 return drops;
             drops.add(CompatibleMaterial.getMaterial(block).getItem());
         } else if (treeBlock.getBlock() instanceof FallingBlock) {
-            CompatibleMaterial material = CompatibleMaterial.getMaterial((FallingBlock)treeBlock.getBlock());
+            CompatibleMaterial material = CompatibleMaterial.getMaterial((FallingBlock) treeBlock.getBlock());
             if (material == null)
                 return drops;
             drops.add(material.getItem());
@@ -45,5 +44,4 @@ public class BlockUtils {
         fallingBlock.setDropItem(false);
         fallingBlock.setHurtEntities(false);
     }
-
 }

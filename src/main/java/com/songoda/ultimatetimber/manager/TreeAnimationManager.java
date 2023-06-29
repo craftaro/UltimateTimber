@@ -30,15 +30,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TreeAnimationManager extends Manager implements Listener, Runnable {
-
     private final Set<TreeAnimation> activeAnimations;
     private final int taskId;
 
-    public TreeAnimationManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
+    public TreeAnimationManager(UltimateTimber plugin) {
+        super(plugin);
         this.activeAnimations = new HashSet<>();
         this.taskId = -1;
-        Bukkit.getPluginManager().registerEvents(this, ultimateTimber);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskTimer(this.plugin, this, 0, 1L);
     }
 
@@ -59,14 +58,16 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
             Set<ITreeBlock<FallingBlock>> groundedBlocks = new HashSet<>();
             for (ITreeBlock<FallingBlock> fallingTreeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks()) {
                 FallingBlock fallingBlock = fallingTreeBlock.getBlock();
-                if (fallingBlock.isDead() || ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17) && fallingBlock.isOnGround())
+                if (fallingBlock.isDead() || ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17) && fallingBlock.isOnGround()) {
                     groundedBlocks.add(fallingTreeBlock);
+                }
             }
 
             for (ITreeBlock<FallingBlock> fallingBlock : groundedBlocks) {
                 this.runFallingBlockImpact(treeAnimation, fallingBlock);
-                if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17))
+                if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_17)) {
                     fallingBlock.getBlock().remove();
+                }
                 treeAnimation.getFallingTreeBlocks().remove(fallingBlock);
             }
         }
@@ -101,10 +102,13 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * @param block The block to check
      */
     public boolean isBlockInAnimation(Block block) {
-        for (TreeAnimation treeAnimation : this.activeAnimations)
-            for (ITreeBlock<Block> treeBlock : treeAnimation.getDetectedTree().getDetectedTreeBlocks().getAllTreeBlocks())
-                if (treeBlock.getBlock().equals(block))
+        for (TreeAnimation treeAnimation : this.activeAnimations) {
+            for (ITreeBlock<Block> treeBlock : treeAnimation.getDetectedTree().getDetectedTreeBlocks().getAllTreeBlocks()) {
+                if (treeBlock.getBlock().equals(block)) {
                     return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -114,10 +118,13 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * @param fallingBlock The falling block to check
      */
     public boolean isBlockInAnimation(FallingBlock fallingBlock) {
-        for (TreeAnimation treeAnimation : this.activeAnimations)
-            for (ITreeBlock<FallingBlock> treeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks())
-                if (treeBlock.getBlock().equals(fallingBlock))
+        for (TreeAnimation treeAnimation : this.activeAnimations) {
+            for (ITreeBlock<FallingBlock> treeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks()) {
+                if (treeBlock.getBlock().equals(fallingBlock)) {
                     return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -127,10 +134,13 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * @return A TreeAnimation
      */
     private TreeAnimation getAnimationForBlock(FallingBlock fallingBlock) {
-        for (TreeAnimation treeAnimation : this.activeAnimations)
-            for (ITreeBlock<FallingBlock> treeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks())
-                if (treeBlock.getBlock().equals(fallingBlock))
+        for (TreeAnimation treeAnimation : this.activeAnimations) {
+            for (ITreeBlock<FallingBlock> treeBlock : treeAnimation.getFallingTreeBlocks().getAllTreeBlocks()) {
+                if (treeBlock.getBlock().equals(fallingBlock)) {
                     return treeAnimation;
+                }
+            }
+        }
         return null;
     }
 
@@ -154,10 +164,12 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
         TreeDefinition treeDefinition = treeAnimation.getDetectedTree().getTreeDefinition();
 
-        if (useCustomParticles)
+        if (useCustomParticles) {
             ParticleUtils.playLandingParticles(treeBlock);
-        if (useCustomSound)
+        }
+        if (useCustomSound) {
             SoundUtils.playLandingSound(treeBlock);
+        }
 
         Block block = treeBlock.getLocation().subtract(0, 1, 0).getBlock();
         if (ConfigurationManager.Setting.FRAGILE_BLOCKS.getStringList().contains(block.getType().toString())) {
@@ -172,17 +184,21 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onFallingBlockLand(EntityChangeBlockEvent event) {
-        if (!event.getEntityType().equals(EntityType.FALLING_BLOCK))
+        if (event.getEntityType() != EntityType.FALLING_BLOCK) {
             return;
+        }
 
         FallingBlock fallingBlock = (FallingBlock) event.getEntity();
-        if (!this.isBlockInAnimation(fallingBlock))
+        if (!this.isBlockInAnimation(fallingBlock)) {
             return;
+        }
 
         if (ConfigurationManager.Setting.FALLING_BLOCKS_DEAL_DAMAGE.getBoolean()) {
             int damage = ConfigurationManager.Setting.FALLING_BLOCK_DAMAGE.getInt();
             for (Entity entity : fallingBlock.getNearbyEntities(0.5, 0.5, 0.5)) {
-                if (!(entity instanceof LivingEntity)) continue;
+                if (!(entity instanceof LivingEntity)) {
+                    continue;
+                }
                 ((LivingEntity) entity).damage(damage, fallingBlock);
             }
         }

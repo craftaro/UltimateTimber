@@ -28,12 +28,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.stream.Collectors;
 
 public class TreeFallManager extends Manager implements Listener {
-
     private int maxLogBlocksAllowed;
 
-    public TreeFallManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
-        Bukkit.getPluginManager().registerEvents(this, ultimateTimber);
+    public TreeFallManager(UltimateTimber plugin) {
+        super(plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
@@ -43,7 +42,6 @@ public class TreeFallManager extends Manager implements Listener {
 
     @Override
     public void disable() {
-
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -67,54 +65,65 @@ public class TreeFallManager extends Manager implements Listener {
         // Condition checks
         boolean isValid = true;
 
-        if (ConfigurationManager.Setting.DISABLED_WORLDS.getStringList().contains(player.getWorld().getName()))
+        if (ConfigurationManager.Setting.DISABLED_WORLDS.getStringList().contains(player.getWorld().getName())) {
             isValid = false;
+        }
 
-        if (!ConfigurationManager.Setting.ALLOW_CREATIVE_MODE.getBoolean() && player.getGameMode().equals(GameMode.CREATIVE))
+        if (!ConfigurationManager.Setting.ALLOW_CREATIVE_MODE.getBoolean() && player.getGameMode().equals(GameMode.CREATIVE)) {
             isValid = false;
+        }
 
-        if (!this.checkToppleWhile(player))
+        if (!this.checkToppleWhile(player)) {
             isValid = false;
+        }
 
-        if (ConfigurationManager.Setting.REQUIRE_CHOP_PERMISSION.getBoolean() && !player.hasPermission("ultimatetimber.chop"))
+        if (ConfigurationManager.Setting.REQUIRE_CHOP_PERMISSION.getBoolean() && !player.hasPermission("ultimatetimber.chop")) {
             isValid = false;
+        }
 
-        if (!choppingManager.isChopping(player))
+        if (!choppingManager.isChopping(player)) {
             isValid = false;
+        }
 
-        if (choppingManager.isInCooldown(player))
+        if (choppingManager.isInCooldown(player)) {
             isValid = false;
+        }
 
         if (treeAnimationManager.isBlockInAnimation(block)) {
             isValid = false;
             event.setCancelled(true);
         }
 
-        if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool))
+        if (!treeDefinitionManager.isToolValidForAnyTreeDefinition(tool)) {
             isValid = false;
+        }
 
-        if (ConfigurationManager.Setting.HOOKS_REQUIRE_ABILITY_ACTIVE.getBoolean()
-                && !McMMOHook.isUsingTreeFeller(player))
+        if (ConfigurationManager.Setting.HOOKS_REQUIRE_ABILITY_ACTIVE.getBoolean() && !McMMOHook.isUsingTreeFeller(player)) {
             isValid = false;
+        }
 
         boolean alwaysReplantSapling = ConfigurationManager.Setting.ALWAYS_REPLANT_SAPLING.getBoolean();
-        if (!isValid && !alwaysReplantSapling)
+        if (!isValid && !alwaysReplantSapling) {
             return;
+        }
 
         DetectedTree detectedTree = treeDetectionManager.detectTree(block);
-        if (detectedTree == null)
+        if (detectedTree == null) {
             return;
+        }
 
         if (alwaysReplantSapling) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () ->
                     saplingManager.replantSapling(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock()));
 
-            if (!isValid)
+            if (!isValid) {
                 return;
+            }
         }
 
-        if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool))
+        if (!treeDefinitionManager.isToolValidForTreeDefinition(detectedTree.getTreeDefinition(), tool)) {
             return;
+        }
 
         short toolDamage = this.getToolDamage(detectedTree.getDetectedTreeBlocks(), tool.containsEnchantment(Enchantment.SILK_TOUCH));
         if (ConfigurationManager.Setting.PROTECT_TOOL.getBoolean() && !ItemUtils.hasEnoughDurability(tool, toolDamage)) {
@@ -124,13 +133,14 @@ public class TreeFallManager extends Manager implements Listener {
         // Trigger fall event
         TreeFallEvent treeFallEvent = new TreeFallEvent(player, detectedTree);
         Bukkit.getPluginManager().callEvent(treeFallEvent);
-        if (treeFallEvent.isCancelled())
+        if (treeFallEvent.isCancelled()) {
             return;
+        }
 
         // Valid tree and meets all conditions past this point
         event.setCancelled(true);
 
-        detectedTree.getDetectedTreeBlocks().sortAndLimit(maxLogBlocksAllowed);
+        detectedTree.getDetectedTreeBlocks().sortAndLimit(this.maxLogBlocksAllowed);
 
         choppingManager.cooldownPlayer(player);
 
@@ -140,7 +150,7 @@ public class TreeFallManager extends Manager implements Listener {
             detectedTree.getDetectedTreeBlocks().remove(detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
         }
 
-        boolean isCreative = player.getGameMode().equals(GameMode.CREATIVE);
+        boolean isCreative = player.getGameMode() == GameMode.CREATIVE;
 
         if (!isCreative) {
             new SItemStack(tool).addDamage(player, toolDamage, true);
@@ -150,13 +160,16 @@ public class TreeFallManager extends Manager implements Listener {
             McMMOHook.addWoodcutting(player, detectedTree.getDetectedTreeBlocks().getAllTreeBlocks().stream()
                     .map(ITreeBlock::getBlock).collect(Collectors.toList()));
 
-            if (!isCreative && JobsHook.isEnabled())
-                for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getLogBlocks())
+            if (!isCreative && JobsHook.isEnabled()) {
+                for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getLogBlocks()) {
                     JobsHook.breakBlock(player, treeBlock.getBlock());
+                }
+            }
         }
 
-        for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks())
+        for (ITreeBlock<Block> treeBlock : detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
             LogManager.logRemoval(player, treeBlock.getBlock());
+        }
 
         treeAnimationManager.runAnimation(detectedTree, player);
         treeDefinitionManager.dropTreeLoot(detectedTree.getTreeDefinition(), detectedTree.getDetectedTreeBlocks().getInitialLogBlock(), player, false, true);
@@ -170,7 +183,6 @@ public class TreeFallManager extends Manager implements Listener {
      * Checks if a player is doing a certain action required to topple a tree
      *
      * @param player The player to check
-     *
      * @return True if the check passes, otherwise false
      */
     private boolean checkToppleWhile(Player player) {
@@ -185,8 +197,9 @@ public class TreeFallManager extends Manager implements Listener {
     }
 
     private short getToolDamage(TreeBlockSet<Block> treeBlocks, boolean hasSilkTouch) {
-        if (!ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean())
+        if (!ConfigurationManager.Setting.REALISTIC_TOOL_DAMAGE.getBoolean()) {
             return 1;
+        }
 
         if (ConfigurationManager.Setting.APPLY_SILK_TOUCH_TOOL_DAMAGE.getBoolean() && hasSilkTouch) {
             return (short) treeBlocks.size();

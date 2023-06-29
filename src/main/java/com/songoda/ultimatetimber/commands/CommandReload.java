@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class CommandReload extends AbstractCommand {
-
     private final UltimateTimber plugin;
 
     public CommandReload(UltimateTimber plugin) {
@@ -17,8 +16,8 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        plugin.reloadConfig();
-        plugin.getLocale().getMessage("command.reload.reloaded").sendPrefixedMessage(sender);
+        this.plugin.reloadConfig();
+        this.plugin.getLocale().getMessage("command.reload.reloaded").sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
     }
 
@@ -39,7 +38,6 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return plugin.getLocale().getMessage("command.reload.description").getMessage();
+        return this.plugin.getLocale().getMessage("command.reload.description").getMessage();
     }
-
 }

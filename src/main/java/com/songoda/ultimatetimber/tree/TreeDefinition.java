@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Set;
 
 public class TreeDefinition {
-
     private final String key;
     private final Set<CompatibleMaterial> logMaterial, leafMaterial, plantableSoilMaterial;
     private final CompatibleMaterial saplingMaterial;
@@ -167,11 +166,11 @@ public class TreeDefinition {
     }
 
     /**
-     * Returns whether or not does this TreeDefinition require a custom axe.
+     * Returns whether this TreeDefinition requires a custom axe.
      *
      * @return True if the TreeDefinition requires a custom axe
      */
     public boolean isRequiredAxe() {
-        return requiredAxe;
+        return this.requiredAxe;
     }
 }

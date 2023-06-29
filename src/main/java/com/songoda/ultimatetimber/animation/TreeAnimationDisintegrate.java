@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TreeAnimationDisintegrate extends TreeAnimation {
-
     public TreeAnimationDisintegrate(DetectedTree detectedTree, Player player) {
         super(TreeAnimationType.DISINTEGRATE, detectedTree, player);
     }
@@ -71,20 +70,24 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
 
                 if (!toDestroy.isEmpty()) {
                     ITreeBlock<Block> first = toDestroy.get(0);
-                    if (useCustomSound)
+                    if (useCustomSound) {
                         SoundUtils.playLandingSound(first);
+                    }
 
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
-                        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
-                            if (td.getLogMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
+                        if (treeBlock.getTreeBlockType() == TreeBlockType.LOG) {
+                            if (td.getLogMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
                                 continue;
-                        } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
-                            if (td.getLeafMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
+                            }
+                        } else if (treeBlock.getTreeBlockType() == TreeBlockType.LEAF) {
+                            if (td.getLeafMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
                                 continue;
+                            }
                         }
 
-                        if (useCustomParticles)
+                        if (useCustomParticles) {
                             ParticleUtils.playFallingParticles(treeBlock);
+                        }
                         treeDefinitionManager.dropTreeLoot(td, treeBlock, p, hst, false);
                         TreeAnimationDisintegrate.this.replaceBlock((TreeBlock) treeBlock);
                     }
@@ -95,5 +98,4 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
             }
         }.runTaskTimer(ultimateTimber, 0, 1);
     }
-
 }

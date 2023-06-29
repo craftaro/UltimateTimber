@@ -8,20 +8,18 @@ import org.bukkit.event.HandlerList;
  * Called when a tree fell
  */
 public class TreeFellEvent extends TreeEvent {
+    private static final HandlerList HANDLERS = new HandlerList();
 
-    public TreeFellEvent(Player player, DetectedTree detectedTree) {
-        super(player, detectedTree);
+    public TreeFellEvent(Player who, DetectedTree detectedTree) {
+        super(who, detectedTree);
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    
     @Override
     public HandlerList getHandlers() {
-        return handlers;
+        return HANDLERS;
     }
 
     public static HandlerList getHandlerList() {
-        return handlers;
+        return HANDLERS;
     }
-	
 }

@@ -3,7 +3,6 @@ package com.songoda.ultimatetimber.tree;
 import org.bukkit.inventory.ItemStack;
 
 public class TreeLoot {
-
     private final TreeBlockType treeBlockType;
     private final ItemStack item;
     private final String command;
@@ -73,10 +72,10 @@ public class TreeLoot {
     @Override
     public String toString() {
         return "TreeLoot{" +
-                "treeBlockType=" + treeBlockType +
-                ", item=" + item +
-                ", command='" + command + '\'' +
-                ", chance=" + chance +
+                "treeBlockType=" + this.treeBlockType +
+                ", item=" + this.item +
+                ", command='" + this.command + '\'' +
+                ", chance=" + this.chance +
                 '}';
     }
 }

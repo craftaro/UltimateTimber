@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.List;
 
 public class ConfigurationManager extends Manager {
-
     public enum Setting {
         SERVER_TYPE(SettingType.STRING),
         LOCALE(SettingType.STRING),
@@ -49,7 +48,7 @@ public class ConfigurationManager extends Manager {
         SCATTER_TREE_BLOCKS_ON_GROUND(SettingType.BOOLEAN),
         FRAGILE_BLOCKS(SettingType.STRING_LIST);
 
-        private SettingType settingType;
+        private final SettingType settingType;
         private Object value = null;
 
         Setting(SettingType settingType) {
@@ -118,10 +117,11 @@ public class ConfigurationManager extends Manager {
          * Loads the value from the config and caches it if it isn't set yet
          */
         private void loadValue() {
-            if (this.value != null)
+            if (this.value != null) {
                 return;
+            }
 
-            FileConfiguration config = UltimateTimber.getInstance().getConfigurationManager().getConfig();
+            FileConfiguration config = UltimateTimber.getPlugin(UltimateTimber.class).getConfigurationManager().getConfig();
             switch (this.settingType) {
                 case BOOLEAN:
                     this.value = config.getBoolean(this.getNameAsKey());
@@ -161,8 +161,8 @@ public class ConfigurationManager extends Manager {
 
     private YamlConfiguration configuration;
 
-    public ConfigurationManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
+    public ConfigurationManager(UltimateTimber plugin) {
+        super(plugin);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class ConfigurationManager extends Manager {
 
         File configFile = new File(this.plugin.getDataFolder() + "/config.yml");
 
-        // If an old config still exists, rename it so it doesn't interfere
+        // If an old config still exists, rename it, so it doesn't interfere
         if (configFile.exists() && this.plugin.getConfig().get("server-type") == null) {
             File renameConfigTo = new File(this.plugin.getDataFolder() + "/config-old.yml");
             configFile.renameTo(renameConfigTo);
@@ -188,14 +188,16 @@ public class ConfigurationManager extends Manager {
 
         this.configuration = YamlConfiguration.loadConfiguration(configFile);
 
-        for (Setting setting : Setting.values())
+        for (Setting setting : Setting.values()) {
             setting.reset();
+        }
     }
 
     @Override
     public void disable() {
-        for (Setting setting : Setting.values())
+        for (Setting setting : Setting.values()) {
             setting.reset();
+        }
     }
 
     /**
@@ -206,5 +208,4 @@ public class ConfigurationManager extends Manager {
     public YamlConfiguration getConfig() {
         return this.configuration;
     }
-
 }

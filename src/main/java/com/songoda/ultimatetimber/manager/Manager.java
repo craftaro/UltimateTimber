@@ -3,7 +3,6 @@ package com.songoda.ultimatetimber.manager;
 import com.songoda.ultimatetimber.UltimateTimber;
 
 public abstract class Manager {
-
     protected UltimateTimber plugin;
 
     Manager(UltimateTimber plugin) {
@@ -19,5 +18,4 @@ public abstract class Manager {
      * Cleans up the Manager's resources
      */
     public abstract void disable();
-
 }

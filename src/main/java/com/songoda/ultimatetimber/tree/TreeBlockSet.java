@@ -1,7 +1,5 @@
 package com.songoda.ultimatetimber.tree;
 
-import org.bukkit.block.Block;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +11,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TreeBlockSet<BlockType> implements Collection {
-
     private final ITreeBlock<BlockType> initialLogBlock;
     private List<ITreeBlock<BlockType>> logBlocks;
     private final List<ITreeBlock<BlockType>> leafBlocks;
@@ -29,8 +26,9 @@ public class TreeBlockSet<BlockType> implements Collection {
         this.logBlocks = new LinkedList<>();
         this.leafBlocks = new LinkedList<>();
 
-        if (initialLogBlock != null)
+        if (initialLogBlock != null) {
             this.logBlocks.add(initialLogBlock);
+        }
     }
 
     /**
@@ -100,7 +98,9 @@ public class TreeBlockSet<BlockType> implements Collection {
     @Override
     @SuppressWarnings("unchecked")
     public boolean add(Object o) {
-        if (!(o instanceof ITreeBlock)) return false;
+        if (!(o instanceof ITreeBlock)) {
+            return false;
+        }
         ITreeBlock treeBlock = (ITreeBlock) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
@@ -113,7 +113,9 @@ public class TreeBlockSet<BlockType> implements Collection {
 
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof ITreeBlock)) return false;
+        if (!(o instanceof ITreeBlock)) {
+            return false;
+        }
         ITreeBlock treeBlock = (ITreeBlock) o;
         switch (treeBlock.getTreeBlockType()) {
             case LOG:
@@ -168,18 +170,22 @@ public class TreeBlockSet<BlockType> implements Collection {
     }
 
     public void sortAndLimit(int max) {
-        if (logBlocks.size() < max)
+        if (this.logBlocks.size() < max) {
             return;
+        }
 
-        logBlocks = logBlocks.stream().sorted(Comparator.comparingInt(b -> b.getLocation().getBlockY()))
+        this.logBlocks = this.logBlocks.stream().sorted(Comparator.comparingInt(b -> b.getLocation().getBlockY()))
                 .limit(max).collect(Collectors.toList());
 
-        int highest = logBlocks.get(logBlocks.size() - 1).getLocation().getBlockY();
+        int highest = this.logBlocks.get(this.logBlocks.size() - 1).getLocation().getBlockY();
 
-        if (logBlocks.size() >= max)
-            for (ITreeBlock<BlockType> leafBlock : new LinkedList<>(leafBlocks))
-                if (leafBlock.getLocation().getY() > highest)
-                    leafBlocks.remove(leafBlock);
+        if (this.logBlocks.size() >= max) {
+            for (ITreeBlock<BlockType> leafBlock : new LinkedList<>(this.leafBlocks)) {
+                if (leafBlock.getLocation().getY() > highest) {
+                    this.leafBlocks.remove(leafBlock);
+                }
+            }
+        }
     }
 
     /**
@@ -189,11 +195,12 @@ public class TreeBlockSet<BlockType> implements Collection {
      * @return If any blocks were removed
      */
     public boolean removeAll(TreeBlockType treeBlockType) {
-        if (treeBlockType.equals(TreeBlockType.LOG)) {
+        if (treeBlockType == TreeBlockType.LOG) {
             boolean removedAny = !this.logBlocks.isEmpty();
             this.logBlocks.clear();
             return removedAny;
-        } else if (treeBlockType.equals(TreeBlockType.LEAF)) {
+        }
+        if (treeBlockType == TreeBlockType.LEAF) {
             boolean removedAny = !this.leafBlocks.isEmpty();
             this.leafBlocks.clear();
             return removedAny;
@@ -203,9 +210,11 @@ public class TreeBlockSet<BlockType> implements Collection {
 
     @Override
     public boolean containsAll(Collection c) {
-        for (Object o : c)
-            if (!this.contains(o))
+        for (Object o : c) {
+            if (!this.contains(o)) {
                 return false;
+            }
+        }
         return true;
     }
 
@@ -213,10 +222,12 @@ public class TreeBlockSet<BlockType> implements Collection {
     @SuppressWarnings("unchecked")
     public Object[] toArray(Object[] a) {
         Set<ITreeBlock<BlockType>> treeBlocks = new HashSet<>();
-        for (Object o : a)
-            if (o instanceof ITreeBlock)
-                treeBlocks.add((ITreeBlock<BlockType>)o);
+        for (Object o : a) {
+            if (o instanceof ITreeBlock) {
+                treeBlocks.add((ITreeBlock<BlockType>) o);
+            }
+        }
+
         return treeBlocks.toArray();
     }
-
 }

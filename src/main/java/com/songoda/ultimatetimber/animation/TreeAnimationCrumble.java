@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TreeAnimationCrumble extends TreeAnimation {
-
     public TreeAnimationCrumble(DetectedTree detectedTree, Player player) {
         super(TreeAnimationType.CRUMBLE, detectedTree, player);
     }
@@ -64,29 +63,35 @@ public class TreeAnimationCrumble extends TreeAnimation {
                     List<ITreeBlock<Block>> partition = treeBlocks.get(0);
                     for (int i = 0; i < 3 && !partition.isEmpty(); i++) {
                         ITreeBlock<Block> treeBlock = partition.remove(0);
-                        if (treeBlock.getTreeBlockType().equals(TreeBlockType.LOG)) {
-                            if (td.getLogMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
+                        if (treeBlock.getTreeBlockType() == TreeBlockType.LOG) {
+                            if (td.getLogMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
                                 continue;
-                        } else if (treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF)) {
-                            if (td.getLeafMaterial().stream().noneMatch(x -> x.equals(CompatibleMaterial.getMaterial(treeBlock.getBlock()))))
+                            }
+                        } else if (treeBlock.getTreeBlockType() == TreeBlockType.LEAF) {
+                            if (td.getLeafMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
                                 continue;
+                            }
                         }
 
-                        FallingTreeBlock fallingTreeBlock = TreeAnimationCrumble.this.convertToFallingBlock((TreeBlock)treeBlock);
-                        if (fallingTreeBlock == null)
+                        FallingTreeBlock fallingTreeBlock = TreeAnimationCrumble.this.convertToFallingBlock((TreeBlock) treeBlock);
+                        if (fallingTreeBlock == null) {
                             continue;
+                        }
 
                         BlockUtils.toggleGravityFallingBlock(fallingTreeBlock.getBlock(), true);
                         fallingTreeBlock.getBlock().setVelocity(Vector.getRandom().setY(0).subtract(new Vector(0.5, 0, 0.5)).multiply(0.15));
                         TreeAnimationCrumble.this.fallingTreeBlocks.add(fallingTreeBlock);
 
-                        if (TreeAnimationCrumble.this.fallingTreeBlocks == null)
+                        if (TreeAnimationCrumble.this.fallingTreeBlocks == null) {
                             TreeAnimationCrumble.this.fallingTreeBlocks = new TreeBlockSet<>(fallingTreeBlock);
+                        }
 
-                        if (useCustomSound)
+                        if (useCustomSound) {
                             SoundUtils.playLandingSound(treeBlock);
-                        if (useCustomParticles)
+                        }
+                        if (useCustomParticles) {
                             ParticleUtils.playFallingParticles(treeBlock);
+                        }
                     }
 
                     if (partition.isEmpty()) {
@@ -102,4 +107,3 @@ public class TreeAnimationCrumble extends TreeAnimation {
         }.runTaskTimer(ultimateTimber, 0, 1);
     }
 }
-

@@ -18,7 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class TreeAnimationFancy extends TreeAnimation {
-
     public TreeAnimationFancy(DetectedTree detectedTree, Player player) {
         super(TreeAnimationType.FANCY, detectedTree, player);
     }
@@ -31,24 +30,27 @@ public class TreeAnimationFancy extends TreeAnimation {
         boolean useCustomParticles = ConfigurationManager.Setting.USE_CUSTOM_PARTICLES.getBoolean();
 
         ITreeBlock<Block> initialTreeBlock = this.detectedTree.getDetectedTreeBlocks().getInitialLogBlock();
-        FallingTreeBlock initialFallingBlock = this.convertToFallingBlock((TreeBlock)this.detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
+        FallingTreeBlock initialFallingBlock = this.convertToFallingBlock((TreeBlock) this.detectedTree.getDetectedTreeBlocks().getInitialLogBlock());
 
-        if (useCustomSound)
+        if (useCustomSound) {
             SoundUtils.playFallingSound(initialTreeBlock);
+        }
 
         Vector velocityVector = initialTreeBlock.getLocation().clone().subtract(this.player.getLocation().clone()).toVector().normalize().setY(0);
 
         this.fallingTreeBlocks = new TreeBlockSet<>(initialFallingBlock);
         for (ITreeBlock<Block> treeBlock : this.detectedTree.getDetectedTreeBlocks().getAllTreeBlocks()) {
-            FallingTreeBlock fallingTreeBlock = this.convertToFallingBlock((TreeBlock)treeBlock);
-            if (fallingTreeBlock == null)
+            FallingTreeBlock fallingTreeBlock = this.convertToFallingBlock((TreeBlock) treeBlock);
+            if (fallingTreeBlock == null) {
                 continue;
+            }
 
             FallingBlock fallingBlock = fallingTreeBlock.getBlock();
             this.fallingTreeBlocks.add(fallingTreeBlock);
 
-            if (useCustomParticles)
-            ParticleUtils.playFallingParticles(treeBlock);
+            if (useCustomParticles) {
+                ParticleUtils.playFallingParticles(treeBlock);
+            }
 
             double multiplier = (treeBlock.getLocation().getY() - this.player.getLocation().getY()) * 0.05;
             fallingBlock.setVelocity(velocityVector.clone().multiply(multiplier));
@@ -83,13 +85,13 @@ public class TreeAnimationFancy extends TreeAnimation {
 
                 if (this.timer > 4 * 20) {
                     TreeAnimationManager treeAnimationManager = ultimateTimber.getTreeAnimationManager();
-                    for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationFancy.this.fallingTreeBlocks.getAllTreeBlocks())
+                    for (ITreeBlock<FallingBlock> fallingTreeBlock : TreeAnimationFancy.this.fallingTreeBlocks.getAllTreeBlocks()) {
                         treeAnimationManager.runFallingBlockImpact(TreeAnimationFancy.this, fallingTreeBlock);
+                    }
                     whenFinished.run();
                     this.cancel();
                 }
             }
         }.runTaskTimer(ultimateTimber, 20L, 1L);
     }
-
 }

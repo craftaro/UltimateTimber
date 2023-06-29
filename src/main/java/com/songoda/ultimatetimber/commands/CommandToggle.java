@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandToggle extends AbstractCommand {
-
     private final UltimateTimber plugin;
 
     public CommandToggle(UltimateTimber plugin) {
@@ -18,10 +17,10 @@ public class CommandToggle extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        if (UltimateTimber.getInstance().getChoppingManager().togglePlayer((Player) sender)) {
-            plugin.getLocale().getMessage("command.toggle.enabled").sendPrefixedMessage(sender);
+        if (this.plugin.getChoppingManager().togglePlayer((Player) sender)) {
+            this.plugin.getLocale().getMessage("command.toggle.enabled").sendPrefixedMessage(sender);
         } else {
-            plugin.getLocale().getMessage("command.toggle.disabled").sendPrefixedMessage(sender);
+            this.plugin.getLocale().getMessage("command.toggle.disabled").sendPrefixedMessage(sender);
         }
         return ReturnType.SUCCESS;
     }
@@ -43,7 +42,7 @@ public class CommandToggle extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return plugin.getLocale().getMessage("command.toggle.description").getMessage();
+        return this.plugin.getLocale().getMessage("command.toggle.description").getMessage();
     }
 
 }

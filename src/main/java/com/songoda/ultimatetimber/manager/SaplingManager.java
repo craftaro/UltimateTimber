@@ -16,24 +16,21 @@ import java.util.Random;
 import java.util.Set;
 
 public class SaplingManager extends Manager {
+    private final Random random;
+    private final Set<Location> protectedSaplings;
 
-    private Random random;
-    private Set<Location> protectedSaplings;
-
-    public SaplingManager(UltimateTimber ultimateTimber) {
-        super(ultimateTimber);
+    public SaplingManager(UltimateTimber plugin) {
+        super(plugin);
         this.random = new Random();
         this.protectedSaplings = new HashSet<>();
     }
 
     @Override
     public void reload() {
-
     }
 
     @Override
     public void disable() {
-
     }
 
     /**
@@ -41,15 +38,17 @@ public class SaplingManager extends Manager {
      * Takes into account config settings
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param treeBlock The ITreeBlock to replant for
+     * @param treeBlock      The ITreeBlock to replant for
      */
     public void replantSapling(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
-        if (!ConfigurationManager.Setting.REPLANT_SAPLINGS.getBoolean())
+        if (!ConfigurationManager.Setting.REPLANT_SAPLINGS.getBoolean()) {
             return;
+        }
 
         Block block = treeBlock.getLocation().getBlock();
-        if (!block.getType().equals(Material.AIR) || treeBlock.getTreeBlockType().equals(TreeBlockType.LEAF))
+        if (block.getType() != Material.AIR || treeBlock.getTreeBlockType() == TreeBlockType.LEAF) {
             return;
+        }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> this.internalReplant(treeDefinition, treeBlock), 1L);
     }
@@ -59,15 +58,17 @@ public class SaplingManager extends Manager {
      * Takes into account config settings
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param treeBlock The ITreeBlock to replant for
+     * @param treeBlock      The ITreeBlock to replant for
      */
     public void replantSaplingWithChance(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
-        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean() || !treeBlock.getLocation().getBlock().getType().equals(Material.AIR))
+        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean() || !CompatibleMaterial.getMaterial(treeBlock.getLocation().getBlock()).isAir()) {
             return;
+        }
 
         double chance = ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS_CHANCE.getDouble();
-        if (this.random.nextDouble() > chance / 100)
+        if (this.random.nextDouble() > chance / 100) {
             return;
+        }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> this.internalReplant(treeDefinition, treeBlock), 1L);
     }
@@ -76,7 +77,7 @@ public class SaplingManager extends Manager {
      * Replants a sapling given a TreeDefinition and Location
      *
      * @param treeDefinition The TreeDefinition of the sapling
-     * @param treeBlock The ITreeBlock to replant for
+     * @param treeBlock      The ITreeBlock to replant for
      */
     private void internalReplant(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
         TreeDefinitionManager treeDefinitionManager = this.plugin.getTreeDefinitionManager();
@@ -85,14 +86,15 @@ public class SaplingManager extends Manager {
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         boolean isValidSoil = false;
         for (CompatibleMaterial soilMaterial : treeDefinitionManager.getPlantableSoilMaterial(treeDefinition)) {
-            if (soilMaterial.equals(CompatibleMaterial.getMaterial(blockBelow))) {
+            if (soilMaterial == CompatibleMaterial.getMaterial(blockBelow)) {
                 isValidSoil = true;
                 break;
             }
         }
 
-        if (!isValidSoil)
+        if (!isValidSoil) {
             return;
+        }
 
         CompatibleMaterial material = treeDefinition.getSaplingMaterial();
         material.applyToBlock(block);
@@ -113,5 +115,4 @@ public class SaplingManager extends Manager {
     public boolean isSaplingProtected(Block block) {
         return this.protectedSaplings.contains(block.getLocation());
     }
-
 }

@@ -6,7 +6,6 @@ import org.bukkit.block.Block;
 import java.util.Objects;
 
 public class TreeBlock implements ITreeBlock<Block> {
-
     private final Block block;
     private final TreeBlockType treeBlockType;
 
@@ -36,11 +35,15 @@ public class TreeBlock implements ITreeBlock<Block> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof TreeBlock)) return false;
-        if (o == this) return true;
-        TreeBlock oTreeBlock = (TreeBlock)o;
-        return oTreeBlock.block.equals(this.block) && oTreeBlock.treeBlockType.equals(this.treeBlockType);
-    }
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TreeBlock)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
 
+        TreeBlock oTreeBlock = (TreeBlock) obj;
+        return oTreeBlock.block.equals(this.block) && oTreeBlock.treeBlockType == this.treeBlockType;
+    }
 }

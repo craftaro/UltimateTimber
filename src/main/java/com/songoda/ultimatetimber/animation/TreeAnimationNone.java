@@ -12,7 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class TreeAnimationNone extends TreeAnimation {
-
     public TreeAnimationNone(DetectedTree detectedTree, Player player) {
         super(TreeAnimationType.NONE, detectedTree, player);
     }
@@ -35,5 +34,4 @@ public class TreeAnimationNone extends TreeAnimation {
 
         whenFinished.run();
     }
-
 }

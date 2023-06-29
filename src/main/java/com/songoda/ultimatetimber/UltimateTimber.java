@@ -2,6 +2,7 @@ package com.songoda.ultimatetimber;
 
 import com.songoda.core.SongodaCore;
 import com.songoda.core.SongodaPlugin;
+import com.songoda.core.commands.CommandManager;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
 import com.songoda.core.hooks.LogManager;
@@ -18,19 +19,16 @@ import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
 import com.songoda.ultimatetimber.manager.TreeDetectionManager;
 import com.songoda.ultimatetimber.manager.TreeFallManager;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class UltimateTimber extends SongodaPlugin {
-
-    private static UltimateTimber INSTANCE;
-
-    private Set<Manager> managers;
+    private final Set<Manager> managers = new HashSet<>();
 
     private ChoppingManager choppingManager;
     private ConfigurationManager configurationManager;
-    private com.songoda.core.commands.CommandManager commandManager;
     private PlacedBlockManager placedBlockManager;
     private SaplingManager saplingManager;
     private TreeAnimationManager treeAnimationManager;
@@ -38,13 +36,16 @@ public class UltimateTimber extends SongodaPlugin {
     private TreeDetectionManager treeDetectionManager;
     private TreeFallManager treeFallManager;
 
+    /**
+     * @deprecated Use {@link #getPlugin(Class)} instead
+     */
+    @Deprecated
     public static UltimateTimber getInstance() {
-        return INSTANCE;
+        return getPlugin(UltimateTimber.class);
     }
 
     @Override
     public void onPluginLoad() {
-        INSTANCE = this;
     }
 
     @Override
@@ -56,8 +57,8 @@ public class UltimateTimber extends SongodaPlugin {
         LogManager.load();
 
         // Setup plugin commands
-        this.commandManager = new com.songoda.core.commands.CommandManager(this);
-        this.commandManager.addMainCommand("ut")
+        CommandManager commandManager = new CommandManager(this);
+        commandManager.addMainCommand("ut")
                 .addSubCommands(
                         new CommandReload(this),
                         new CommandToggle(this),
@@ -65,7 +66,6 @@ public class UltimateTimber extends SongodaPlugin {
                 );
 
         // Register managers
-        this.managers = new HashSet<>();
         this.choppingManager = this.registerManager(ChoppingManager.class);
         this.configurationManager = new ConfigurationManager(this);
         this.placedBlockManager = this.registerManager(PlacedBlockManager.class);
@@ -80,7 +80,8 @@ public class UltimateTimber extends SongodaPlugin {
 
     @Override
     public void onPluginDisable() {
-        this.disable();
+        this.configurationManager.disable();
+        this.managers.forEach(Manager::disable);
     }
 
     @Override
@@ -96,15 +97,7 @@ public class UltimateTimber extends SongodaPlugin {
 
     @Override
     public List<Config> getExtraConfig() {
-        return null;
-    }
-
-    /**
-     * Disables most of the plugin
-     */
-    public void disable() {
-        this.configurationManager.disable();
-        this.managers.forEach(Manager::disable);
+        return Collections.emptyList();
     }
 
     /**
@@ -125,76 +118,35 @@ public class UltimateTimber extends SongodaPlugin {
         }
     }
 
-    /**
-     * Gets the chopping manager
-     *
-     * @return The ChoppingManager instance
-     */
     public ChoppingManager getChoppingManager() {
         return this.choppingManager;
     }
 
-    /**
-     * Gets the configuration manager
-     *
-     * @return The ConfigurationManager instance
-     */
     public ConfigurationManager getConfigurationManager() {
         return this.configurationManager;
     }
 
-    /**
-     * Gets the placed block manager
-     *
-     * @return The PlacedBlockManager instance
-     */
     public PlacedBlockManager getPlacedBlockManager() {
         return this.placedBlockManager;
     }
 
-    /**
-     * Gets the sapling manager
-     *
-     * @return The SaplingManager instance
-     */
     public SaplingManager getSaplingManager() {
         return this.saplingManager;
     }
 
-    /**
-     * Gets the tree animation manager
-     *
-     * @return The TreeAnimationManager instance
-     */
     public TreeAnimationManager getTreeAnimationManager() {
         return this.treeAnimationManager;
     }
 
-    /**
-     * Gets the tree definition manager
-     *
-     * @return The TreeDefinitionManager instance
-     */
     public TreeDefinitionManager getTreeDefinitionManager() {
         return this.treeDefinitionManager;
     }
 
-    /**
-     * Gets the tree detection manager
-     *
-     * @return The TreeDetectionManager instance
-     */
     public TreeDetectionManager getTreeDetectionManager() {
         return this.treeDetectionManager;
     }
 
-    /**
-     * Gets the tree fall manager
-     *
-     * @return The TreeFallManager instance
-     */
     public TreeFallManager getTreeFallManager() {
         return this.treeFallManager;
     }
-
 }
