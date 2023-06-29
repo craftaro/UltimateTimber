@@ -1,11 +1,11 @@
 package com.songoda.ultimatetimber.manager;
 
-import com.songoda.core.compatibility.CompatibleHand;
-import com.songoda.core.hooks.JobsHook;
-import com.songoda.core.hooks.LogManager;
-import com.songoda.core.hooks.McMMOHook;
-import com.songoda.core.utils.ItemUtils;
-import com.songoda.core.world.SItemStack;
+import com.craftaro.core.compatibility.CompatibleHand;
+import com.craftaro.core.hooks.JobsHook;
+import com.craftaro.core.hooks.LogManager;
+import com.craftaro.core.hooks.McMMOHook;
+import com.craftaro.core.utils.ItemUtils;
+import com.craftaro.core.world.SItemStack;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.events.TreeFallEvent;
 import com.songoda.ultimatetimber.events.TreeFellEvent;

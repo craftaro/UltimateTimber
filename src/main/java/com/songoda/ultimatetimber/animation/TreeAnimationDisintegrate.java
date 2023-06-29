@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.animation;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.manager.ConfigurationManager;
 import com.songoda.ultimatetimber.manager.TreeDefinitionManager;
@@ -76,11 +76,11 @@ public class TreeAnimationDisintegrate extends TreeAnimation {
 
                     for (ITreeBlock<Block> treeBlock : toDestroy) {
                         if (treeBlock.getTreeBlockType() == TreeBlockType.LOG) {
-                            if (td.getLogMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
+                            if (td.getLogMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock().getType()).orElse(null))) {
                                 continue;
                             }
                         } else if (treeBlock.getTreeBlockType() == TreeBlockType.LEAF) {
-                            if (td.getLeafMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock()))) {
+                            if (td.getLeafMaterial().stream().noneMatch(x -> x == CompatibleMaterial.getMaterial(treeBlock.getBlock().getType()).orElse(null))) {
                                 continue;
                             }
                         }

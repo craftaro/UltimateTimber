@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.tree;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class TreeDefinition {
     private final String key;
-    private final Set<CompatibleMaterial> logMaterial, leafMaterial, plantableSoilMaterial;
-    private final CompatibleMaterial saplingMaterial;
+    private final Set<XMaterial> logMaterial, leafMaterial, plantableSoilMaterial;
+    private final XMaterial saplingMaterial;
     private final double maxLogDistanceFromTrunk;
     private final int maxLeafDistanceFromLog;
     private final boolean detectLeavesDiagonally;
@@ -18,8 +18,8 @@ public class TreeDefinition {
     private final Set<ItemStack> requiredTools;
     private final boolean requiredAxe;
 
-    public TreeDefinition(String key, Set<CompatibleMaterial> logMaterial, Set<CompatibleMaterial> leafMaterial, CompatibleMaterial saplingMaterial,
-                          Set<CompatibleMaterial> plantableSoilMaterial, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
+    public TreeDefinition(String key, Set<XMaterial> logMaterial, Set<XMaterial> leafMaterial, XMaterial saplingMaterial,
+                          Set<XMaterial> plantableSoilMaterial, double maxLogDistanceFromTrunk, int maxLeafDistanceFromLog,
                           boolean detectLeavesDiagonally, boolean dropOriginalLog, boolean dropOriginalLeaf, Set<TreeLoot> logLoot,
                           Set<TreeLoot> leafLoot, Set<TreeLoot> entireTreeLoot, Set<ItemStack> requiredTools, boolean requiredAxe) {
         this.key = key;
@@ -53,7 +53,7 @@ public class TreeDefinition {
      *
      * @return A Set of CompatibleMaterial
      */
-    public Set<CompatibleMaterial> getLogMaterial() {
+    public Set<XMaterial> getLogMaterial() {
         return Collections.unmodifiableSet(this.logMaterial);
     }
 
@@ -62,7 +62,7 @@ public class TreeDefinition {
      *
      * @return A Set of CompatibleMaterial
      */
-    public Set<CompatibleMaterial> getLeafMaterial() {
+    public Set<XMaterial> getLeafMaterial() {
         return Collections.unmodifiableSet(this.leafMaterial);
     }
 
@@ -71,7 +71,7 @@ public class TreeDefinition {
      *
      * @return An CompatibleMaterial instance for the sapling
      */
-    public CompatibleMaterial getSaplingMaterial() {
+    public XMaterial getSaplingMaterial() {
         return this.saplingMaterial;
     }
 
@@ -80,7 +80,7 @@ public class TreeDefinition {
      *
      * @return A Set of CompatibleMaterial
      */
-    public Set<CompatibleMaterial> getPlantableSoilMaterial() {
+    public Set<XMaterial> getPlantableSoilMaterial() {
         return Collections.unmodifiableSet(this.plantableSoilMaterial);
     }
 

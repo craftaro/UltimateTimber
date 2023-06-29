@@ -53,7 +53,7 @@
 
                             <relocations>
                                 <relocation>
-                                    <pattern>com.songoda.core</pattern>
+                                    <pattern>com.craftaro.core</pattern>
                                     <shadedPattern>com.songoda.ultimatetimber.core</shadedPattern>
                                 </relocation>
                             </relocations>
@@ -67,6 +67,14 @@
                                         <exclude>LICENSE</exclude>
                                         <exclude>LICENSE.**</exclude>
                                     </excludes>
+                                </filter>
+
+                                <filter>
+                                    <artifact>com.craftaro:CraftaroCore</artifact>
+                                    <excludeDefaults>false</excludeDefaults>
+                                    <includes>
+                                        <include>**/nms/v*/**</include>
+                                    </includes>
                                 </filter>
                             </filters>
                         </configuration>
@@ -85,8 +93,8 @@
 
     <repositories>
         <repository>
-            <id>public</id>
-            <url>https://repo.songoda.com/repository/public/</url>
+            <id>craftaro-minecraft-plugins</id>
+            <url>https://repo.craftaro.com/repository/minecraft-plugins/</url>
         </repository>
 
         <repository>
@@ -97,9 +105,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.songoda</groupId>
-            <artifactId>SongodaCore</artifactId>
-            <version>2.6.19</version>
+            <groupId>com.craftaro</groupId>
+            <artifactId>CraftaroCore</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 

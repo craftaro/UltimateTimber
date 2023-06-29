@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.commands;
 
-import com.songoda.core.commands.AbstractCommand;
+import com.craftaro.core.commands.AbstractCommand;
 import com.songoda.ultimatetimber.UltimateTimber;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

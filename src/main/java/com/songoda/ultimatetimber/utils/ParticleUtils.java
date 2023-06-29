@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.utils;
 
-import com.songoda.core.compatibility.ServerVersion;
+import com.craftaro.core.compatibility.ServerVersion;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import org.bukkit.Effect;
 import org.bukkit.Location;

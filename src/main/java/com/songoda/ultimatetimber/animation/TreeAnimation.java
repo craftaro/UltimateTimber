@@ -1,7 +1,8 @@
 package com.songoda.ultimatetimber.animation;
 
-import com.songoda.core.compatibility.CompatibleHand;
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleHand;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.FallingTreeBlock;
@@ -97,9 +98,8 @@ public abstract class TreeAnimation {
     protected FallingTreeBlock convertToFallingBlock(TreeBlock treeBlock) {
         Location location = treeBlock.getLocation().clone().add(0.5, 0, 0.5);
         Block block = treeBlock.getBlock();
-        CompatibleMaterial material = CompatibleMaterial.getMaterial(block);
-
-        if (material.isAir()) {
+        XMaterial material = CompatibleMaterial.getMaterial(block.getType()).get();
+        if (CompatibleMaterial.isAir(material)) {
             this.replaceBlock(treeBlock);
             return null;
         }

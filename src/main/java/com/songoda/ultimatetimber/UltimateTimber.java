@@ -1,11 +1,11 @@
 package com.songoda.ultimatetimber;
 
-import com.songoda.core.SongodaCore;
-import com.songoda.core.SongodaPlugin;
-import com.songoda.core.commands.CommandManager;
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.configuration.Config;
-import com.songoda.core.hooks.LogManager;
+import com.craftaro.core.SongodaCore;
+import com.craftaro.core.SongodaPlugin;
+import com.craftaro.core.commands.CommandManager;
+import com.craftaro.core.configuration.Config;
+import com.craftaro.core.hooks.LogManager;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.ultimatetimber.commands.CommandGiveAxe;
 import com.songoda.ultimatetimber.commands.CommandReload;
 import com.songoda.ultimatetimber.commands.CommandToggle;
@@ -51,7 +51,7 @@ public class UltimateTimber extends SongodaPlugin {
     @Override
     public void onPluginEnable() {
         // Run Songoda Updater
-        SongodaCore.registerPlugin(this, 18, CompatibleMaterial.IRON_AXE);
+        SongodaCore.registerPlugin(this, 18, XMaterial.IRON_AXE);
 
         // Load hooks
         LogManager.load();

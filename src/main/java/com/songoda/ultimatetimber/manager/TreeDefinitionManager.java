@@ -1,11 +1,12 @@
 package com.songoda.ultimatetimber.manager;
 
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.ServerVersion;
+import com.craftaro.core.hooks.McMMOHook;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.utils.TextUtils;
 import com.google.common.base.Strings;
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.compatibility.ServerVersion;
-import com.songoda.core.hooks.McMMOHook;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
-import com.songoda.core.utils.TextUtils;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +35,7 @@ import java.util.stream.Collectors;
 public class TreeDefinitionManager extends Manager {
     private final Random random;
     private final Set<TreeDefinition> treeDefinitions;
-    private final Set<CompatibleMaterial> globalPlantableSoil;
+    private final Set<XMaterial> globalPlantableSoil;
     private final Set<TreeLoot> globalLogLoot, globalLeafLoot, globalEntireTreeLoot;
     private final Set<ItemStack> globalRequiredTools;
 
@@ -70,10 +72,10 @@ public class TreeDefinitionManager extends Manager {
         for (String key : treeSection.getKeys(false)) {
             ConfigurationSection tree = treeSection.getConfigurationSection(key);
 
-            Set<CompatibleMaterial> logMaterials = new HashSet<>();
-            Set<CompatibleMaterial> leafMaterials = new HashSet<>();
-            CompatibleMaterial saplingMaterial;
-            Set<CompatibleMaterial> plantableSoilMaterial = new HashSet<>();
+            Set<XMaterial> logMaterials = new HashSet<>();
+            Set<XMaterial> leafMaterials = new HashSet<>();
+            XMaterial saplingMaterial;
+            Set<XMaterial> plantableSoilMaterial = new HashSet<>();
             double maxLogDistanceFromTrunk;
             int maxLeafDistanceFromLog;
             boolean detectLeavesDiagonally;
@@ -86,29 +88,29 @@ public class TreeDefinitionManager extends Manager {
             boolean requiredAxe;
 
             for (String materialString : tree.getStringList("logs")) {
-                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) {
+                Optional<XMaterial> material = CompatibleMaterial.getMaterial(materialString);
+                if (!material.isPresent() || !material.get().isSupported()) {
                     continue top;
                 }
-                logMaterials.add(material);
+                logMaterials.add(material.get());
             }
 
             for (String materialString : tree.getStringList("leaves")) {
-                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) {
+                Optional<XMaterial> material = CompatibleMaterial.getMaterial(materialString);
+                if (!material.isPresent() || !material.get().isSupported()) {
                     continue top;
                 }
-                leafMaterials.add(material);
+                leafMaterials.add(material.get());
             }
 
-            saplingMaterial = CompatibleMaterial.getMaterial(tree.getString("sapling"));
+            saplingMaterial = CompatibleMaterial.getMaterial(tree.getString("sapling")).get();
 
             for (String materialString : tree.getStringList("plantable-soil")) {
-                CompatibleMaterial material = CompatibleMaterial.getMaterial(materialString);
-                if (material == null || material.getMaterial() == null) {
+                Optional<XMaterial> material = CompatibleMaterial.getMaterial(materialString);
+                if (!material.isPresent() || !material.get().isSupported()) {
                     continue top;
                 }
-                plantableSoilMaterial.add(material);
+                plantableSoilMaterial.add(material.get());
             }
 
             maxLogDistanceFromTrunk = tree.getDouble("max-log-distance-from-trunk");
@@ -139,11 +141,11 @@ public class TreeDefinitionManager extends Manager {
             }
 
             for (String itemStackString : tree.getStringList("required-tools")) {
-                CompatibleMaterial material = CompatibleMaterial.getMaterial(itemStackString);
-                if (material == null) {
+                Optional<XMaterial> material = CompatibleMaterial.getMaterial(itemStackString);
+                if (!material.isPresent()) {
                     continue top;
                 }
-                requiredTools.add(material.getItem());
+                requiredTools.add(material.get().parseItem());
             }
 
             requiredAxe = tree.getBoolean("required-axe", false);
@@ -154,7 +156,7 @@ public class TreeDefinitionManager extends Manager {
 
         // Load global plantable soil
         for (String material : config.getStringList("global-plantable-soil")) {
-            this.globalPlantableSoil.add(CompatibleMaterial.getMaterial(material));
+            this.globalPlantableSoil.add(CompatibleMaterial.getMaterial(material).get());
         }
 
         // Load global log drops
@@ -183,11 +185,11 @@ public class TreeDefinitionManager extends Manager {
 
         // Load global tools
         for (String itemStackString : config.getStringList("global-required-tools")) {
-            ItemStack tool = CompatibleMaterial.getMaterial(itemStackString).getItem();
-            if (tool == null) {
+            Optional<XMaterial> tool = CompatibleMaterial.getMaterial(itemStackString);
+            if (!tool.isPresent()) {
                 continue;
             }
-            this.globalRequiredTools.add(tool);
+            this.globalRequiredTools.add(tool.get().parseItem());
         }
 
         this.globalAxeRequired = config.getBoolean("global-required-axe", false);
@@ -210,14 +212,13 @@ public class TreeDefinitionManager extends Manager {
             return;
         }
 
-        CompatibleMaterial material = CompatibleMaterial.getMaterial(typeString);
-
-        if (material == null) {
+        Optional<XMaterial> material = CompatibleMaterial.getMaterial(typeString);
+        if (!material.isPresent()) {
             this.plugin.getLogger().warning("Material " + typeString + " is invalid.");
             return;
         }
 
-        ItemStack item = material.getItem();
+        ItemStack item = material.get().parseItem();
 
         // Add display name and lore
         String displayName = TextUtils.formatText(config.getString("required-axe.name"));
@@ -310,8 +311,8 @@ public class TreeDefinitionManager extends Manager {
         switch (treeBlockType) {
             case LOG:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
-                    for (CompatibleMaterial material : treeDefinition.getLogMaterial()) {
-                        if (material == CompatibleMaterial.getMaterial(block)) {
+                    for (XMaterial material : treeDefinition.getLogMaterial()) {
+                        if (material == CompatibleMaterial.getMaterial(block.getType()).orElse(null)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -320,8 +321,8 @@ public class TreeDefinitionManager extends Manager {
                 break;
             case LEAF:
                 for (TreeDefinition treeDefinition : possibleTreeDefinitions) {
-                    for (CompatibleMaterial material : treeDefinition.getLeafMaterial()) {
-                        if (material == CompatibleMaterial.getMaterial(block)) {
+                    for (XMaterial material : treeDefinition.getLeafMaterial()) {
+                        if (material == CompatibleMaterial.getMaterial(block.getType()).orElse(null)) {
                             matchingTreeDefinitions.add(treeDefinition);
                             break;
                         }
@@ -354,14 +355,14 @@ public class TreeDefinitionManager extends Manager {
 
         for (TreeDefinition treeDefinition : this.treeDefinitions) {
             for (ItemStack requiredTool : treeDefinition.getRequiredTools()) {
-                if (requiredTool.getType() == tool.getType()) {
+                if (tool != null && requiredTool.getType() == tool.getType()) {
                     return true;
                 }
             }
         }
 
         for (ItemStack requiredTool : this.globalRequiredTools) {
-            if (requiredTool.getType() == tool.getType()) {
+            if (tool != null && requiredTool.getType() == tool.getType()) {
                 return true;
             }
         }
@@ -516,8 +517,8 @@ public class TreeDefinitionManager extends Manager {
      * @param treeDefinition The TreeDefinition
      * @return A Set of IBlockData of plantable soil
      */
-    public Set<CompatibleMaterial> getPlantableSoilMaterial(TreeDefinition treeDefinition) {
-        Set<CompatibleMaterial> plantableSoilBlockData = new HashSet<>();
+    public Set<XMaterial> getPlantableSoilMaterial(TreeDefinition treeDefinition) {
+        Set<XMaterial> plantableSoilBlockData = new HashSet<>();
         plantableSoilBlockData.addAll(treeDefinition.getPlantableSoilMaterial());
         plantableSoilBlockData.addAll(this.globalPlantableSoil);
         return plantableSoilBlockData;
@@ -532,9 +533,9 @@ public class TreeDefinitionManager extends Manager {
      */
     private TreeLoot getTreeLootEntry(TreeBlockType treeBlockType, ConfigurationSection configurationSection) {
         String material = configurationSection.getString("material");
-        CompatibleMaterial compatibleMaterial = material == null ? null : CompatibleMaterial.getMaterial(material);
+        Optional<XMaterial> compatibleMaterial = material == null ? Optional.empty() : CompatibleMaterial.getMaterial(material);
 
-        ItemStack item = compatibleMaterial == null ? null : compatibleMaterial.getItem();
+        ItemStack item = compatibleMaterial.map(XMaterial::parseItem).orElse(null);
         String command = configurationSection.getString("command");
         double chance = configurationSection.getDouble("chance");
         return new TreeLoot(treeBlockType, item, command, chance);

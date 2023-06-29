@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.utils;
 
-import com.songoda.core.compatibility.CompatibleSound;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XSound;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
 import org.bukkit.Location;
@@ -11,7 +11,7 @@ public class SoundUtils {
         if (location.getWorld() == null) {
             return;
         }
-        CompatibleSound.BLOCK_CHEST_OPEN.play(location.getWorld(), location, 2F, 0.1F);
+        XSound.BLOCK_CHEST_OPEN.play(location, 2, .1f);
     }
 
     public static void playLandingSound(ITreeBlock block) {
@@ -21,9 +21,9 @@ public class SoundUtils {
         }
 
         if (block.getTreeBlockType() == TreeBlockType.LOG) {
-            CompatibleSound.BLOCK_WOOD_FALL.play(location.getWorld(), location, 2F, 0.1F);
+            XSound.BLOCK_WOOD_FALL.play(location, 2, .1f);
         } else {
-            CompatibleSound.BLOCK_GRASS_BREAK.play(location.getWorld(), location, 0.5F, 0.75F);
+            XSound.BLOCK_GRASS_BREAK.play(location, .5f, .75f);
         }
     }
 }

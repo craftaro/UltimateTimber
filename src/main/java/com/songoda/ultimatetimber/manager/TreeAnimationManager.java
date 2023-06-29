@@ -1,7 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.compatibility.ServerVersion;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.ServerVersion;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.animation.TreeAnimation;
 import com.songoda.ultimatetimber.animation.TreeAnimationCrumble;
@@ -173,7 +173,7 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
 
         Block block = treeBlock.getLocation().subtract(0, 1, 0).getBlock();
         if (ConfigurationManager.Setting.FRAGILE_BLOCKS.getStringList().contains(block.getType().toString())) {
-            block.getWorld().dropItemNaturally(block.getLocation(), CompatibleMaterial.getMaterial(block).getItem());
+            block.getWorld().dropItemNaturally(block.getLocation(), CompatibleMaterial.getMaterial(block.getType()).get().parseItem());
             block.breakNaturally();
         }
 

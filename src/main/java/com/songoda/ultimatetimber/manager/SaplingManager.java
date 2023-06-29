@@ -1,6 +1,8 @@
 package com.songoda.ultimatetimber.manager;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XBlock;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import com.songoda.ultimatetimber.tree.TreeBlockType;
@@ -61,7 +63,7 @@ public class SaplingManager extends Manager {
      * @param treeBlock      The ITreeBlock to replant for
      */
     public void replantSaplingWithChance(TreeDefinition treeDefinition, ITreeBlock treeBlock) {
-        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean() || !CompatibleMaterial.getMaterial(treeBlock.getLocation().getBlock()).isAir()) {
+        if (!ConfigurationManager.Setting.FALLING_BLOCKS_REPLANT_SAPLINGS.getBoolean() || !CompatibleMaterial.isAir(CompatibleMaterial.getMaterial(treeBlock.getLocation().getBlock().getType()).get())) {
             return;
         }
 
@@ -85,8 +87,8 @@ public class SaplingManager extends Manager {
         Block block = treeBlock.getLocation().getBlock();
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         boolean isValidSoil = false;
-        for (CompatibleMaterial soilMaterial : treeDefinitionManager.getPlantableSoilMaterial(treeDefinition)) {
-            if (soilMaterial == CompatibleMaterial.getMaterial(blockBelow)) {
+        for (XMaterial soilMaterial : treeDefinitionManager.getPlantableSoilMaterial(treeDefinition)) {
+            if (soilMaterial == CompatibleMaterial.getMaterial(blockBelow.getType()).orElse(null)) {
                 isValidSoil = true;
                 break;
             }
@@ -96,8 +98,8 @@ public class SaplingManager extends Manager {
             return;
         }
 
-        CompatibleMaterial material = treeDefinition.getSaplingMaterial();
-        material.applyToBlock(block);
+        XMaterial material = treeDefinition.getSaplingMaterial();
+        XBlock.setType(block, material);
 
         int cooldown = ConfigurationManager.Setting.REPLANT_SAPLINGS_COOLDOWN.getInt();
         if (cooldown != 0) {

@@ -1,6 +1,6 @@
 package com.songoda.ultimatetimber.manager;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.events.TreeFellEvent;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
@@ -57,7 +57,7 @@ public class PlacedBlockManager extends Manager implements Listener {
         }
 
         // Ignore stripping logs
-        if (event.getBlockPlaced().getType().name().contains("STRIPPED") && !CompatibleMaterial.getMaterial(event.getBlockReplacedState().getType()).isAir()) {
+        if (event.getBlockPlaced().getType().name().contains("STRIPPED") && !CompatibleMaterial.isAir(CompatibleMaterial.getMaterial(event.getBlockReplacedState().getType()).get())) {
             return;
         }
 

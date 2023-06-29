@@ -1,6 +1,7 @@
 package com.songoda.ultimatetimber.manager;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.ultimatetimber.UltimateTimber;
 import com.songoda.ultimatetimber.tree.DetectedTree;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
@@ -148,8 +149,8 @@ public class TreeDetectionManager extends Manager {
                 Block blockBelow = block.getRelative(BlockFace.DOWN);
                 boolean blockBelowIsLog = this.isValidLogType(possibleTreeDefinitions, null, blockBelow);
                 boolean blockBelowIsSoil = false;
-                for (CompatibleMaterial material : treeDefinitionManager.getPlantableSoilMaterial(actualTreeDefinition)) {
-                    if (material == CompatibleMaterial.getMaterial(blockBelow)) {
+                for (XMaterial material : treeDefinitionManager.getPlantableSoilMaterial(actualTreeDefinition)) {
+                    if (material == CompatibleMaterial.getMaterial(blockBelow.getType()).orElse(null)) {
                         blockBelowIsSoil = true;
                         break;
                     }
@@ -248,8 +249,8 @@ public class TreeDetectionManager extends Manager {
         // Check if it matches the tree definition
         boolean isCorrectType = false;
         for (TreeDefinition treeDefinition : treeDefinitions) {
-            for (CompatibleMaterial material : treeDefinition.getLogMaterial()) {
-                if (material == CompatibleMaterial.getMaterial(block)) {
+            for (XMaterial material : treeDefinition.getLogMaterial()) {
+                if (material == CompatibleMaterial.getMaterial(block.getType()).orElse(null)) {
                     isCorrectType = true;
                     break;
                 }
@@ -299,8 +300,8 @@ public class TreeDetectionManager extends Manager {
         // Check if it matches the tree definition
         boolean isCorrectType = false;
         for (TreeDefinition treeDefinition : treeDefinitions) {
-            for (CompatibleMaterial material : treeDefinition.getLeafMaterial()) {
-                if (material == CompatibleMaterial.getMaterial(block)) {
+            for (XMaterial material : treeDefinition.getLeafMaterial()) {
+                if (material == CompatibleMaterial.getMaterial(block.getType()).orElse(null)) {
                     isCorrectType = true;
                     break;
                 }

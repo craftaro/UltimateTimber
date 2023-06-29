@@ -1,7 +1,8 @@
 package com.songoda.ultimatetimber.utils;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.compatibility.ServerVersion;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.ServerVersion;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.ultimatetimber.tree.ITreeBlock;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class BlockUtils {
@@ -17,26 +19,29 @@ public class BlockUtils {
         Set<ItemStack> drops = new HashSet<>();
         if (treeBlock.getBlock() instanceof Block) {
             Block block = (Block) treeBlock.getBlock();
-            CompatibleMaterial material = CompatibleMaterial.getMaterial(block);
-            if (material.isAir())
+            Optional<XMaterial> material = CompatibleMaterial.getMaterial(block.getType());
+            if (!material.isPresent() || CompatibleMaterial.isAir(material.get())) {
                 return drops;
-            drops.add(CompatibleMaterial.getMaterial(block).getItem());
+            }
+            drops.add(material.get().parseItem());
         } else if (treeBlock.getBlock() instanceof FallingBlock) {
-            CompatibleMaterial material = CompatibleMaterial.getMaterial((FallingBlock) treeBlock.getBlock());
-            if (material == null)
+            Optional<XMaterial> material = CompatibleMaterial.getMaterial(((FallingBlock) treeBlock.getBlock()).getBlockData().getMaterial());
+            if (!material.isPresent()) {
                 return drops;
-            drops.add(material.getItem());
+            }
+            drops.add(material.get().parseItem());
         }
         return drops;
     }
 
     public static void toggleGravityFallingBlock(FallingBlock fallingBlock, boolean applyGravity) {
-        if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_9))
+        if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_9)) {
             fallingBlock.setGravity(applyGravity);
+        }
     }
 
-    public static FallingBlock spawnFallingBlock(Location location, CompatibleMaterial material) {
-        return location.getWorld().spawnFallingBlock(location, material.getMaterial(), material.getData());
+    public static FallingBlock spawnFallingBlock(Location location, XMaterial material) {
+        return location.getWorld().spawnFallingBlock(location, material.parseMaterial(), material.getData());
     }
 
     public static void configureFallingBlock(FallingBlock fallingBlock) {
