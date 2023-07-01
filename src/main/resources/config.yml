@@ -392,6 +392,7 @@ trees:
       - MANGROVE_LEAVES
       - MANGROVE_ROOTS
       - MOSS_CARPET
+      - MANGROVE_PROPAGULE
       - VINE
     sapling: MANGROVE_PROPAGULE
     plantable-soil: [ ]
