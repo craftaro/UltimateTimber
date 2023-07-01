@@ -191,13 +191,13 @@ trees:
     leaves:
       - OAK_LEAVES
     sapling: OAK_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 6
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: OAK_SAPLING
@@ -205,8 +205,8 @@ trees:
       1:
         material: APPLE
         chance: 0.5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   spruce:
     logs:
@@ -217,19 +217,19 @@ trees:
     leaves:
       - SPRUCE_LEAVES
     sapling: SPRUCE_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 2
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: SPRUCE_SAPLING
         chance: 5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   birch:
     logs:
@@ -240,19 +240,19 @@ trees:
     leaves:
       - BIRCH_LEAVES
     sapling: BIRCH_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 1
     max-leaf-distance-from-log: 4
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: BIRCH_SAPLING
         chance: 5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   jungle:
     logs:
@@ -263,19 +263,19 @@ trees:
     leaves:
       - JUNGLE_LEAVES
     sapling: JUNGLE_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 6
     max-leaf-distance-from-log: 6
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: JUNGLE_SAPLING
         chance: 2.5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   acacia:
     logs:
@@ -286,19 +286,19 @@ trees:
     leaves:
       - ACACIA_LEAVES
     sapling: ACACIA_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 4
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: ACACIA_SAPLING
         chance: 5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   dark_oak:
     logs:
@@ -309,13 +309,13 @@ trees:
     leaves:
       - DARK_OAK_LEAVES
     sapling: DARK_OAK_SAPLING
-    plantable-soil: []
+    plantable-soil: [ ]
     max-log-distance-from-trunk: 3
     max-leaf-distance-from-log: 5
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: DARK_OAK_SAPLING
@@ -323,8 +323,8 @@ trees:
       1:
         material: APPLE
         chance: 0.5
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   azalea:
     logs:
@@ -416,13 +416,13 @@ trees:
     search-for-leaves-diagonally: false
     drop-original-log: false
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: BROWN_MUSHROOM
         chance: 25
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   red_mushroom:
     logs:
@@ -437,13 +437,13 @@ trees:
     search-for-leaves-diagonally: true
     drop-original-log: false
     drop-original-leaf: false
-    log-loot: []
+    log-loot: [ ]
     leaf-loot:
       0:
         material: RED_MUSHROOM
         chance: 25
-    entire-tree-loot: []
-    required-tools: []
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   huge_crimson_fungus:
     logs:
@@ -462,10 +462,10 @@ trees:
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: true
-    log-loot: []
-    leaf-loot: []
-    entire-tree-loot: []
-    required-tools: []
+    log-loot: [ ]
+    leaf-loot: [ ]
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
   huge_warpped_fungus:
     logs:
@@ -484,10 +484,10 @@ trees:
     search-for-leaves-diagonally: false
     drop-original-log: true
     drop-original-leaf: true
-    log-loot: []
-    leaf-loot: []
-    entire-tree-loot: []
-    required-tools: []
+    log-loot: [ ]
+    leaf-loot: [ ]
+    entire-tree-loot: [ ]
+    required-tools: [ ]
     required-axe: false
 
 # All soil types that the tree type's saplings can be planted on
