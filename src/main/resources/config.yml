@@ -190,6 +190,7 @@ trees:
       - STRIPPED_OAK_WOOD
     leaves:
       - OAK_LEAVES
+      - VINE
     sapling: OAK_SAPLING
     plantable-soil: [ ]
     max-log-distance-from-trunk: 6
@@ -216,6 +217,7 @@ trees:
       - STRIPPED_SPRUCE_WOOD
     leaves:
       - SPRUCE_LEAVES
+      - VINE
     sapling: SPRUCE_SAPLING
     plantable-soil: [ ]
     max-log-distance-from-trunk: 2
@@ -239,6 +241,7 @@ trees:
       - STRIPPED_BIRCH_WOOD
     leaves:
       - BIRCH_LEAVES
+      - VINE
     sapling: BIRCH_SAPLING
     plantable-soil: [ ]
     max-log-distance-from-trunk: 1
@@ -262,6 +265,7 @@ trees:
       - STRIPPED_JUNGLE_WOOD
     leaves:
       - JUNGLE_LEAVES
+      - VINE
     sapling: JUNGLE_SAPLING
     plantable-soil: [ ]
     max-log-distance-from-trunk: 6
@@ -308,6 +312,7 @@ trees:
       - STRIPPED_DARK_OAK_WOOD
     leaves:
       - DARK_OAK_LEAVES
+      - VINE
     sapling: DARK_OAK_SAPLING
     plantable-soil: [ ]
     max-log-distance-from-trunk: 3
@@ -335,6 +340,7 @@ trees:
     leaves:
       - AZALEA_LEAVES
       - FLOWERING_AZALEA_LEAVES
+      - VINE
     sapling: AZALEA
     plantable-soil: [ ]
     max-log-distance-from-trunk: 3
@@ -386,6 +392,7 @@ trees:
       - MANGROVE_LEAVES
       - MANGROVE_ROOTS
       - MOSS_CARPET
+      - VINE
     sapling: MANGROVE_PROPAGULE
     plantable-soil: [ ]
     max-log-distance-from-trunk: 30
