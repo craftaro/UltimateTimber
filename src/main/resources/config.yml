@@ -385,11 +385,12 @@ trees:
     leaves:
       - MANGROVE_LEAVES
       - MANGROVE_ROOTS
+      - MOSS_CARPET
     sapling: MANGROVE_PROPAGULE
     plantable-soil: [ ]
-    max-log-distance-from-trunk: 27
-    max-leaf-distance-from-log: 5
-    search-for-leaves-diagonally: false
+    max-log-distance-from-trunk: 30
+    max-leaf-distance-from-log: 10
+    search-for-leaves-diagonally: true
     drop-original-log: true
     drop-original-leaf: false
     log-loot: [ ]
