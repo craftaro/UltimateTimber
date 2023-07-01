@@ -350,6 +350,32 @@ trees:
     entire-tree-loot: [ ]
     required-tools: [ ]
     required-axe: false
+  cherry:
+    logs:
+      - CHERRY_LOG
+      - STRIPPED_CHERRY_LOG
+      - CHERRY_WOOD
+      - STRIPPED_CHERRY_WOOD
+    leaves:
+      - CHERRY_LEAVES
+    sapling: CHERRY_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 10
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: CHERRY_SAPLING
+        chance: 5
+      1:
+        material: STICK
+        chance: 2.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
   mangrove:
     logs:
       - MANGROVE_LOG
