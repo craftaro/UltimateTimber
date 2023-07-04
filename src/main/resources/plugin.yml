@@ -1,0 +1,45 @@
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}
+api-version: 1.13
+
+main: com.songoda.ultimatetimber.UltimateTimber
+softdepend:
+  - mcMMO
+  - Jobs
+  - CoreProtect
+
+author: Craftaro
+website: ${project.url}
+
+# TODO: cleanup commands and permissions sections
+commands:
+  ut:
+    description: Reloads the configuration file
+    usage: /ultimatetimber reload
+    aliases: [ ultimatetimber ]
+
+permissions:
+  ultimatetimber.*:
+    description: Inherits all plugin permissions
+    children:
+      ultimatetimber.chop: true
+      ultimatetimber.bonusloot: true
+      ultimatetimber.reload: true
+      ultimatetimber.bypasscooldown: true
+
+  ultimatetimber.chop:
+    description: Allows players to trigger the trees toppling down effect
+    default: op
+
+  ultimatetimber.bonusloot:
+    description: Doubles the loot obtained from trees
+    default: op
+
+  ultimatetimber.reload:
+    description: Reloads the configuration file
+    default: op
+
+  ultimatetimber.bypasscooldown:
+    description: Allows a player to bypass the tree topple cooldown
+    default: op

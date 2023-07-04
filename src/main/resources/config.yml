@@ -1,0 +1,580 @@
+#     ____ ___ __   __   __                __       ___________ __       ___
+#    |    |   \  |_/  |_|__| _____ _____ _/  |_  ___\__    ___/|__| _____\_ |__   ___________
+#    |    |   /  |\   __\  |/     \\__  \\   __\/ __ \|    |   |  |/     \| __ \_/ __ \_  __ \
+#    |    |  /|  |_|  | |  |  Y Y  \/ __ \|  | \  ___/|    |   |  |  Y Y  \ \_\ \  ___/|  | \/
+#    |______/ |____/__| |__|__|_|  (____  /__|  \___  |____|   |__|__|_|  /___  /\___  >__|
+
+# The type of server you are running in relation to this plugin
+# Do not change this value
+# Default: CURRENT
+server-type: CURRENT
+
+# The locale to use in the /locale folder
+# Default: en_US
+locale: en_US
+
+# A list of worlds that the plugin is disabled in
+# Default:
+# - disabled_world_name
+disabled-worlds:
+  - disabled_world_name
+
+# The max number of logs that can be broken at one time
+# Default: 150
+max-logs-per-chop: 150
+
+# The minimum number of leaves required for something to be considered a tree
+# Default: 5
+leaves-required-for-tree: 5
+
+# If leaves should be destroyed
+# Default: true
+destroy-leaves: true
+
+# Apply realistic damage to the tools based on the number of logs chopped
+# If false, only one durability will be removed from the tool
+# Default: true
+realistic-tool-damage: true
+
+# Protect the tool used to chop down the tree from breaking
+# Prevents the tree from being toppled if the tool would break
+# Default: false
+protect-tool: false
+
+# Use the silk touch enchantment if the tool has it
+# Logs and leaves will drop their original block 100% of the time
+# Default: true
+apply-silk-touch: true
+
+# Damage the tool extra for each leaf block broken, this is vanilla behavior but can be disabled here
+# Does nothing if realistic-tool-damage is false
+# Default: true
+apply-silk-touch-tool-damage: true
+
+# Require the entire base of the tree to be broken before it topples
+# Default: false
+break-entire-tree-base: false
+
+# Don't drop a block for the block that initiates the tree fall
+# Default: false
+destroy-initiated-block: false
+
+# Only detect logs above the initiated block
+# Default: true
+only-detect-logs-upwards: true
+
+# Only topple trees while the player is doing something
+# Valid values: SNEAKING, NOT_SNEAKING, ALWAYS
+# Default: ALWAYS
+only-topple-while: ALWAYS
+
+# Allow toppling trees in creative mode
+# Default: true
+allow-creative-mode: true
+
+# Require the player to have the permission 'ultimatetimber.chop' to topple trees
+# Default: false
+require-chop-permission: false
+
+# If a player should only be allowed to chop one tree per cooldown length
+# Default: false
+player-tree-topple-cooldown: false
+
+# The amount of seconds a player has to wait before they can chop a tree again
+# Does nothing if player-tree-topple-cooldown is false
+# The time is in seconds and must be a postive whole number
+# Default: 5
+player-tree-topple-cooldown-length: 5
+
+# Allow players to topple trees regardless of what they are holding in their hand
+# Default: false
+ignore-required-tools: false
+
+# Automatically replant saplings when a tree is toppled
+# Default: true
+replant-saplings: true
+
+# Always replant saplings for base tree blocks, regardless of player permissions
+# Default: false
+always-replant-sapling: false
+
+# How many seconds to prevent players from breaking replanted saplings
+# Set to 0 to disable
+# Does nothing if replant-saplings is false
+# The time is in seconds and must be a postive whole number
+# Default: 3
+replant-saplings-cooldown: 3
+
+# Give fallen leaf blocks a chance to replant saplings when they hit the ground
+# Default: true
+falling-blocks-replant-saplings: true
+
+# The percent chance that fallen leaves have of planting a sapling
+# Does nothing if falling-blocks-replant-saplings is false
+# The chance is out of 100 and may contain decimals
+# Default: 1
+falling-blocks-replant-saplings-chance: 1
+
+# Make falling tree blocks deal damage to players if they get hit
+# Default: true
+falling-blocks-deal-damage: true
+
+# The amount of damage that falling tree blocks do
+# This does nothing if falling-blocks-deal-damage is false
+# Default: 1
+falling-block-damage: 1
+
+# Automatically add tree blocks to the player's inventory instead of dropping them
+# Default: false
+add-items-to-inventory: false
+
+# Use custom sounds when toppling trees
+# Default: true
+use-custom-sounds: true
+
+# Use custom particles when toppling trees
+# Default: true
+use-custom-particles: true
+
+# The bonus loot multiplier when a player has the permission ultimatetimber.bonusloot
+# Multiplies the chance of tree drops by this value
+# Decimal values are allowed
+# Default: 2
+bonus-loot-multiplier: 2
+
+# If placed blocks should be ignored for toppling trees
+# Note: This only keeps track of blocks placed during the current server load
+#       If your server restarts, the placed tree blocks could be toppled again
+# Default: true
+ignore-placed-blocks: true
+
+# The maximum number of blocks to keep track of in memory at once
+# Use a lower number if this starts to take up too much memory or trees start taking too long to detect
+# Default: 5000
+ignore-placed-blocks-memory-size: 5000
+
+# Applies experience when using Jobs/mcMMO
+# Only does something if Jobs or mcMMO is installed
+# Default: true
+hooks-apply-experience: true
+
+# Applies extra drops passive ability when using mcMMO
+# Only does something if mcMMO is installed
+# Default: true
+hooks-apply-extra-drops: true
+
+# Requires the tree feller ability in mcMMO to be active to use timber
+# Only does something if mcMMO is installed
+# Default: false
+hooks-require-ability-active: false
+
+# The type of animation to use for tree toppling
+# Types: FANCY, DISINTEGRATE, CRUMBLE, NONE
+tree-animation-type: FANCY
+
+# If the tree-animation-type is FANCY or CRUMBLE, make the blocks stick to the ground
+# Does nothing if tree-animation-type is not FANCY or CRUMBLE
+# Default: false
+scatter-tree-blocks-on-ground: false
+
+# Tree configuration
+# Allows for extreme fine-tuning of tree detection and what are considered trees
+# Multiple log and leaf types are allowed, only one sapling type is allowed
+# You can add your own custom tree types here, just add a new section
+trees:
+  oak:
+    logs:
+      - OAK_LOG
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
+    leaves:
+      - OAK_LEAVES
+      - VINE
+    sapling: OAK_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 6
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: OAK_SAPLING
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  spruce:
+    logs:
+      - SPRUCE_LOG
+      - STRIPPED_SPRUCE_LOG
+      - SPRUCE_WOOD
+      - STRIPPED_SPRUCE_WOOD
+    leaves:
+      - SPRUCE_LEAVES
+      - VINE
+    sapling: SPRUCE_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 2
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: SPRUCE_SAPLING
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  birch:
+    logs:
+      - BIRCH_LOG
+      - STRIPPED_BIRCH_LOG
+      - BIRCH_WOOD
+      - STRIPPED_BIRCH_WOOD
+    leaves:
+      - BIRCH_LEAVES
+      - VINE
+    sapling: BIRCH_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 1
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: BIRCH_SAPLING
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  jungle:
+    logs:
+      - JUNGLE_LOG
+      - STRIPPED_JUNGLE_LOG
+      - JUNGLE_WOOD
+      - STRIPPED_JUNGLE_WOOD
+    leaves:
+      - JUNGLE_LEAVES
+      - VINE
+    sapling: JUNGLE_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 6
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: JUNGLE_SAPLING
+        chance: 2.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  acacia:
+    logs:
+      - ACACIA_LOG
+      - STRIPPED_ACACIA_LOG
+      - ACACIA_WOOD
+      - STRIPPED_ACACIA_WOOD
+    leaves:
+      - ACACIA_LEAVES
+    sapling: ACACIA_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: ACACIA_SAPLING
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  dark_oak:
+    logs:
+      - DARK_OAK_LOG
+      - STRIPPED_DARK_OAK_LOG
+      - DARK_OAK_WOOD
+      - STRIPPED_DARK_OAK_WOOD
+    leaves:
+      - DARK_OAK_LEAVES
+      - VINE
+    sapling: DARK_OAK_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 3
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: DARK_OAK_SAPLING
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  azalea:
+    logs:
+      - OAK_LOG
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
+    leaves:
+      - AZALEA_LEAVES
+      - FLOWERING_AZALEA_LEAVES
+      - VINE
+    sapling: AZALEA
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 3
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: AZALEA
+        chance: 5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  cherry:
+    logs:
+      - CHERRY_LOG
+      - STRIPPED_CHERRY_LOG
+      - CHERRY_WOOD
+      - STRIPPED_CHERRY_WOOD
+    leaves:
+      - CHERRY_LEAVES
+    sapling: CHERRY_SAPLING
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 10
+    max-leaf-distance-from-log: 6
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: CHERRY_SAPLING
+        chance: 5
+      1:
+        material: STICK
+        chance: 2.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  mangrove:
+    logs:
+      - MANGROVE_LOG
+      - STRIPPED_MANGROVE_LOG
+      - MANGROVE_WOOD
+      - STRIPPED_MANGROVE_WOOD
+    leaves:
+      - MANGROVE_LEAVES
+      - MANGROVE_ROOTS
+      - MOSS_CARPET
+      - MANGROVE_PROPAGULE
+      - VINE
+    sapling: MANGROVE_PROPAGULE
+    plantable-soil: [ ]
+    max-log-distance-from-trunk: 30
+    max-leaf-distance-from-log: 10
+    search-for-leaves-diagonally: true
+    drop-original-log: true
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: MANGROVE_PROPAGULE
+        chance: 5
+      1:
+        material: APPLE
+        chance: 0.5
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  brown_mushroom:
+    logs:
+      - MUSHROOM_STEM
+    leaves:
+      - BROWN_MUSHROOM_BLOCK
+    sapling: BROWN_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: false
+    drop-original-log: false
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: BROWN_MUSHROOM
+        chance: 25
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  red_mushroom:
+    logs:
+      - MUSHROOM_STEM
+    leaves:
+      - RED_MUSHROOM_BLOCK
+    sapling: RED_MUSHROOM
+    plantable-soil:
+      - MYCELIUM
+    max-log-distance-from-trunk: 4
+    max-leaf-distance-from-log: 4
+    search-for-leaves-diagonally: true
+    drop-original-log: false
+    drop-original-leaf: false
+    log-loot: [ ]
+    leaf-loot:
+      0:
+        material: RED_MUSHROOM
+        chance: 25
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  huge_crimson_fungus:
+    logs:
+      - CRIMSON_STEM
+      - STRIPPED_CRIMSON_STEM
+      - CRIMSON_HYPHAE
+      - STRIPPED_CRIMSON_HYPHAE
+    leaves:
+      - NETHER_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: CRIMSON_FUNGUS
+    plantable-soil:
+      - CRIMSON_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: [ ]
+    leaf-loot: [ ]
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+  huge_warpped_fungus:
+    logs:
+      - WARPED_STEM
+      - STRIPPED_WARPED_STEM
+      - WARPED_HYPHAE
+      - STRIPPED_WARPED_HYPHAE
+    leaves:
+      - WARPED_WART_BLOCK
+      - SHROOMLIGHT
+    sapling: WARPED_FUNGUS
+    plantable-soil:
+      - WARPED_NYLIUM
+    max-log-distance-from-trunk: 27
+    max-leaf-distance-from-log: 5
+    search-for-leaves-diagonally: false
+    drop-original-log: true
+    drop-original-leaf: true
+    log-loot: [ ]
+    leaf-loot: [ ]
+    entire-tree-loot: [ ]
+    required-tools: [ ]
+    required-axe: false
+
+# All soil types that the tree type's saplings can be planted on
+global-plantable-soil:
+  - GRASS_BLOCK
+  - DIRT
+  - COARSE_DIRT
+  - PODZOL
+  - ROOTED_DIRT
+
+# Custom loot that is available for all tree types
+# The loot applies to each log broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# The default examples here are to show what you can do with custom loot
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-log-loot:
+  0:
+    material: DIAMOND
+    chance: 0
+  1:
+    command: 'eco give %player% 5'
+    chance: 0
+  2:
+    material: GOLDEN_APPLE
+    command: 'broadcast %player% found a golden apple in a %type% tree at %xPos% %yPos% %zPos%!'
+    chance: 0
+
+# Custom loot that is available for all tree types
+# The loot applies to each leaf broken in the tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-leaf-loot:
+  0:
+    material: GOLDEN_APPLE
+    chance: 0.1
+
+# Custom entire tree loot that is available for all tree types
+# The loot will be dropped only one time for the entire tree
+# To add more, increment the number by 1
+# The chance is out of 100 and can contain decimals
+# Valid command placeholders: %player%, %type%, %xPos%, %yPos%, %zPos%
+global-entire-tree-loot:
+  0:
+    material: DIAMOND
+    chance: 0
+
+# Tools that must be used to topple over a tree
+# Applies to all tree types
+global-required-tools:
+  - WOODEN_AXE
+  - STONE_AXE
+  - IRON_AXE
+  - GOLDEN_AXE
+  - DIAMOND_AXE
+  - NETHERITE_AXE
+
+# Require the custom axe
+# Applies to all tree types
+global-required-axe: false
+
+# Axe item
+required-axe:
+  type: DIAMOND_AXE
+  name: '&aAn Epic Axe'
+  lore:
+    - "&7This axe... it's awesome."
+    - "&7It can chop down trees real fast."
+  enchants:
+    - 'DURABILITY:3'
+    - 'DIG_SPEED:5'
+  # NBT to identify the axe by.
+  nbt: 'ultimatetimber_axe'
+
+# If a tree lands on these blocks they will be destroyed.
+fragile-blocks:
+  - GLASS
+  - ICE
+  - PACKED_ICE
+  - BLUE_ICE
