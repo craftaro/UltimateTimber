@@ -12,6 +12,20 @@
     <description>Give your players a new and exciting way to chop down trees</description>
     <url>https://craftaro.com/marketplace/product/18</url>
 
+
+    <distributionManagement>
+        <repository>
+            <id>wisecraft</id>
+            <name>${project.name}</name>
+            <url>https://nexus.wisecraft.xyz/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>wisecraft</id>
+            <name>${project.name}</name>
+            <url>https://nexus.wisecraft.xyz/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
         <maven.compiler.target>1.8</maven.compiler.target>
