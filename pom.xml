@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.songoda</groupId>
+    <groupId>com.craftaro</groupId>
     <artifactId>UltimateTimber</artifactId>
     <version>2.4.0-SNAPSHOT</version>
 
@@ -54,7 +54,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.craftaro.core</pattern>
-                                    <shadedPattern>com.songoda.ultimatetimber.core</shadedPattern>
+                                    <shadedPattern>com.craftaro.ultimatetimber.core</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -74,6 +74,7 @@
                                     <excludeDefaults>false</excludeDefaults>
                                     <includes>
                                         <include>**/nms/v*/**</include>
+                                        <include>**/core/third_party/**</include>
                                     </includes>
                                 </filter>
                             </filters>

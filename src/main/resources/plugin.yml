@@ -3,7 +3,7 @@ description: ${project.description}
 version: ${project.version}
 api-version: 1.13
 
-main: com.songoda.ultimatetimber.UltimateTimber
+main: com.craftaro.ultimatetimber.UltimateTimber
 softdepend:
   - mcMMO
   - Jobs
