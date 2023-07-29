@@ -32,13 +32,17 @@ public class TreeDamageEvent extends PlayerEvent implements Cancellable {
     }
 
     /**
-     * @return the attacker as either FallingBlock or Player
+     * Get the attacker. This returns either a FallingBlock or a Player.
+     * @return the attacker as Entity.
      */
     public Entity getAttacker() {
-        if (this.blockAttacker != null)
-            return this.blockAttacker;
-        if (this.playerAttacker != null)
+        if (this.playerAttacker != null) {
             return this.playerAttacker;
+        }
+        if (this.blockAttacker != null) {
+            return this.blockAttacker;
+        }
+
         return null;
     }
 
