@@ -4,27 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.songoda</groupId>
+    <groupId>com.craftaro</groupId>
     <artifactId>UltimateTimber</artifactId>
-    <version>2.4.0z-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>UltimateTimber</name>
     <description>Give your players a new and exciting way to chop down trees</description>
     <url>https://craftaro.com/marketplace/product/18</url>
-
-
-    <distributionManagement>
-        <repository>
-            <id>wisecraft</id>
-            <name>${project.name}</name>
-            <url>https://nexus.wisecraft.xyz/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>wisecraft</id>
-            <name>${project.name}</name>
-            <url>https://nexus.wisecraft.xyz/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
@@ -59,7 +45,7 @@
                         </goals>
 
                         <configuration>
-                            <finalName>${project.name}</finalName>
+                            <finalName>${project.name}-${project.version}</finalName>
 
                             <shadedArtifactAttached>false</shadedArtifactAttached>
                             <useDependencyReducedPomInJar>true</useDependencyReducedPomInJar>
@@ -68,7 +54,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.craftaro.core</pattern>
-                                    <shadedPattern>com.songoda.ultimatetimber.core</shadedPattern>
+                                    <shadedPattern>com.craftaro.ultimatetimber.core</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -88,6 +74,7 @@
                                     <excludeDefaults>false</excludeDefaults>
                                     <includes>
                                         <include>**/nms/v*/**</include>
+                                        <include>**/core/third_party/**</include>
                                     </includes>
                                 </filter>
                             </filters>
