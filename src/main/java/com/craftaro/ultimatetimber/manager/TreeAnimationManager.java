@@ -9,6 +9,7 @@ import com.craftaro.ultimatetimber.animation.TreeAnimationDisintegrate;
 import com.craftaro.ultimatetimber.animation.TreeAnimationFancy;
 import com.craftaro.ultimatetimber.animation.TreeAnimationNone;
 import com.craftaro.ultimatetimber.animation.TreeAnimationType;
+import com.craftaro.ultimatetimber.events.TreeDamageEvent;
 import com.craftaro.ultimatetimber.tree.DetectedTree;
 import com.craftaro.ultimatetimber.tree.ITreeBlock;
 import com.craftaro.ultimatetimber.tree.TreeDefinition;
@@ -199,7 +200,14 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
                 if (!(entity instanceof LivingEntity)) {
                     continue;
                 }
-                ((LivingEntity) entity).damage(damage, fallingBlock);
+                if (entity instanceof Player) {
+                    Player p = ((Player) entity).getPlayer();
+                    TreeDamageEvent treeDamageEvent = new TreeDamageEvent(fallingBlock, p);
+                    Bukkit.getServer().getPluginManager().callEvent(treeDamageEvent);
+                    if (!treeDamageEvent.isCancelled())
+                        ((LivingEntity) entity).damage(damage, fallingBlock);
+                } else
+                    ((LivingEntity) entity).damage(damage, fallingBlock);
             }
         }
 
