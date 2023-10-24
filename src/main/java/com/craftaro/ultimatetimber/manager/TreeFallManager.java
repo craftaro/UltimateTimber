@@ -1,6 +1,7 @@
 package com.craftaro.ultimatetimber.manager;
 
 import com.craftaro.core.compatibility.CompatibleHand;
+import com.craftaro.core.compatibility.ServerVersion;
 import com.craftaro.core.hooks.JobsHook;
 import com.craftaro.core.hooks.LogManager;
 import com.craftaro.core.hooks.McMMOHook;
@@ -24,6 +25,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.stream.Collectors;
 
@@ -144,6 +147,7 @@ public class TreeFallManager extends Manager implements Listener {
 
         choppingManager.cooldownPlayer(player);
 
+
         // Destroy initiated block if enabled
         if (ConfigurationManager.Setting.DESTROY_INITIATED_BLOCK.getBoolean()) {
             detectedTree.getDetectedTreeBlocks().getInitialLogBlock().getBlock().setType(Material.AIR);
@@ -153,7 +157,19 @@ public class TreeFallManager extends Manager implements Listener {
         boolean isCreative = player.getGameMode() == GameMode.CREATIVE;
 
         if (!isCreative) {
-            new SItemStack(tool).addDamage(player, toolDamage, true);
+            SItemStack sstack = new SItemStack(tool);
+            sstack.addDamage(player, toolDamage, true);
+
+            //Destroy item if durability is less than 0
+            ItemMeta meta = sstack.getItem().getItemMeta();
+            if (meta instanceof Damageable) {
+                Damageable damageable = (Damageable)meta;
+                int damage = damageable.getDamage();
+                if (damage >= sstack.getItem().getType().getMaxDurability()) {
+                    //Break tool
+                    player.getInventory().setItemInMainHand(null);
+                }
+            }
         }
 
         if (ConfigurationManager.Setting.HOOKS_APPLY_EXPERIENCE.getBoolean()) {
