@@ -74,8 +74,18 @@
                                     <excludeDefaults>false</excludeDefaults>
                                     <includes>
                                         <include>**/nms/v*/**</include>
-                                        <include>**/core/third_party/**</include>
                                     </includes>
+                                    <excludes>
+                                        <exclude>**/third_party/org/apache/**</exclude>
+                                        <exclude>**/third_party/net/kyori/**</exclude>
+                                        <exclude>**/third_party/com/zaxxer/**</exclude>
+                                        <exclude>**/third_party/org/jooq/**</exclude>
+                                        <exclude>**/third_party/org/mariadb/**</exclude>
+                                        <exclude>**/third_party/com/h2database/**</exclude>
+                                        <exclude>**/third_party/org/h2/**</exclude>
+                                        <exclude>**/third_party/com/cryptomorin/**</exclude>
+                                        <exclude>**/third_party/org/reactivestreams/**</exclude>
+                                    </excludes>
                                 </filter>
                             </filters>
                         </configuration>

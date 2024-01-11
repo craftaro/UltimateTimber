@@ -1,7 +1,7 @@
 package com.craftaro.ultimatetimber.manager;
 
 import com.craftaro.core.compatibility.CompatibleMaterial;
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.craftaro.ultimatetimber.UltimateTimber;
 import com.craftaro.ultimatetimber.tree.DetectedTree;
 import com.craftaro.ultimatetimber.tree.ITreeBlock;

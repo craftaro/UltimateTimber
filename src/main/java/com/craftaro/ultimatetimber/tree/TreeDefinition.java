@@ -1,6 +1,6 @@
 package com.craftaro.ultimatetimber.tree;
 
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;

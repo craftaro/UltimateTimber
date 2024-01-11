@@ -2,7 +2,7 @@ package com.craftaro.ultimatetimber.utils;
 
 import com.craftaro.core.compatibility.CompatibleMaterial;
 import com.craftaro.core.compatibility.ServerVersion;
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.craftaro.ultimatetimber.tree.ITreeBlock;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

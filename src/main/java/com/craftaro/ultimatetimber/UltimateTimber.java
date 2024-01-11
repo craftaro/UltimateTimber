@@ -4,8 +4,9 @@ import com.craftaro.core.SongodaCore;
 import com.craftaro.core.SongodaPlugin;
 import com.craftaro.core.commands.CommandManager;
 import com.craftaro.core.configuration.Config;
+import com.craftaro.core.dependency.Dependency;
 import com.craftaro.core.hooks.LogManager;
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.craftaro.ultimatetimber.commands.CommandGiveAxe;
 import com.craftaro.ultimatetimber.commands.CommandReload;
 import com.craftaro.ultimatetimber.commands.CommandToggle;
@@ -42,6 +43,11 @@ public class UltimateTimber extends SongodaPlugin {
     @Deprecated
     public static UltimateTimber getInstance() {
         return getPlugin(UltimateTimber.class);
+    }
+
+    @Override
+    protected Set<Dependency> getDependencies() {
+        return new HashSet<>();
     }
 
     @Override

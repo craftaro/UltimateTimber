@@ -1,6 +1,6 @@
 package com.craftaro.ultimatetimber.utils;
 
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XSound;
+import com.craftaro.third_party.com.cryptomorin.xseries.XSound;
 import com.craftaro.ultimatetimber.tree.ITreeBlock;
 import com.craftaro.ultimatetimber.tree.TreeBlockType;
 import org.bukkit.Location;
