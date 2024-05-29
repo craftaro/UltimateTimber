@@ -74,10 +74,10 @@
                                     <excludeDefaults>false</excludeDefaults>
                                     <includes>
                                         <include>**/nms/v*/**</include>
+                                        <include>**/third_party/net/kyori/**</include>
                                     </includes>
                                     <excludes>
                                         <exclude>**/third_party/org/apache/**</exclude>
-                                        <exclude>**/third_party/net/kyori/**</exclude>
                                         <exclude>**/third_party/com/zaxxer/**</exclude>
                                         <exclude>**/third_party/org/jooq/**</exclude>
                                         <exclude>**/third_party/org/mariadb/**</exclude>
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.craftaro</groupId>
             <artifactId>CraftaroCore</artifactId>
-            <version>3.0.5-SNAPSHOT</version>
+            <version>3.0.7-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
