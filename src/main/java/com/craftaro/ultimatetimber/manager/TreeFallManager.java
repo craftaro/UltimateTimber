@@ -161,13 +161,30 @@ public class TreeFallManager extends Manager implements Listener {
             sstack.addDamage(player, toolDamage, true);
 
             //Destroy item if durability is less than 0
-            ItemMeta meta = sstack.getItem().getItemMeta();
-            if (meta instanceof Damageable) {
-                Damageable damageable = (Damageable)meta;
+            ItemStack itemStack = sstack.getItem();
+            ItemMeta meta = itemStack.getItemMeta();
+            boolean isDamageableAvailable = false;
+            try {
+                Class.forName("org.bukkit.inventory.meta.Damageable");
+                isDamageableAvailable = true;
+            } catch (ClassNotFoundException e) {
+                isDamageableAvailable = false;
+            }
+            if (isDamageableAvailable && meta instanceof org.bukkit.inventory.meta.Damageable) {
+                org.bukkit.inventory.meta.Damageable damageable = (org.bukkit.inventory.meta.Damageable) meta;
                 int damage = damageable.getDamage();
-                if (damage >= sstack.getItem().getType().getMaxDurability()) {
-                    //Break tool
+                if (damage >= itemStack.getType().getMaxDurability()) {
                     player.getInventory().setItemInMainHand(null);
+                } else {
+                    itemStack.setItemMeta(meta);
+                }
+            } else {
+                short currentDurability = itemStack.getDurability();
+                short maxDurability = itemStack.getType().getMaxDurability();
+                if (currentDurability >= maxDurability) {
+                    player.getInventory().setItemInMainHand(null);
+                } else {
+                    itemStack.setDurability(currentDurability);
                 }
             }
         }
