@@ -8,7 +8,6 @@
 
 
 [![Discord][Discord shield]][Discord invite]
-[![Patreon][Patreon shield]][Patreon page]
 <br>
 [![Latest version][Latest version shield]][Plugin page]
 [![bStats Servers][bStats shield]][bStats page]
@@ -35,12 +34,11 @@ create a thread over on [our Discord server][Discord invite].
 
 
 [Plugin page]: https://songoda.com/product/2
-[Plugin wiki]: https://wiki.craftaro.com/index.php/Ultimate_Timber
-[Patreon page]: https://www.patreon.com/join/songoda
+[Plugin wiki]: https://songoda.notion.site/UltimateTimber-95103806d7f84353bb308335bd8ce37e
 [Discord invite]: https://discord.gg/7TXM8xr2Ng
-[bStats page]: https://bstats.org/plugin/bukkit/UltimateTimber/4184
 
-[Patreon shield]: https://img.shields.io/badge/-Support_us_on_Patreon-F96854.svg?logo=patreon&style=flat&logoColor=white
 [Discord shield]: https://img.shields.io/discord/1214289374506917889?color=5865F2&label=Discord&logo=discord&logoColor=5865F2
-[bStats shield]: https://img.shields.io/bstats/servers/4184?label=Servers
 [Latest version shield]: https://img.shields.io/badge/dynamic/xml?style=flat&color=blue&logo=github&logoColor=white&label=Latest&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcraftaro%2FUltimateTimber%2Fmaster%2Fpom.xml&query=%2F*%5Blocal-name()%3D'project'%5D%2F*%5Blocal-name()%3D'version'%5D
+
+[bStats page]: https://bstats.org/plugin/bukkit/UltimateTimber/4184
+[bStats shield]: https://img.shields.io/bstats/servers/4184?label=Servers
