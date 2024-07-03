@@ -42,7 +42,7 @@ public class CommandToggle extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return this.plugin.getLocale().getMessage("command.toggle.description").getMessage();
+        return this.plugin.getLocale().getMessage("command.toggle.description").getMessage().toString();
     }
 
 }

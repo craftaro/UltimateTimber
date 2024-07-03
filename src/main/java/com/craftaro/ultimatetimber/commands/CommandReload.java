@@ -38,6 +38,6 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     public String getDescription() {
-        return this.plugin.getLocale().getMessage("command.reload.description").getMessage();
+        return this.plugin.getLocale().getMessage("command.reload.description").getMessage().toString();
     }
 }
