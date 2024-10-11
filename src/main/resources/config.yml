@@ -170,6 +170,8 @@ hooks-require-ability-active: false
 
 # The type of animation to use for tree toppling
 # Types: FANCY, DISINTEGRATE, CRUMBLE, NONE
+# You can override the animation a player will receive using the
+# permission ultimatetimber.animation.<type>
 tree-animation-type: FANCY
 
 # If the tree-animation-type is FANCY or CRUMBLE, make the blocks stick to the ground

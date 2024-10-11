@@ -81,7 +81,20 @@ public class TreeAnimationManager extends Manager implements Listener, Runnable 
      * @param player       The Player who toppled the tree
      */
     public void runAnimation(DetectedTree detectedTree, Player player) {
-        switch (TreeAnimationType.fromString(ConfigurationManager.Setting.TREE_ANIMATION_TYPE.getString())) {
+        // Get the default animation type from the configuration
+        TreeAnimationType animationType = TreeAnimationType.fromString(ConfigurationManager.Setting.TREE_ANIMATION_TYPE.getString());
+
+        // Check if the player has any of the animation permissions
+        for (TreeAnimationType type : TreeAnimationType.values()) {
+            String permission = "ultimatetimber.animation." + type.toString().toLowerCase();
+            if (player.hasPermission(permission)) {
+                animationType = type;
+                break; // Use the first matching permission
+            }
+        }
+
+        // Now proceed with the switch using the determined animationType
+        switch (animationType) {
             case FANCY:
                 this.registerTreeAnimation(new TreeAnimationFancy(detectedTree, player));
                 break;
